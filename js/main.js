@@ -9,8 +9,8 @@ var nlp = nlp_compromise,
 *	Page elements
 */
 
-var clearDataDiv = document.getElementById('clearDataDiv');
-var renderDiv = document.getElementById('renderDiv');
+// var clearDataDiv = document.getElementById('clearDataDiv');
+// var renderDiv = document.getElementById('renderDiv');
 
 /*
 *	Parse module 
@@ -225,6 +225,6 @@ var parseModule = (function() {
 *	Add event listeners to page buttons
 */
 
-clearDataDiv.addEventListener('click', function(){
-	parseModule.clearDiv();
-});
+// clearDataDiv.addEventListener('click', function(){
+// 	parseModule.clearDiv();
+// });

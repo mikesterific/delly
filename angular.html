@@ -1,52 +1,101 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="delly">
 <head>
-	<title></title>
-	<link rel="stylesheet" type="text/css" href="css/speech.css">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="/css/combined.css">
 </head>
-<body>
-  <div style="position: absolute; left: -99999em;"><a href="http://responsivevoice.org">ResponsiveVoice-NonCommercial</a> licensed under <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img title="ResponsiveVoice Text To Speech" src="https://responsivevoice.org/wp-content/uploads/2014/08/95x15.png" alt="95x15" width="95" height="15" /></div>
-  <div id="info">
-    <p id="info_start">Click on the microphone icon and begin speaking.</p>
-    <p id="info_speak_now">Speak now.</p>
-    <p id="info_no_speech">No speech was detected. You may need to adjust your
-      <a href="//support.google.com/chrome/bin/answer.py?hl=en&amp;answer=1407892">
-        microphone settings</a>.</p>
-    <p id="info_no_microphone" style="display:none">
-      No microphone was found. Ensure that a microphone is installed and that
-      <a href="//support.google.com/chrome/bin/answer.py?hl=en&amp;answer=1407892">
-      microphone settings</a> are configured correctly.</p>
-    <p id="info_allow">Click the "Allow" button above to enable your microphone.</p>
-    <p id="info_denied">Permission to use microphone was denied.</p>
-    <p id="info_blocked">Permission to use microphone is blocked. To change,
-      go to chrome://settings/contentExceptions#media-stream</p>
-    <p id="info_upgrade">Web Speech API is not supported by this browser.
-       Upgrade to <a href="//www.google.com/chrome">Chrome</a>
-       version 25 or later.</p>
-  </div>
-  <div class="right">
-    <button id="start_button" onclick="startButton(event)">
-      <img id="start_img" src="images/mic.gif" alt="Start"></button>
-  </div>
-  <div id="results">
-    <span id="final_span" contenteditable="true" class="final"></span>
-    <span id="interim_span" class="interim"></span>
-    <p>
-  </div>
-  <div class="center">
-  <!--
-    <button id = "sayNounsButton">Say Nouns</button>
-    <button id = "showSentenceButton">Show Sentence in Console</button>
-    <button id = "showQuantity">Show Quantity in Console</button>
-	-->
-	<button id = "clearDataDiv">Clear</div>
-    <p>
-    <div id="div_language">
-      <select id="select_language" onchange="updateCountry()"></select>
-      &nbsp;&nbsp;
-      <select id="select_dialect"></select>
-    </div>
-  </div>
-<script src="/js/min/combined-bundled.js"></script>
+<body ng-controller="MainCtrl">
+    <div class="cs-shadowbox"></div>
+    <section class="dl-master-wrap">
+
+
+        <section class="cs-master-wrap">
+            <input-wrap></input-wrap>
+            <section class="dl-results-master-wrap">
+                <div class="productGroupingWrap">
+                    <category-row ng-repeat="cagetory in categories"></category-row>
+                    <section class="group navigation-layer">
+                        <!-- <h1 class="hide">Navigational</h1> -->
+                        <div class="itemsWrap">
+                            <div class="itemWrap">
+                                <a href="#"><img src="http://i.dell.com/sites/content/DellMicroContent/Responsive_Images/english/_values/mast-forhome-laptops2.png"></a>
+                                <a href="#"><span class="itemTitle">Laptops for Home</span></a>
+                            </div>
+                            <div class="itemWrap">
+                                <a href="#"><img src="http://i.dell.com/sites/content/DellMicroContent/Responsive_Images/english/_values/mast-forwork-laptops.png"></a>
+                                <a href="#"><span class="itemTitle">Laptops for Business</span></a>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="group brand-layer">
+                        <h1>Brand</h1>
+                        <div class="itemsWrap">
+                            <div class="itemWrap">
+                                <img src="http://i.dell.com/das/dih.ashx/80h/sites/imagecontent/products/PublishingImages/category-images/inspiron-2-in-1-laptops/22431-home-laptop-inspiron-15-5559-115x75.png">
+                                <span class="itemTitle">Inspiron</span>
+                            </div>
+                            <div class="itemWrap">
+                                <img src="http://i.dell.com/das/dih.ashx/80h/sites/imagecontent/consumer/merchandizing/en/PublishingImages/magnum-category/laptop-xps-13-9350-touch-silver-front-140X109.png">
+                                <span class="itemTitle">XPS</span>
+                            </div>
+                            <div class="itemWrap">
+                                <img src="http://i.dell.com/das/dih.ashx/80h/sites/imagecontent/products/PublishingImages/Polaris/AW13-115x76.png">
+                                <span class="itemTitle">Alienware</span>
+                            </div>
+                            <div class="itemWrap">
+                                <img src="http://i.dell.com/das/dih.ashx/80h/sites/imagecontent/products/PublishingImages/category-images/polaris_cat_115x75_laptops_chromebook_11_thumb_1.png">
+                                <span class="itemTitle">Chromebook</span>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="group brand-items-layer">
+                        <h1>Inspiron</h1>
+                        <div class="itemsWrap">
+                            <div class="itemWrap">
+                                <img src="http://i.dell.com/das/dih.ashx/169w/sites/imagecontent/products/PublishingImages/category-images/inspiron-2-in-1-laptops/inspiron_polaris_sub_cat_franchise_laptops_thumb_3000-new.jpg">
+                                <span class="itemTitle">Inspiron 3000 Series</span>
+                            </div>
+                            <div class="itemWrap">
+                                <img src="http://i.dell.com/das/dih.ashx/169w/sites/imagecontent/products/PublishingImages/category-images/inspiron-2-in-1-laptops/inspiron_polaris_sub_cat_franchise_laptops_thumb_5000.jpg">
+                                <span class="itemTitle">Inspiron 5000 Series</span>
+                            </div>
+                            <div class="itemWrap">
+                                <img src="http://i.dell.com/das/dih.ashx/169w/sites/imagecontent/products/PublishingImages/category-images/inspiron-2-in-1-laptops/inspiron_polaris_sub_cat_franchise_laptops_thumb_7000-new.jpg">
+                                <span class="itemTitle">Inspiron 7000 Series</span>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+                <div class="productSuggestionsWrap">
+                    <h1>Suggested Products</h1>
+                    <section class="suggested-items">
+                        <div class="suggested-item">
+                            <div class="item-image-wrap">
+                                <a href="#"><img src="http://i.dell.com/sites/content/DellMicroContent/Responsive_Images/english/_values/mast-forwork-laptops.png"></a>
+                            </div>
+                            <div class="item-description">
+                                <h2>Product Title</h2>
+                                <div class="item-description">Product Description</div>
+                                <button class="view-details">View Details</button>
+                            </div>
+                        </div>
+                        <div class="suggested-item">
+                            <div class="item-image-wrap">
+                                <a href="#"><img src="http://i.dell.com/sites/content/DellMicroContent/Responsive_Images/english/_values/mast-forhome-laptops2.png"></a>
+                            </div>
+                            <div class="item-description">
+                                <h2>Product Title</h2>
+                                <div class="item-description">Product Description</div>
+                                <button class="view-details">View Details</button>
+                            </div>
+                        </div>
+                    </section>
+                </div>  
+            </section>
+        </section>
+    </section>
+    
+
+    <script src="/js/min/combined-bundled.js"></script>
 </body>
 </html>

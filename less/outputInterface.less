@@ -14,17 +14,23 @@ html, body {
 	z-index: 10000;
 	background-color: rgba(0,0,0,.4);
 }
+.dl-master-wrap {
+    background: white;
+    position: fixed;
+    top: 40px;
+    left: 20px;
+    right: 20px;
+    bottom: 20px;
+    z-index: 10001;
+    overflow: auto;
+}
 .cs-master-wrap {
-	background: white;
-	position: fixed;
-	top: 40px;
-	left: 20px;
-	right: 20px;
-	bottom: 20px;
-	z-index: 10001;
-	overflow: auto;
-	display: flex;
-
+    padding: 20px;
+	
+    .dl-results-master-wrap {
+        display: flex;
+        padding: 20px;
+    }
 	.productGroupingWrap {
 		width: 50%;
 		margin-right: 3%;
@@ -36,20 +42,15 @@ html, body {
 
 		}
 	}
-	.itemsWrap {
-		display: flex;
-		flex-wrap: wrap;
-	}
 	.itemWrap {
-		display: flex;
 		padding: 10px;
-		flex-direction: column;
 		img {
 			height: 90px;
 		}
 	}
 	.itemTitle {
 		text-align: center;
+        display: block;
 	}
 	.productSuggestionsWrap {
 		padding: 10px;
@@ -70,10 +71,10 @@ html, body {
 		}
 	}
 	button {
-		    background-image: linear-gradient(to bottom,#6ea204,#499b1e);
-		    border: 0;
-		    margin-top: 10px;
-		    padding: 5px 20px;
-		    color: white;
+	    border: 0;
+	    margin-top: 10px;
+        margin-right: 20px;
+	    padding: 5px 20px;
+	    color: white;
 	}
 }

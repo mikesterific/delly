@@ -1,0 +1,11 @@
+<section class="group row" data-type="{{type}}" >
+    <div class="col-md-12">
+        <h1>{{cagetory.sectionTitle}}</h1>
+        <div class="itemsWrap row">
+            <div class="itemWrap col-md-3" ng-repeat="item in cagetory.items">
+                <img src="{{item.imageUrl}}">
+                <span class="itemTitle">{{item.itemTitle}}</span>
+            </div>
+        </div>
+    </div>
+</section>
