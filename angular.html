@@ -14,82 +14,10 @@
             <section class="dl-results-master-wrap">
                 <div class="productGroupingWrap">
                     <category-row ng-repeat="cagetory in categories"></category-row>
-                    <section class="group navigation-layer">
-                        <!-- <h1 class="hide">Navigational</h1> -->
-                        <div class="itemsWrap">
-                            <div class="itemWrap">
-                                <a href="#"><img src="http://i.dell.com/sites/content/DellMicroContent/Responsive_Images/english/_values/mast-forhome-laptops2.png"></a>
-                                <a href="#"><span class="itemTitle">Laptops for Home</span></a>
-                            </div>
-                            <div class="itemWrap">
-                                <a href="#"><img src="http://i.dell.com/sites/content/DellMicroContent/Responsive_Images/english/_values/mast-forwork-laptops.png"></a>
-                                <a href="#"><span class="itemTitle">Laptops for Business</span></a>
-                            </div>
-                        </div>
-                    </section>
-                    <section class="group brand-layer">
-                        <h1>Brand</h1>
-                        <div class="itemsWrap">
-                            <div class="itemWrap">
-                                <img src="http://i.dell.com/das/dih.ashx/80h/sites/imagecontent/products/PublishingImages/category-images/inspiron-2-in-1-laptops/22431-home-laptop-inspiron-15-5559-115x75.png">
-                                <span class="itemTitle">Inspiron</span>
-                            </div>
-                            <div class="itemWrap">
-                                <img src="http://i.dell.com/das/dih.ashx/80h/sites/imagecontent/consumer/merchandizing/en/PublishingImages/magnum-category/laptop-xps-13-9350-touch-silver-front-140X109.png">
-                                <span class="itemTitle">XPS</span>
-                            </div>
-                            <div class="itemWrap">
-                                <img src="http://i.dell.com/das/dih.ashx/80h/sites/imagecontent/products/PublishingImages/Polaris/AW13-115x76.png">
-                                <span class="itemTitle">Alienware</span>
-                            </div>
-                            <div class="itemWrap">
-                                <img src="http://i.dell.com/das/dih.ashx/80h/sites/imagecontent/products/PublishingImages/category-images/polaris_cat_115x75_laptops_chromebook_11_thumb_1.png">
-                                <span class="itemTitle">Chromebook</span>
-                            </div>
-                        </div>
-                    </section>
-                    <section class="group brand-items-layer">
-                        <h1>Inspiron</h1>
-                        <div class="itemsWrap">
-                            <div class="itemWrap">
-                                <img src="http://i.dell.com/das/dih.ashx/169w/sites/imagecontent/products/PublishingImages/category-images/inspiron-2-in-1-laptops/inspiron_polaris_sub_cat_franchise_laptops_thumb_3000-new.jpg">
-                                <span class="itemTitle">Inspiron 3000 Series</span>
-                            </div>
-                            <div class="itemWrap">
-                                <img src="http://i.dell.com/das/dih.ashx/169w/sites/imagecontent/products/PublishingImages/category-images/inspiron-2-in-1-laptops/inspiron_polaris_sub_cat_franchise_laptops_thumb_5000.jpg">
-                                <span class="itemTitle">Inspiron 5000 Series</span>
-                            </div>
-                            <div class="itemWrap">
-                                <img src="http://i.dell.com/das/dih.ashx/169w/sites/imagecontent/products/PublishingImages/category-images/inspiron-2-in-1-laptops/inspiron_polaris_sub_cat_franchise_laptops_thumb_7000-new.jpg">
-                                <span class="itemTitle">Inspiron 7000 Series</span>
-                            </div>
-                        </div>
-                    </section>
                 </div>
                 <div class="productSuggestionsWrap">
                     <h1>Suggested Products</h1>
-                    <section class="suggested-items">
-                        <div class="suggested-item">
-                            <div class="item-image-wrap">
-                                <a href="#"><img src="http://i.dell.com/sites/content/DellMicroContent/Responsive_Images/english/_values/mast-forwork-laptops.png"></a>
-                            </div>
-                            <div class="item-description">
-                                <h2>Product Title</h2>
-                                <div class="item-description">Product Description</div>
-                                <button class="view-details">View Details</button>
-                            </div>
-                        </div>
-                        <div class="suggested-item">
-                            <div class="item-image-wrap">
-                                <a href="#"><img src="http://i.dell.com/sites/content/DellMicroContent/Responsive_Images/english/_values/mast-forhome-laptops2.png"></a>
-                            </div>
-                            <div class="item-description">
-                                <h2>Product Title</h2>
-                                <div class="item-description">Product Description</div>
-                                <button class="view-details">View Details</button>
-                            </div>
-                        </div>
-                    </section>
+                    <suggested-item ng-repeat="item in suggestions"></suggested-item>
                 </div>  
             </section>
         </section>

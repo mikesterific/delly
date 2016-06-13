@@ -3,8 +3,8 @@
         <h1>{{cagetory.sectionTitle}}</h1>
         <div class="itemsWrap row">
             <div class="itemWrap col-md-3" ng-repeat="item in cagetory.items">
-                <img src="{{item.imageUrl}}">
-                <span class="itemTitle">{{item.itemTitle}}</span>
+                <a href="{{item.linkUrl}}" title=""><img src="{{item.imageUrl}}">
+                <span class="itemTitle">{{item.itemTitle}}</span></a>
             </div>
         </div>
     </div>

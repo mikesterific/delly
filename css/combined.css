@@ -6808,6 +6808,15 @@ button.close {
     display: none !important;
   }
 }
+html,
+body {
+  font-family: 'Trebuchet MS', Arial, sans-serif;
+  padding: 0;
+  margin: 0;
+}
+body {
+  background: url(/images/dell-mock.png) no-repeat top left;
+}
 * {
   margin: 0;
   padding: 0;
@@ -6835,8 +6844,13 @@ body {
   z-index: 10001;
   overflow: auto;
 }
+.dl-master-wrap h1 {
+  font-size: 22px;
+}
 .cs-master-wrap {
   padding: 20px;
+  max-width: 1500px;
+  margin: 0 auto;
 }
 .cs-master-wrap .dl-results-master-wrap {
   display: -webkit-box;
@@ -6862,6 +6876,7 @@ body {
 .cs-master-wrap .itemTitle {
   text-align: center;
   display: block;
+  color: #007DB8;
 }
 .cs-master-wrap .productSuggestionsWrap {
   padding: 10px;

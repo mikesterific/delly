@@ -3,6 +3,7 @@
 // @codekit-prepend "vendor/nlp_compromise.min.js";
 // @codekit-prepend "bootstrap.js";
 // @codekit-prepend "speechInput.js";
-// @codekit-prepend "CartItems.js";
+// @codekit-prepend "mappedCartItems.js";
 // @codekit-prepend "outputModel.js";
+// @codekit-prepend "dataParser.js";
 // @codekit-prepend "app.js";
