@@ -6817,6 +6817,14 @@ body {
 body {
   background: url(/images/dell-mock.png) no-repeat top left;
 }
+html {
+  box-sizing: border-box;
+}
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
 * {
   margin: 0;
   padding: 0;
@@ -6847,45 +6855,45 @@ body {
 .dl-master-wrap h1 {
   font-size: 22px;
 }
-.cs-master-wrap {
-  padding: 20px;
-  max-width: 1500px;
-  margin: 0 auto;
-}
-.cs-master-wrap .dl-results-master-wrap {
+.dl-master-wrap .dl-results-master-wrap {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
   padding: 20px;
 }
-.cs-master-wrap .productGroupingWrap {
+.dl-master-wrap .productGroupingWrap {
   width: 50%;
   margin-right: 3%;
 }
-.cs-master-wrap .group {
+.dl-master-wrap .group {
   border-bottom: 1px solid #ccc;
   padding: 10px;
 }
-.cs-master-wrap .itemWrap {
+.dl-master-wrap .itemWrap {
   padding: 10px;
+  text-align: center;
 }
-.cs-master-wrap .itemWrap img {
+.dl-master-wrap .itemWrap img {
   height: 90px;
 }
-.cs-master-wrap .itemTitle {
+.dl-master-wrap .itemTitle {
   text-align: center;
   display: block;
   color: #007DB8;
+  width: 100%;
 }
-.cs-master-wrap .productSuggestionsWrap {
+.dl-master-wrap .dl-item-link {
+  display: block;
+}
+.dl-master-wrap .productSuggestionsWrap {
   padding: 10px;
   width: 47%;
 }
-.cs-master-wrap .item-description > h2 {
+.dl-master-wrap .item-description > h2 {
   font-size: 18px;
 }
-.cs-master-wrap .suggested-item {
+.dl-master-wrap .suggested-item {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -6893,10 +6901,10 @@ body {
   border-bottom: 1px solid #ccc;
   padding: 10px;
 }
-.cs-master-wrap .suggested-item .item-image-wrap {
+.dl-master-wrap .suggested-item .item-image-wrap {
   padding-right: 20px;
 }
-.cs-master-wrap button {
+.dl-master-wrap button {
   border: 0;
   margin-top: 10px;
   margin-right: 20px;

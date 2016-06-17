@@ -2,9 +2,9 @@
     <div class="col-md-12">
         <h1>{{cagetory.sectionTitle}}</h1>
         <div class="itemsWrap row">
-            <div class="itemWrap col-md-3" ng-repeat="item in cagetory.items">
-                <a href="{{item.linkUrl}}" title=""><img src="{{item.imageUrl}}">
-                <span class="itemTitle">{{item.itemTitle}}</span></a>
+            <div class="itemWrap col-md-4" ng-repeat="item in cagetory.items">
+                <a class="dl-item-link" href="{{item.linkUrl}}" title=""><img src="{{item.imageUrl}}"></a>
+                <a class="dl-item-name" href="{{item.linkUrl}}" title=""><span class="itemTitle">{{item.itemTitle}}</span></a>
             </div>
         </div>
     </div>

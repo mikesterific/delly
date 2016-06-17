@@ -22,4 +22,31 @@ angular.module('delly', [])
             restrict: 'E',
             templateUrl: '/templates/category-row.html'
         };
+    })
+    .directive('buttonSection', function() {
+        return {
+            restrict: 'E',
+            templateUrl: '/templates/button.html',
+            link : function(scope, element, attrs){
+                var t = $(element),
+                    segment = t.find("#dl-segment"),
+                    brand = t.find("#dl-brand"),
+                    series = t.find("#dl-series"),
+                    config = t.find("#dl-config");
+
+                segment.on("click", function(){
+
+                });
+                brand.on("click", function(){
+
+                });
+                series.on("click", function(){
+
+                });
+                config.on("click", function(){
+
+                });
+
+            }
+        };
     });
