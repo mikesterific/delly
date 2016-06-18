@@ -8,21 +8,39 @@
     <div class="cs-shadowbox"></div>
 
 
-        <section class="dl-master-wrap">
-            <input-wrap></input-wrap>
-            <button-section></button-section>
-            <section class="dl-results-master-wrap">
-                <div class="productGroupingWrap">
+    <section class="dl-master-wrap">
+
+        <div class="container dl-inner-wrap">
+            <div class="row">
+                <div class="col-sm-5">
+                    <input-wrap></input-wrap>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <button-section></button-section>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <breadcrumbs></breadcrumbs>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
                     <category-row ng-repeat="category in categories" isproductline="{{category.productLine}}" type="{{category.type}}"></category-row>
                 </div>
-                <div class="productSuggestionsWrap">
+                <div class="col-sm-5 col-md-offset-1">
                     <h1>Suggested Products</h1>
                     <suggested-item ng-repeat="item in suggestions"></suggested-item>
-                </div>  
-            </section>
-        </section>
+                </div>
+            </div>
 
-    
+        </div>
+
+    </section>
+
+
 
     <script src="/js/min/combined-bundled.js"></script>
 </body>

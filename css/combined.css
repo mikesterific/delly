@@ -6851,6 +6851,8 @@ body {
   bottom: 20px;
   z-index: 10001;
   overflow: auto;
+  padding: 20px;
+  display: block;
 }
 .dl-master-wrap h1 {
   font-size: 22px;
@@ -6903,6 +6905,7 @@ body {
 }
 .dl-master-wrap .item-description > h2 {
   font-size: 18px;
+  margin: 0 0 10px 0;
 }
 .dl-master-wrap .suggested-item {
   display: -webkit-box;
@@ -6941,7 +6944,7 @@ body {
   position: relative;
   padding-right: 70px;
   border: 1px solid #ddd;
-  width: 70%;
+  width: 100%;
   height: 40px;
 }
 .del-text-output {
