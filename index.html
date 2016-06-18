@@ -1,74 +1,47 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="delly">
 <head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>ConvoSearch</title>
-	<link rel="stylesheet" type="text/css" href="css/speech.css">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="/css/combined.css">
 </head>
-<body>
-
-  <style>
-  pre {outline: 1px solid #ccc; padding: 5px; margin: 5px; }
-  .string { color: green; }
-  .number { color: darkorange; }
-  .boolean { color: blue; }
-  .null { color: magenta; }
-  .key { color: red; }
-  </style>
-
-  <div style="position: absolute; left: -99999em;"><a href="http://responsivevoice.org">ResponsiveVoice-NonCommercial</a> licensed under <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img title="ResponsiveVoice Text To Speech" src="https://responsivevoice.org/wp-content/uploads/2014/08/95x15.png" alt="95x15" width="95" height="15" /></div>
-  <div id="info">
-    <p id="info_start">Click on the microphone icon and begin speaking.</p>
-    <p id="info_speak_now">Speak now.</p>
-    <p id="info_no_speech">No speech was detected. You may need to adjust your
-      <a href="//support.google.com/chrome/bin/answer.py?hl=en&amp;answer=1407892">
-        microphone settings</a>.</p>
-    <p id="info_no_microphone" style="display:none">
-      No microphone was found. Ensure that a microphone is installed and that
-      <a href="//support.google.com/chrome/bin/answer.py?hl=en&amp;answer=1407892">
-      microphone settings</a> are configured correctly.</p>
-    <p id="info_allow">Click the "Allow" button above to enable your microphone.</p>
-    <p id="info_denied">Permission to use microphone was denied.</p>
-    <p id="info_blocked">Permission to use microphone is blocked. To change,
-      go to chrome://settings/contentExceptions#media-stream</p>
-    <p id="info_upgrade">Web Speech API is not supported by this browser.
-       Upgrade to <a href="//www.google.com/chrome">Chrome</a>
-       version 25 or later.</p>
-  </div>
-  <div class="right">
-    <button id="start_button" onclick="startButton(event)">
-      <img id="start_img" src="images/mic.gif" alt="Start"></button>
-  </div>
-  <div id="results">
-    <span id="final_span" contenteditable="true" class="final"></span>
-    <span id="interim_span" class="interim"></span>
-    <p>
-  </div>
-  <div class="center">
-  <!--
-    <button id = "sayNounsButton">Say Nouns</button>
-    <button id = "showSentenceButton">Show Sentence in Console</button>
-    <button id = "showQuantity">Show Quantity in Console</button>
-	-->
-	<button id = "clearDataDiv">Clear</div>
-    <p>
-    <div id="div_language">
-      <select id="select_language" onchange="updateCountry()"></select>
-      &nbsp;&nbsp;
-      <select id="select_dialect"></select>
-    </div>
-  </div>
-
-  <div id = "renderDiv"></div>
-  
-  <script src="js/vendor/jquery-2.2.4.min.js"></script>
-  <script src="js/speechrecog.js"></script>
-  <script src="js/vendor/nlp_compromise.js"></script>
-  <script src='https://code.responsivevoice.org/responsivevoice.js'></script>
-  <script type="text/javascript" src="js/CartItems.js"></script>
-  <script src="js/main.js"></script>
+<body ng-controller="MainCtrl">
+    <div class="cs-shadowbox"></div>
 
 
+    <section class="dl-master-wrap">
+
+        <div class="container dl-inner-wrap">
+            <div class="row">
+                <div class="col-sm-5">
+                    <input-wrap></input-wrap>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <button-section></button-section>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <breadcrumbs></breadcrumbs>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <category-row ng-repeat="category in categories" isproductline="{{category.productLine}}" type="{{category.type}}"></category-row>
+                </div>
+                <div class="col-sm-5 col-md-offset-1">
+                    <h1>Suggested Products</h1>
+                    <suggested-item ng-repeat="item in suggestions"></suggested-item>
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <script src="/js/min/combined-bundled.js"></script>
 </body>
 </html>
