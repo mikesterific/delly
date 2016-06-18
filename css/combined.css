@@ -6873,9 +6873,20 @@ body {
 .dl-master-wrap .itemWrap {
   padding: 10px;
   text-align: center;
+  background: white;
+  position: relative;
+  z-index: 5;
+  -webkit-transition: all .5s ease;
+  transition: all .5s ease;
 }
 .dl-master-wrap .itemWrap img {
   height: 90px;
+}
+.dl-master-wrap .itemWrap.dl-move-it {
+  opacity: .01;
+  position: absolute;
+  left: 0;
+  top: 0;
 }
 .dl-master-wrap .itemTitle {
   text-align: center;
@@ -6910,6 +6921,12 @@ body {
   margin-right: 20px;
   padding: 5px 20px;
   color: white;
+}
+.dl-master-wrap .itemHide {
+  display: none;
+}
+.dl-master-wrap .rowHide {
+  display: none;
 }
 .del-microphone-feedback-wrap {
   color: #777;

@@ -13,7 +13,7 @@
             <button-section></button-section>
             <section class="dl-results-master-wrap">
                 <div class="productGroupingWrap">
-                    <category-row ng-repeat="cagetory in categories"></category-row>
+                    <category-row ng-repeat="category in categories" isproductline="{{category.productLine}}" type="{{category.type}}"></category-row>
                 </div>
                 <div class="productSuggestionsWrap">
                     <h1>Suggested Products</h1>

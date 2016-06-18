@@ -46,10 +46,20 @@ html, body {
 	.itemWrap {
 		padding: 10px;
         text-align: center;
+        background: white;
+        position: relative;
+        z-index: 5;
+        transition: all .5s ease;
 		img {
 			height: 90px;
 		}
 	}
+    .itemWrap.dl-move-it {
+        opacity: .01;
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
 	.itemTitle {
 		text-align: center;
         display: block;
@@ -84,4 +94,10 @@ html, body {
 	    padding: 5px 20px;
 	    color: white;
 	}
+    .itemHide {
+        display: none;
+    }
+    .rowHide {
+        display: none;
+    }
 }
