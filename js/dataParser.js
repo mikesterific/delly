@@ -33,6 +33,8 @@ dataParser.init();
 
 var parseModule = (function() {
     // private variables
+
+    // array of brands for auto-correction
     var brandArray = ["Inspiron", "XPS", "AlienWare", "Latitude", "Precision", "ChromeBook"];
 
     // temporary test variable
@@ -40,6 +42,23 @@ var parseModule = (function() {
 
     // public methods
     return {
+
+        // Iterate through nlp-converted input terms, performs regex
+        // match and noun-tracking to ascertain if application name is spoken
+        // returns boolean based on if name is present
+        parseDellyName: function(speechInput) {
+            var nameRE = /[dD]e[a]*[l]+[iy]+/;
+
+            hardCodedNlp.terms.forEach(function(term) {
+                if (term.tag === "Noun" && term.normal.match(nameRE)) {
+                    console.log("\'Delly\' present in speech input...");
+                    return true;
+                }
+            });
+
+            return false;
+        },
+
         // Iterates through nlp-converted input terms, performs regex
         // match to ascertain product category
         // TODO: Improve regex to handle more cases
@@ -213,6 +232,7 @@ var parseModule = (function() {
 })();
 
 // grab key terms from user spoken input
+var dellyName = parseModule.parseDellyName();
 var category = parseModule.parseItemCategory();
 var brand = parseModule.parseItemBrand();
 var config = parseModule.parseItemConfiguration();

@@ -11528,13 +11528,32 @@ dataParser.init();
 
 var parseModule = (function() {
     // private variables
+
+    // array of brands for auto-correction
     var brandArray = ["Inspiron", "XPS", "AlienWare", "Latitude", "Precision", "ChromeBook"];
 
     // temporary test variable
-    var hardCodedNlp = nlp.text("I'd like an AlienWare laptop with 8 gigabytes of memory").sentences[0];
+    var hardCodedNlp = nlp.text("Delly, I'd like an AlienWare laptop with 8 gigabytes of memory").sentences[0];
 
     // public methods
     return {
+
+    	// Iterate through nlp-converted input terms, performs regex
+    	// match and noun-tracking to ascertain if application name is spoken
+    	// returns boolean based on if name is present
+    	parseDellyName: function(speechInput) {
+    		var nameRE = /[dD]e[a]*[l]+[iy]+/;
+
+    		hardCodedNlp.terms.forEach(function(term) {
+    			if (term.tag === "Noun" && term.normal.match(nameRE)) {
+    				console.log("\'Delly\' present in speech input...");
+    				return true;
+    			}
+    		});
+
+    		return false;
+    	},
+
         // Iterates through nlp-converted input terms, performs regex
         // match to ascertain product category
         // TODO: Improve regex to handle more cases
@@ -11613,9 +11632,14 @@ var parseModule = (function() {
         },
 
         getlaptopItems: function(category, brand, config, price, description) {
+        	// log to console the term breakdown
+        	console.log(hardCodedNlp);
+
+        	// log input variables
 			console.log(category);
 			console.log(brand);
 			console.log(config);
+
             var laptopItems = [];
             var desc = "";
             var itemBrand = "";
@@ -11708,6 +11732,7 @@ var parseModule = (function() {
 })();
 
 // grab key terms from user spoken input
+var dellyName = parseModule.parseDellyName();
 var category = parseModule.parseItemCategory();
 var brand = parseModule.parseItemBrand();
 var config = parseModule.parseItemConfiguration();
