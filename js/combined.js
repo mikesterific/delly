@@ -1,10 +1,12 @@
 // @codekit-prepend "vendor/jquery-2.1.3.min.js";
 // @codekit-prepend "vendor/angular.min.js";
 // @codekit-prepend "vendor/nlp_compromise.min.js";
-// @codekit-prepend "bootstrap.js";
+// @codekit-prepend "bootstrap.min.js";
 // @codekit-prepend "speechInput.js";
 // @codekit-prepend "mappedCartItems.js";
 // @codekit-prepend "outputModel.js";
+// @codekit-prepend "cartItems.js"
+// @codekit-prepend "levenshtein.js"
 // @codekit-prepend "dataParser.js";
 // @codekit-prepend "app.js";
 // @codekit-prepend "common.js";
