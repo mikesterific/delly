@@ -45,6 +45,12 @@ angular.module('delly', [])
             templateUrl: '/templates/category-row.html'
         };
     })
+    .directive('dialog', function() {
+        return {
+            restrict: 'E',
+            templateUrl: '/templates/dialog.html'
+        };
+    })
     .directive('buttonSection', function() {
         return {
             restrict: 'E',
@@ -86,7 +92,7 @@ angular.module('delly', [])
                 });
                 //Home
                 segment.on("click", function(){
-                    showItem("segment", "home");
+                    hideRow("segment");
                 });
                 // Inspiron
                 brand.on("click", function(){
