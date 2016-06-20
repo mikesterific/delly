@@ -282,6 +282,14 @@ document.readyState?a.init():document.addEventListener("DOMContentLoaded",functi
 function(b){if(a.isPlaying())if(a.fallbackMode){for(var c=0;c<a.fallback_parts.length;c++)a.fallback_parts[c].volume=b;for(c=0;c<a.fallback_audiopool.length;c++)a.fallback_audiopool[c].volume=b;a.fallback_audio.volume=b}else for(c=0;c<a.utterances.length;c++)a.utterances[c].volume=b};a.onPartEnd=function(b){if(null!=a.msgparameters&&null!=a.msgparameters.onchuckend)a.msgparameters.onchuckend();a.Dispatch("OnPartEnd");b=a.utterances.indexOf(b.utterance);a.currentMsg=a.utterances[b+1]};a.onboundary=
 function(b){console.log("On Boundary");a.iOS&&!a.onstartFired&&a.speech_onstart()}},responsiveVoice=new ResponsiveVoice;
 
+/*!
+ * Bootstrap v3.3.6 (http://getbootstrap.com)
+ * Copyright 2011-2015 Twitter, Inc.
+ * Licensed under the MIT license
+ */
+if("undefined"==typeof jQuery)throw new Error("Bootstrap's JavaScript requires jQuery");+function(a){"use strict";var b=a.fn.jquery.split(" ")[0].split(".");if(b[0]<2&&b[1]<9||1==b[0]&&9==b[1]&&b[2]<1||b[0]>2)throw new Error("Bootstrap's JavaScript requires jQuery version 1.9.1 or higher, but lower than version 3")}(jQuery),+function(a){"use strict";function b(){var a=document.createElement("bootstrap"),b={WebkitTransition:"webkitTransitionEnd",MozTransition:"transitionend",OTransition:"oTransitionEnd otransitionend",transition:"transitionend"};for(var c in b)if(void 0!==a.style[c])return{end:b[c]};return!1}a.fn.emulateTransitionEnd=function(b){var c=!1,d=this;a(this).one("bsTransitionEnd",function(){c=!0});var e=function(){c||a(d).trigger(a.support.transition.end)};return setTimeout(e,b),this},a(function(){a.support.transition=b(),a.support.transition&&(a.event.special.bsTransitionEnd={bindType:a.support.transition.end,delegateType:a.support.transition.end,handle:function(b){return a(b.target).is(this)?b.handleObj.handler.apply(this,arguments):void 0}})})}(jQuery),+function(a){"use strict";function b(b){return this.each(function(){var c=a(this),e=c.data("bs.alert");e||c.data("bs.alert",e=new d(this)),"string"==typeof b&&e[b].call(c)})}var c='[data-dismiss="alert"]',d=function(b){a(b).on("click",c,this.close)};d.VERSION="3.3.6",d.TRANSITION_DURATION=150,d.prototype.close=function(b){function c(){g.detach().trigger("closed.bs.alert").remove()}var e=a(this),f=e.attr("data-target");f||(f=e.attr("href"),f=f&&f.replace(/.*(?=#[^\s]*$)/,""));var g=a(f);b&&b.preventDefault(),g.length||(g=e.closest(".alert")),g.trigger(b=a.Event("close.bs.alert")),b.isDefaultPrevented()||(g.removeClass("in"),a.support.transition&&g.hasClass("fade")?g.one("bsTransitionEnd",c).emulateTransitionEnd(d.TRANSITION_DURATION):c())};var e=a.fn.alert;a.fn.alert=b,a.fn.alert.Constructor=d,a.fn.alert.noConflict=function(){return a.fn.alert=e,this},a(document).on("click.bs.alert.data-api",c,d.prototype.close)}(jQuery),+function(a){"use strict";function b(b){return this.each(function(){var d=a(this),e=d.data("bs.button"),f="object"==typeof b&&b;e||d.data("bs.button",e=new c(this,f)),"toggle"==b?e.toggle():b&&e.setState(b)})}var c=function(b,d){this.$element=a(b),this.options=a.extend({},c.DEFAULTS,d),this.isLoading=!1};c.VERSION="3.3.6",c.DEFAULTS={loadingText:"loading..."},c.prototype.setState=function(b){var c="disabled",d=this.$element,e=d.is("input")?"val":"html",f=d.data();b+="Text",null==f.resetText&&d.data("resetText",d[e]()),setTimeout(a.proxy(function(){d[e](null==f[b]?this.options[b]:f[b]),"loadingText"==b?(this.isLoading=!0,d.addClass(c).attr(c,c)):this.isLoading&&(this.isLoading=!1,d.removeClass(c).removeAttr(c))},this),0)},c.prototype.toggle=function(){var a=!0,b=this.$element.closest('[data-toggle="buttons"]');if(b.length){var c=this.$element.find("input");"radio"==c.prop("type")?(c.prop("checked")&&(a=!1),b.find(".active").removeClass("active"),this.$element.addClass("active")):"checkbox"==c.prop("type")&&(c.prop("checked")!==this.$element.hasClass("active")&&(a=!1),this.$element.toggleClass("active")),c.prop("checked",this.$element.hasClass("active")),a&&c.trigger("change")}else this.$element.attr("aria-pressed",!this.$element.hasClass("active")),this.$element.toggleClass("active")};var d=a.fn.button;a.fn.button=b,a.fn.button.Constructor=c,a.fn.button.noConflict=function(){return a.fn.button=d,this},a(document).on("click.bs.button.data-api",'[data-toggle^="button"]',function(c){var d=a(c.target);d.hasClass("btn")||(d=d.closest(".btn")),b.call(d,"toggle"),a(c.target).is('input[type="radio"]')||a(c.target).is('input[type="checkbox"]')||c.preventDefault()}).on("focus.bs.button.data-api blur.bs.button.data-api",'[data-toggle^="button"]',function(b){a(b.target).closest(".btn").toggleClass("focus",/^focus(in)?$/.test(b.type))})}(jQuery),+function(a){"use strict";function b(b){return this.each(function(){var d=a(this),e=d.data("bs.carousel"),f=a.extend({},c.DEFAULTS,d.data(),"object"==typeof b&&b),g="string"==typeof b?b:f.slide;e||d.data("bs.carousel",e=new c(this,f)),"number"==typeof b?e.to(b):g?e[g]():f.interval&&e.pause().cycle()})}var c=function(b,c){this.$element=a(b),this.$indicators=this.$element.find(".carousel-indicators"),this.options=c,this.paused=null,this.sliding=null,this.interval=null,this.$active=null,this.$items=null,this.options.keyboard&&this.$element.on("keydown.bs.carousel",a.proxy(this.keydown,this)),"hover"==this.options.pause&&!("ontouchstart"in document.documentElement)&&this.$element.on("mouseenter.bs.carousel",a.proxy(this.pause,this)).on("mouseleave.bs.carousel",a.proxy(this.cycle,this))};c.VERSION="3.3.6",c.TRANSITION_DURATION=600,c.DEFAULTS={interval:5e3,pause:"hover",wrap:!0,keyboard:!0},c.prototype.keydown=function(a){if(!/input|textarea/i.test(a.target.tagName)){switch(a.which){case 37:this.prev();break;case 39:this.next();break;default:return}a.preventDefault()}},c.prototype.cycle=function(b){return b||(this.paused=!1),this.interval&&clearInterval(this.interval),this.options.interval&&!this.paused&&(this.interval=setInterval(a.proxy(this.next,this),this.options.interval)),this},c.prototype.getItemIndex=function(a){return this.$items=a.parent().children(".item"),this.$items.index(a||this.$active)},c.prototype.getItemForDirection=function(a,b){var c=this.getItemIndex(b),d="prev"==a&&0===c||"next"==a&&c==this.$items.length-1;if(d&&!this.options.wrap)return b;var e="prev"==a?-1:1,f=(c+e)%this.$items.length;return this.$items.eq(f)},c.prototype.to=function(a){var b=this,c=this.getItemIndex(this.$active=this.$element.find(".item.active"));return a>this.$items.length-1||0>a?void 0:this.sliding?this.$element.one("slid.bs.carousel",function(){b.to(a)}):c==a?this.pause().cycle():this.slide(a>c?"next":"prev",this.$items.eq(a))},c.prototype.pause=function(b){return b||(this.paused=!0),this.$element.find(".next, .prev").length&&a.support.transition&&(this.$element.trigger(a.support.transition.end),this.cycle(!0)),this.interval=clearInterval(this.interval),this},c.prototype.next=function(){return this.sliding?void 0:this.slide("next")},c.prototype.prev=function(){return this.sliding?void 0:this.slide("prev")},c.prototype.slide=function(b,d){var e=this.$element.find(".item.active"),f=d||this.getItemForDirection(b,e),g=this.interval,h="next"==b?"left":"right",i=this;if(f.hasClass("active"))return this.sliding=!1;var j=f[0],k=a.Event("slide.bs.carousel",{relatedTarget:j,direction:h});if(this.$element.trigger(k),!k.isDefaultPrevented()){if(this.sliding=!0,g&&this.pause(),this.$indicators.length){this.$indicators.find(".active").removeClass("active");var l=a(this.$indicators.children()[this.getItemIndex(f)]);l&&l.addClass("active")}var m=a.Event("slid.bs.carousel",{relatedTarget:j,direction:h});return a.support.transition&&this.$element.hasClass("slide")?(f.addClass(b),f[0].offsetWidth,e.addClass(h),f.addClass(h),e.one("bsTransitionEnd",function(){f.removeClass([b,h].join(" ")).addClass("active"),e.removeClass(["active",h].join(" ")),i.sliding=!1,setTimeout(function(){i.$element.trigger(m)},0)}).emulateTransitionEnd(c.TRANSITION_DURATION)):(e.removeClass("active"),f.addClass("active"),this.sliding=!1,this.$element.trigger(m)),g&&this.cycle(),this}};var d=a.fn.carousel;a.fn.carousel=b,a.fn.carousel.Constructor=c,a.fn.carousel.noConflict=function(){return a.fn.carousel=d,this};var e=function(c){var d,e=a(this),f=a(e.attr("data-target")||(d=e.attr("href"))&&d.replace(/.*(?=#[^\s]+$)/,""));if(f.hasClass("carousel")){var g=a.extend({},f.data(),e.data()),h=e.attr("data-slide-to");h&&(g.interval=!1),b.call(f,g),h&&f.data("bs.carousel").to(h),c.preventDefault()}};a(document).on("click.bs.carousel.data-api","[data-slide]",e).on("click.bs.carousel.data-api","[data-slide-to]",e),a(window).on("load",function(){a('[data-ride="carousel"]').each(function(){var c=a(this);b.call(c,c.data())})})}(jQuery),+function(a){"use strict";function b(b){var c,d=b.attr("data-target")||(c=b.attr("href"))&&c.replace(/.*(?=#[^\s]+$)/,"");return a(d)}function c(b){return this.each(function(){var c=a(this),e=c.data("bs.collapse"),f=a.extend({},d.DEFAULTS,c.data(),"object"==typeof b&&b);!e&&f.toggle&&/show|hide/.test(b)&&(f.toggle=!1),e||c.data("bs.collapse",e=new d(this,f)),"string"==typeof b&&e[b]()})}var d=function(b,c){this.$element=a(b),this.options=a.extend({},d.DEFAULTS,c),this.$trigger=a('[data-toggle="collapse"][href="#'+b.id+'"],[data-toggle="collapse"][data-target="#'+b.id+'"]'),this.transitioning=null,this.options.parent?this.$parent=this.getParent():this.addAriaAndCollapsedClass(this.$element,this.$trigger),this.options.toggle&&this.toggle()};d.VERSION="3.3.6",d.TRANSITION_DURATION=350,d.DEFAULTS={toggle:!0},d.prototype.dimension=function(){var a=this.$element.hasClass("width");return a?"width":"height"},d.prototype.show=function(){if(!this.transitioning&&!this.$element.hasClass("in")){var b,e=this.$parent&&this.$parent.children(".panel").children(".in, .collapsing");if(!(e&&e.length&&(b=e.data("bs.collapse"),b&&b.transitioning))){var f=a.Event("show.bs.collapse");if(this.$element.trigger(f),!f.isDefaultPrevented()){e&&e.length&&(c.call(e,"hide"),b||e.data("bs.collapse",null));var g=this.dimension();this.$element.removeClass("collapse").addClass("collapsing")[g](0).attr("aria-expanded",!0),this.$trigger.removeClass("collapsed").attr("aria-expanded",!0),this.transitioning=1;var h=function(){this.$element.removeClass("collapsing").addClass("collapse in")[g](""),this.transitioning=0,this.$element.trigger("shown.bs.collapse")};if(!a.support.transition)return h.call(this);var i=a.camelCase(["scroll",g].join("-"));this.$element.one("bsTransitionEnd",a.proxy(h,this)).emulateTransitionEnd(d.TRANSITION_DURATION)[g](this.$element[0][i])}}}},d.prototype.hide=function(){if(!this.transitioning&&this.$element.hasClass("in")){var b=a.Event("hide.bs.collapse");if(this.$element.trigger(b),!b.isDefaultPrevented()){var c=this.dimension();this.$element[c](this.$element[c]())[0].offsetHeight,this.$element.addClass("collapsing").removeClass("collapse in").attr("aria-expanded",!1),this.$trigger.addClass("collapsed").attr("aria-expanded",!1),this.transitioning=1;var e=function(){this.transitioning=0,this.$element.removeClass("collapsing").addClass("collapse").trigger("hidden.bs.collapse")};return a.support.transition?void this.$element[c](0).one("bsTransitionEnd",a.proxy(e,this)).emulateTransitionEnd(d.TRANSITION_DURATION):e.call(this)}}},d.prototype.toggle=function(){this[this.$element.hasClass("in")?"hide":"show"]()},d.prototype.getParent=function(){return a(this.options.parent).find('[data-toggle="collapse"][data-parent="'+this.options.parent+'"]').each(a.proxy(function(c,d){var e=a(d);this.addAriaAndCollapsedClass(b(e),e)},this)).end()},d.prototype.addAriaAndCollapsedClass=function(a,b){var c=a.hasClass("in");a.attr("aria-expanded",c),b.toggleClass("collapsed",!c).attr("aria-expanded",c)};var e=a.fn.collapse;a.fn.collapse=c,a.fn.collapse.Constructor=d,a.fn.collapse.noConflict=function(){return a.fn.collapse=e,this},a(document).on("click.bs.collapse.data-api",'[data-toggle="collapse"]',function(d){var e=a(this);e.attr("data-target")||d.preventDefault();var f=b(e),g=f.data("bs.collapse"),h=g?"toggle":e.data();c.call(f,h)})}(jQuery),+function(a){"use strict";function b(b){var c=b.attr("data-target");c||(c=b.attr("href"),c=c&&/#[A-Za-z]/.test(c)&&c.replace(/.*(?=#[^\s]*$)/,""));var d=c&&a(c);return d&&d.length?d:b.parent()}function c(c){c&&3===c.which||(a(e).remove(),a(f).each(function(){var d=a(this),e=b(d),f={relatedTarget:this};e.hasClass("open")&&(c&&"click"==c.type&&/input|textarea/i.test(c.target.tagName)&&a.contains(e[0],c.target)||(e.trigger(c=a.Event("hide.bs.dropdown",f)),c.isDefaultPrevented()||(d.attr("aria-expanded","false"),e.removeClass("open").trigger(a.Event("hidden.bs.dropdown",f)))))}))}function d(b){return this.each(function(){var c=a(this),d=c.data("bs.dropdown");d||c.data("bs.dropdown",d=new g(this)),"string"==typeof b&&d[b].call(c)})}var e=".dropdown-backdrop",f='[data-toggle="dropdown"]',g=function(b){a(b).on("click.bs.dropdown",this.toggle)};g.VERSION="3.3.6",g.prototype.toggle=function(d){var e=a(this);if(!e.is(".disabled, :disabled")){var f=b(e),g=f.hasClass("open");if(c(),!g){"ontouchstart"in document.documentElement&&!f.closest(".navbar-nav").length&&a(document.createElement("div")).addClass("dropdown-backdrop").insertAfter(a(this)).on("click",c);var h={relatedTarget:this};if(f.trigger(d=a.Event("show.bs.dropdown",h)),d.isDefaultPrevented())return;e.trigger("focus").attr("aria-expanded","true"),f.toggleClass("open").trigger(a.Event("shown.bs.dropdown",h))}return!1}},g.prototype.keydown=function(c){if(/(38|40|27|32)/.test(c.which)&&!/input|textarea/i.test(c.target.tagName)){var d=a(this);if(c.preventDefault(),c.stopPropagation(),!d.is(".disabled, :disabled")){var e=b(d),g=e.hasClass("open");if(!g&&27!=c.which||g&&27==c.which)return 27==c.which&&e.find(f).trigger("focus"),d.trigger("click");var h=" li:not(.disabled):visible a",i=e.find(".dropdown-menu"+h);if(i.length){var j=i.index(c.target);38==c.which&&j>0&&j--,40==c.which&&j<i.length-1&&j++,~j||(j=0),i.eq(j).trigger("focus")}}}};var h=a.fn.dropdown;a.fn.dropdown=d,a.fn.dropdown.Constructor=g,a.fn.dropdown.noConflict=function(){return a.fn.dropdown=h,this},a(document).on("click.bs.dropdown.data-api",c).on("click.bs.dropdown.data-api",".dropdown form",function(a){a.stopPropagation()}).on("click.bs.dropdown.data-api",f,g.prototype.toggle).on("keydown.bs.dropdown.data-api",f,g.prototype.keydown).on("keydown.bs.dropdown.data-api",".dropdown-menu",g.prototype.keydown)}(jQuery),+function(a){"use strict";function b(b,d){return this.each(function(){var e=a(this),f=e.data("bs.modal"),g=a.extend({},c.DEFAULTS,e.data(),"object"==typeof b&&b);f||e.data("bs.modal",f=new c(this,g)),"string"==typeof b?f[b](d):g.show&&f.show(d)})}var c=function(b,c){this.options=c,this.$body=a(document.body),this.$element=a(b),this.$dialog=this.$element.find(".modal-dialog"),this.$backdrop=null,this.isShown=null,this.originalBodyPad=null,this.scrollbarWidth=0,this.ignoreBackdropClick=!1,this.options.remote&&this.$element.find(".modal-content").load(this.options.remote,a.proxy(function(){this.$element.trigger("loaded.bs.modal")},this))};c.VERSION="3.3.6",c.TRANSITION_DURATION=300,c.BACKDROP_TRANSITION_DURATION=150,c.DEFAULTS={backdrop:!0,keyboard:!0,show:!0},c.prototype.toggle=function(a){return this.isShown?this.hide():this.show(a)},c.prototype.show=function(b){var d=this,e=a.Event("show.bs.modal",{relatedTarget:b});this.$element.trigger(e),this.isShown||e.isDefaultPrevented()||(this.isShown=!0,this.checkScrollbar(),this.setScrollbar(),this.$body.addClass("modal-open"),this.escape(),this.resize(),this.$element.on("click.dismiss.bs.modal",'[data-dismiss="modal"]',a.proxy(this.hide,this)),this.$dialog.on("mousedown.dismiss.bs.modal",function(){d.$element.one("mouseup.dismiss.bs.modal",function(b){a(b.target).is(d.$element)&&(d.ignoreBackdropClick=!0)})}),this.backdrop(function(){var e=a.support.transition&&d.$element.hasClass("fade");d.$element.parent().length||d.$element.appendTo(d.$body),d.$element.show().scrollTop(0),d.adjustDialog(),e&&d.$element[0].offsetWidth,d.$element.addClass("in"),d.enforceFocus();var f=a.Event("shown.bs.modal",{relatedTarget:b});e?d.$dialog.one("bsTransitionEnd",function(){d.$element.trigger("focus").trigger(f)}).emulateTransitionEnd(c.TRANSITION_DURATION):d.$element.trigger("focus").trigger(f)}))},c.prototype.hide=function(b){b&&b.preventDefault(),b=a.Event("hide.bs.modal"),this.$element.trigger(b),this.isShown&&!b.isDefaultPrevented()&&(this.isShown=!1,this.escape(),this.resize(),a(document).off("focusin.bs.modal"),this.$element.removeClass("in").off("click.dismiss.bs.modal").off("mouseup.dismiss.bs.modal"),this.$dialog.off("mousedown.dismiss.bs.modal"),a.support.transition&&this.$element.hasClass("fade")?this.$element.one("bsTransitionEnd",a.proxy(this.hideModal,this)).emulateTransitionEnd(c.TRANSITION_DURATION):this.hideModal())},c.prototype.enforceFocus=function(){a(document).off("focusin.bs.modal").on("focusin.bs.modal",a.proxy(function(a){this.$element[0]===a.target||this.$element.has(a.target).length||this.$element.trigger("focus")},this))},c.prototype.escape=function(){this.isShown&&this.options.keyboard?this.$element.on("keydown.dismiss.bs.modal",a.proxy(function(a){27==a.which&&this.hide()},this)):this.isShown||this.$element.off("keydown.dismiss.bs.modal")},c.prototype.resize=function(){this.isShown?a(window).on("resize.bs.modal",a.proxy(this.handleUpdate,this)):a(window).off("resize.bs.modal")},c.prototype.hideModal=function(){var a=this;this.$element.hide(),this.backdrop(function(){a.$body.removeClass("modal-open"),a.resetAdjustments(),a.resetScrollbar(),a.$element.trigger("hidden.bs.modal")})},c.prototype.removeBackdrop=function(){this.$backdrop&&this.$backdrop.remove(),this.$backdrop=null},c.prototype.backdrop=function(b){var d=this,e=this.$element.hasClass("fade")?"fade":"";if(this.isShown&&this.options.backdrop){var f=a.support.transition&&e;if(this.$backdrop=a(document.createElement("div")).addClass("modal-backdrop "+e).appendTo(this.$body),this.$element.on("click.dismiss.bs.modal",a.proxy(function(a){return this.ignoreBackdropClick?void(this.ignoreBackdropClick=!1):void(a.target===a.currentTarget&&("static"==this.options.backdrop?this.$element[0].focus():this.hide()))},this)),f&&this.$backdrop[0].offsetWidth,this.$backdrop.addClass("in"),!b)return;f?this.$backdrop.one("bsTransitionEnd",b).emulateTransitionEnd(c.BACKDROP_TRANSITION_DURATION):b()}else if(!this.isShown&&this.$backdrop){this.$backdrop.removeClass("in");var g=function(){d.removeBackdrop(),b&&b()};a.support.transition&&this.$element.hasClass("fade")?this.$backdrop.one("bsTransitionEnd",g).emulateTransitionEnd(c.BACKDROP_TRANSITION_DURATION):g()}else b&&b()},c.prototype.handleUpdate=function(){this.adjustDialog()},c.prototype.adjustDialog=function(){var a=this.$element[0].scrollHeight>document.documentElement.clientHeight;this.$element.css({paddingLeft:!this.bodyIsOverflowing&&a?this.scrollbarWidth:"",paddingRight:this.bodyIsOverflowing&&!a?this.scrollbarWidth:""})},c.prototype.resetAdjustments=function(){this.$element.css({paddingLeft:"",paddingRight:""})},c.prototype.checkScrollbar=function(){var a=window.innerWidth;if(!a){var b=document.documentElement.getBoundingClientRect();a=b.right-Math.abs(b.left)}this.bodyIsOverflowing=document.body.clientWidth<a,this.scrollbarWidth=this.measureScrollbar()},c.prototype.setScrollbar=function(){var a=parseInt(this.$body.css("padding-right")||0,10);this.originalBodyPad=document.body.style.paddingRight||"",this.bodyIsOverflowing&&this.$body.css("padding-right",a+this.scrollbarWidth)},c.prototype.resetScrollbar=function(){this.$body.css("padding-right",this.originalBodyPad)},c.prototype.measureScrollbar=function(){var a=document.createElement("div");a.className="modal-scrollbar-measure",this.$body.append(a);var b=a.offsetWidth-a.clientWidth;return this.$body[0].removeChild(a),b};var d=a.fn.modal;a.fn.modal=b,a.fn.modal.Constructor=c,a.fn.modal.noConflict=function(){return a.fn.modal=d,this},a(document).on("click.bs.modal.data-api",'[data-toggle="modal"]',function(c){var d=a(this),e=d.attr("href"),f=a(d.attr("data-target")||e&&e.replace(/.*(?=#[^\s]+$)/,"")),g=f.data("bs.modal")?"toggle":a.extend({remote:!/#/.test(e)&&e},f.data(),d.data());d.is("a")&&c.preventDefault(),f.one("show.bs.modal",function(a){a.isDefaultPrevented()||f.one("hidden.bs.modal",function(){d.is(":visible")&&d.trigger("focus")})}),b.call(f,g,this)})}(jQuery),+function(a){"use strict";function b(b){return this.each(function(){var d=a(this),e=d.data("bs.tooltip"),f="object"==typeof b&&b;(e||!/destroy|hide/.test(b))&&(e||d.data("bs.tooltip",e=new c(this,f)),"string"==typeof b&&e[b]())})}var c=function(a,b){this.type=null,this.options=null,this.enabled=null,this.timeout=null,this.hoverState=null,this.$element=null,this.inState=null,this.init("tooltip",a,b)};c.VERSION="3.3.6",c.TRANSITION_DURATION=150,c.DEFAULTS={animation:!0,placement:"top",selector:!1,template:'<div class="tooltip" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>',trigger:"hover focus",title:"",delay:0,html:!1,container:!1,viewport:{selector:"body",padding:0}},c.prototype.init=function(b,c,d){if(this.enabled=!0,this.type=b,this.$element=a(c),this.options=this.getOptions(d),this.$viewport=this.options.viewport&&a(a.isFunction(this.options.viewport)?this.options.viewport.call(this,this.$element):this.options.viewport.selector||this.options.viewport),this.inState={click:!1,hover:!1,focus:!1},this.$element[0]instanceof document.constructor&&!this.options.selector)throw new Error("`selector` option must be specified when initializing "+this.type+" on the window.document object!");for(var e=this.options.trigger.split(" "),f=e.length;f--;){var g=e[f];if("click"==g)this.$element.on("click."+this.type,this.options.selector,a.proxy(this.toggle,this));else if("manual"!=g){var h="hover"==g?"mouseenter":"focusin",i="hover"==g?"mouseleave":"focusout";this.$element.on(h+"."+this.type,this.options.selector,a.proxy(this.enter,this)),this.$element.on(i+"."+this.type,this.options.selector,a.proxy(this.leave,this))}}this.options.selector?this._options=a.extend({},this.options,{trigger:"manual",selector:""}):this.fixTitle()},c.prototype.getDefaults=function(){return c.DEFAULTS},c.prototype.getOptions=function(b){return b=a.extend({},this.getDefaults(),this.$element.data(),b),b.delay&&"number"==typeof b.delay&&(b.delay={show:b.delay,hide:b.delay}),b},c.prototype.getDelegateOptions=function(){var b={},c=this.getDefaults();return this._options&&a.each(this._options,function(a,d){c[a]!=d&&(b[a]=d)}),b},c.prototype.enter=function(b){var c=b instanceof this.constructor?b:a(b.currentTarget).data("bs."+this.type);return c||(c=new this.constructor(b.currentTarget,this.getDelegateOptions()),a(b.currentTarget).data("bs."+this.type,c)),b instanceof a.Event&&(c.inState["focusin"==b.type?"focus":"hover"]=!0),c.tip().hasClass("in")||"in"==c.hoverState?void(c.hoverState="in"):(clearTimeout(c.timeout),c.hoverState="in",c.options.delay&&c.options.delay.show?void(c.timeout=setTimeout(function(){"in"==c.hoverState&&c.show()},c.options.delay.show)):c.show())},c.prototype.isInStateTrue=function(){for(var a in this.inState)if(this.inState[a])return!0;return!1},c.prototype.leave=function(b){var c=b instanceof this.constructor?b:a(b.currentTarget).data("bs."+this.type);return c||(c=new this.constructor(b.currentTarget,this.getDelegateOptions()),a(b.currentTarget).data("bs."+this.type,c)),b instanceof a.Event&&(c.inState["focusout"==b.type?"focus":"hover"]=!1),c.isInStateTrue()?void 0:(clearTimeout(c.timeout),c.hoverState="out",c.options.delay&&c.options.delay.hide?void(c.timeout=setTimeout(function(){"out"==c.hoverState&&c.hide()},c.options.delay.hide)):c.hide())},c.prototype.show=function(){var b=a.Event("show.bs."+this.type);if(this.hasContent()&&this.enabled){this.$element.trigger(b);var d=a.contains(this.$element[0].ownerDocument.documentElement,this.$element[0]);if(b.isDefaultPrevented()||!d)return;var e=this,f=this.tip(),g=this.getUID(this.type);this.setContent(),f.attr("id",g),this.$element.attr("aria-describedby",g),this.options.animation&&f.addClass("fade");var h="function"==typeof this.options.placement?this.options.placement.call(this,f[0],this.$element[0]):this.options.placement,i=/\s?auto?\s?/i,j=i.test(h);j&&(h=h.replace(i,"")||"top"),f.detach().css({top:0,left:0,display:"block"}).addClass(h).data("bs."+this.type,this),this.options.container?f.appendTo(this.options.container):f.insertAfter(this.$element),this.$element.trigger("inserted.bs."+this.type);var k=this.getPosition(),l=f[0].offsetWidth,m=f[0].offsetHeight;if(j){var n=h,o=this.getPosition(this.$viewport);h="bottom"==h&&k.bottom+m>o.bottom?"top":"top"==h&&k.top-m<o.top?"bottom":"right"==h&&k.right+l>o.width?"left":"left"==h&&k.left-l<o.left?"right":h,f.removeClass(n).addClass(h)}var p=this.getCalculatedOffset(h,k,l,m);this.applyPlacement(p,h);var q=function(){var a=e.hoverState;e.$element.trigger("shown.bs."+e.type),e.hoverState=null,"out"==a&&e.leave(e)};a.support.transition&&this.$tip.hasClass("fade")?f.one("bsTransitionEnd",q).emulateTransitionEnd(c.TRANSITION_DURATION):q()}},c.prototype.applyPlacement=function(b,c){var d=this.tip(),e=d[0].offsetWidth,f=d[0].offsetHeight,g=parseInt(d.css("margin-top"),10),h=parseInt(d.css("margin-left"),10);isNaN(g)&&(g=0),isNaN(h)&&(h=0),b.top+=g,b.left+=h,a.offset.setOffset(d[0],a.extend({using:function(a){d.css({top:Math.round(a.top),left:Math.round(a.left)})}},b),0),d.addClass("in");var i=d[0].offsetWidth,j=d[0].offsetHeight;"top"==c&&j!=f&&(b.top=b.top+f-j);var k=this.getViewportAdjustedDelta(c,b,i,j);k.left?b.left+=k.left:b.top+=k.top;var l=/top|bottom/.test(c),m=l?2*k.left-e+i:2*k.top-f+j,n=l?"offsetWidth":"offsetHeight";d.offset(b),this.replaceArrow(m,d[0][n],l)},c.prototype.replaceArrow=function(a,b,c){this.arrow().css(c?"left":"top",50*(1-a/b)+"%").css(c?"top":"left","")},c.prototype.setContent=function(){var a=this.tip(),b=this.getTitle();a.find(".tooltip-inner")[this.options.html?"html":"text"](b),a.removeClass("fade in top bottom left right")},c.prototype.hide=function(b){function d(){"in"!=e.hoverState&&f.detach(),e.$element.removeAttr("aria-describedby").trigger("hidden.bs."+e.type),b&&b()}var e=this,f=a(this.$tip),g=a.Event("hide.bs."+this.type);return this.$element.trigger(g),g.isDefaultPrevented()?void 0:(f.removeClass("in"),a.support.transition&&f.hasClass("fade")?f.one("bsTransitionEnd",d).emulateTransitionEnd(c.TRANSITION_DURATION):d(),this.hoverState=null,this)},c.prototype.fixTitle=function(){var a=this.$element;(a.attr("title")||"string"!=typeof a.attr("data-original-title"))&&a.attr("data-original-title",a.attr("title")||"").attr("title","")},c.prototype.hasContent=function(){return this.getTitle()},c.prototype.getPosition=function(b){b=b||this.$element;var c=b[0],d="BODY"==c.tagName,e=c.getBoundingClientRect();null==e.width&&(e=a.extend({},e,{width:e.right-e.left,height:e.bottom-e.top}));var f=d?{top:0,left:0}:b.offset(),g={scroll:d?document.documentElement.scrollTop||document.body.scrollTop:b.scrollTop()},h=d?{width:a(window).width(),height:a(window).height()}:null;return a.extend({},e,g,h,f)},c.prototype.getCalculatedOffset=function(a,b,c,d){return"bottom"==a?{top:b.top+b.height,left:b.left+b.width/2-c/2}:"top"==a?{top:b.top-d,left:b.left+b.width/2-c/2}:"left"==a?{top:b.top+b.height/2-d/2,left:b.left-c}:{top:b.top+b.height/2-d/2,left:b.left+b.width}},c.prototype.getViewportAdjustedDelta=function(a,b,c,d){var e={top:0,left:0};if(!this.$viewport)return e;var f=this.options.viewport&&this.options.viewport.padding||0,g=this.getPosition(this.$viewport);if(/right|left/.test(a)){var h=b.top-f-g.scroll,i=b.top+f-g.scroll+d;h<g.top?e.top=g.top-h:i>g.top+g.height&&(e.top=g.top+g.height-i)}else{var j=b.left-f,k=b.left+f+c;j<g.left?e.left=g.left-j:k>g.right&&(e.left=g.left+g.width-k)}return e},c.prototype.getTitle=function(){var a,b=this.$element,c=this.options;return a=b.attr("data-original-title")||("function"==typeof c.title?c.title.call(b[0]):c.title)},c.prototype.getUID=function(a){do a+=~~(1e6*Math.random());while(document.getElementById(a));return a},c.prototype.tip=function(){if(!this.$tip&&(this.$tip=a(this.options.template),1!=this.$tip.length))throw new Error(this.type+" `template` option must consist of exactly 1 top-level element!");return this.$tip},c.prototype.arrow=function(){return this.$arrow=this.$arrow||this.tip().find(".tooltip-arrow")},c.prototype.enable=function(){this.enabled=!0},c.prototype.disable=function(){this.enabled=!1},c.prototype.toggleEnabled=function(){this.enabled=!this.enabled},c.prototype.toggle=function(b){var c=this;b&&(c=a(b.currentTarget).data("bs."+this.type),c||(c=new this.constructor(b.currentTarget,this.getDelegateOptions()),a(b.currentTarget).data("bs."+this.type,c))),b?(c.inState.click=!c.inState.click,c.isInStateTrue()?c.enter(c):c.leave(c)):c.tip().hasClass("in")?c.leave(c):c.enter(c)},c.prototype.destroy=function(){var a=this;clearTimeout(this.timeout),this.hide(function(){a.$element.off("."+a.type).removeData("bs."+a.type),a.$tip&&a.$tip.detach(),a.$tip=null,a.$arrow=null,a.$viewport=null})};var d=a.fn.tooltip;a.fn.tooltip=b,a.fn.tooltip.Constructor=c,a.fn.tooltip.noConflict=function(){return a.fn.tooltip=d,this}}(jQuery),+function(a){"use strict";function b(b){return this.each(function(){var d=a(this),e=d.data("bs.popover"),f="object"==typeof b&&b;(e||!/destroy|hide/.test(b))&&(e||d.data("bs.popover",e=new c(this,f)),"string"==typeof b&&e[b]())})}var c=function(a,b){this.init("popover",a,b)};if(!a.fn.tooltip)throw new Error("Popover requires tooltip.js");c.VERSION="3.3.6",c.DEFAULTS=a.extend({},a.fn.tooltip.Constructor.DEFAULTS,{placement:"right",trigger:"click",content:"",template:'<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>'}),c.prototype=a.extend({},a.fn.tooltip.Constructor.prototype),c.prototype.constructor=c,c.prototype.getDefaults=function(){return c.DEFAULTS},c.prototype.setContent=function(){var a=this.tip(),b=this.getTitle(),c=this.getContent();a.find(".popover-title")[this.options.html?"html":"text"](b),a.find(".popover-content").children().detach().end()[this.options.html?"string"==typeof c?"html":"append":"text"](c),a.removeClass("fade top bottom left right in"),a.find(".popover-title").html()||a.find(".popover-title").hide()},c.prototype.hasContent=function(){return this.getTitle()||this.getContent()},c.prototype.getContent=function(){var a=this.$element,b=this.options;return a.attr("data-content")||("function"==typeof b.content?b.content.call(a[0]):b.content)},c.prototype.arrow=function(){return this.$arrow=this.$arrow||this.tip().find(".arrow")};var d=a.fn.popover;a.fn.popover=b,a.fn.popover.Constructor=c,a.fn.popover.noConflict=function(){return a.fn.popover=d,this}}(jQuery),+function(a){"use strict";function b(c,d){this.$body=a(document.body),this.$scrollElement=a(a(c).is(document.body)?window:c),this.options=a.extend({},b.DEFAULTS,d),this.selector=(this.options.target||"")+" .nav li > a",this.offsets=[],this.targets=[],this.activeTarget=null,this.scrollHeight=0,this.$scrollElement.on("scroll.bs.scrollspy",a.proxy(this.process,this)),this.refresh(),this.process()}function c(c){return this.each(function(){var d=a(this),e=d.data("bs.scrollspy"),f="object"==typeof c&&c;e||d.data("bs.scrollspy",e=new b(this,f)),"string"==typeof c&&e[c]()})}b.VERSION="3.3.6",b.DEFAULTS={offset:10},b.prototype.getScrollHeight=function(){return this.$scrollElement[0].scrollHeight||Math.max(this.$body[0].scrollHeight,document.documentElement.scrollHeight)},b.prototype.refresh=function(){var b=this,c="offset",d=0;this.offsets=[],this.targets=[],this.scrollHeight=this.getScrollHeight(),a.isWindow(this.$scrollElement[0])||(c="position",d=this.$scrollElement.scrollTop()),this.$body.find(this.selector).map(function(){var b=a(this),e=b.data("target")||b.attr("href"),f=/^#./.test(e)&&a(e);return f&&f.length&&f.is(":visible")&&[[f[c]().top+d,e]]||null}).sort(function(a,b){return a[0]-b[0]}).each(function(){b.offsets.push(this[0]),b.targets.push(this[1])})},b.prototype.process=function(){var a,b=this.$scrollElement.scrollTop()+this.options.offset,c=this.getScrollHeight(),d=this.options.offset+c-this.$scrollElement.height(),e=this.offsets,f=this.targets,g=this.activeTarget;if(this.scrollHeight!=c&&this.refresh(),b>=d)return g!=(a=f[f.length-1])&&this.activate(a);if(g&&b<e[0])return this.activeTarget=null,this.clear();for(a=e.length;a--;)g!=f[a]&&b>=e[a]&&(void 0===e[a+1]||b<e[a+1])&&this.activate(f[a])},b.prototype.activate=function(b){this.activeTarget=b,this.clear();var c=this.selector+'[data-target="'+b+'"],'+this.selector+'[href="'+b+'"]',d=a(c).parents("li").addClass("active");
+d.parent(".dropdown-menu").length&&(d=d.closest("li.dropdown").addClass("active")),d.trigger("activate.bs.scrollspy")},b.prototype.clear=function(){a(this.selector).parentsUntil(this.options.target,".active").removeClass("active")};var d=a.fn.scrollspy;a.fn.scrollspy=c,a.fn.scrollspy.Constructor=b,a.fn.scrollspy.noConflict=function(){return a.fn.scrollspy=d,this},a(window).on("load.bs.scrollspy.data-api",function(){a('[data-spy="scroll"]').each(function(){var b=a(this);c.call(b,b.data())})})}(jQuery),+function(a){"use strict";function b(b){return this.each(function(){var d=a(this),e=d.data("bs.tab");e||d.data("bs.tab",e=new c(this)),"string"==typeof b&&e[b]()})}var c=function(b){this.element=a(b)};c.VERSION="3.3.6",c.TRANSITION_DURATION=150,c.prototype.show=function(){var b=this.element,c=b.closest("ul:not(.dropdown-menu)"),d=b.data("target");if(d||(d=b.attr("href"),d=d&&d.replace(/.*(?=#[^\s]*$)/,"")),!b.parent("li").hasClass("active")){var e=c.find(".active:last a"),f=a.Event("hide.bs.tab",{relatedTarget:b[0]}),g=a.Event("show.bs.tab",{relatedTarget:e[0]});if(e.trigger(f),b.trigger(g),!g.isDefaultPrevented()&&!f.isDefaultPrevented()){var h=a(d);this.activate(b.closest("li"),c),this.activate(h,h.parent(),function(){e.trigger({type:"hidden.bs.tab",relatedTarget:b[0]}),b.trigger({type:"shown.bs.tab",relatedTarget:e[0]})})}}},c.prototype.activate=function(b,d,e){function f(){g.removeClass("active").find("> .dropdown-menu > .active").removeClass("active").end().find('[data-toggle="tab"]').attr("aria-expanded",!1),b.addClass("active").find('[data-toggle="tab"]').attr("aria-expanded",!0),h?(b[0].offsetWidth,b.addClass("in")):b.removeClass("fade"),b.parent(".dropdown-menu").length&&b.closest("li.dropdown").addClass("active").end().find('[data-toggle="tab"]').attr("aria-expanded",!0),e&&e()}var g=d.find("> .active"),h=e&&a.support.transition&&(g.length&&g.hasClass("fade")||!!d.find("> .fade").length);g.length&&h?g.one("bsTransitionEnd",f).emulateTransitionEnd(c.TRANSITION_DURATION):f(),g.removeClass("in")};var d=a.fn.tab;a.fn.tab=b,a.fn.tab.Constructor=c,a.fn.tab.noConflict=function(){return a.fn.tab=d,this};var e=function(c){c.preventDefault(),b.call(a(this),"show")};a(document).on("click.bs.tab.data-api",'[data-toggle="tab"]',e).on("click.bs.tab.data-api",'[data-toggle="pill"]',e)}(jQuery),+function(a){"use strict";function b(b){return this.each(function(){var d=a(this),e=d.data("bs.affix"),f="object"==typeof b&&b;e||d.data("bs.affix",e=new c(this,f)),"string"==typeof b&&e[b]()})}var c=function(b,d){this.options=a.extend({},c.DEFAULTS,d),this.$target=a(this.options.target).on("scroll.bs.affix.data-api",a.proxy(this.checkPosition,this)).on("click.bs.affix.data-api",a.proxy(this.checkPositionWithEventLoop,this)),this.$element=a(b),this.affixed=null,this.unpin=null,this.pinnedOffset=null,this.checkPosition()};c.VERSION="3.3.6",c.RESET="affix affix-top affix-bottom",c.DEFAULTS={offset:0,target:window},c.prototype.getState=function(a,b,c,d){var e=this.$target.scrollTop(),f=this.$element.offset(),g=this.$target.height();if(null!=c&&"top"==this.affixed)return c>e?"top":!1;if("bottom"==this.affixed)return null!=c?e+this.unpin<=f.top?!1:"bottom":a-d>=e+g?!1:"bottom";var h=null==this.affixed,i=h?e:f.top,j=h?g:b;return null!=c&&c>=e?"top":null!=d&&i+j>=a-d?"bottom":!1},c.prototype.getPinnedOffset=function(){if(this.pinnedOffset)return this.pinnedOffset;this.$element.removeClass(c.RESET).addClass("affix");var a=this.$target.scrollTop(),b=this.$element.offset();return this.pinnedOffset=b.top-a},c.prototype.checkPositionWithEventLoop=function(){setTimeout(a.proxy(this.checkPosition,this),1)},c.prototype.checkPosition=function(){if(this.$element.is(":visible")){var b=this.$element.height(),d=this.options.offset,e=d.top,f=d.bottom,g=Math.max(a(document).height(),a(document.body).height());"object"!=typeof d&&(f=e=d),"function"==typeof e&&(e=d.top(this.$element)),"function"==typeof f&&(f=d.bottom(this.$element));var h=this.getState(g,b,e,f);if(this.affixed!=h){null!=this.unpin&&this.$element.css("top","");var i="affix"+(h?"-"+h:""),j=a.Event(i+".bs.affix");if(this.$element.trigger(j),j.isDefaultPrevented())return;this.affixed=h,this.unpin="bottom"==h?this.getPinnedOffset():null,this.$element.removeClass(c.RESET).addClass(i).trigger(i.replace("affix","affixed")+".bs.affix")}"bottom"==h&&this.$element.offset({top:g-b-f})}};var d=a.fn.affix;a.fn.affix=b,a.fn.affix.Constructor=c,a.fn.affix.noConflict=function(){return a.fn.affix=d,this},a(window).on("load",function(){a('[data-spy="affix"]').each(function(){var c=a(this),d=c.data();d.offset=d.offset||{},null!=d.offsetBottom&&(d.offset.bottom=d.offsetBottom),null!=d.offsetTop&&(d.offset.top=d.offsetTop),b.call(c,d)})})}(jQuery);
+
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.nlp_compromise = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 //these are common word shortenings used in the lexicon and sentence segmentation methods
 //there are all nouns, or at the least, belong beside one.
@@ -14229,6 +14237,6012 @@ var defaultOutputModel = {
     }
 };
 
+var cartItems = [
+{
+    "Id": "f2a37829-64cf-4a2f-931d-f83db9a0345e",
+    "IdWithoutSpecialCharacters": "f2a3782964cf4a2f931df83db9a0345e",
+    "ProductId": "fncwh101sw",
+    "Description": "Inspiron 11 3000 Non-Touch",
+    "ShowProductStackDescription": false,
+    "IsValid": true,
+    "LeadTimeInfo": {
+        "EstimatedShipDate": "6/6/2016",
+        "ShowEstimatedShipDate": true,
+        "ShowEstimatedDeliveryDate": false,
+        "HasValidEstimatedDeliveryDate": false,
+        "CanCalculateEstimatedDeliveryDate": true
+    },
+    "IsSavedCartItem": false,
+    "SubTotalAmount": "$199.99",
+    "DiscountsAndCouponsAmount": "$0.00",
+    "DiscountsAndCouponsAmountValue": 0,
+    "DiscountsAndCoupons": [],
+    "ShowDiscountsAndCoupons": false,
+    "DiscountsPopupTitle": "Additional Discounts & Coupons",
+    "TotalAmount": "$199.99",
+    "TotalAmountWithSubItems": "$199.99",
+    "TotalAmountWithSubItemsValue": 199.99,
+    "Quantity": 1,
+    "QuantityWithSubItems": 1,
+    "AllowChangeQuantity": true,
+    "IsAssociatedItem": false,
+    "ImageUrl": "https://si.cdn.dell.com/images/global/configurator/chassis/inspnb-11-3162-nt-wh-ft-120x107.jpg",
+    "UnitPriceAmount": "$199.99",
+    "ShowManufacturerPartNumber": false,
+    "ShowDellPartNumber": false,
+    "ShowCatalogNumber": true,
+    "CatalogNumber": "29 fncwh101sw",
+    "Components": [
+    {
+        "Name": "Inspiron 11 3000 Series",
+        "Description": "Inspiron 11 3000 Series",
+        "ProductCode": "RT3162",
+        "Skus": [
+        "210-AGPN"
+        ]
+    },
+    {
+        "Name": "Processor",
+        "Description": "Intel® Celeron® Processor N3050 (2M Cache, up to 2.16 GHz)",
+        "ProductCode": "C484MT",
+        "Skus": [
+        "338-BIMI"
+        ]
+    },
+    {
+        "Name": "Operating System",
+        "Description": "Windows 10 Home, 64-bit, English",
+        "ProductCode": "10HE6E",
+        "Skus": [
+        "619-AHCP"
+        ]
+    },
+    {
+        "Name": "Memory",
+        "Description": "2GB Single Channel DDR3L 1600MHz",
+        "ProductCode": "2GBINTG",
+        "Skus": [
+        "370-ACLT"
+        ]
+    },
+    {
+        "Name": "Hard Drive",
+        "Description": "32GB eMMC",
+        "ProductCode": "32EMMC",
+        "Skus": [
+        "400-ACOU"
+        ]
+    },
+    {
+        "Name": "Video Card",
+        "Description": "Intel® HD Graphics",
+        "ProductCode": "INTHD",
+        "Skus": [
+        "490-BCUW"
+        ]
+    },
+    {
+        "Name": "Display",
+        "Description": "11.6-inch HD (1366 x 768) Anti-Glare LED-Backlit Display",
+        "ProductCode": "HDLCD",
+        "Skus": [
+        "391-BCNZ"
+        ]
+    },
+    {
+        "Name": "Color Choice",
+        "Description": "Alpine White",
+        "ProductCode": "CVRWHT",
+        "Skus": [
+        "320-BBVK"
+        ]
+    },
+    {
+        "Name": "Wireless",
+        "Description": "802.11ac + Bluetooth 4.0, Dual Band 2.4&5 GHz, 1x1",
+        "ProductCode": "IW3160",
+        "Skus": [
+        "555-BBTG"
+        ]
+    },
+    {
+        "Name": "Primary Battery",
+        "Description": "32 WHr, 2-Cell Battery (Integrated)",
+        "ProductCode": "2CBATT",
+        "Skus": [
+        "451-BBTY"
+        ]
+    },
+    {
+        "Name": "Keyboard",
+        "Description": "Keyboard ENG US",
+        "ProductCode": "WHKBENG",
+        "Skus": [
+        "346-BBVY",
+        "580-AEQZ"
+        ]
+    },
+    {
+        "Name": "Power Supply",
+        "Description": "45 Watt AC Adaptor",
+        "ProductCode": "45WTAC",
+        "Skus": [
+        "450-AFKG"
+        ]
+    },
+    {
+        "Name": "Cable",
+        "Description": "Power Cord, US/CAN",
+        "ProductCode": "PWRENG",
+        "Skus": [
+        "450-ABLO"
+        ]
+    },
+    {
+        "Name": "Business Support",
+        "Description": "Return Label, Dell, RETURNPOL",
+        "ProductCode": "RTRNLB8",
+        "Skus": [
+        "811-BBBC"
+        ]
+    },
+    {
+        "Name": "Documentation/Disks",
+        "Description": "WIN 10, English-French",
+        "ProductCode": "WINEFD",
+        "Skus": [
+        "340-AGIK"
+        ]
+    },
+    {
+        "Name": "Packaging Label",
+        "Description": "Dell.com Order",
+        "ProductCode": "NORTL",
+        "Skus": [
+        "332-1530"
+        ]
+    },
+    {
+        "Name": "Non-Microsoft Application Software",
+        "Description": "Additional Software",
+        "ProductCode": "INVW10",
+        "Skus": [
+        "658-BDBZ"
+        ]
+    },
+    {
+        "Name": "Processor Branding",
+        "Description": "Intel® Celeron® Label",
+        "ProductCode": "CELABL",
+        "Skus": [
+        "340-AQVB"
+        ]
+    },
+    {
+        "Name": "Packaging",
+        "Description": "Shipping Material",
+        "ProductCode": "SHPMTL",
+        "Skus": [
+        "328-BCHL"
+        ]
+    },
+    {
+        "Name": "E-Star",
+        "Description": "Energy Star Compliant",
+        "ProductCode": "ESTAR6",
+        "Skus": [
+        "340-AAPZ"
+        ]
+    },
+    {
+        "Name": "Order Information",
+        "Description": "Shipping Information",
+        "ProductCode": "USNONE",
+        "Skus": [
+        "332-1286"
+        ]
+    },
+    {
+        "Name": "Systems Management",
+        "Description": "Windows System Drive,3162",
+        "ProductCode": "WINSW",
+        "Skus": [
+        "340-AVED"
+        ]
+    },
+    {
+        "Name": "Placemat",
+        "Description": "WIN 10 Placemat",
+        "ProductCode": "PLMT10",
+        "Skus": [
+        "340-AUXE"
+        ]
+    },
+    {
+        "Name": "Driver",
+        "Description": "802.11ac + Bluetooth 4.0, Dual Band 2.4&5 GHz, 1x1 Wireless Driver",
+        "ProductCode": "SWD3160",
+        "Skus": [
+        "340-AUPJ"
+        ]
+    },
+    {
+        "Name": "Operating System Recovery Options",
+        "Description": "Operating System Recovery Media Not Included",
+        "ProductCode": "NODBRM",
+        "Skus": [
+        "340-ACQQ"
+        ]
+    },
+    {
+        "Name": "FGA Module",
+        "Description": "ROCKET1701_101/US1/BTS",
+        "ProductCode": "FG0005",
+        "Skus": [
+        "998-BVCK"
+        ]
+    },
+    {
+        "Name": "Label",
+        "Description": "Regulatory Label",
+        "ProductCode": "REGLBL",
+        "Skus": [
+        "389-BIUD"
+        ]
+    },
+    {
+        "Name": "Office 2016 - Word, Excel, Powerpoint & more",
+        "Description": "Microsoft Office 30 Day Trial",
+        "ProductCode": "OTRT13M",
+        "Skus": [
+        "658-BCSB"
+        ]
+    },
+    {
+        "Name": "Security Software  <span class=\"dellRecommended\">Inspiron PCs on Dell.com come with 1yr McAfee LiveSafe, $89 value.</span>",
+        "Description": "McAfee LiveSafe 12 Month Subscription",
+        "ProductCode": "LSIA12M",
+        "Skus": [
+        "525-0033",
+        "658-BCCO"
+        ]
+    },
+    {
+        "Name": "Support",
+        "Description": "1 Year Ltd Hware Warranty: Mail-in; Customer supplies box, Dell pays shipping",
+        "ProductCode": "MI1",
+        "Skus": [
+        "806-6351",
+        "806-6352"
+        ]
+    },
+    {
+        "Name": "Hard Drive Software",
+        "Description": "Windows 10 OS Info -32G",
+        "ProductCode": "W10COP",
+        "Skus": [
+        "340-ARLX"
+        ]
+    }
+    ],
+    "ShowComponents": true,
+    "Alerts": [],
+    "EvergreenMessages": [],
+    "HasBundledItems": false,
+    "BundledItems": [],
+    "IsBundledItem": false,
+    "IsFastTrack": true,
+    "Metadata": {
+        "itemType": "ConfigItem",
+        "brand": 7,
+        "family": 11989
+    },
+    "HasDeliveryMessageOverride": false,
+    "StopSelling": false,
+    "IsStockItem": true,
+    "SubTotalAmountValue": 199.99,
+    "ConfigurationIdentifier": "1~fncwh101sw~19~en~us~1__572;FG0005;1"
+},
+{
+    "Id": "a30b3fb6-4e0f-44d0-bd33-423c5decdd9d",
+    "IdWithoutSpecialCharacters": "a30b3fb64e0f44d0bd33423c5decdd9d",
+    "ProductId": "fncwv2310s",
+    "Description": "Inspiron 15 5000 Non-Touch",
+    "ShowProductStackDescription": false,
+    "IsValid": true,
+    "LeadTimeInfo": {
+        "EstimatedShipDate": "6/6/2016",
+        "ShowEstimatedShipDate": true,
+        "ShowEstimatedDeliveryDate": false,
+        "HasValidEstimatedDeliveryDate": false,
+        "CanCalculateEstimatedDeliveryDate": true
+    },
+    "IsSavedCartItem": false,
+    "SubTotalAmount": "$599.99",
+    "DiscountsAndCouponsAmount": "-$50.00",
+    "DiscountsAndCouponsAmountValue": 50,
+    "DiscountsAndCoupons": [
+    {
+        "CampaignId": 553005,
+        "Amount": "-$50.00",
+        "ShortDescription": "Inspiron 15 5000 Series price includes $50 instant discount.",
+        "LongDescription": "Inspiron 15 5000 Series price includes $50 instant discount.",
+        "LegalDescription": "Specifications, availability and terms of offer may change without notice. Taxes and shipping charges are extra, and vary. Offer for U.S. Dell Home Systems Co. new system online purchases only.  Dell cannot be responsible for pricing or other errors, and reserves the right to cancel orders arising from such errors.",
+        "ExpiryDate": "1/1/2019",
+        "HasExpiryDate": true,
+        "HasExpiryTextOverride": false,
+        "AllowRemove": false,
+        "ShowAmount": true
+    },
+    {
+        "CampaignId": 582257,
+        "Amount": "$0.00",
+        "ShortDescription": "All Inspiron & XPS PCs on Dell.com now come protected with 1yr of McAfee LiveSafe, $89 value.",
+        "LongDescription": "All Inspiron & XPS PCs on Dell.com now come protected with 1yr of McAfee LiveSafe, $89 value.  Upgrade to 36 months for only $49.",
+        "LegalDescription": "",
+        "ExpiryDate": "5/5/2017",
+        "HasExpiryDate": true,
+        "HasExpiryTextOverride": false,
+        "AllowRemove": false,
+        "ShowAmount": false
+    }
+    ],
+    "ShowDiscountsAndCoupons": true,
+    "DiscountsPopupTitle": "Additional Discounts & Coupons",
+    "TotalAmount": "$549.99",
+    "TotalAmountWithSubItems": "$549.99",
+    "TotalAmountWithSubItemsValue": 549.99,
+    "Quantity": 1,
+    "QuantityWithSubItems": 1,
+    "AllowChangeQuantity": true,
+    "IsAssociatedItem": false,
+    "ImageUrl": "https://si.cdn.dell.com/images/global/configurator/chassis/insp-15-5551-nt-blk-ft-120x107.jpg",
+    "UnitPriceAmount": "$599.99",
+    "ShowManufacturerPartNumber": false,
+    "ShowDellPartNumber": false,
+    "ShowCatalogNumber": true,
+    "CatalogNumber": "29 fncwv2310s",
+    "Components": [
+    {
+        "Name": "Base",
+        "Description": "Inspiron 15 5000 Series",
+        "ProductCode": "TL5559",
+        "Skus": [
+        "210-AEYM"
+        ]
+    },
+    {
+        "Name": "Processor",
+        "Description": "6th Generation Intel® Core™ i5-6200U Processor (3M Cache, up to 2.80 GHz)",
+        "ProductCode": "533NW3",
+        "Skus": [
+        "338-BHOV"
+        ]
+    },
+    {
+        "Name": "Operating System",
+        "Description": "Windows 10 Home, 64-bit, English",
+        "ProductCode": "10H64E",
+        "Skus": [
+        "619-AHCQ"
+        ]
+    },
+    {
+        "Name": "Memory",
+        "Description": "8GB, 1600MHz, DDR3L; up to 16GB (additional memory sold separately)",
+        "ProductCode": "8G2D3L",
+        "Skus": [
+        "370-AANL"
+        ]
+    },
+    {
+        "Name": "Hard Drive",
+        "Description": "1TB 5400 rpm Hard Drive",
+        "ProductCode": "1TB54",
+        "Skus": [
+        "400-AAZU"
+        ]
+    },
+    {
+        "Name": "Video Card",
+        "Description": "Intel® HD Graphics 520",
+        "ProductCode": "INTHD",
+        "Skus": [
+        "490-BCUW"
+        ]
+    },
+    {
+        "Name": "Display",
+        "Description": "15.6-inch HD (1366 x 768) Truelife LED-Backlit Display",
+        "ProductCode": "HDLCD",
+        "Skus": [
+        "391-BBZM"
+        ]
+    },
+    {
+        "Name": "CD ROM/DVD ROM",
+        "Description": "Tray load DVD Drive (Reads and Writes to DVD/CD)",
+        "ProductCode": "8DVDRW",
+        "Skus": [
+        "429-AAJV"
+        ]
+    },
+    {
+        "Name": "Color Choice",
+        "Description": "Theoretical Gray, Matte Metallic IMR",
+        "ProductCode": "CVRSLNT",
+        "Skus": [
+        "320-BBOT"
+        ]
+    },
+    {
+        "Name": "Wireless",
+        "Description": "802.11ac + Bluetooth 4.0, Dual Band 2.4&5 GHz, 1x1",
+        "ProductCode": "3160",
+        "Skus": [
+        "555-BCIY"
+        ]
+    },
+    {
+        "Name": "Primary Battery",
+        "Description": "40 WHr, 4-Cell Battery (removable)",
+        "ProductCode": "4CBATT",
+        "Skus": [
+        "451-BBMG"
+        ]
+    },
+    {
+        "Name": "Keyboard",
+        "Description": "Backlit Keyboard, English",
+        "ProductCode": "ENGKBBL",
+        "Skus": [
+        "580-ABYO"
+        ]
+    },
+    {
+        "Name": "Power Supply",
+        "Description": "45 Watt AC Adaptor",
+        "ProductCode": "45WTAC",
+        "Skus": [
+        "450-AEHK"
+        ]
+    },
+    {
+        "Name": "Cable",
+        "Description": "Power Cord, US/CAN",
+        "ProductCode": "PWRENG",
+        "Skus": [
+        "450-ABLO"
+        ]
+    },
+    {
+        "Name": "Optical Software",
+        "Description": "Cyberlink Media Suite Essentials without Media",
+        "ProductCode": "W8DVDSW",
+        "Skus": [
+        "658-BBTV"
+        ]
+    },
+    {
+        "Name": "Business Support",
+        "Description": "Retail Return Label",
+        "ProductCode": "RTRNLB8",
+        "Skus": [
+        "811-BBBC"
+        ]
+    },
+    {
+        "Name": "Documentation/Disks",
+        "Description": "Documentation, English-French",
+        "ProductCode": "W81EFD",
+        "Skus": [
+        "340-AGIK"
+        ]
+    },
+    {
+        "Name": "Support Tech Sheet and Powercord",
+        "Description": "Dell.com Order",
+        "ProductCode": "NORTL",
+        "Skus": [
+        "332-1530"
+        ]
+    },
+    {
+        "Name": "Labels",
+        "Description": "Palmrest Label,USENG, Win8/10",
+        "ProductCode": "PLUSW10",
+        "Skus": [
+        "389-BHED"
+        ]
+    },
+    {
+        "Name": "Non-Microsoft Application Software",
+        "Description": "Additional Software",
+        "ProductCode": "INSW10",
+        "Skus": [
+        "658-BCUN"
+        ]
+    },
+    {
+        "Name": "Processor Branding",
+        "Description": "Intel® Core™ i5 Label",
+        "ProductCode": "CI5SML",
+        "Skus": [
+        "389-BHIB"
+        ]
+    },
+    {
+        "Name": "Packaging",
+        "Description": "Shipping Material",
+        "ProductCode": "SHPMTL",
+        "Skus": [
+        "328-BCCD",
+        "340-AAPP"
+        ]
+    },
+    {
+        "Name": "Energy Efficiency Options",
+        "Description": "ESTAR 5.0/6.0",
+        "ProductCode": "ESTAR5",
+        "Skus": [
+        "340-AAPZ"
+        ]
+    },
+    {
+        "Name": "Shipping SKU's",
+        "Description": "Shipping Information",
+        "ProductCode": "USNONE",
+        "Skus": [
+        "332-1286"
+        ]
+    },
+    {
+        "Name": "Systems Management",
+        "Description": "Windows System Driver,5559",
+        "ProductCode": "WINSSW",
+        "Skus": [
+        "631-AAQV"
+        ]
+    },
+    {
+        "Name": "Placemat",
+        "Description": "Placemat Documentation, Win 10",
+        "ProductCode": "PLMTW10",
+        "Skus": [
+        "340-ARSY"
+        ]
+    },
+    {
+        "Name": "Driver",
+        "Description": "802.11ac + Bluetooth 4.0, Dual Band 2.4&5 GHz, 1x1 Wireless Driver",
+        "ProductCode": "SW3160",
+        "Skus": [
+        "612-BBBZ"
+        ]
+    },
+    {
+        "Name": "Operating System Recovery Options",
+        "Description": "Operating System Recovery Media Not Included",
+        "ProductCode": "NODBRM",
+        "Skus": [
+        "340-ACQQ"
+        ]
+    },
+    {
+        "Name": "FGA Module",
+        "Description": "TULIP15SKL1701_2310/US/BTS",
+        "ProductCode": "FG0047",
+        "Skus": [
+        "998-BUPC"
+        ]
+    },
+    {
+        "Name": "Label",
+        "Description": "Regulatory Label, UMA",
+        "ProductCode": "LBLUMA",
+        "Skus": [
+        "389-BHDM"
+        ]
+    },
+    {
+        "Name": "Security Software  <span class=\"dellRecommended\">Inspiron PCs on Dell.com come with 1yr McAfee LiveSafe, $89 value.</span>",
+        "Description": "McAfee LiveSafe 12 Month Subscription",
+        "ProductCode": "LSIA12M",
+        "Skus": [
+        "525-0033",
+        "658-BCCO"
+        ]
+    },
+    {
+        "Name": "Office 2016 - Word, Excel, Powerpoint & more",
+        "Description": "Microsoft Office 30 Day Trial",
+        "ProductCode": "OTRT13M",
+        "Skus": [
+        "658-BCSB"
+        ]
+    },
+    {
+        "Name": "Support",
+        "Description": "1 Year Ltd Hware Warranty: Mail-in; Customer supplies box, Dell pays shipping",
+        "ProductCode": "MI1",
+        "Skus": [
+        "801-2700",
+        "801-2733"
+        ]
+    }
+    ],
+    "ShowComponents": true,
+    "Alerts": [],
+    "EvergreenMessages": [],
+    "HasBundledItems": false,
+    "BundledItems": [],
+    "IsBundledItem": false,
+    "IsFastTrack": true,
+    "Metadata": {
+        "itemType": "ConfigItem",
+        "brand": 7,
+        "family": 11718
+    },
+    "HasDeliveryMessageOverride": false,
+    "StopSelling": false,
+    "IsStockItem": true,
+    "SubTotalAmountValue": 599.99,
+    "ConfigurationIdentifier": "1~fncwv2310s~19~en~us~1__572;FG0047;1"
+},
+{
+    "Id": "d8c8f3b9-a252-41b5-9ba5-e1189b17c69e",
+    "IdWithoutSpecialCharacters": "d8c8f3b9a25241b59ba5e1189b17c69e",
+    "ProductId": "dncwsbb0014b",
+    "Description": "New Inspiron 15 7000 2-in-1",
+    "ShowProductStackDescription": false,
+    "IsValid": true,
+    "LeadTimeInfo": {
+        "EstimatedShipDate": "6/16/2016",
+        "ShowEstimatedShipDate": true,
+        "ShowEstimatedDeliveryDate": false,
+        "HasValidEstimatedDeliveryDate": false,
+        "CanCalculateEstimatedDeliveryDate": true
+    },
+    "IsSavedCartItem": false,
+    "SubTotalAmount": "$999.99",
+    "DiscountsAndCouponsAmount": "$0.00",
+    "DiscountsAndCouponsAmountValue": 0,
+    "DiscountsAndCoupons": [
+    {
+        "CampaignId": 571234,
+        "Amount": "$0.00",
+        "ShortDescription": "12 mo special financing when you spend $999+",
+        "LongDescription": "12 months special financing on new PCs $999 or more with Dell Preferred Account!",
+        "LegalDescription": "<!-- \r\n- 12 months special financing is a No Interest if Paid in Full by Your Due Date in July, 2017 promotion on new PCs $999 or more and applies only to the amount purchased with Dell Preferred Account.\r\n- Your Standard Rate is ${APR}.  This APR will vary with the market based on the Prime Rate.\r\n- Interest will be charged to your account at the Standard Rate from the transaction posting date if the purchase balance is not paid in full by the end of the promotional period.  In addition, your Standard Rate will apply to the remaining balance.\r\n- To avoid accrued interest charges, minimum monthly payments are required and the balance must be paid by the end of your promotional period.\r\n- Minimum monthly payments are required, but may not pay your purchase in full by the end of the promotional period due to purchase amount, promotion length, additional purchases or allocation of payments in excess of the minimum payment. \r\n- Minimum purchase amount may be required.\r\n--> \r\nThe \"12 months special financing\" promotional financing includes new PCs $999 or more purchased with your Dell Preferred Account.  You must have adequate available credit to purchase.  Pay your plan balance in full by your payment due date in July, 2017 or accrued interest will be assessed. Minimum monthly payments are required, but may not pay your purchase in full by the end of the promotional period due to purchase amount, promotion length, additional purchases or allocation of payments in excess of the minimum payment. Interest accrues at the Standard Rate (this APR will vary with the market based on the Prime Rate) from the transaction posting date and will be charged to the account if you do not pay your plan balance in full by your payment due date in July, 2017, or if you fail to make a required minimum payment at any time during the promotional period.  Promotional financing features apply only to the amount purchased with the Dell Preferred Account.   \r\n\r\n<p>Subject to credit approval.  WebBank determines creditworthiness, APR, credit limit, and qualification for promotional offers.  Qualifying for the Dell Preferred Account does not guarantee offer of promotional financing features.  You must purchase this item with your Dell Preferred Account and must have adequate available credit to take advantage of this promotion. Minimum purchase amount may be required</p>",
+        "ExpiryDate": "6/30/2016",
+        "HasExpiryDate": true,
+        "HasExpiryTextOverride": false,
+        "AllowRemove": false,
+        "ShowAmount": false
+    }
+    ],
+    "ShowDiscountsAndCoupons": true,
+    "DiscountsPopupTitle": "Additional Discounts & Coupons",
+    "TotalAmount": "$999.99",
+    "TotalAmountWithSubItems": "$999.99",
+    "TotalAmountWithSubItemsValue": 999.99,
+    "Quantity": 1,
+    "QuantityWithSubItems": 1,
+    "AllowChangeQuantity": true,
+    "IsAssociatedItem": false,
+    "ImageUrl": "https://si.cdn.dell.com/images/global/configurator/chassis/insp-15-7569-gry-ft-win-120x107.jpg",
+    "UnitPriceAmount": "$999.99",
+    "ShowManufacturerPartNumber": false,
+    "ShowDellPartNumber": false,
+    "ShowCatalogNumber": true,
+    "CatalogNumber": "29 dncwsbb0014b",
+    "Components": [
+    {
+        "Name": "Inspiron 15 7000 Series",
+        "Description": "Inspiron 15 7000 Series",
+        "ProductCode": "SL7569",
+        "Skus": [
+        "210-AHPJ"
+        ]
+    },
+    {
+        "Name": "Processor",
+        "Description": "6th Generation Intel® Core™ i7-6500U Processor (4M Cache, up to 3.10 GHz)",
+        "ProductCode": "7727VW",
+        "Skus": [
+        "338-BJJD"
+        ]
+    },
+    {
+        "Name": "Operating System",
+        "Description": "Windows 10 Home 64-bit English",
+        "ProductCode": "10HHEE",
+        "Skus": [
+        "619-AHCY"
+        ]
+    },
+    {
+        "Name": "Memory",
+        "Description": "12GB DDR4 at 2133MHz (4GBx1+8GBx1)",
+        "ProductCode": "12G2D",
+        "Skus": [
+        "370-ACFB"
+        ]
+    },
+    {
+        "Name": "Hard Drive",
+        "Description": "512GB Solid State Drive",
+        "ProductCode": "512SSD",
+        "Skus": [
+        "400-AMQD"
+        ]
+    },
+    {
+        "Name": "Video Card",
+        "Description": "Intel® HD Graphics 520",
+        "ProductCode": "INTHD",
+        "Skus": [
+        "490-BBRM"
+        ]
+    },
+    {
+        "Name": "LCD",
+        "Description": "15.6-inch FHD (1920 x 1080) Truelife LED-Backlit Touch Display with Wide Viewing Angles",
+        "ProductCode": "TFHDIRC",
+        "Skus": [
+        "391-BCRW"
+        ]
+    },
+    {
+        "Name": "Color Choice",
+        "Description": "Silver",
+        "ProductCode": "FHDGRAY",
+        "Skus": [
+        "320-BBXH"
+        ]
+    },
+    {
+        "Name": "Wireless",
+        "Description": "Intel® Dual Band Wireless-AC 3165 + Bluetooth 4.0",
+        "ProductCode": "3165",
+        "Skus": [
+        "555-BCJN"
+        ]
+    },
+    {
+        "Name": "Primary Battery",
+        "Description": "42 WHr, 3-Cell Battery (integrated)",
+        "ProductCode": "42BATT",
+        "Skus": [
+        "451-BBVN"
+        ]
+    },
+    {
+        "Name": "Keyboard",
+        "Description": "Backlit Keyboard",
+        "ProductCode": "ENGKBD",
+        "Skus": [
+        "346-BBXO",
+        "580-AFCD"
+        ]
+    },
+    {
+        "Name": "Power Supply",
+        "Description": "45 Watt AC Adaptor",
+        "ProductCode": "45WTAC",
+        "Skus": [
+        "450-AEHK"
+        ]
+    },
+    {
+        "Name": "Cable",
+        "Description": "Power Cord,125V,1M,US",
+        "ProductCode": "PWRENG",
+        "Skus": [
+        "450-ABLO"
+        ]
+    },
+    {
+        "Name": "Business Support",
+        "Description": "Return Label",
+        "ProductCode": "RTRNLB",
+        "Skus": [
+        "811-BBBC"
+        ]
+    },
+    {
+        "Name": "Documentation/Disks",
+        "Description": "Documentation, English-French",
+        "ProductCode": "W10EFD",
+        "Skus": [
+        "340-AGIK"
+        ]
+    },
+    {
+        "Name": "Packaging Label",
+        "Description": "Dell.com Order",
+        "ProductCode": "NORTL",
+        "Skus": [
+        "332-1530"
+        ]
+    },
+    {
+        "Name": "Labels",
+        "Description": "Palmrest Label",
+        "ProductCode": "PLMENW",
+        "Skus": [
+        "389-BJTR"
+        ]
+    },
+    {
+        "Name": "Non-Microsoft Application Software",
+        "Description": "Additional Software",
+        "ProductCode": "INSW10",
+        "Skus": [
+        "658-BCUN",
+        "658-BDFL"
+        ]
+    },
+    {
+        "Name": "Processor Branding",
+        "Description": "Intel® Label CI7",
+        "ProductCode": "CI7",
+        "Skus": [
+        "389-BHLE"
+        ]
+    },
+    {
+        "Name": "Packaging",
+        "Description": "Shipping Material, Direct",
+        "ProductCode": "SHPMDIR",
+        "Skus": [
+        "328-BCHX"
+        ]
+    },
+    {
+        "Name": "E-Star",
+        "Description": "Energy Star Compliant",
+        "ProductCode": "ESTAR6",
+        "Skus": [
+        "340-AAPZ"
+        ]
+    },
+    {
+        "Name": "Order Information",
+        "Description": "Shipping Information",
+        "ProductCode": "USNONE",
+        "Skus": [
+        "332-1286"
+        ]
+    },
+    {
+        "Name": "Systems Management",
+        "Description": "Windows System Driver, 7569",
+        "ProductCode": "WINSW",
+        "Skus": [
+        "631-AAYD"
+        ]
+    },
+    {
+        "Name": "Placemat",
+        "Description": "Placemat Documentation",
+        "ProductCode": "PLCMT10",
+        "Skus": [
+        "340-BBVN"
+        ]
+    },
+    {
+        "Name": "Driver",
+        "Description": "802.11ac + Bluetooth 4.0, Dual Band 2.4&5 GHz, 1x1 Wireless Driver",
+        "ProductCode": "SW3165",
+        "Skus": [
+        "340-BBVK"
+        ]
+    },
+    {
+        "Name": "Operating System Recovery Options",
+        "Description": "Operating System Recovery Media Not Included",
+        "ProductCode": "NODBRM",
+        "Skus": [
+        "340-ACQQ"
+        ]
+    },
+    {
+        "Name": "FGA Module",
+        "Description": "Inspiron75691703_014_P/BTO",
+        "ProductCode": "FG0007",
+        "Skus": [
+        "998-BYIL"
+        ]
+    },
+    {
+        "Name": "Label",
+        "Description": "System Regulatory Label",
+        "ProductCode": "REGLBL",
+        "Skus": [
+        "389-BJTE"
+        ]
+    },
+    {
+        "Name": "Microsoft Office Productivity Software – Word, Excel, Powerpoint & more",
+        "Description": "Microsoft Office 30 Day Trial",
+        "ProductCode": "OTRT13M",
+        "Skus": [
+        "658-BCSB"
+        ]
+    },
+    {
+        "Name": "Security Software",
+        "Description": "McAfee LiveSafe 12 Month Subscription",
+        "ProductCode": "LSIA12M",
+        "Skus": [
+        "525-0033",
+        "658-BCCO"
+        ]
+    },
+    {
+        "Name": "Support",
+        "Description": "1 Year Ltd Hware Warranty: Mail-in; Customer supplies box, Dell pays shipping",
+        "ProductCode": "MI1",
+        "Skus": [
+        "801-2700",
+        "801-2733"
+        ]
+    }
+    ],
+    "ShowComponents": true,
+    "Alerts": [],
+    "EvergreenMessages": [],
+    "HasBundledItems": false,
+    "BundledItems": [],
+    "IsBundledItem": false,
+    "IsFastTrack": false,
+    "Metadata": {
+        "itemType": "ConfigItem",
+        "brand": 7,
+        "family": 12119
+    },
+    "DeliveryMessageOverride": "Ships in 6-8 business days",
+    "HasDeliveryMessageOverride": true,
+    "StopSelling": false,
+    "IsStockItem": false,
+    "SubTotalAmountValue": 999.99,
+    "ConfigurationIdentifier": "1~dncwsbb0014b~19~en~us~1__572;FG0007;1"
+},
+{
+    "Id": "4c32235a-fabb-408b-af72-30b832d50157",
+    "IdWithoutSpecialCharacters": "4c32235afabb408baf7230b832d50157",
+    "ProductId": "dncwi1407h",
+    "Description": "XPS 12 2-in-1",
+    "ShowProductStackDescription": false,
+    "IsValid": true,
+    "LeadTimeInfo": {
+        "EstimatedShipDate": "7/22/2016",
+        "ShowEstimatedShipDate": true,
+        "ShowEstimatedDeliveryDate": false,
+        "HasValidEstimatedDeliveryDate": false,
+        "CanCalculateEstimatedDeliveryDate": true
+    },
+    "IsSavedCartItem": false,
+    "SubTotalAmount": "$999.99",
+    "DiscountsAndCouponsAmount": "$0.00",
+    "DiscountsAndCouponsAmountValue": 0,
+    "DiscountsAndCoupons": [
+    {
+        "CampaignId": 571234,
+        "Amount": "$0.00",
+        "ShortDescription": "12 mo special financing when you spend $999+",
+        "LongDescription": "12 months special financing on new PCs $999 or more with Dell Preferred Account!",
+        "LegalDescription": "<!-- \r\n- 12 months special financing is a No Interest if Paid in Full by Your Due Date in July, 2017 promotion on new PCs $999 or more and applies only to the amount purchased with Dell Preferred Account.\r\n- Your Standard Rate is ${APR}.  This APR will vary with the market based on the Prime Rate.\r\n- Interest will be charged to your account at the Standard Rate from the transaction posting date if the purchase balance is not paid in full by the end of the promotional period.  In addition, your Standard Rate will apply to the remaining balance.\r\n- To avoid accrued interest charges, minimum monthly payments are required and the balance must be paid by the end of your promotional period.\r\n- Minimum monthly payments are required, but may not pay your purchase in full by the end of the promotional period due to purchase amount, promotion length, additional purchases or allocation of payments in excess of the minimum payment. \r\n- Minimum purchase amount may be required.\r\n--> \r\nThe \"12 months special financing\" promotional financing includes new PCs $999 or more purchased with your Dell Preferred Account.  You must have adequate available credit to purchase.  Pay your plan balance in full by your payment due date in July, 2017 or accrued interest will be assessed. Minimum monthly payments are required, but may not pay your purchase in full by the end of the promotional period due to purchase amount, promotion length, additional purchases or allocation of payments in excess of the minimum payment. Interest accrues at the Standard Rate (this APR will vary with the market based on the Prime Rate) from the transaction posting date and will be charged to the account if you do not pay your plan balance in full by your payment due date in July, 2017, or if you fail to make a required minimum payment at any time during the promotional period.  Promotional financing features apply only to the amount purchased with the Dell Preferred Account.   \r\n\r\n<p>Subject to credit approval.  WebBank determines creditworthiness, APR, credit limit, and qualification for promotional offers.  Qualifying for the Dell Preferred Account does not guarantee offer of promotional financing features.  You must purchase this item with your Dell Preferred Account and must have adequate available credit to take advantage of this promotion. Minimum purchase amount may be required</p>",
+        "ExpiryDate": "6/30/2016",
+        "HasExpiryDate": true,
+        "HasExpiryTextOverride": false,
+        "AllowRemove": false,
+        "ShowAmount": false
+    }
+    ],
+    "ShowDiscountsAndCoupons": true,
+    "DiscountsPopupTitle": "Additional Discounts & Coupons",
+    "TotalAmount": "$999.99",
+    "TotalAmountWithSubItems": "$999.99",
+    "TotalAmountWithSubItemsValue": 999.99,
+    "Quantity": 1,
+    "QuantityWithSubItems": 1,
+    "AllowChangeQuantity": true,
+    "IsAssociatedItem": false,
+    "ImageUrl": "https://si.cdn.dell.com/images/global/configurator/chassis/xps-12-9250-2-n-1-bk-ft-120x107.jpg",
+    "UnitPriceAmount": "$999.99",
+    "ShowManufacturerPartNumber": false,
+    "ShowDellPartNumber": false,
+    "ShowCatalogNumber": true,
+    "CatalogNumber": "29 dncwi1407h",
+    "Components": [
+    {
+        "Name": "XPS 12",
+        "Description": "XPS 12",
+        "ProductCode": "XPS12",
+        "Skus": [
+        "210-AFDI"
+        ]
+    },
+    {
+        "Name": "Processor",
+        "Description": "6th Generation Intel Core™ m5 6Y57 (4M Cache, up to 2.8 GHz)",
+        "ProductCode": "5X30RP",
+        "Skus": [
+        "338-BICX"
+        ]
+    },
+    {
+        "Name": "Operating System",
+        "Description": "Windows 10 Home, 64-bit, English",
+        "ProductCode": "10HHEE",
+        "Skus": [
+        "619-AHCY"
+        ]
+    },
+    {
+        "Name": "Memory",
+        "Description": "8GB LPDDR3-1600MHz",
+        "ProductCode": "8GB",
+        "Skus": [
+        "370-ACFS"
+        ]
+    },
+    {
+        "Name": "Hard Drive",
+        "Description": "128GB Solid State Drive",
+        "ProductCode": "128SSD",
+        "Skus": [
+        "400-AKXP"
+        ]
+    },
+    {
+        "Name": "Video Card",
+        "Description": "Intel® HD Graphics 515",
+        "ProductCode": "UMA",
+        "Skus": [
+        "490-BCTD"
+        ]
+    },
+    {
+        "Name": "LCD",
+        "Description": "12.5\" FHD (1920x1080) touch",
+        "ProductCode": "FHD",
+        "Skus": [
+        "391-BCGS"
+        ]
+    },
+    {
+        "Name": "Wireless",
+        "Description": "Intel 8260 2x2 802.11ac 2.4/5GHz + Bluetooth 4.1",
+        "ProductCode": "8260AC",
+        "Skus": [
+        "555-BCNX"
+        ]
+    },
+    {
+        "Name": "Primary Battery",
+        "Description": "30WHr Integrated Battery",
+        "ProductCode": "30W",
+        "Skus": [
+        "451-BBQG"
+        ]
+    },
+    {
+        "Name": "Keyboard",
+        "Description": "XPS 12 Premier Keyboard with Dell Premier Magnetic Folio (82 Keys)",
+        "ProductCode": "MKBDEN",
+        "Skus": [
+        "580-AEQY",
+        "583-BCUH"
+        ]
+    },
+    {
+        "Name": "Driver",
+        "Description": "8260 Wireless SW",
+        "ProductCode": "WLAN82",
+        "Skus": [
+        "389-BIOI",
+        "658-BDCG"
+        ]
+    },
+    {
+        "Name": "Mobile Broadband",
+        "Description": "Mobile Broadband Not Included",
+        "ProductCode": "WLAN",
+        "Skus": [
+        "556-BBNM"
+        ]
+    },
+    {
+        "Name": "Cable",
+        "Description": "E5 Power Cord for 3-pin Adapter (US/China)",
+        "ProductCode": "PWREDAO",
+        "Skus": [
+        "340-AAMU"
+        ]
+    },
+    {
+        "Name": "Systems Management",
+        "Description": "Non-Vpro Systems Managment SW",
+        "ProductCode": "NVPRO",
+        "Skus": [
+        "631-AAWX",
+        "631-AAWY"
+        ]
+    },
+    {
+        "Name": "Placemat",
+        "Description": "XPS 12 Placemat",
+        "ProductCode": "PLCMT",
+        "Skus": [
+        "340-AUQD"
+        ]
+    },
+    {
+        "Name": "E-Star",
+        "Description": "E-Star Qualified",
+        "ProductCode": "ESTAR",
+        "Skus": [
+        "387-BBKZ"
+        ]
+    },
+    {
+        "Name": "Business Support",
+        "Description": "Dell.com Order",
+        "ProductCode": "NORTL",
+        "Skus": [
+        "332-0550"
+        ]
+    },
+    {
+        "Name": "Packaging Label",
+        "Description": "Dell.com Order",
+        "ProductCode": "NORTL",
+        "Skus": [
+        "332-1530"
+        ]
+    },
+    {
+        "Name": "Documentation/Disks",
+        "Description": "Safety/Environment and Regulatory Guide (English/French Multi-language)",
+        "ProductCode": "ENGMUI",
+        "Skus": [
+        "340-AGIK"
+        ]
+    },
+    {
+        "Name": "Packaging",
+        "Description": "XPS 12 Shipping Material",
+        "ProductCode": "SHIP",
+        "Skus": [
+        "340-AAPP",
+        "340-AUQC",
+        "460-BBVL"
+        ]
+    },
+    {
+        "Name": "Power Supply",
+        "Description": "30 Watt AC Adapter",
+        "ProductCode": "30W",
+        "Skus": [
+        "450-AEVT"
+        ]
+    },
+    {
+        "Name": "FGA Module",
+        "Description": "VEN1703_1407/US/CA/BTO",
+        "ProductCode": "FG0010",
+        "Skus": [
+        "998-BUQK"
+        ]
+    },
+    {
+        "Name": "Back Cover",
+        "Description": "WLAN System Back Cover",
+        "ProductCode": "WLAN",
+        "Skus": [
+        "320-BBSD"
+        ]
+    },
+    {
+        "Name": "Processor Branding",
+        "Description": "M5 Non-Vpro Label",
+        "ProductCode": "M5NVPRO",
+        "Skus": [
+        "389-BIOH"
+        ]
+    },
+    {
+        "Name": "Office 2016 - Word, Excel, Powerpoint & more",
+        "Description": "Microsoft Office 30 Day Trial",
+        "ProductCode": "OTRT13M",
+        "Skus": [
+        "658-BCSB"
+        ]
+    },
+    {
+        "Name": "Security Software  <span class=\"dellRecommended\">XPS PCs on Dell.com come protected with 1yr McAfee LiveSafe, $89 value.</span>",
+        "Description": "McAfee LiveSafe 12 Month Subscription",
+        "ProductCode": "LSXP12M",
+        "Skus": [
+        "525-0036",
+        "658-BCCO"
+        ]
+    },
+    {
+        "Name": "Non-Microsoft Application Software",
+        "Description": "Additional Software",
+        "ProductCode": "XPSW10",
+        "Skus": [
+        "658-BCUJ"
+        ]
+    },
+    {
+        "Name": "Support",
+        "Description": "1 Year Ltd Hware Warranty: Mail-in; Customer supplies box, Dell pays shipping",
+        "ProductCode": "MI1",
+        "Skus": [
+        "801-1390",
+        "801-1423"
+        ]
+    },
+    {
+        "Name": "Operating System Recovery Options",
+        "Description": "Operating System Recovery Media Not Included",
+        "ProductCode": "NODBRM",
+        "Skus": [
+        "340-ACQQ"
+        ]
+    }
+    ],
+    "ShowComponents": true,
+    "Alerts": [],
+    "EvergreenMessages": [],
+    "HasBundledItems": false,
+    "BundledItems": [],
+    "IsBundledItem": false,
+    "IsFastTrack": false,
+    "Metadata": {
+        "itemType": "ConfigItem",
+        "brand": 26,
+        "family": 11723
+    },
+    "DeliveryMessageOverride": "Ships in 36-40 business days",
+    "HasDeliveryMessageOverride": true,
+    "StopSelling": false,
+    "IsStockItem": false,
+    "SubTotalAmountValue": 999.99,
+    "ConfigurationIdentifier": "1~dncwi1407h~19~en~us~1__572;FG0010;1"
+},
+{
+    "Id": "64229002-1f5b-4c98-b338-d2fb9b98d5ed",
+    "IdWithoutSpecialCharacters": "642290021f5b4c98b338d2fb9b98d5ed",
+    "ProductId": "dncwt5154b",
+    "Description": "XPS 13 Non-Touch",
+    "ShowProductStackDescription": false,
+    "IsValid": true,
+    "LeadTimeInfo": {
+        "EstimatedShipDate": "6/13/2016",
+        "ShowEstimatedShipDate": true,
+        "ShowEstimatedDeliveryDate": false,
+        "HasValidEstimatedDeliveryDate": false,
+        "CanCalculateEstimatedDeliveryDate": true
+    },
+    "IsSavedCartItem": false,
+    "SubTotalAmount": "$799.99",
+    "DiscountsAndCouponsAmount": "$0.00",
+    "DiscountsAndCouponsAmountValue": 0,
+    "DiscountsAndCoupons": [
+    {
+        "CampaignId": 571233,
+        "Amount": "$0.00",
+        "ShortDescription": "6 mo special financing when you spend $599+",
+        "LongDescription": "6 months special financing on new PCs $599 or more with Dell Preferred Account!",
+        "LegalDescription": "<!-- \r\n- 6 months special financing is a No Interest if Paid in Full by Your Due Date in January, 2017 promotion on new PCs $599 or more and applies only to the amount purchased with Dell Preferred Account.\r\n- Your Standard Rate is ${APR}.  This APR will vary with the market based on the Prime Rate.\r\n- Interest will be charged to your account at the Standard Rate from the transaction posting date if the purchase balance is not paid in full by the end of the promotional period.  In addition, your Standard Rate will apply to the remaining balance.\r\n- To avoid accrued interest charges, minimum monthly payments are required and the balance must be paid by the end of your promotional period.\r\n- Minimum monthly payments are required, but may not pay your purchase in full by the end of the promotional period due to purchase amount, promotion length, additional purchases or allocation of payments in excess of the minimum payment. \r\n- Minimum purchase amount may be required.\r\n--> \r\nThe \"6 months special financing\" promotional financing includes new PCs $599 or more purchased with your Dell Preferred Account.  You must have adequate available credit to purchase.  Pay your plan balance in full by your payment due date in January, 2017 or accrued interest will be assessed. Minimum monthly payments are required, but may not pay your purchase in full by the end of the promotional period due to purchase amount, promotion length, additional purchases or allocation of payments in excess of the minimum payment. Interest accrues at the Standard Rate (this APR will vary with the market based on the Prime Rate) from the transaction posting date and will be charged to the account if you do not pay your plan balance in full by your payment due date in January, 2017, or if you fail to make a required minimum payment at any time during the promotional period.  Promotional financing features apply only to the amount purchased with the Dell Preferred Account.   \r\n\t\r\n<p>Subject to credit approval.  WebBank determines creditworthiness, APR, credit limit, and qualification for promotional offers.  Qualifying for the Dell Preferred Account does not guarantee offer of promotional financing features.  You must purchase this item with your Dell Preferred Account and must have adequate available credit to take advantage of this promotion. Minimum purchase amount may be required</p>",
+        "ExpiryDate": "6/30/2016",
+        "HasExpiryDate": true,
+        "HasExpiryTextOverride": false,
+        "AllowRemove": false,
+        "ShowAmount": false
+    }
+    ],
+    "ShowDiscountsAndCoupons": true,
+    "DiscountsPopupTitle": "Additional Discounts & Coupons",
+    "TotalAmount": "$799.99",
+    "TotalAmountWithSubItems": "$799.99",
+    "TotalAmountWithSubItemsValue": 799.99,
+    "Quantity": 1,
+    "QuantityWithSubItems": 1,
+    "AllowChangeQuantity": true,
+    "IsAssociatedItem": false,
+    "ImageUrl": "https://si.cdn.dell.com/images/global/configurator/chassis/xps-13-9350-nt-sr-ft-120x107.jpg",
+    "UnitPriceAmount": "$799.99",
+    "ShowManufacturerPartNumber": false,
+    "ShowDellPartNumber": false,
+    "ShowCatalogNumber": true,
+    "CatalogNumber": "29 dncwt5154b",
+    "Components": [
+    {
+        "Name": "Base",
+        "Description": "XPS 13",
+        "ProductCode": "XPS13",
+        "Skus": [
+        "210-AFLW"
+        ]
+    },
+    {
+        "Name": "Processor",
+        "Description": "6th Generation Intel® Core™ i3-6100U (3M Cache, up to 2.3 GHz)",
+        "ProductCode": "39VHTW",
+        "Skus": [
+        "338-BIUG"
+        ]
+    },
+    {
+        "Name": "Operating System",
+        "Description": "Windows 10 Home, 64-bit, English",
+        "ProductCode": "10H64E",
+        "Skus": [
+        "619-AHCQ"
+        ]
+    },
+    {
+        "Name": "Memory",
+        "Description": "4GB LPDDR3-1866MHz",
+        "ProductCode": "4GB",
+        "Skus": [
+        "370-ACJL"
+        ]
+    },
+    {
+        "Name": "Hard Drive",
+        "Description": "128GB Solid State Drive",
+        "ProductCode": "SSDR28",
+        "Skus": [
+        "400-AIPD"
+        ]
+    },
+    {
+        "Name": "Video Card",
+        "Description": "Intel® HD Graphics 520",
+        "ProductCode": "UMA",
+        "Skus": [
+        "490-BCLY"
+        ]
+    },
+    {
+        "Name": "Display",
+        "Description": "13.3” FHD AG (1920 x 1080) InfinityEdge display",
+        "ProductCode": "FHDNON",
+        "Skus": [
+        "391-BCHU"
+        ]
+    },
+    {
+        "Name": "Wireless",
+        "Description": "DW1820A 2x2 802.11ac 2.4/5GHz + Bluetooth4.1",
+        "ProductCode": "1820A",
+        "Skus": [
+        "555-BCRE"
+        ]
+    },
+    {
+        "Name": "Primary Battery",
+        "Description": "56wHR, 4-Cell Battery",
+        "ProductCode": "56WHR",
+        "Skus": [
+        "451-BBST"
+        ]
+    },
+    {
+        "Name": "Keyboard",
+        "Description": "Backlit Keyboard, English",
+        "ProductCode": "ENGKBD",
+        "Skus": [
+        "580-AECQ"
+        ]
+    },
+    {
+        "Name": "Driver",
+        "Description": "DW 1820 Driver",
+        "ProductCode": "DW1820",
+        "Skus": [
+        "555-BCQB"
+        ]
+    },
+    {
+        "Name": "Cable",
+        "Description": "US Power Cord",
+        "ProductCode": "PWRUS",
+        "Skus": [
+        "340-AAMU"
+        ]
+    },
+    {
+        "Name": "Placemat",
+        "Description": "Win 10 Placemat",
+        "ProductCode": "WN10PM",
+        "Skus": [
+        "340-ARJD"
+        ]
+    },
+    {
+        "Name": "Systems Management",
+        "Description": "UMID Software",
+        "ProductCode": "CSMB",
+        "Skus": [
+        "631-AAVK",
+        "631-AAVN"
+        ]
+    },
+    {
+        "Name": "Retail Software",
+        "Description": "Dell.com Order",
+        "ProductCode": "NORTL",
+        "Skus": [
+        "332-0550"
+        ]
+    },
+    {
+        "Name": "Packaging Label",
+        "Description": "Dell.com Order",
+        "ProductCode": "NORTL",
+        "Skus": [
+        "332-1530"
+        ]
+    },
+    {
+        "Name": "Documentation/Disks",
+        "Description": "Safety/Environment and Regulatory Guide (English/French Multi-language)",
+        "ProductCode": "ENGMDC",
+        "Skus": [
+        "340-AGIK"
+        ]
+    },
+    {
+        "Name": "Packaging",
+        "Description": "XPS 13 Shipping Material",
+        "ProductCode": "SHMM",
+        "Skus": [
+        "340-AAPP",
+        "340-ARJF"
+        ]
+    },
+    {
+        "Name": "Power Supply",
+        "Description": "45 Watt AC Adaptor",
+        "ProductCode": "45WAC",
+        "Skus": [
+        "450-ABEN"
+        ]
+    },
+    {
+        "Name": "FGA Module",
+        "Description": "DINO1703_5154_DAO/US/CA/MX/BTO",
+        "ProductCode": "FG0053",
+        "Skus": [
+        "998-BWVE"
+        ]
+    },
+    {
+        "Name": "Hard Drive Software",
+        "Description": "No SSD SW Required",
+        "ProductCode": "NOSSDSW",
+        "Skus": [
+        "817-BBBC"
+        ]
+    },
+    {
+        "Name": "Processor Label",
+        "Description": "Intel® Core™ i3 Label",
+        "ProductCode": "CI3SML",
+        "Skus": [
+        "389-BHGC"
+        ]
+    },
+    {
+        "Name": "Label",
+        "Description": "No Reg Label",
+        "ProductCode": "NONE",
+        "Skus": [
+        "817-BBBP"
+        ]
+    },
+    {
+        "Name": "Office 2016 - Word, Excel, Powerpoint & more",
+        "Description": "Microsoft Office 30 Day Trial",
+        "ProductCode": "OTRT13M",
+        "Skus": [
+        "658-BCSB"
+        ]
+    },
+    {
+        "Name": "Security Software  <span class=\"dellRecommended\">XPS PCs on Dell.com come protected with 1yr McAfee LiveSafe, $89 value.</span>",
+        "Description": "McAfee LiveSafe 12 Month Subscription",
+        "ProductCode": "LSXP12M",
+        "Skus": [
+        "525-0036",
+        "658-BCCO"
+        ]
+    },
+    {
+        "Name": "Non-Microsoft Application Software",
+        "Description": "Additional Software",
+        "ProductCode": "XPSW10",
+        "Skus": [
+        "658-BCUJ"
+        ]
+    },
+    {
+        "Name": "Support",
+        "Description": "1 Year Ltd Hware Warranty: Mail-in; Customer supplies box, Dell pays shipping",
+        "ProductCode": "MI1",
+        "Skus": [
+        "801-1596",
+        "801-1629"
+        ]
+    },
+    {
+        "Name": "PalmRest",
+        "Description": "80 Key Palmrest",
+        "ProductCode": "USPLR",
+        "Skus": [
+        "346-BBTS"
+        ]
+    },
+    {
+        "Name": "Operating System Recovery Options",
+        "Description": "Operating System Recovery Media Not Included",
+        "ProductCode": "NODBRM",
+        "Skus": [
+        "340-ACQQ"
+        ]
+    }
+    ],
+    "ShowComponents": true,
+    "Alerts": [],
+    "EvergreenMessages": [],
+    "HasBundledItems": false,
+    "BundledItems": [],
+    "IsBundledItem": false,
+    "IsFastTrack": false,
+    "Metadata": {
+        "itemType": "ConfigItem",
+        "brand": 26,
+        "family": 11807
+    },
+    "DeliveryMessageOverride": "Ships in 4-6 business days",
+    "HasDeliveryMessageOverride": true,
+    "StopSelling": false,
+    "IsStockItem": false,
+    "SubTotalAmountValue": 799.99,
+    "ConfigurationIdentifier": "1~dncwt5154b~19~en~us~1__572;FG0053;1"
+},
+{
+    "Id": "8bd4c861-da54-4cb6-82b3-19f4b4d14793",
+    "IdWithoutSpecialCharacters": "8bd4c861da544cb682b319f4b4d14793",
+    "ProductId": "dncwx1626b",
+    "Description": "XPS 15 Non-Touch",
+    "ShowProductStackDescription": false,
+    "IsValid": true,
+    "LeadTimeInfo": {
+        "EstimatedShipDate": "6/13/2016",
+        "ShowEstimatedShipDate": true,
+        "ShowEstimatedDeliveryDate": false,
+        "HasValidEstimatedDeliveryDate": false,
+        "CanCalculateEstimatedDeliveryDate": true
+    },
+    "IsSavedCartItem": false,
+    "SubTotalAmount": "$999.99",
+    "DiscountsAndCouponsAmount": "$0.00",
+    "DiscountsAndCouponsAmountValue": 0,
+    "DiscountsAndCoupons": [
+    {
+        "CampaignId": 571234,
+        "Amount": "$0.00",
+        "ShortDescription": "12 mo special financing when you spend $999+",
+        "LongDescription": "12 months special financing on new PCs $999 or more with Dell Preferred Account!",
+        "LegalDescription": "<!-- \r\n- 12 months special financing is a No Interest if Paid in Full by Your Due Date in July, 2017 promotion on new PCs $999 or more and applies only to the amount purchased with Dell Preferred Account.\r\n- Your Standard Rate is ${APR}.  This APR will vary with the market based on the Prime Rate.\r\n- Interest will be charged to your account at the Standard Rate from the transaction posting date if the purchase balance is not paid in full by the end of the promotional period.  In addition, your Standard Rate will apply to the remaining balance.\r\n- To avoid accrued interest charges, minimum monthly payments are required and the balance must be paid by the end of your promotional period.\r\n- Minimum monthly payments are required, but may not pay your purchase in full by the end of the promotional period due to purchase amount, promotion length, additional purchases or allocation of payments in excess of the minimum payment. \r\n- Minimum purchase amount may be required.\r\n--> \r\nThe \"12 months special financing\" promotional financing includes new PCs $999 or more purchased with your Dell Preferred Account.  You must have adequate available credit to purchase.  Pay your plan balance in full by your payment due date in July, 2017 or accrued interest will be assessed. Minimum monthly payments are required, but may not pay your purchase in full by the end of the promotional period due to purchase amount, promotion length, additional purchases or allocation of payments in excess of the minimum payment. Interest accrues at the Standard Rate (this APR will vary with the market based on the Prime Rate) from the transaction posting date and will be charged to the account if you do not pay your plan balance in full by your payment due date in July, 2017, or if you fail to make a required minimum payment at any time during the promotional period.  Promotional financing features apply only to the amount purchased with the Dell Preferred Account.   \r\n\r\n<p>Subject to credit approval.  WebBank determines creditworthiness, APR, credit limit, and qualification for promotional offers.  Qualifying for the Dell Preferred Account does not guarantee offer of promotional financing features.  You must purchase this item with your Dell Preferred Account and must have adequate available credit to take advantage of this promotion. Minimum purchase amount may be required</p>",
+        "ExpiryDate": "6/30/2016",
+        "HasExpiryDate": true,
+        "HasExpiryTextOverride": false,
+        "AllowRemove": false,
+        "ShowAmount": false
+    }
+    ],
+    "ShowDiscountsAndCoupons": true,
+    "DiscountsPopupTitle": "Additional Discounts & Coupons",
+    "TotalAmount": "$999.99",
+    "TotalAmountWithSubItems": "$999.99",
+    "TotalAmountWithSubItemsValue": 999.99,
+    "Quantity": 1,
+    "QuantityWithSubItems": 1,
+    "AllowChangeQuantity": true,
+    "IsAssociatedItem": false,
+    "ImageUrl": "https://si.cdn.dell.com/images/global/configurator/chassis/xps-15-9550-t-gry-ft-120x107.jpg",
+    "UnitPriceAmount": "$999.99",
+    "ShowManufacturerPartNumber": false,
+    "ShowDellPartNumber": false,
+    "ShowCatalogNumber": true,
+    "CatalogNumber": "29 dncwx1626b",
+    "Components": [
+    {
+        "Name": "Base",
+        "Description": "XPS 15",
+        "ProductCode": "9550",
+        "Skus": [
+        "210-AFLV"
+        ]
+    },
+    {
+        "Name": "Processor",
+        "Description": "6th Generation Intel Core i3-6100H (3M Cache, up to 2.7 GHz)",
+        "ProductCode": "3MK7KR",
+        "Skus": [
+        "338-BITQ"
+        ]
+    },
+    {
+        "Name": "Operating System",
+        "Description": "Windows 10 Home, 64-bit, English",
+        "ProductCode": "10HHEE",
+        "Skus": [
+        "619-AHCY"
+        ]
+    },
+    {
+        "Name": "Memory",
+        "Description": "8GB DDR4-2133MHz; up to 32GB (additional memory sold separately)",
+        "ProductCode": "8GB",
+        "Skus": [
+        "370-ACLS"
+        ]
+    },
+    {
+        "Name": "Hard Drive",
+        "Description": "500GB 7200RPM Hard Drive + 32GB Solid State Drive",
+        "ProductCode": "500G32",
+        "Skus": [
+        "400-AJBU"
+        ]
+    },
+    {
+        "Name": "Video Card",
+        "Description": "Intel® HD Graphics 530",
+        "ProductCode": "UMA",
+        "Skus": [
+        "490-BCXH"
+        ]
+    },
+    {
+        "Name": "Display",
+        "Description": "15.6\" FHD (1920 x 1080) InfinityEdge",
+        "ProductCode": "FHD",
+        "Skus": [
+        "391-BCHR"
+        ]
+    },
+    {
+        "Name": "Wireless",
+        "Description": "DW1820A 2x2 802.11ac 2.4/5GHz + Bluetooth 4.1",
+        "ProductCode": "1820",
+        "Skus": [
+        "555-BCTQ"
+        ]
+    },
+    {
+        "Name": "Primary Battery",
+        "Description": "Dell 56 WHr 3-Cell Lithium-Ion Battery",
+        "ProductCode": "3C",
+        "Skus": [
+        "451-BBSI"
+        ]
+    },
+    {
+        "Name": "Keyboard",
+        "Description": "Backlit Keyboard, US English",
+        "ProductCode": "ENGKB",
+        "Skus": [
+        "580-AEKV"
+        ]
+    },
+    {
+        "Name": "Driver",
+        "Description": "Dell Wireless 1820A Driver (Windows 10)",
+        "ProductCode": "1820A",
+        "Skus": [
+        "340-ARXR"
+        ]
+    },
+    {
+        "Name": "Cable",
+        "Description": "PowerCord 2.5A 1M C5 E3",
+        "ProductCode": "PWREDAO",
+        "Skus": [
+        "340-AAMU"
+        ]
+    },
+    {
+        "Name": "Systems Management",
+        "Description": "ME Disable",
+        "ProductCode": "MEDIS",
+        "Skus": [
+        "631-AAVH",
+        "658-BCXP"
+        ]
+    },
+    {
+        "Name": "Placemat",
+        "Description": "Win 10 Placemat",
+        "ProductCode": "WN10PM",
+        "Skus": [
+        "340-ATCO"
+        ]
+    },
+    {
+        "Name": "Retail Software",
+        "Description": "Dell.com Order",
+        "ProductCode": "NORTL",
+        "Skus": [
+        "332-1530"
+        ]
+    },
+    {
+        "Name": "Packaging Label",
+        "Description": "Dell.com Order",
+        "ProductCode": "NORTL",
+        "Skus": [
+        "332-1530"
+        ]
+    },
+    {
+        "Name": "Documentation/Disks",
+        "Description": "Safety/Environment and Regulatory Guide (English/French Multi-language)",
+        "ProductCode": "ENGMUI",
+        "Skus": [
+        "340-AGIK"
+        ]
+    },
+    {
+        "Name": "Packaging",
+        "Description": "System Shipment Material, 5510",
+        "ProductCode": "SHPMTL",
+        "Skus": [
+        "328-BCFB"
+        ]
+    },
+    {
+        "Name": "Power Supply",
+        "Description": "130W AC Adapter",
+        "ProductCode": "130AC",
+        "Skus": [
+        "450-ABBY"
+        ]
+    },
+    {
+        "Name": "FGA Module",
+        "Description": "BERL1703_1626_DAO/US/CA/BTO",
+        "ProductCode": "FG0141",
+        "Skus": [
+        "998-BXWE"
+        ]
+    },
+    {
+        "Name": "Processor Branding",
+        "Description": "Intel® Core™ i3 Label",
+        "ProductCode": "CI3SML",
+        "Skus": [
+        "389-BHGC"
+        ]
+    },
+    {
+        "Name": "Office 2016 - Word, Excel, Powerpoint & more",
+        "Description": "Microsoft Office 30 Day Trial",
+        "ProductCode": "OTRT13M",
+        "Skus": [
+        "658-BCSB"
+        ]
+    },
+    {
+        "Name": "Security Software  <span class=\"dellRecommended\">XPS PCs on Dell.com come protected with 1yr McAfee LiveSafe, $89 value.</span>",
+        "Description": "McAfee LiveSafe 12 Month Subscription",
+        "ProductCode": "LSXP12M",
+        "Skus": [
+        "525-0036",
+        "658-BCCO"
+        ]
+    },
+    {
+        "Name": "Non-Microsoft Application Software",
+        "Description": "Additional Software",
+        "ProductCode": "XPSW10",
+        "Skus": [
+        "658-BCUJ"
+        ]
+    },
+    {
+        "Name": "Support",
+        "Description": "1 Year Ltd Hware Warranty: Mail-in; Customer supplies box, Dell pays shipping",
+        "ProductCode": "MI1",
+        "Skus": [
+        "801-0978",
+        "801-1012"
+        ]
+    },
+    {
+        "Name": "PalmRest",
+        "Description": "US Palmrest",
+        "ProductCode": "USPRL",
+        "Skus": [
+        "346-BBTC"
+        ]
+    },
+    {
+        "Name": "Operating System Recovery Options",
+        "Description": "Operating System Recovery Media Not Included",
+        "ProductCode": "NOBDRM",
+        "Skus": [
+        "340-ACQQ"
+        ]
+    }
+    ],
+    "ShowComponents": true,
+    "Alerts": [],
+    "EvergreenMessages": [],
+    "HasBundledItems": false,
+    "BundledItems": [],
+    "IsBundledItem": false,
+    "IsFastTrack": false,
+    "Metadata": {
+        "itemType": "ConfigItem",
+        "brand": 26,
+        "family": 11757
+    },
+    "DeliveryMessageOverride": "Ships in 4-6 business days",
+    "HasDeliveryMessageOverride": true,
+    "StopSelling": false,
+    "IsStockItem": false,
+    "SubTotalAmountValue": 999.99,
+    "ConfigurationIdentifier": "1~dncwx1626b~19~en~us~1__572;FG0141;1"
+},
+{
+    "Id": "25e9c453-d9b7-4f32-9dc2-a00b153bfc1f",
+    "IdWithoutSpecialCharacters": "25e9c453d9b74f329dc2a00b153bfc1f",
+    "ProductId": "dkcwe01s",
+    "Description": "Alienware 13",
+    "ShowProductStackDescription": false,
+    "IsValid": true,
+    "LeadTimeInfo": {
+        "EstimatedShipDate": "6/13/2016",
+        "ShowEstimatedShipDate": true,
+        "ShowEstimatedDeliveryDate": false,
+        "HasValidEstimatedDeliveryDate": false,
+        "CanCalculateEstimatedDeliveryDate": true
+    },
+    "IsSavedCartItem": false,
+    "SubTotalAmount": "$949.99",
+    "DiscountsAndCouponsAmount": "-$50.00",
+    "DiscountsAndCouponsAmountValue": 50,
+    "DiscountsAndCoupons": [
+    {
+        "CampaignId": 597902,
+        "Amount": "-$50.00",
+        "ShortDescription": "Alienware 13 price includes $50 instant discount.",
+        "LongDescription": "Alienware 13 price includes $50 instant discount.",
+        "LegalDescription": "Offers subject to change, not combinable with all other offers. Taxes, shipping, handling and other fees apply. U.S. Dell Home and Home Office new purchases only. Dell reserves the right to cancel orders arising from pricing or other errors.",
+        "ExpiryDate": "1/1/2019",
+        "HasExpiryDate": true,
+        "HasExpiryTextOverride": false,
+        "AllowRemove": false,
+        "ShowAmount": true
+    },
+    {
+        "CampaignId": 571235,
+        "Amount": "$0.00",
+        "ShortDescription": "12 months special financing",
+        "LongDescription": "12 months special financing on new Alienware PCs and consoles using Dell Preferred Account!",
+        "LegalDescription": "<!-- \r\n- 12 months special financing is a No Interest if Paid in Full by Your Due Date in July, 2017 promotion on new Alienware PCs and consoles and applies only to the amount purchased with Dell Preferred Account.\r\n- Your Standard Rate is ${APR}.  This APR will vary with the market based on the Prime Rate.\r\n- Interest will be charged to your account at the Standard Rate from the transaction posting date if the purchase balance is not paid in full by the end of the promotional period.  In addition, your Standard Rate will apply to the remaining balance.\r\n- To avoid accrued interest charges, minimum monthly payments are required and the balance must be paid by the end of your promotional period.\r\n- Minimum monthly payments are required, but may not pay your purchase in full by the end of the promotional period due to purchase amount, promotion length, additional purchases or allocation of payments in excess of the minimum payment. \r\n- Minimum purchase amount may be required.\r\n--> \r\nThe \"12 months special financing\" promotional financing includes new Alienware PCs and consoles purchased with your Dell Preferred Account.  You must have adequate available credit to purchase.  Pay your plan balance in full by your payment due date in July, 2017 or accrued interest will be assessed. Minimum monthly payments are required, but may not pay your purchase in full by the end of the promotional period due to purchase amount, promotion length, additional purchases or allocation of payments in excess of the minimum payment. Interest accrues at the Standard Rate (this APR will vary with the market based on the Prime Rate) from the transaction posting date and will be charged to the account if you do not pay your plan balance in full by your payment due date in July, 2017, or if you fail to make a required minimum payment at any time during the promotional period.  Promotional financing features apply only to the amount purchased with the Dell Preferred Account.   \r\n\r\n<p>Subject to credit approval.  WebBank determines creditworthiness, APR, credit limit, and qualification for promotional offers.  Qualifying for the Dell Preferred Account does not guarantee offer of promotional financing features.  You must purchase this item with your Dell Preferred Account and must have adequate available credit to take advantage of this promotion. Minimum purchase amount may be required</p>",
+        "ExpiryDate": "6/30/2016",
+        "HasExpiryDate": true,
+        "HasExpiryTextOverride": false,
+        "AllowRemove": false,
+        "ShowAmount": false
+    }
+    ],
+    "ShowDiscountsAndCoupons": true,
+    "DiscountsPopupTitle": "Additional Discounts & Coupons",
+    "TotalAmount": "$899.99",
+    "TotalAmountWithSubItems": "$899.99",
+    "TotalAmountWithSubItemsValue": 899.99,
+    "Quantity": 1,
+    "QuantityWithSubItems": 1,
+    "AllowChangeQuantity": true,
+    "IsAssociatedItem": false,
+    "ImageUrl": "https://si.cdn.dell.com/images/global/configurator/chassis/alienware-13-tch-ft-120x107.jpg",
+    "UnitPriceAmount": "$949.99",
+    "ShowManufacturerPartNumber": false,
+    "ShowDellPartNumber": false,
+    "ShowCatalogNumber": true,
+    "CatalogNumber": "29 dkcwe01s",
+    "Components": [
+    {
+        "Name": "Alienware 13 R2",
+        "Description": "Alienware 13 R2",
+        "ProductCode": "CTOE13",
+        "Skus": [
+        "210-AFTQ"
+        ]
+    },
+    {
+        "Name": "Video Card",
+        "Description": "NVIDIA®  GeForce® GTX 960M with 2GB GDDR5",
+        "ProductCode": "GTX960",
+        "Skus": [
+        "490-BCNQ"
+        ]
+    },
+    {
+        "Name": "Processor",
+        "Description": "Intel® Core™ i5-6200U (Dual-Core, 3MB Cache, up to 2.8GHz w/ Turbo Boost)",
+        "ProductCode": "5HCRYV",
+        "Skus": [
+        "338-BIDW"
+        ]
+    },
+    {
+        "Name": "Operating System",
+        "Description": "Windows 10 Home 64bit English",
+        "ProductCode": "10H64E",
+        "Skus": [
+        "619-AHCQ"
+        ]
+    },
+    {
+        "Name": "Display",
+        "Description": "13 inch HD (1366 x 768) TN-Panel Anti-Glare 200-nits Display",
+        "ProductCode": "HD",
+        "Skus": [
+        "391-BCJY"
+        ]
+    },
+    {
+        "Name": "Memory",
+        "Description": "4GB Dual Channel DDR3L at 1600MHz; up to 16GB (additional memory sold separately)",
+        "ProductCode": "4G1D",
+        "Skus": [
+        "370-AABY"
+        ]
+    },
+    {
+        "Name": "Hard Drive",
+        "Description": "500GB 5400RPM Hybrid (8GB Cache) SSD SATA 6Gb/s",
+        "ProductCode": "500HYB",
+        "Skus": [
+        "400-AATU"
+        ]
+    },
+    {
+        "Name": "Wireless",
+        "Description": "Killer 1535 802.11ac 2x2 WiFi and Bluetooth 4.1",
+        "ProductCode": "N1535",
+        "Skus": [
+        "555-BCRM"
+        ]
+    },
+    {
+        "Name": "Battery",
+        "Description": "4-cell Lithium Ion (62 Wh) Battery",
+        "ProductCode": "4C62",
+        "Skus": [
+        "451-BBQK"
+        ]
+    },
+    {
+        "Name": "Operating System Recovery",
+        "Description": "No OS Recovery Disk Included",
+        "ProductCode": "NONE",
+        "Skus": [
+        "340-ACQQ"
+        ]
+    },
+    {
+        "Name": "Keyboard",
+        "Description": "English Backlit Keyboard, powered by AlienFX",
+        "ProductCode": "KBDENG",
+        "Skus": [
+        "580-ACTO"
+        ]
+    },
+    {
+        "Name": "Cable",
+        "Description": "US Power Cord 110V",
+        "ProductCode": "110VPWR",
+        "Skus": [
+        "450-AAUO"
+        ]
+    },
+    {
+        "Name": "Power Supply",
+        "Description": "130 W A/C Adapter",
+        "ProductCode": "130W",
+        "Skus": [
+        "450-ADFZ"
+        ]
+    },
+    {
+        "Name": "Retail Software",
+        "Description": "Dell.com Order",
+        "ProductCode": "NORTL",
+        "Skus": [
+        "332-1530"
+        ]
+    },
+    {
+        "Name": "Documentation/Disks",
+        "Description": "Safety/Environment and Regulatory Guide (English/French)",
+        "ProductCode": "ENGMUI",
+        "Skus": [
+        "340-AGUD"
+        ]
+    },
+    {
+        "Name": "Packing Label",
+        "Description": "Dell.com Order",
+        "ProductCode": "NORTL",
+        "Skus": [
+        "332-1530"
+        ]
+    },
+    {
+        "Name": "Non-Microsoft Application Software",
+        "Description": "Additional Software",
+        "ProductCode": "ALWW10",
+        "Skus": [
+        "658-BCUO"
+        ]
+    },
+    {
+        "Name": "Additional Settings",
+        "Description": "Dropbox, Digital Delivery, 20GB for 1 Year Promotion",
+        "ProductCode": "DRPBOX",
+        "Skus": [
+        "525-0016"
+        ]
+    },
+    {
+        "Name": "Shipping Material",
+        "Description": "Shipping Material",
+        "ProductCode": "SHPMT",
+        "Skus": [
+        "340-AAPP",
+        "340-AMOW"
+        ]
+    },
+    {
+        "Name": "Shipping SKU's",
+        "Description": "Shipping Material",
+        "ProductCode": "USNONE",
+        "Skus": [
+        "332-1286"
+        ]
+    },
+    {
+        "Name": "Intel Processor Driver",
+        "Description": "Intel Driver",
+        "ProductCode": "SKYLAKE",
+        "Skus": [
+        "631-AATK"
+        ]
+    },
+    {
+        "Name": "Placemat",
+        "Description": "Placemat",
+        "ProductCode": "PLCMT",
+        "Skus": [
+        "340-ARYK"
+        ]
+    },
+    {
+        "Name": "Wireless Driver/Label",
+        "Description": "Killer N1535 Wireless Driver",
+        "ProductCode": "1535DR",
+        "Skus": [
+        "555-BCRN"
+        ]
+    },
+    {
+        "Name": "FGA Module",
+        "Description": "No FGA",
+        "ProductCode": "NOFGA",
+        "Skus": [
+        "817-BBBB"
+        ]
+    },
+    {
+        "Name": "Regulatory Label",
+        "Description": "Regulatory Label",
+        "ProductCode": "REGLBL",
+        "Skus": [
+        "389-BHMJ"
+        ]
+    },
+    {
+        "Name": "Microsoft Office Productivity Software – Word, Excel, Powerpoint & more",
+        "Description": "Microsoft Office 30 Day Trial",
+        "ProductCode": "OTRT13",
+        "Skus": [
+        "658-BCSC"
+        ]
+    },
+    {
+        "Name": "Security Software",
+        "Description": "No Anti-virus Requested",
+        "ProductCode": "NOAV",
+        "Skus": [
+        "817-BBBP"
+        ]
+    },
+    {
+        "Name": "Support  <span class=\"dellRecommended\">(Limited time: Get 4 years for the Price of 3)</span>",
+        "Description": "1 Year Hardware Service with Onsite/In-Home Service After Remote Diagnosis",
+        "ProductCode": "NBD1",
+        "Skus": [
+        "801-2391",
+        "801-2438"
+        ]
+    },
+    {
+        "Name": "Processor Label",
+        "Description": "Intel® Core™ i5 Label",
+        "ProductCode": "CI5SML",
+        "Skus": [
+        "389-BHIB"
+        ]
+    }
+    ],
+    "ShowComponents": true,
+    "Alerts": [],
+    "EvergreenMessages": [],
+    "HasBundledItems": false,
+    "BundledItems": [],
+    "IsBundledItem": false,
+    "IsFastTrack": false,
+    "Metadata": {
+        "itemType": "ConfigItem",
+        "brand": 1171,
+        "family": 11804
+    },
+    "DeliveryMessageOverride": "Ships in 4-6 business days",
+    "HasDeliveryMessageOverride": true,
+    "StopSelling": false,
+    "IsStockItem": false,
+    "SubTotalAmountValue": 949.99,
+    "ConfigurationIdentifier": "1~dkcwe01s~19~en~us~1__"
+},
+{
+    "Id": "abdef14e-d7ea-4265-a971-6fd137c8c8c1",
+    "IdWithoutSpecialCharacters": "abdef14ed7ea4265a9716fd137c8c8c1",
+    "ProductId": "dkcwf01sa",
+    "Description": "Alienware 15",
+    "ShowProductStackDescription": false,
+    "IsValid": true,
+    "LeadTimeInfo": {
+        "EstimatedShipDate": "6/13/2016",
+        "ShowEstimatedShipDate": true,
+        "ShowEstimatedDeliveryDate": false,
+        "HasValidEstimatedDeliveryDate": false,
+        "CanCalculateEstimatedDeliveryDate": true
+    },
+    "IsSavedCartItem": false,
+    "SubTotalAmount": "$1,199.99",
+    "DiscountsAndCouponsAmount": "$0.00",
+    "DiscountsAndCouponsAmountValue": 0,
+    "DiscountsAndCoupons": [
+    {
+        "CampaignId": 571235,
+        "Amount": "$0.00",
+        "ShortDescription": "12 months special financing",
+        "LongDescription": "12 months special financing on new Alienware PCs and consoles using Dell Preferred Account!",
+        "LegalDescription": "<!-- \r\n- 12 months special financing is a No Interest if Paid in Full by Your Due Date in July, 2017 promotion on new Alienware PCs and consoles and applies only to the amount purchased with Dell Preferred Account.\r\n- Your Standard Rate is ${APR}.  This APR will vary with the market based on the Prime Rate.\r\n- Interest will be charged to your account at the Standard Rate from the transaction posting date if the purchase balance is not paid in full by the end of the promotional period.  In addition, your Standard Rate will apply to the remaining balance.\r\n- To avoid accrued interest charges, minimum monthly payments are required and the balance must be paid by the end of your promotional period.\r\n- Minimum monthly payments are required, but may not pay your purchase in full by the end of the promotional period due to purchase amount, promotion length, additional purchases or allocation of payments in excess of the minimum payment. \r\n- Minimum purchase amount may be required.\r\n--> \r\nThe \"12 months special financing\" promotional financing includes new Alienware PCs and consoles purchased with your Dell Preferred Account.  You must have adequate available credit to purchase.  Pay your plan balance in full by your payment due date in July, 2017 or accrued interest will be assessed. Minimum monthly payments are required, but may not pay your purchase in full by the end of the promotional period due to purchase amount, promotion length, additional purchases or allocation of payments in excess of the minimum payment. Interest accrues at the Standard Rate (this APR will vary with the market based on the Prime Rate) from the transaction posting date and will be charged to the account if you do not pay your plan balance in full by your payment due date in July, 2017, or if you fail to make a required minimum payment at any time during the promotional period.  Promotional financing features apply only to the amount purchased with the Dell Preferred Account.   \r\n\r\n<p>Subject to credit approval.  WebBank determines creditworthiness, APR, credit limit, and qualification for promotional offers.  Qualifying for the Dell Preferred Account does not guarantee offer of promotional financing features.  You must purchase this item with your Dell Preferred Account and must have adequate available credit to take advantage of this promotion. Minimum purchase amount may be required</p>",
+        "ExpiryDate": "6/30/2016",
+        "HasExpiryDate": true,
+        "HasExpiryTextOverride": false,
+        "AllowRemove": false,
+        "ShowAmount": false
+    }
+    ],
+    "ShowDiscountsAndCoupons": true,
+    "DiscountsPopupTitle": "Additional Discounts & Coupons",
+    "TotalAmount": "$1,199.99",
+    "TotalAmountWithSubItems": "$1,199.99",
+    "TotalAmountWithSubItemsValue": 1199.99,
+    "Quantity": 1,
+    "QuantityWithSubItems": 1,
+    "AllowChangeQuantity": true,
+    "IsAssociatedItem": false,
+    "ImageUrl": "https://si.cdn.dell.com/images/global/configurator/chassis/alienware-15-nn-tch-ft-120.jpg",
+    "UnitPriceAmount": "$1,199.99",
+    "ShowManufacturerPartNumber": false,
+    "ShowDellPartNumber": false,
+    "ShowCatalogNumber": true,
+    "CatalogNumber": "29 dkcwf01sa",
+    "Components": [
+    {
+        "Name": "Alienware 15 R2",
+        "Description": "Alienware 15 MLK, CTO",
+        "ProductCode": "CTOE15",
+        "Skus": [
+        "210-AFTR"
+        ]
+    },
+    {
+        "Name": "Video Card",
+        "Description": "NVIDIA® GeForce® GTX 965M with 2GB GDDR5",
+        "ProductCode": "GTX965",
+        "Skus": [
+        "490-BCLI"
+        ]
+    },
+    {
+        "Name": "Processor",
+        "Description": "Intel® Core™ i5-6300HQ (Quad-Core, 6MB Cache, up to 3.2GHz w/ Turbo Boost)",
+        "ProductCode": "552V8M",
+        "Skus": [
+        "338-BIGB"
+        ]
+    },
+    {
+        "Name": "Operating System",
+        "Description": "Windows 10 Home 64bit English",
+        "ProductCode": "10HHEE",
+        "Skus": [
+        "619-AHCY"
+        ]
+    },
+    {
+        "Name": "Display",
+        "Description": "15.6 inch FHD (1920 x 1080) IPS Anti-Glare 220-nits Display",
+        "ProductCode": "FHD",
+        "Skus": [
+        "391-BCMU"
+        ]
+    },
+    {
+        "Name": "Memory",
+        "Description": "8GB Dual Channel DDR4 at 2133MHz; up to 32GB (additional memory sold separately)",
+        "ProductCode": "8G2D",
+        "Skus": [
+        "370-ACLS"
+        ]
+    },
+    {
+        "Name": "Hard Drive",
+        "Description": "1TB 7200RPM SATA 6Gb/s",
+        "ProductCode": "1TB7200",
+        "Skus": [
+        "400-AHHF"
+        ]
+    },
+    {
+        "Name": "Wireless",
+        "Description": "Killer 1535 802.11ac 2x2 WiFi and Bluetooth 4.1",
+        "ProductCode": "N1535",
+        "Skus": [
+        "555-BCRM"
+        ]
+    },
+    {
+        "Name": "Battery",
+        "Description": "8-cell Lithium Ion (92 Wh) Battery",
+        "ProductCode": "8C",
+        "Skus": [
+        "451-BBMY"
+        ]
+    },
+    {
+        "Name": "Operating System Recovery",
+        "Description": "No OS Recovery Disc Included",
+        "ProductCode": "NONE",
+        "Skus": [
+        "340-ACQQ"
+        ]
+    },
+    {
+        "Name": "Keyboard",
+        "Description": "English Backlit Keyboard, powered by AlienFX",
+        "ProductCode": "KBDENG",
+        "Skus": [
+        "580-ACTO",
+        "583-BCQG"
+        ]
+    },
+    {
+        "Name": "Cable",
+        "Description": "US Power Cord 110V",
+        "ProductCode": "110VPWR",
+        "Skus": [
+        "450-AAUO"
+        ]
+    },
+    {
+        "Name": "AC Adapter",
+        "Description": "Alienware 180W AC Adapter",
+        "ProductCode": "180W3P",
+        "Skus": [
+        "450-AAGU"
+        ]
+    },
+    {
+        "Name": "Retail Software",
+        "Description": "Dell.com Order",
+        "ProductCode": "NORTL",
+        "Skus": [
+        "332-1530"
+        ]
+    },
+    {
+        "Name": "Documentation/Disks",
+        "Description": "Safety/Environment and Regulatory Guide (English/French)",
+        "ProductCode": "ENGMUI",
+        "Skus": [
+        "340-AGUD"
+        ]
+    },
+    {
+        "Name": "Packing Label",
+        "Description": "Dell.com Order",
+        "ProductCode": "NORTL",
+        "Skus": [
+        "332-1530"
+        ]
+    },
+    {
+        "Name": "Non-Microsoft Application Software",
+        "Description": "Additional Software",
+        "ProductCode": "ALWW10",
+        "Skus": [
+        "658-BCUO"
+        ]
+    },
+    {
+        "Name": "Additional Settings",
+        "Description": "Dropbox, Digital Delivery, 20GB for 1 Year Promotion",
+        "ProductCode": "DRPBOX",
+        "Skus": [
+        "525-0016"
+        ]
+    },
+    {
+        "Name": "Packaging",
+        "Description": "Shipping Material",
+        "ProductCode": "SHPMT",
+        "Skus": [
+        "340-AAPP",
+        "340-AUNR"
+        ]
+    },
+    {
+        "Name": "Shipping SKU's",
+        "Description": "Shipping Material",
+        "ProductCode": "USNONE",
+        "Skus": [
+        "332-1286"
+        ]
+    },
+    {
+        "Name": "Intel Processor Driver",
+        "Description": "Intel Driver",
+        "ProductCode": "SKYLAKE",
+        "Skus": [
+        "631-AATS"
+        ]
+    },
+    {
+        "Name": "Placemat",
+        "Description": "Placemat",
+        "ProductCode": "PLCMT",
+        "Skus": [
+        "340-ASNB"
+        ]
+    },
+    {
+        "Name": "Driver",
+        "Description": "Killer N1535 Wireless Driver",
+        "ProductCode": "1535DR",
+        "Skus": [
+        "555-BCRW"
+        ]
+    },
+    {
+        "Name": "FGA Module",
+        "Description": "No FGA",
+        "ProductCode": "NOFGA",
+        "Skus": [
+        "817-BBBB"
+        ]
+    },
+    {
+        "Name": "Label",
+        "Description": "Regulatory Label",
+        "ProductCode": "REGLBL",
+        "Skus": [
+        "389-BHOX"
+        ]
+    },
+    {
+        "Name": "Microsoft Office Productivity Software – Word, Excel, Powerpoint & more",
+        "Description": "Microsoft Office 30 Day Trial",
+        "ProductCode": "OTRT13",
+        "Skus": [
+        "658-BCSC"
+        ]
+    },
+    {
+        "Name": "Security Software",
+        "Description": "No Anti-virus Requested",
+        "ProductCode": "NOAV",
+        "Skus": [
+        "817-BBBP"
+        ]
+    },
+    {
+        "Name": "Support  <span class=\"dellRecommended\">(Limited time: Get 4 years for the Price of 3)</span>",
+        "Description": "1 Year Limited Hardware Warranty with Onsite Service after Remote Diagnosis",
+        "ProductCode": "NBD1",
+        "Skus": [
+        "801-2185",
+        "801-2232"
+        ]
+    },
+    {
+        "Name": "Processor Label",
+        "Description": "Intel® Core™ i5 Label",
+        "ProductCode": "CI5SML",
+        "Skus": [
+        "389-BHIB"
+        ]
+    }
+    ],
+    "ShowComponents": true,
+    "Alerts": [],
+    "EvergreenMessages": [],
+    "HasBundledItems": false,
+    "BundledItems": [],
+    "IsBundledItem": false,
+    "IsFastTrack": false,
+    "Metadata": {
+        "itemType": "ConfigItem",
+        "brand": 1171,
+        "family": 11805
+    },
+    "DeliveryMessageOverride": "Ships in 4-6 business days",
+    "HasDeliveryMessageOverride": true,
+    "StopSelling": false,
+    "IsStockItem": false,
+    "SubTotalAmountValue": 1199.99,
+    "ConfigurationIdentifier": "1~dkcwf01sa~19~en~us~1__"
+},
+{
+    "Id": "c1ff1e21-55bb-49a9-8b03-296a4355e238",
+    "IdWithoutSpecialCharacters": "c1ff1e2155bb49a98b03296a4355e238",
+    "ProductId": "dkcwg01s",
+    "Description": "Alienware 17",
+    "ShowProductStackDescription": false,
+    "IsValid": true,
+    "LeadTimeInfo": {
+        "EstimatedShipDate": "6/14/2016",
+        "ShowEstimatedShipDate": true,
+        "ShowEstimatedDeliveryDate": false,
+        "HasValidEstimatedDeliveryDate": false,
+        "CanCalculateEstimatedDeliveryDate": true
+    },
+    "IsSavedCartItem": false,
+    "SubTotalAmount": "$1,499.99",
+    "DiscountsAndCouponsAmount": "$0.00",
+    "DiscountsAndCouponsAmountValue": 0,
+    "DiscountsAndCoupons": [
+    {
+        "CampaignId": 571235,
+        "Amount": "$0.00",
+        "ShortDescription": "12 months special financing",
+        "LongDescription": "12 months special financing on new Alienware PCs and consoles using Dell Preferred Account!",
+        "LegalDescription": "<!-- \r\n- 12 months special financing is a No Interest if Paid in Full by Your Due Date in July, 2017 promotion on new Alienware PCs and consoles and applies only to the amount purchased with Dell Preferred Account.\r\n- Your Standard Rate is ${APR}.  This APR will vary with the market based on the Prime Rate.\r\n- Interest will be charged to your account at the Standard Rate from the transaction posting date if the purchase balance is not paid in full by the end of the promotional period.  In addition, your Standard Rate will apply to the remaining balance.\r\n- To avoid accrued interest charges, minimum monthly payments are required and the balance must be paid by the end of your promotional period.\r\n- Minimum monthly payments are required, but may not pay your purchase in full by the end of the promotional period due to purchase amount, promotion length, additional purchases or allocation of payments in excess of the minimum payment. \r\n- Minimum purchase amount may be required.\r\n--> \r\nThe \"12 months special financing\" promotional financing includes new Alienware PCs and consoles purchased with your Dell Preferred Account.  You must have adequate available credit to purchase.  Pay your plan balance in full by your payment due date in July, 2017 or accrued interest will be assessed. Minimum monthly payments are required, but may not pay your purchase in full by the end of the promotional period due to purchase amount, promotion length, additional purchases or allocation of payments in excess of the minimum payment. Interest accrues at the Standard Rate (this APR will vary with the market based on the Prime Rate) from the transaction posting date and will be charged to the account if you do not pay your plan balance in full by your payment due date in July, 2017, or if you fail to make a required minimum payment at any time during the promotional period.  Promotional financing features apply only to the amount purchased with the Dell Preferred Account.   \r\n\r\n<p>Subject to credit approval.  WebBank determines creditworthiness, APR, credit limit, and qualification for promotional offers.  Qualifying for the Dell Preferred Account does not guarantee offer of promotional financing features.  You must purchase this item with your Dell Preferred Account and must have adequate available credit to take advantage of this promotion. Minimum purchase amount may be required</p>",
+        "ExpiryDate": "6/30/2016",
+        "HasExpiryDate": true,
+        "HasExpiryTextOverride": false,
+        "AllowRemove": false,
+        "ShowAmount": false
+    }
+    ],
+    "ShowDiscountsAndCoupons": true,
+    "DiscountsPopupTitle": "Additional Discounts & Coupons",
+    "TotalAmount": "$1,499.99",
+    "TotalAmountWithSubItems": "$1,499.99",
+    "TotalAmountWithSubItemsValue": 1499.99,
+    "Quantity": 1,
+    "QuantityWithSubItems": 1,
+    "AllowChangeQuantity": true,
+    "IsAssociatedItem": false,
+    "ImageUrl": "https://si.cdn.dell.com/images/global/configurator/chassis/alien-17-r2-nt-ft-120x107.jpg",
+    "UnitPriceAmount": "$1,499.99",
+    "ShowManufacturerPartNumber": false,
+    "ShowDellPartNumber": false,
+    "ShowCatalogNumber": true,
+    "CatalogNumber": "29 dkcwg01s",
+    "Components": [
+    {
+        "Name": "Alienware 17 R3",
+        "Description": "Alienware 17 R3",
+        "ProductCode": "CTOE17",
+        "Skus": [
+        "210-AFFV"
+        ]
+    },
+    {
+        "Name": "Video Card",
+        "Description": "NVIDIA® GeForce® GTX 970M with 3GB GDDR5",
+        "ProductCode": "GTX970",
+        "Skus": [
+        "490-BCLG"
+        ]
+    },
+    {
+        "Name": "Processor",
+        "Description": "Intel® Core™ i7-6700HQ (Quad-Core, 6MB Cache, up to 3.5GHz w/ Turbo Boost)",
+        "ProductCode": "7XFG7N",
+        "Skus": [
+        "338-BHVM"
+        ]
+    },
+    {
+        "Name": "Operating System",
+        "Description": "Windows 10 Home 64bit English",
+        "ProductCode": "10HHEE",
+        "Skus": [
+        "619-AHCY"
+        ]
+    },
+    {
+        "Name": "Display",
+        "Description": "17.3 inch FHD (1920 x 1080) IPS-Panel Anti-Glare 300-nits Display",
+        "ProductCode": "FHD",
+        "Skus": [
+        "391-BCMX"
+        ]
+    },
+    {
+        "Name": "Memory",
+        "Description": "8GB Dual Channel DDR4 at 2133MHz; up to 32GB (additional memory sold separately)",
+        "ProductCode": "8G2D",
+        "Skus": [
+        "370-ACLS"
+        ]
+    },
+    {
+        "Name": "Hard Drive",
+        "Description": "1TB 7200RPM SATA 6Gb/s",
+        "ProductCode": "1TB7200",
+        "Skus": [
+        "400-AHHF"
+        ]
+    },
+    {
+        "Name": "Wireless",
+        "Description": "Killer 1535 802.11ac 2x2 WiFi and Bluetooth 4.1",
+        "ProductCode": "N1535",
+        "Skus": [
+        "555-BCRM"
+        ]
+    },
+    {
+        "Name": "Battery",
+        "Description": "8-cell Lithium Ion (92 Wh) Battery",
+        "ProductCode": "8C",
+        "Skus": [
+        "451-BBMW"
+        ]
+    },
+    {
+        "Name": "Operating System Recovery",
+        "Description": "No OS Recovery Disc Included",
+        "ProductCode": "NONE",
+        "Skus": [
+        "340-ACQQ"
+        ]
+    },
+    {
+        "Name": "Keyboard",
+        "Description": "English Backlit Keyboard, powered by AlienFX",
+        "ProductCode": "KBDENG",
+        "Skus": [
+        "580-ACWN",
+        "583-BCQG"
+        ]
+    },
+    {
+        "Name": "AC Adapter",
+        "Description": "Alienware 180W AC Adapter",
+        "ProductCode": "180W3P",
+        "Skus": [
+        "450-AAGU"
+        ]
+    },
+    {
+        "Name": "Cable",
+        "Description": "US Power Cord 110V",
+        "ProductCode": "110VPWR",
+        "Skus": [
+        "450-AAUO"
+        ]
+    },
+    {
+        "Name": "Retail Software",
+        "Description": "Dell.com Order",
+        "ProductCode": "NORTL",
+        "Skus": [
+        "332-1530"
+        ]
+    },
+    {
+        "Name": "Documentation/Disks",
+        "Description": "Safety/Environment and Regulatory Guide (English/French)",
+        "ProductCode": "ENGMUI",
+        "Skus": [
+        "340-AGUD"
+        ]
+    },
+    {
+        "Name": "Packing Label",
+        "Description": "Dell.com Order",
+        "ProductCode": "NORTL",
+        "Skus": [
+        "332-1530"
+        ]
+    },
+    {
+        "Name": "Non-Microsoft Application Software",
+        "Description": "Additional Software",
+        "ProductCode": "ALWW10",
+        "Skus": [
+        "658-BCUO"
+        ]
+    },
+    {
+        "Name": "Additional Settings",
+        "Description": "Dropbox, Digital Delivery, 20GB for 1 Year Promotion",
+        "ProductCode": "DRPBOX",
+        "Skus": [
+        "525-0016"
+        ]
+    },
+    {
+        "Name": "Packaging",
+        "Description": "Shipping Material",
+        "ProductCode": "SHPMT",
+        "Skus": [
+        "340-AAPP",
+        "340-ATTO"
+        ]
+    },
+    {
+        "Name": "Shipping SKU's",
+        "Description": "Shipping Material",
+        "ProductCode": "USNONE",
+        "Skus": [
+        "332-1286"
+        ]
+    },
+    {
+        "Name": "Intel Processor Driver",
+        "Description": "Intel Driver",
+        "ProductCode": "SKYLAKE",
+        "Skus": [
+        "631-AATV"
+        ]
+    },
+    {
+        "Name": "Placemat",
+        "Description": "Placemat",
+        "ProductCode": "PLCMT",
+        "Skus": [
+        "340-ASNH"
+        ]
+    },
+    {
+        "Name": "Driver",
+        "Description": "Killer N1535 Wireless Driver",
+        "ProductCode": "1535DR",
+        "Skus": [
+        "555-BCRW"
+        ]
+    },
+    {
+        "Name": "FGA Module",
+        "Description": "No FGA",
+        "ProductCode": "NOFGA",
+        "Skus": [
+        "817-BBBB"
+        ]
+    },
+    {
+        "Name": "Label",
+        "Description": "Regulatory Label",
+        "ProductCode": "REGLBL",
+        "Skus": [
+        "389-BHPD"
+        ]
+    },
+    {
+        "Name": "Microsoft Office Productivity Software – Word, Excel, Powerpoint & more",
+        "Description": "Microsoft Office 30 Day Trial",
+        "ProductCode": "OTRT13",
+        "Skus": [
+        "658-BCSC"
+        ]
+    },
+    {
+        "Name": "Security Software",
+        "Description": "No Anti-virus Requested",
+        "ProductCode": "NOAV",
+        "Skus": [
+        "817-BBBP"
+        ]
+    },
+    {
+        "Name": "Support  <span class=\"dellRecommended\">(Limited time: Get 4 years for the Price of 3)</span>",
+        "Description": "1 Year Limited Hardware Warranty with Onsite Service after Remote Diagnosis",
+        "ProductCode": "NBD1",
+        "Skus": [
+        "801-2185",
+        "801-2232"
+        ]
+    },
+    {
+        "Name": "Processor Label",
+        "Description": "Intel® Core™ i7 Label",
+        "ProductCode": "CI7SML",
+        "Skus": [
+        "389-BHGE"
+        ]
+    }
+    ],
+    "ShowComponents": true,
+    "Alerts": [],
+    "EvergreenMessages": [],
+    "HasBundledItems": false,
+    "BundledItems": [],
+    "IsBundledItem": false,
+    "IsFastTrack": false,
+    "Metadata": {
+        "itemType": "ConfigItem",
+        "brand": 1171,
+        "family": 11806
+    },
+    "DeliveryMessageOverride": "Ships in 5-7 business days",
+    "HasDeliveryMessageOverride": true,
+    "StopSelling": false,
+    "IsStockItem": false,
+    "SubTotalAmountValue": 1499.99,
+    "ConfigurationIdentifier": "1~dkcwg01s~19~en~us~1__"
+},
+{
+    "Id": "c58fc0f2-0bb4-4769-863f-c81472a7e62f",
+    "IdWithoutSpecialCharacters": "c58fc0f20bb44769863fc81472a7e62f",
+    "ProductId": "fncwy01s",
+    "Description": "Dell Chromebook 11 Non-Touch",
+    "ShowProductStackDescription": false,
+    "IsValid": true,
+    "LeadTimeInfo": {
+        "EstimatedShipDate": "6/7/2016",
+        "ShowEstimatedShipDate": true,
+        "ShowEstimatedDeliveryDate": false,
+        "HasValidEstimatedDeliveryDate": false,
+        "CanCalculateEstimatedDeliveryDate": true
+    },
+    "IsSavedCartItem": false,
+    "SubTotalAmount": "$312.85",
+    "DiscountsAndCouponsAmount": "-$93.85",
+    "DiscountsAndCouponsAmountValue": 93.85,
+    "DiscountsAndCoupons": [
+    {
+        "CampaignId": 453383,
+        "Amount": "-$93.85",
+        "ShortDescription": "Chromebook 11 price includes $93.85 instant discount.",
+        "LongDescription": "Chromebook 11 price includes $93.85 instant discount.",
+        "LegalDescription": "Specifications, availability and terms of offer may change without notice. Taxes and shipping charges are extra, and vary. Offer for U.S. Dell Home Systems Co. new system online purchases only.  Dell cannot be responsible for pricing or other errors, and reserves the right to cancel orders arising from such errors.",
+        "ExpiryDate": "1/1/2018",
+        "HasExpiryDate": true,
+        "HasExpiryTextOverride": false,
+        "AllowRemove": false,
+        "ShowAmount": true
+    },
+    {
+        "CampaignId": 267195,
+        "Amount": "$0.00",
+        "ShortDescription": "$20 instant off all Inspiron PCs under $500 with Dell Preferred Account™^",
+        "LongDescription": "$20 instant off all Inspiron PCs under $500 when financed with Dell Preferred Account™^ Discount applied during checkout.",
+        "LegalDescription": "Limited time offer for qualified customers. $20 instant savings applied at checkout when using a Dell Preferred Account™.^ DELL PREFERRED ACCOUNT (DPA): Offered to U.S. residents by WebBank, who determines qualifications for and terms of credit. Promotion eligibility varies and is determined by WebBank. Taxes, shipping, and other charges are extra and vary.",
+        "ExpiryDate": "1/1/2018",
+        "HasExpiryDate": true,
+        "HasExpiryTextOverride": false,
+        "AllowRemove": false,
+        "ShowAmount": false
+    }
+    ],
+    "ShowDiscountsAndCoupons": true,
+    "DiscountsPopupTitle": "Additional Discounts & Coupons",
+    "TotalAmount": "$219.00",
+    "TotalAmountWithSubItems": "$219.00",
+    "TotalAmountWithSubItemsValue": 219,
+    "Quantity": 1,
+    "QuantityWithSubItems": 1,
+    "AllowChangeQuantity": true,
+    "IsAssociatedItem": false,
+    "ImageUrl": "https://si.cdn.dell.com/images/global/configurator/chassis/chromebook11-front-120x107.jpg",
+    "UnitPriceAmount": "$312.85",
+    "ShowManufacturerPartNumber": false,
+    "ShowDellPartNumber": false,
+    "ShowCatalogNumber": true,
+    "CatalogNumber": "29 fncwy01s",
+    "Components": [
+    {
+        "Name": "UPC Labels",
+        "Description": "UPC Label UPC884116176527",
+        "ProductCode": "UPC527",
+        "Skus": [
+        "389-BFZW"
+        ]
+    },
+    {
+        "Name": "Base Options",
+        "Description": "Chrome OS, Intel® Celeron-N2840 Proc, 2GB RAM DDR3L Memory, 16GB eMMC SSD Storage Wifi",
+        "ProductCode": "2GBN",
+        "Skus": [
+        "329-BCLN"
+        ]
+    },
+    {
+        "Name": "Dell Chromebook 11",
+        "Description": "Dell Chromebook 11",
+        "ProductCode": "C3120X",
+        "Skus": [
+        "210-ADWO"
+        ]
+    },
+    {
+        "Name": "Wireless",
+        "Description": "Intel® Dual Band Wireless-AC 7260 802.11AC Wi-Fi + BT 4.0 LE Wireless Card",
+        "ProductCode": "7260AC",
+        "Skus": [
+        "555-BBRS"
+        ]
+    },
+    {
+        "Name": "Support",
+        "Description": "1 Year Ltd Hware Warranty: Mail-in; Customer supplies box, Dell pays shipping",
+        "ProductCode": "MI1",
+        "Skus": [
+        "801-5292",
+        "801-5338"
+        ]
+    },
+    {
+        "Name": "LCD",
+        "Description": "11.6” Anti-Glare HD Non-Touch LCD",
+        "ProductCode": "NTOUCH",
+        "Skus": [
+        "391-BBYI"
+        ]
+    },
+    {
+        "Name": "Primary Battery",
+        "Description": "3 cell Battery (43 WHr)",
+        "ProductCode": "43WHR",
+        "Skus": [
+        "451-BBNH"
+        ]
+    },
+    {
+        "Name": "Color Choice",
+        "Description": "Non- Touch LCD Back Cover ( Black )",
+        "ProductCode": "NTBLK",
+        "Skus": [
+        "320-BBND"
+        ]
+    },
+    {
+        "Name": "FGA Module",
+        "Description": "Chrome_11_2GB_001/US/BTS",
+        "ProductCode": "FG0006",
+        "Skus": [
+        "998-BLXX"
+        ]
+    },
+    {
+        "Name": "Keyboard",
+        "Description": "Internal English Chrome Keyboard - Black",
+        "ProductCode": "BLKUS",
+        "Skus": [
+        "580-AEOO"
+        ]
+    },
+    {
+        "Name": "Placemat",
+        "Description": "Placemat",
+        "ProductCode": "PLCMAT",
+        "Skus": [
+        "340-ANMZ"
+        ]
+    },
+    {
+        "Name": "Packaging Label",
+        "Description": "Non-Retail Order",
+        "ProductCode": "NORTL",
+        "Skus": [
+        "332-1530"
+        ]
+    },
+    {
+        "Name": "Packaging",
+        "Description": "Ship Material - Non Retail",
+        "ProductCode": "SHIP",
+        "Skus": [
+        "328-BCBH",
+        "340-ABFC"
+        ]
+    },
+    {
+        "Name": "Processor Branding",
+        "Description": "Intel(R) Celeron(R) CPU Label",
+        "ProductCode": "INCLBK",
+        "Skus": [
+        "340-AQVB"
+        ]
+    },
+    {
+        "Name": "Power Supply",
+        "Description": "65W AC Adapter, 3-pin",
+        "ProductCode": "65W",
+        "Skus": [
+        "492-BBDD",
+        "537-BBBL"
+        ]
+    },
+    {
+        "Name": "Retail Software",
+        "Description": "Non-Retail Order",
+        "ProductCode": "NORTL",
+        "Skus": [
+        "332-0550"
+        ]
+    },
+    {
+        "Name": "Documentation/Disks",
+        "Description": "System Documentation, Multi Language",
+        "ProductCode": "DOCENG",
+        "Skus": [
+        "340-AGYZ"
+        ]
+    },
+    {
+        "Name": "Labels",
+        "Description": "No Labels",
+        "ProductCode": "NONE",
+        "Skus": [
+        "817-BBBC"
+        ]
+    }
+    ],
+    "ShowComponents": true,
+    "Alerts": [],
+    "EvergreenMessages": [],
+    "HasBundledItems": false,
+    "BundledItems": [],
+    "IsBundledItem": false,
+    "IsFastTrack": true,
+    "Metadata": {
+        "itemType": "ConfigItem",
+        "brand": 1177,
+        "family": 11326
+    },
+    "HasDeliveryMessageOverride": false,
+    "StopSelling": false,
+    "IsStockItem": true,
+    "SubTotalAmountValue": 312.85,
+    "ConfigurationIdentifier": "1~fncwy01s~19~en~us~1__"
+},
+{
+    "Id": "72f33c7c-3082-4034-98df-db6b084ad0c7",
+    "IdWithoutSpecialCharacters": "72f33c7c3082403498dfdb6b084ad0c7",
+    "ProductId": "fncwym02s",
+    "Description": "Dell Chromebook 13 Non-Touch",
+    "ShowProductStackDescription": false,
+    "IsValid": true,
+    "LeadTimeInfo": {
+        "EstimatedShipDate": "6/15/2016",
+        "ShowEstimatedShipDate": true,
+        "ShowEstimatedDeliveryDate": false,
+        "HasValidEstimatedDeliveryDate": false,
+        "CanCalculateEstimatedDeliveryDate": true
+    },
+    "IsSavedCartItem": false,
+    "SubTotalAmount": "$593.86",
+    "DiscountsAndCouponsAmount": "-$164.86",
+    "DiscountsAndCouponsAmountValue": 164.86,
+    "DiscountsAndCoupons": [
+    {
+        "CampaignId": 503501,
+        "Amount": "-$164.86",
+        "ShortDescription": "Chromebook 13 price includes $164.86 instant discount.",
+        "LongDescription": "Chromebook 13 price includes $164.86 instant discount.",
+        "LegalDescription": "Specifications, availability and terms of offer may change without notice. Taxes and shipping charges are extra, and vary. Offer for U.S. Dell Home Systems Co. new system online purchases only.  Dell cannot be responsible for pricing or other errors, and reserves the right to cancel orders arising from such errors.",
+        "ExpiryDate": "12/31/2016",
+        "HasExpiryDate": true,
+        "HasExpiryTextOverride": false,
+        "AllowRemove": false,
+        "ShowAmount": true
+    },
+    {
+        "CampaignId": 267195,
+        "Amount": "$0.00",
+        "ShortDescription": "$20 instant off all Inspiron PCs under $500 with Dell Preferred Account™^",
+        "LongDescription": "$20 instant off all Inspiron PCs under $500 when financed with Dell Preferred Account™^ Discount applied during checkout.",
+        "LegalDescription": "Limited time offer for qualified customers. $20 instant savings applied at checkout when using a Dell Preferred Account™.^ DELL PREFERRED ACCOUNT (DPA): Offered to U.S. residents by WebBank, who determines qualifications for and terms of credit. Promotion eligibility varies and is determined by WebBank. Taxes, shipping, and other charges are extra and vary.",
+        "ExpiryDate": "1/1/2018",
+        "HasExpiryDate": true,
+        "HasExpiryTextOverride": false,
+        "AllowRemove": false,
+        "ShowAmount": false
+    }
+    ],
+    "ShowDiscountsAndCoupons": true,
+    "DiscountsPopupTitle": "Additional Discounts & Coupons",
+    "TotalAmount": "$429.00",
+    "TotalAmountWithSubItems": "$429.00",
+    "TotalAmountWithSubItemsValue": 429,
+    "Quantity": 1,
+    "QuantityWithSubItems": 1,
+    "AllowChangeQuantity": true,
+    "IsAssociatedItem": false,
+    "ImageUrl": "https://si.cdn.dell.com/images/global/configurator/chassis/nb-cb-13-7310-gry-ft-120x107.jpg",
+    "UnitPriceAmount": "$593.86",
+    "ShowManufacturerPartNumber": false,
+    "ShowDellPartNumber": false,
+    "ShowCatalogNumber": true,
+    "CatalogNumber": "29 fncwym02s",
+    "Components": [
+    {
+        "Name": "UPC Label",
+        "Description": "No UPC Label",
+        "ProductCode": "NOLBL",
+        "Skus": [
+        "389-BCGW"
+        ]
+    },
+    {
+        "Name": "Base Options",
+        "Description": "Chrome OS, Intel® Celeron™ 3215U, 4GB",
+        "ProductCode": "15CEL4",
+        "Skus": [
+        "321-BBZZ"
+        ]
+    },
+    {
+        "Name": "Chromebook 13",
+        "Description": "Dell Chromebook 7310",
+        "ProductCode": "MERBTX",
+        "Skus": [
+        "210-AESN"
+        ]
+    },
+    {
+        "Name": "Wireless",
+        "Description": "Intel® Dual Band Wireless-AC 7260 802.11AC Wi-Fi + BT 4.0 LE Wireless Card",
+        "ProductCode": "IW7260",
+        "Skus": [
+        "555-BBRS"
+        ]
+    },
+    {
+        "Name": "Support",
+        "Description": "1 Year Ltd Hware Warranty: Mail-in; Customer supplies box, Dell pays shipping",
+        "ProductCode": "MI1",
+        "Skus": [
+        "804-1786",
+        "804-1787"
+        ]
+    },
+    {
+        "Name": "Hard Drive",
+        "Description": "16GB Solid State Drive",
+        "ProductCode": "16GBSSD",
+        "Skus": [
+        "400-AICY"
+        ]
+    },
+    {
+        "Name": "LCD",
+        "Description": "13.3\" FHD Non-Touch LCD",
+        "ProductCode": "NTOUCH",
+        "Skus": [
+        "391-BCGK"
+        ]
+    },
+    {
+        "Name": "Primary Battery",
+        "Description": "67Whr 6 Cell Battery",
+        "ProductCode": "6CBATT",
+        "Skus": [
+        "451-BBOT"
+        ]
+    },
+    {
+        "Name": "Color Choice",
+        "Description": "Non-Touch LCD Cover - Black",
+        "ProductCode": "BLKNTCH",
+        "Skus": [
+        "320-BBRD"
+        ]
+    },
+    {
+        "Name": "FGA Module",
+        "Description": "Meridian_13_1H_102/US/BTO",
+        "ProductCode": "FG0013",
+        "Skus": [
+        "998-BWJZ"
+        ]
+    },
+    {
+        "Name": "Keyboard",
+        "Description": "Internal Keyboard. Layout 74 keys US-English. For US, Canada.",
+        "ProductCode": "KBDUS",
+        "Skus": [
+        "340-AQGC",
+        "580-ADXC"
+        ]
+    },
+    {
+        "Name": "Placemat",
+        "Description": "Placemat",
+        "ProductCode": "PLCMAT",
+        "Skus": [
+        "340-AQKG"
+        ]
+    },
+    {
+        "Name": "Packaging Label",
+        "Description": "Non-Retail Order",
+        "ProductCode": "NORTL",
+        "Skus": [
+        "332-1530"
+        ]
+    },
+    {
+        "Name": "Packaging",
+        "Description": "Ship Material - Non Retail",
+        "ProductCode": "SHIP",
+        "Skus": [
+        "328-BCDG",
+        "340-ABSE",
+        "640-BBJB"
+        ]
+    },
+    {
+        "Name": "Processor Branding",
+        "Description": "Intel(R) Celeron(R) CPU Label",
+        "ProductCode": "CELLBL",
+        "Skus": [
+        "340-AQVB"
+        ]
+    },
+    {
+        "Name": "Power Supply",
+        "Description": "65 Watt AC Adaptor",
+        "ProductCode": "65WAA",
+        "Skus": [
+        "450-AAHV",
+        "450-ADTR"
+        ]
+    },
+    {
+        "Name": "Retail Software",
+        "Description": "Dell.com Order",
+        "ProductCode": "NORTL",
+        "Skus": [
+        "332-0550"
+        ]
+    },
+    {
+        "Name": "Documentation/Disks",
+        "Description": "Safety/Environment and Regulatory Guide (English/French/Dutch)",
+        "ProductCode": "DOC",
+        "Skus": [
+        "340-AGIK"
+        ]
+    },
+    {
+        "Name": "E-Star",
+        "Description": "E-star 6.0 Enabled",
+        "ProductCode": "ESTAR6",
+        "Skus": [
+        "387-BBLO"
+        ]
+    }
+    ],
+    "ShowComponents": true,
+    "Alerts": [],
+    "EvergreenMessages": [],
+    "HasBundledItems": false,
+    "BundledItems": [],
+    "IsBundledItem": false,
+    "IsFastTrack": false,
+    "Metadata": {
+        "itemType": "ConfigItem",
+        "brand": 1177,
+        "family": 11625
+    },
+    "DeliveryMessageOverride": "Ships in 7-9 business days",
+    "HasDeliveryMessageOverride": true,
+    "StopSelling": false,
+    "IsStockItem": false,
+    "SubTotalAmountValue": 593.86,
+    "ConfigurationIdentifier": "1~fncwym02s~19~en~us~1__"
+},
+{
+    "Id": "ad218232-a549-4d73-9252-94347723ef5c",
+    "IdWithoutSpecialCharacters": "ad218232a5494d73925294347723ef5c",
+    "ProductId": "cto01le747014us",
+    "Description": "New Latitude 14 7000 Series",
+    "ShowProductStackDescription": false,
+    "IsValid": true,
+    "LeadTimeInfo": {
+        "EstimatedShipDate": "6/13/2016",
+        "ShowEstimatedShipDate": true,
+        "ShowEstimatedDeliveryDate": false,
+        "HasValidEstimatedDeliveryDate": false,
+        "CanCalculateEstimatedDeliveryDate": true
+    },
+    "IsSavedCartItem": false,
+    "SubTotalAmount": "$1,541.43",
+    "DiscountsAndCouponsAmount": "-$462.43",
+    "DiscountsAndCouponsAmountValue": 462.43,
+    "DiscountsAndCoupons": [
+    {
+        "CampaignId": 534575,
+        "Amount": "-$462.43",
+        "ShortDescription": "Save 30% on select New Latitude 14 7000 Series Business PCs!",
+        "LongDescription": "Save 30% on select New Latitude 14 7000 Series Business PCs!",
+        "LegalDescription": "",
+        "ExpiryDate": "12/6/2016",
+        "HasExpiryDate": true,
+        "HasExpiryTextOverride": false,
+        "AllowRemove": false,
+        "ShowAmount": true
+    }
+    ],
+    "ShowDiscountsAndCoupons": true,
+    "DiscountsPopupTitle": "Additional Discounts & Coupons",
+    "TotalAmount": "$1,079.00",
+    "TotalAmountWithSubItems": "$1,079.00",
+    "TotalAmountWithSubItemsValue": 1079,
+    "Quantity": 1,
+    "QuantityWithSubItems": 1,
+    "AllowChangeQuantity": true,
+    "IsAssociatedItem": false,
+    "ImageUrl": "https://si.cdn.dell.com/images/global/configurator/chassis/latit-14-e7470-t-bk-ft-wnd-120x107.jpg",
+    "UnitPriceAmount": "$1,541.43",
+    "ShowManufacturerPartNumber": false,
+    "ShowDellPartNumber": false,
+    "ShowCatalogNumber": true,
+    "CatalogNumber": "4 cto01le747014us",
+    "Components": [
+    {
+        "Name": "Dell Latitude E7470",
+        "Description": "Dell Latitude E7470, CTO",
+        "ProductCode": "E7470T",
+        "Skus": [
+        "210-AETM"
+        ]
+    },
+    {
+        "Name": "Processor",
+        "Description": "Intel® Core™ i3-6100U (Dual Core, 2.3GHz, 3M cache, 15W)",
+        "ProductCode": "I36100",
+        "Skus": [
+        "379-BCFV"
+        ]
+    },
+    {
+        "Name": "Operating System",
+        "Description": "Windows 7 Professional English, French, Spanish 64bit (Includes Windows 10 Pro License)",
+        "ProductCode": "DW10P7M",
+        "Skus": [
+        "619-AIKP"
+        ]
+    },
+    {
+        "Name": "Processor Information",
+        "Description": "I3-6100,U,T,E7470",
+        "ProductCode": "UI3",
+        "Skus": [
+        "338-BHPQ"
+        ]
+    },
+    {
+        "Name": "Office Productivity Software",
+        "Description": "Microsoft Office 30 Day Trial",
+        "ProductCode": "16MUI",
+        "Skus": [
+        "658-BCSB"
+        ]
+    },
+    {
+        "Name": "Dell Data Protection Solutions",
+        "Description": "No DDPE Encryption Software",
+        "ProductCode": "NODDPE",
+        "Skus": [
+        "954-3465"
+        ]
+    },
+    {
+        "Name": "Dell Threat Protection and Endpoint Security Suite",
+        "Description": "No Dell Data Protection | Endpoint Security Suite Software",
+        "ProductCode": "NODDP",
+        "Skus": [
+        "634-BENZ"
+        ]
+    },
+    {
+        "Name": "LCD",
+        "Description": "14.0” HD (1366 x 768) Anti Glare LCD, Camera and Mic, WLAN/WWAN Capable",
+        "ProductCode": "LNCHWW",
+        "Skus": [
+        "320-BBRB",
+        "391-BCFM"
+        ]
+    },
+    {
+        "Name": "Memory",
+        "Description": "4GB (1x4GB) 2133MHz DDR4 Memory",
+        "ProductCode": "4G1D4",
+        "Skus": [
+        "370-ACDC"
+        ]
+    },
+    {
+        "Name": "Hard Drive",
+        "Description": "M.2 128GB SATA Class 20 Solid State Drive",
+        "ProductCode": "128SDS",
+        "Skus": [
+        "400-AHHX"
+        ]
+    },
+    {
+        "Name": "Intel Responsiveness Technologies",
+        "Description": "Intel Rapid Storage Technology",
+        "ProductCode": "IRST",
+        "Skus": [
+        "409-BBIV"
+        ]
+    },
+    {
+        "Name": "Systems Management",
+        "Description": "No Out-of-Band Systems Management",
+        "ProductCode": "NOVPRO",
+        "Skus": [
+        "631-AARE"
+        ]
+    },
+    {
+        "Name": "Wireless",
+        "Description": "Intel® Dual-Band Wireless-AC 8260 Wi-Fi + BT 4.1 Wireless Card (2x2)",
+        "ProductCode": "8260AC",
+        "Skus": [
+        "555-BCMT"
+        ]
+    },
+    {
+        "Name": "Driver",
+        "Description": "Intel® Dual-Band Wireless-AC 8260 Wi-Fi + BT 4.1 Wireless Driver (2x2)",
+        "ProductCode": "8260",
+        "Skus": [
+        "555-BCUZ"
+        ]
+    },
+    {
+        "Name": "Processor Branding",
+        "Description": "LABEL,INTEL,CI3,6,SML",
+        "ProductCode": "CI3SML",
+        "Skus": [
+        "389-BHGC"
+        ]
+    },
+    {
+        "Name": "Mobile Broadband",
+        "Description": "No Mobile Broadband Card",
+        "ProductCode": "NOWW",
+        "Skus": [
+        "362-BBBB"
+        ]
+    },
+    {
+        "Name": "Keyboard",
+        "Description": "82 Key Internal English Keyboard",
+        "ProductCode": "ENG",
+        "Skus": [
+        "583-BCUP"
+        ]
+    },
+    {
+        "Name": "PalmRest",
+        "Description": "No Smart Card or Fingerprint Reader for 82 Key, Single Point Keyboard",
+        "ProductCode": "NO2S",
+        "Skus": [
+        "346-BBQY"
+        ]
+    },
+    {
+        "Name": "AC Adapter",
+        "Description": "65 Watt AC Adaptor",
+        "ProductCode": "65W3P",
+        "Skus": [
+        "450-AAYT"
+        ]
+    },
+    {
+        "Name": "Cable",
+        "Description": "Power Cord, US",
+        "ProductCode": "PWRUS",
+        "Skus": [
+        "450-AAEJ"
+        ]
+    },
+    {
+        "Name": "Primary Battery",
+        "Description": "Primary 3-cell 37W/HR Battery with ExpressCharge™",
+        "ProductCode": "3C",
+        "Skus": [
+        "451-BBPL"
+        ]
+    },
+    {
+        "Name": "Docking Solutions",
+        "Description": "No Docking Station",
+        "ProductCode": "NONE",
+        "Skus": [
+        "452-BBSE"
+        ]
+    },
+    {
+        "Name": "Carrying Cases",
+        "Description": "No Carrying Case",
+        "ProductCode": "NONE",
+        "Skus": [
+        "460-BBEX"
+        ]
+    },
+    {
+        "Name": "Operating System Recovery Options",
+        "Description": "Windows 10 OS Recovery 64bit - DVD",
+        "ProductCode": "M10PD6M",
+        "Skus": [
+        "620-AAYW"
+        ]
+    },
+    {
+        "Name": "Documentation/Disks",
+        "Description": "Safety/Environment and Regulatory Guide (English/French Multi-language)",
+        "ProductCode": "EFDOC",
+        "Skus": [
+        "340-AGIK"
+        ]
+    },
+    {
+        "Name": "Placemat",
+        "Description": "Quick Reference Guide",
+        "ProductCode": "PLCMT",
+        "Skus": [
+        "340-AUSC"
+        ]
+    },
+    {
+        "Name": "Diagnostic CD / Diskette",
+        "Description": "No Resource DVD",
+        "ProductCode": "NRDVD",
+        "Skus": [
+        "430-XXYG"
+        ]
+    },
+    {
+        "Name": "TAA",
+        "Description": "No TAA",
+        "ProductCode": "NOTAA",
+        "Skus": [
+        "340-ACQQ"
+        ]
+    },
+    {
+        "Name": "E-Star",
+        "Description": "ESTAR6.1",
+        "ProductCode": "ESTAR",
+        "Skus": [
+        "387-BBKE"
+        ]
+    },
+    {
+        "Name": "Labels",
+        "Description": "Intel® Ultrabook Logo",
+        "ProductCode": "UTRABK",
+        "Skus": [
+        "389-BCVY"
+        ]
+    },
+    {
+        "Name": "Label",
+        "Description": "Regulatory Label Included",
+        "ProductCode": "REG",
+        "Skus": [
+        "389-BEYY"
+        ]
+    },
+    {
+        "Name": "UPC Label",
+        "Description": "No UPC Label",
+        "ProductCode": "NOLBL",
+        "Skus": [
+        "389-BCGW"
+        ]
+    },
+    {
+        "Name": "Canada Ship Options",
+        "Description": "US No Canada Ship Charge",
+        "ProductCode": "USNONE",
+        "Skus": [
+        "332-1286"
+        ]
+    },
+    {
+        "Name": "Packaging",
+        "Description": "MIX SHIP Config (DAO)",
+        "ProductCode": "SHPMX",
+        "Skus": [
+        "340-AAPP",
+        "340-AQIR"
+        ]
+    },
+    {
+        "Name": "Transportation from ODM to region",
+        "Description": "Standard Shipment",
+        "ProductCode": "STND",
+        "Skus": [
+        "800-BBGT"
+        ]
+    },
+    {
+        "Name": "Configuration Details",
+        "Description": "Flex 1",
+        "ProductCode": "FLEX1",
+        "Skus": [
+        "379-BCHD"
+        ]
+    },
+    {
+        "Name": "FGA Module",
+        "Description": "Dell Latitude E7470, CTO/BTO",
+        "ProductCode": "FG0040",
+        "Skus": [
+        "998-BTNU"
+        ]
+    },
+    {
+        "Name": "Non-Microsoft Application Software",
+        "Description": "OS Recovery",
+        "ProductCode": "WIN7",
+        "Skus": [
+        "340-ADFZ",
+        "340-AUSB",
+        "422-0007",
+        "422-0052",
+        "637-AAAS",
+        "640-BBDF",
+        "640-BBEV",
+        "640-BBLW",
+        "658-BBMR",
+        "658-BBNF"
+        ]
+    },
+    {
+        "Name": "Service",
+        "Description": "3 Year Hardware Service with In-Home/Onsite Service After Remote Diagnosis",
+        "ProductCode": "NBD3",
+        "Skus": [
+        "804-2237",
+        "804-2238"
+        ]
+    },
+    {
+        "Name": "Mouse",
+        "Description": "No Mouse Selected",
+        "ProductCode": "NOMSE",
+        "Skus": [
+        "570-AADK"
+        ]
+    },
+    {
+        "Name": "Accessories",
+        "Description": "Dell Docking Spacer for E7x40",
+        "ProductCode": "SPACER",
+        "Skus": [
+        "452-BBDB"
+        ]
+    }
+    ],
+    "ShowComponents": true,
+    "Alerts": [],
+    "EvergreenMessages": [],
+    "HasBundledItems": false,
+    "BundledItems": [],
+    "IsBundledItem": false,
+    "IsFastTrack": false,
+    "Metadata": {
+        "itemType": "ConfigItem",
+        "brand": 3,
+        "family": 11628
+    },
+    "DeliveryMessageOverride": "Ships in 4-6 business days",
+    "HasDeliveryMessageOverride": true,
+    "StopSelling": false,
+    "IsStockItem": false,
+    "SubTotalAmountValue": 1541.43,
+    "ConfigurationIdentifier": "1~cto01le747014us~04~en~us~1__572;FG0040;1"
+},
+{
+    "Id": "572dba80-64a1-417a-9a8c-8e24290b6273",
+    "IdWithoutSpecialCharacters": "572dba8064a1417a9a8c8e24290b6273",
+    "ProductId": "s001uble557015us",
+    "Description": "New Latitude 15 5000 Series (E5570)",
+    "ShowProductStackDescription": false,
+    "IsValid": true,
+    "LeadTimeInfo": {
+        "EstimatedShipDate": "6/6/2016",
+        "ShowEstimatedShipDate": true,
+        "ShowEstimatedDeliveryDate": false,
+        "HasValidEstimatedDeliveryDate": false,
+        "CanCalculateEstimatedDeliveryDate": true
+    },
+    "IsSavedCartItem": false,
+    "SubTotalAmount": "$1,212.86",
+    "DiscountsAndCouponsAmount": "-$463.86",
+    "DiscountsAndCouponsAmountValue": 463.86,
+    "DiscountsAndCoupons": [
+    {
+        "CampaignId": 601904,
+        "Amount": "-$463.86",
+        "ShortDescription": "Save 38% on select Latitude E5570 Series Business PCs!",
+        "LongDescription": "Save 38% on select Latitude E5570 Series Business PCs!",
+        "LegalDescription": "",
+        "ExpiryDate": "6/5/2017",
+        "HasExpiryDate": true,
+        "HasExpiryTextOverride": false,
+        "AllowRemove": false,
+        "ShowAmount": true
+    }
+    ],
+    "ShowDiscountsAndCoupons": true,
+    "DiscountsPopupTitle": "Additional Discounts & Coupons",
+    "TotalAmount": "$749.00",
+    "TotalAmountWithSubItems": "$749.00",
+    "TotalAmountWithSubItemsValue": 749,
+    "Quantity": 1,
+    "QuantityWithSubItems": 1,
+    "AllowChangeQuantity": true,
+    "IsAssociatedItem": false,
+    "ImageUrl": "https://si.cdn.dell.com/images/global/configurator/chassis/lat-15-e5570-nt-bk-ft-120x107.jpg",
+    "UnitPriceAmount": "$1,212.86",
+    "ShowManufacturerPartNumber": false,
+    "ShowDellPartNumber": false,
+    "ShowCatalogNumber": true,
+    "CatalogNumber": "4 s001uble557015us",
+    "Components": [
+    {
+        "Name": "Dell Latitude E5570",
+        "Description": "Dell Latitude E5570, BTX",
+        "ProductCode": "5570X",
+        "Skus": [
+        "210-AENT"
+        ]
+    },
+    {
+        "Name": "Processor",
+        "Description": "Intel® Core™ i5-6200U (Dual Core, 2.3GHz, 3M cache, 15W)",
+        "ProductCode": "I56200",
+        "Skus": [
+        "379-BCFW"
+        ]
+    },
+    {
+        "Name": "Graphics",
+        "Description": "Intel® HD Graphics 520, for I5-6200U (non-Vpro)",
+        "ProductCode": "UUI5",
+        "Skus": [
+        "338-BHLM"
+        ]
+    },
+    {
+        "Name": "Processor Branding",
+        "Description": "LABEL,INTELL,CI5,6,SML",
+        "ProductCode": "CI5SML",
+        "Skus": [
+        "389-BHIB"
+        ]
+    },
+    {
+        "Name": "Operating System",
+        "Description": "Windows 7 Professional English, French, Spanish 64bit (Includes Windows 10 Pro License)",
+        "ProductCode": "DW10P7M",
+        "Skus": [
+        "619-AIKP"
+        ]
+    },
+    {
+        "Name": "Microsoft Application Software",
+        "Description": "Microsoft Office 30 Day Trial",
+        "ProductCode": "16MUI",
+        "Skus": [
+        "658-BCSB"
+        ]
+    },
+    {
+        "Name": "Non-Microsoft Application Software",
+        "Description": "OS Recovery",
+        "ProductCode": "WIN7",
+        "Skus": [
+        "340-ADFZ",
+        "340-AQCS",
+        "422-0007",
+        "422-0052",
+        "637-AAAS",
+        "640-BBDF",
+        "640-BBEV",
+        "640-BBLW",
+        "658-BBMR",
+        "658-BBNF"
+        ]
+    },
+    {
+        "Name": "Dell Data Protection Solutions",
+        "Description": "DDPE Personal Edition License + ProSupport for Software 1 Year",
+        "ProductCode": "PDPE1Y",
+        "Skus": [
+        "421-9984",
+        "954-3455"
+        ]
+    },
+    {
+        "Name": "Dell Threat Protection and Endpoint Security Suite",
+        "Description": "No Dell Data Protection | Endpoint Security Suite Software",
+        "ProductCode": "NODDP",
+        "Skus": [
+        "634-BENZ"
+        ]
+    },
+    {
+        "Name": "LCD",
+        "Description": "15.6\" HD (1366 x 768) Anti Glare LCD, Camera and Microphone, WWAN Capable",
+        "ProductCode": "LNCHWW",
+        "Skus": [
+        "320-BBPU",
+        "391-BCDK"
+        ]
+    },
+    {
+        "Name": "Memory",
+        "Description": "4GB (1x4GB) 2133MHz DDR4 Memory",
+        "ProductCode": "4G1D4",
+        "Skus": [
+        "370-ACDC"
+        ]
+    },
+    {
+        "Name": "Hard Drive",
+        "Description": "500GB 7mm 7.2krpm HD",
+        "ProductCode": "500GB",
+        "Skus": [
+        "400-AIIU",
+        "575-BBFI"
+        ]
+    },
+    {
+        "Name": "Intel Rapid Start and Smart Connect",
+        "Description": "Intel Rapid Storage Technology",
+        "ProductCode": "IRST",
+        "Skus": [
+        "409-BBFX"
+        ]
+    },
+    {
+        "Name": "Wireless",
+        "Description": "Intel® Dual-Band Wireless-AC 8260 Wi-Fi + BT 4.1 Wireless Card (2x2)",
+        "ProductCode": "8260AC",
+        "Skus": [
+        "555-BCMT"
+        ]
+    },
+    {
+        "Name": "Driver",
+        "Description": "Intel® Dual-Band Wireless-AC 8260 Wi-Fi + BT 4.1 Wireless Driver (2x2)",
+        "ProductCode": "W8260",
+        "Skus": [
+        "555-BCNB"
+        ]
+    },
+    {
+        "Name": "Mobile Broadband",
+        "Description": "No Wireless WAN Card",
+        "ProductCode": "NOWW",
+        "Skus": [
+        "362-BBBB"
+        ]
+    },
+    {
+        "Name": "Keyboard",
+        "Description": "Internal Dual Pointing Backlit Keyboard, English",
+        "ProductCode": "KIBDENG",
+        "Skus": [
+        "580-ACLF",
+        "583-BCTJ"
+        ]
+    },
+    {
+        "Name": "PalmRest",
+        "Description": "Dual Pointing palmrest without Smart Card",
+        "ProductCode": "DPRNSC",
+        "Skus": [
+        "346-BBRS"
+        ]
+    },
+    {
+        "Name": "Adapter",
+        "Description": "65 Watt AC Adaptor",
+        "ProductCode": "65W3P",
+        "Skus": [
+        "450-AAYT"
+        ]
+    },
+    {
+        "Name": "Cable",
+        "Description": "Power Cord, US",
+        "ProductCode": "PWRUS",
+        "Skus": [
+        "450-AAEJ"
+        ]
+    },
+    {
+        "Name": "Dell Battery",
+        "Description": "Primary 4-cell 62W/HR Battery",
+        "ProductCode": "4C",
+        "Skus": [
+        "451-BBPV"
+        ]
+    },
+    {
+        "Name": "Docking Stations",
+        "Description": "No Docking Station",
+        "ProductCode": "NONE",
+        "Skus": [
+        "452-BBSE"
+        ]
+    },
+    {
+        "Name": "Carrying Cases",
+        "Description": "No Carrying Case",
+        "ProductCode": "NONE",
+        "Skus": [
+        "460-BBEX"
+        ]
+    },
+    {
+        "Name": "Systems Management",
+        "Description": "No Out-of-Band Systems Management",
+        "ProductCode": "NOVPRO",
+        "Skus": [
+        "631-AARP"
+        ]
+    },
+    {
+        "Name": "Operating System Recovery Options",
+        "Description": "Windows 10 OS Recovery 64bit - DVD",
+        "ProductCode": "M10PD6M",
+        "Skus": [
+        "620-AAYW"
+        ]
+    },
+    {
+        "Name": "Documentation/Disks",
+        "Description": "Safety/Environment and Regulatory Guide (English/French Multi-language)",
+        "ProductCode": "EFDOC",
+        "Skus": [
+        "340-AGIK"
+        ]
+    },
+    {
+        "Name": "Placemat",
+        "Description": "Quick Reference Guide",
+        "ProductCode": "PLCMT",
+        "Skus": [
+        "340-ARKU"
+        ]
+    },
+    {
+        "Name": "Diagnostic CD / Diskette",
+        "Description": "No Resource DVD",
+        "ProductCode": "NRDVD",
+        "Skus": [
+        "430-XXYG"
+        ]
+    },
+    {
+        "Name": "TAA",
+        "Description": "No TAA",
+        "ProductCode": "NOTAA",
+        "Skus": [
+        "340-ACQQ"
+        ]
+    },
+    {
+        "Name": "Energy Efficient Option",
+        "Description": "ESTAR 6.1",
+        "ProductCode": "ESTAR",
+        "Skus": [
+        "387-BBKF"
+        ]
+    },
+    {
+        "Name": "Label",
+        "Description": "Regulatory Label Included",
+        "ProductCode": "REG",
+        "Skus": [
+        "389-BEYY"
+        ]
+    },
+    {
+        "Name": "Support Tech Sheet and Powercord",
+        "Description": "POD Label",
+        "ProductCode": "POD",
+        "Skus": [
+        "389-BCDK"
+        ]
+    },
+    {
+        "Name": "Canada Ship Options",
+        "Description": "US No Canada Ship Charge",
+        "ProductCode": "USNONE",
+        "Skus": [
+        "332-1286"
+        ]
+    },
+    {
+        "Name": "Packaging",
+        "Description": "Smart Select MIN SHIP (DAO/LATAM)",
+        "ProductCode": "SHPMN",
+        "Skus": [
+        "340-AAPP",
+        "340-AQJX"
+        ]
+    },
+    {
+        "Name": "Transportation from ODM to region",
+        "Description": "BTS Shipment",
+        "ProductCode": "BTS",
+        "Skus": [
+        "800-BBGG"
+        ]
+    },
+    {
+        "Name": "FGA Module",
+        "Description": "E5570_2H16_001/US/BTS",
+        "ProductCode": "FG0060",
+        "Skus": [
+        "998-BWLD"
+        ]
+    },
+    {
+        "Name": "Hardware Support Services",
+        "Description": "1 Year Hardware Service with In-Home/Onsite Service After Remote Diagnosis",
+        "ProductCode": "NBD1",
+        "Skus": [
+        "997-8317",
+        "997-8328"
+        ]
+    },
+    {
+        "Name": "All in one Solution",
+        "Description": "No Stand",
+        "ProductCode": "NOSTND",
+        "Skus": [
+        "575-BBCH"
+        ]
+    },
+    {
+        "Name": "Mouse",
+        "Description": "No Mouse Selected",
+        "ProductCode": "NOMSE",
+        "Skus": [
+        "570-AADK"
+        ]
+    },
+    {
+        "Name": "Accessories",
+        "Description": "Dell Docking Spacer",
+        "ProductCode": "SPACER",
+        "Skus": [
+        "452-BBDB"
+        ]
+    }
+    ],
+    "ShowComponents": true,
+    "Alerts": [],
+    "EvergreenMessages": [],
+    "HasBundledItems": false,
+    "BundledItems": [],
+    "IsBundledItem": false,
+    "IsFastTrack": true,
+    "Metadata": {
+        "itemType": "ConfigItem",
+        "brand": 3,
+        "family": 11548
+    },
+    "HasDeliveryMessageOverride": false,
+    "StopSelling": false,
+    "IsStockItem": true,
+    "SubTotalAmountValue": 1212.86,
+    "ConfigurationIdentifier": "1~s001uble557015us~04~en~us~1__572;FG0060;1"
+},
+{
+    "Id": "54365fe3-8d9e-47a4-9cee-73592a16349f",
+    "IdWithoutSpecialCharacters": "54365fe38d9e47a49cee73592a16349f",
+    "ProductId": "cto01al356015us",
+    "Description": "New Latitude 15 3000 Series",
+    "ShowProductStackDescription": false,
+    "IsValid": true,
+    "LeadTimeInfo": {
+        "EstimatedShipDate": "6/14/2016",
+        "ShowEstimatedShipDate": true,
+        "ShowEstimatedDeliveryDate": false,
+        "HasValidEstimatedDeliveryDate": false,
+        "CanCalculateEstimatedDeliveryDate": true
+    },
+    "IsSavedCartItem": false,
+    "SubTotalAmount": "$658.43",
+    "DiscountsAndCouponsAmount": "-$197.53",
+    "DiscountsAndCouponsAmountValue": 197.53,
+    "DiscountsAndCoupons": [
+    {
+        "CampaignId": 534489,
+        "Amount": "-$197.53",
+        "ShortDescription": "Save 30% on select New Latitude 14 3000 Series Business PCs!",
+        "LongDescription": "Save 30% on select New Latitude 14 3000 Series Business PCs!",
+        "LegalDescription": "",
+        "ExpiryDate": "12/6/2016",
+        "HasExpiryDate": true,
+        "HasExpiryTextOverride": false,
+        "AllowRemove": false,
+        "ShowAmount": true
+    }
+    ],
+    "ShowDiscountsAndCoupons": true,
+    "DiscountsPopupTitle": "Additional Discounts & Coupons",
+    "TotalAmount": "$460.90",
+    "TotalAmountWithSubItems": "$460.90",
+    "TotalAmountWithSubItemsValue": 460.9,
+    "Quantity": 1,
+    "QuantityWithSubItems": 1,
+    "AllowChangeQuantity": true,
+    "IsAssociatedItem": false,
+    "ImageUrl": "https://si.cdn.dell.com/images/global/configurator/chassis/lat-15-3560-nt-bk-ft-120x107.jpg",
+    "UnitPriceAmount": "$658.43",
+    "ShowManufacturerPartNumber": false,
+    "ShowDellPartNumber": false,
+    "ShowCatalogNumber": true,
+    "CatalogNumber": "4 cto01al356015us",
+    "Components": [
+    {
+        "Name": "Base",
+        "Description": "Dell Latitude 3560 CTO",
+        "ProductCode": "3560T",
+        "Skus": [
+        "210-AEXE"
+        ]
+    },
+    {
+        "Name": "Processor",
+        "Description": "Intel® Celeron 3215U (Dual Core, 1.5GHz, 2M cache, 15W)",
+        "ProductCode": "C3215",
+        "Skus": [
+        "379-BCGG"
+        ]
+    },
+    {
+        "Name": "Operating System",
+        "Description": "Windows 10 Home 64bit English, French, Spanish",
+        "ProductCode": "10H64M",
+        "Skus": [
+        "619-AHHY"
+        ]
+    },
+    {
+        "Name": "System Configuration",
+        "Description": "Intel Celeron 3215U Processor with Intel Integrated HD Graphics",
+        "ProductCode": "CELUMA",
+        "Skus": [
+        "338-BHKM"
+        ]
+    },
+    {
+        "Name": "Microsoft Application Software",
+        "Description": "Microsoft Office 30 Day Trial",
+        "ProductCode": "16MUI",
+        "Skus": [
+        "658-BCSB"
+        ]
+    },
+    {
+        "Name": "Non-Microsoft Application Software",
+        "Description": "Additional Software 10",
+        "ProductCode": "WIN10",
+        "Skus": [
+        "340-ADFZ",
+        "340-AJFC",
+        "422-0007",
+        "525-BBCL",
+        "640-BBLW",
+        "658-BBMR",
+        "658-BBNF",
+        "658-BCTY",
+        "658-BCUV"
+        ]
+    },
+    {
+        "Name": "Keyboard",
+        "Description": "Internal Single Pointing Keyboard, English",
+        "ProductCode": "ENGKBD",
+        "Skus": [
+        "580-ACJB"
+        ]
+    },
+    {
+        "Name": "Dell Threat Protection and Endpoint Security Suite",
+        "Description": "No Dell Data Protection | Endpoint Security Suite Software",
+        "ProductCode": "NODDP",
+        "Skus": [
+        "634-BENZ"
+        ]
+    },
+    {
+        "Name": "Dell Data Protection Solutions",
+        "Description": "No DDPE Encryption Software",
+        "ProductCode": "NODDPE",
+        "Skus": [
+        "954-3465"
+        ]
+    },
+    {
+        "Name": "LCD",
+        "Description": "15.6” HD (1366 x 768) Anti Glare (16:9) WLED",
+        "ProductCode": "NTHD",
+        "Skus": [
+        "320-BBQM",
+        "391-BCES"
+        ]
+    },
+    {
+        "Name": "Hard Drive",
+        "Description": "500GB 7200RPM Hard Disk Drive",
+        "ProductCode": "500GB",
+        "Skus": [
+        "400-AIIU"
+        ]
+    },
+    {
+        "Name": "Memory",
+        "Description": "4GB (1x4GB) 1600MHz DDR3L Memory",
+        "ProductCode": "4G1D3",
+        "Skus": [
+        "370-AAQI"
+        ]
+    },
+    {
+        "Name": "Wireless",
+        "Description": "Intel® 3165 Dual Band 802.11 AC with BT 4.0 Wireless Card (1x1)",
+        "ProductCode": "3165AC",
+        "Skus": [
+        "555-BCMS"
+        ]
+    },
+    {
+        "Name": "Driver",
+        "Description": "Intel 3165 Dual Band 802.11 AC with BT 4.0 Wireless Driver (1x1)",
+        "ProductCode": "W7231",
+        "Skus": [
+        "555-BCOI"
+        ]
+    },
+    {
+        "Name": "Processor Branding",
+        "Description": "Intel® Celeron® Label",
+        "ProductCode": "CEL",
+        "Skus": [
+        "340-AQVB"
+        ]
+    },
+    {
+        "Name": "Video Card",
+        "Description": "Intel® HD Graphics GT2",
+        "ProductCode": "UMA",
+        "Skus": [
+        "490-BCOV"
+        ]
+    },
+    {
+        "Name": "PalmRest",
+        "Description": "No Fingerprint Reader",
+        "ProductCode": "NFPR",
+        "Skus": [
+        "346-BBSC"
+        ]
+    },
+    {
+        "Name": "Power Supply",
+        "Description": "65W AC Adapter, 3-pin",
+        "ProductCode": "65W",
+        "Skus": [
+        "492-BBDD"
+        ]
+    },
+    {
+        "Name": "Cable",
+        "Description": "US Power Cord",
+        "ProductCode": "US125V",
+        "Skus": [
+        "537-BBBL"
+        ]
+    },
+    {
+        "Name": "Primary Battery",
+        "Description": "40 Whr 4-cell Li-Ion (Cylindrical) with ExpressCharge™",
+        "ProductCode": "4C",
+        "Skus": [
+        "451-BBPR"
+        ]
+    },
+    {
+        "Name": "Camera Software",
+        "Description": "No Camera Software Selected",
+        "ProductCode": "NOCMRA",
+        "Skus": [
+        "319-BBBK"
+        ]
+    },
+    {
+        "Name": "Docking Solutions",
+        "Description": "No Docking Station",
+        "ProductCode": "NONE",
+        "Skus": [
+        "452-BBSE"
+        ]
+    },
+    {
+        "Name": "Carrying Cases",
+        "Description": "No Carrying Case",
+        "ProductCode": "NONE",
+        "Skus": [
+        "460-BBEX"
+        ]
+    },
+    {
+        "Name": "Operating System Recovery Options",
+        "Description": "Windows 10 OS Recovery 64bit - USB",
+        "ProductCode": "M10U6M",
+        "Skus": [
+        "620-AAYY"
+        ]
+    },
+    {
+        "Name": "Documentation/Disks",
+        "Description": "Safety/Environment and Regulatory Guide (English/French Multi-language)",
+        "ProductCode": "EFDOC",
+        "Skus": [
+        "340-AGIK",
+        "640-BBJB"
+        ]
+    },
+    {
+        "Name": "Placemat",
+        "Description": "Quick Reference Guide for Windows 10",
+        "ProductCode": "PLMTW10",
+        "Skus": [
+        "340-ASJN"
+        ]
+    },
+    {
+        "Name": "Diagnostic CD / Diskette",
+        "Description": "No Resource DVD",
+        "ProductCode": "NRDVD",
+        "Skus": [
+        "430-XXYG"
+        ]
+    },
+    {
+        "Name": "TAA",
+        "Description": "No TAA",
+        "ProductCode": "NOTAA",
+        "Skus": [
+        "340-ACQQ"
+        ]
+    },
+    {
+        "Name": "E-Star",
+        "Description": "Energy Star 6.0",
+        "ProductCode": "ESTAR",
+        "Skus": [
+        "387-BBKC"
+        ]
+    },
+    {
+        "Name": "Label",
+        "Description": "Regulatory Label Included",
+        "ProductCode": "REG",
+        "Skus": [
+        "389-BEYY"
+        ]
+    },
+    {
+        "Name": "UPC Label",
+        "Description": "No UPC Label",
+        "ProductCode": "NOUPC",
+        "Skus": [
+        "389-BCGW"
+        ]
+    },
+    {
+        "Name": "Canada Ship Options",
+        "Description": "US No Canada Ship Charge",
+        "ProductCode": "USNONE",
+        "Skus": [
+        "332-1286"
+        ]
+    },
+    {
+        "Name": "Packaging",
+        "Description": "Mixed Model Shipping Material",
+        "ProductCode": "SHPMX",
+        "Skus": [
+        "340-AASO",
+        "340-AQMG"
+        ]
+    },
+    {
+        "Name": "Transportation from ODM to region",
+        "Description": "BTO Standard Shipment",
+        "ProductCode": "STND",
+        "Skus": [
+        "800-BBGS"
+        ]
+    },
+    {
+        "Name": "Pricing Information",
+        "Description": "Flex 1",
+        "ProductCode": "FLEX 1",
+        "Skus": [
+        "610-BBRC"
+        ]
+    },
+    {
+        "Name": "FGA Module",
+        "Description": "Generic FHC/BTO",
+        "ProductCode": "FG0018",
+        "Skus": [
+        "998-BRVN"
+        ]
+    },
+    {
+        "Name": "Hardware Support Services",
+        "Description": "1 Year Hardware Service with In-Home/Onsite Service After Remote Diagnosis",
+        "ProductCode": "NBD1",
+        "Skus": [
+        "997-6727",
+        "997-6735"
+        ]
+    },
+    {
+        "Name": "Mouse",
+        "Description": "No Mouse Selected",
+        "ProductCode": "NOMSE",
+        "Skus": [
+        "570-AADK"
+        ]
+    }
+    ],
+    "ShowComponents": true,
+    "Alerts": [],
+    "EvergreenMessages": [],
+    "HasBundledItems": false,
+    "BundledItems": [],
+    "IsBundledItem": false,
+    "IsFastTrack": false,
+    "Metadata": {
+        "itemType": "ConfigItem",
+        "brand": 3,
+        "family": 11658
+    },
+    "DeliveryMessageOverride": "Ships in 6-8 business days",
+    "HasDeliveryMessageOverride": true,
+    "StopSelling": false,
+    "IsStockItem": false,
+    "SubTotalAmountValue": 658.43,
+    "ConfigurationIdentifier": "1~cto01al356015us~04~en~us~1__572;FG0018;1"
+},
+{
+    "Id": "08846eea-c191-4520-9659-243637308626",
+    "IdWithoutSpecialCharacters": "08846eeac19145209659243637308626",
+    "ProductId": "ctov355815010rus",
+    "Description": "Vostro 15 3000 Series",
+    "ShowProductStackDescription": false,
+    "IsValid": true,
+    "LeadTimeInfo": {
+        "EstimatedShipDate": "6/14/2016",
+        "ShowEstimatedShipDate": true,
+        "ShowEstimatedDeliveryDate": false,
+        "HasValidEstimatedDeliveryDate": false,
+        "CanCalculateEstimatedDeliveryDate": true
+    },
+    "IsSavedCartItem": false,
+    "SubTotalAmount": "$498.57",
+    "DiscountsAndCouponsAmount": "-$149.57",
+    "DiscountsAndCouponsAmountValue": 149.57,
+    "DiscountsAndCoupons": [
+    {
+        "CampaignId": 560426,
+        "Amount": "-$149.57",
+        "ShortDescription": "Save 30% on select Vostro 3558 notebooks through Dell Small Business!",
+        "LongDescription": "Save 30% on select Vostro 3558 notebooks through Dell Small Business!",
+        "LegalDescription": "",
+        "ExpiryDate": "2/8/2017",
+        "HasExpiryDate": true,
+        "HasExpiryTextOverride": false,
+        "AllowRemove": false,
+        "ShowAmount": true
+    }
+    ],
+    "ShowDiscountsAndCoupons": true,
+    "DiscountsPopupTitle": "Additional Discounts & Coupons",
+    "TotalAmount": "$349.00",
+    "TotalAmountWithSubItems": "$349.00",
+    "TotalAmountWithSubItemsValue": 349,
+    "Quantity": 1,
+    "QuantityWithSubItems": 1,
+    "AllowChangeQuantity": true,
+    "IsAssociatedItem": false,
+    "ImageUrl": "https://si.cdn.dell.com/images/global/configurator/chassis/vostro-15-3558-blk-ft-120x107.jpg",
+    "UnitPriceAmount": "$498.57",
+    "ShowManufacturerPartNumber": false,
+    "ShowDellPartNumber": false,
+    "ShowCatalogNumber": true,
+    "CatalogNumber": "4 ctov355815010rus",
+    "Components": [
+    {
+        "Name": "Processor",
+        "Description": "Intel® Celeron® 3215U Processor (2M Cache, 1.70 GHz)",
+        "ProductCode": "CT36F7",
+        "Skus": [
+        "338-BIMV"
+        ]
+    },
+    {
+        "Name": "Operating System",
+        "Description": "Windows 10 Home 64bit English, French, Spanish",
+        "ProductCode": "10H64M",
+        "Skus": [
+        "619-AHHY"
+        ]
+    },
+    {
+        "Name": "Office Productivity Software",
+        "Description": "Microsoft Office 30 Day Trial",
+        "ProductCode": "16MUI",
+        "Skus": [
+        "658-BCSB"
+        ]
+    },
+    {
+        "Name": "Memory",
+        "Description": "4GB Single Channel DDR3 1600MHz (4GBx1)",
+        "ProductCode": "4GB1D",
+        "Skus": [
+        "370-AAWY"
+        ]
+    },
+    {
+        "Name": "Security Software",
+        "Description": "McAfee Security Center 12 month Subscription",
+        "ProductCode": "MSBC12M",
+        "Skus": [
+        "525-0013"
+        ]
+    },
+    {
+        "Name": "Operating System Recovery Options",
+        "Description": "Windows 10 OS Recovery 64bit - DVD",
+        "ProductCode": "M10D6M",
+        "Skus": [
+        "620-AAZE"
+        ]
+    },
+    {
+        "Name": "Driver",
+        "Description": "Driver for Dell Wireless 3160",
+        "ProductCode": "3160DR",
+        "Skus": [
+        "555-BCJY"
+        ]
+    },
+    {
+        "Name": "Dell Vostro 3558",
+        "Description": "Dell Vostro 3558 BTX",
+        "ProductCode": "3558X",
+        "Skus": [
+        "210-AEHO"
+        ]
+    },
+    {
+        "Name": "Keyboard",
+        "Description": "Standard Keyboard,English",
+        "ProductCode": "ENGKBD",
+        "Skus": [
+        "583-BCCZ"
+        ]
+    },
+    {
+        "Name": "Video Card",
+        "Description": "Intel® HD Graphics 4400",
+        "ProductCode": "UMA",
+        "Skus": [
+        "490-BBMU"
+        ]
+    },
+    {
+        "Name": "Hard Drive",
+        "Description": "500GB 5400 rpm Hard Drive",
+        "ProductCode": "500G5K",
+        "Skus": [
+        "400-AAYY"
+        ]
+    },
+    {
+        "Name": "Wireless",
+        "Description": "802.11ac + Bluetooth 4.0, Dual Band 2.4&5 GHz, 1x1",
+        "ProductCode": "3160",
+        "Skus": [
+        "555-BCIY"
+        ]
+    },
+    {
+        "Name": "Documentation/Disks",
+        "Description": "Safety/Environment and Regulatory Guide (English/French Multi-language)",
+        "ProductCode": "EFDOC",
+        "Skus": [
+        "340-AGIK"
+        ]
+    },
+    {
+        "Name": "CD ROM/DVD ROM",
+        "Description": "Tray load DVD Drive (Reads and Writes to DVD/CD)",
+        "ProductCode": "8DVDRW",
+        "Skus": [
+        "429-AAJV"
+        ]
+    },
+    {
+        "Name": "Optical Software",
+        "Description": "Cyberlink Media Suite Essentials for Windows 8.1 and DVD Drive (without Media)",
+        "ProductCode": "CW8DN",
+        "Skus": [
+        "658-BBTV"
+        ]
+    },
+    {
+        "Name": "Power Supply",
+        "Description": "45W AC Adapter, 3Pin",
+        "ProductCode": "45WTAC",
+        "Skus": [
+        "450-AEHK"
+        ]
+    },
+    {
+        "Name": "FGA Module",
+        "Description": "VAN15BDW1701_010_R/US/CA/BTO",
+        "ProductCode": "FG0023",
+        "Skus": [
+        "998-BTYQ"
+        ]
+    },
+    {
+        "Name": "Primary Battery",
+        "Description": "40 WHr, 4-Cell Battery (integrated)",
+        "ProductCode": "4CBATT",
+        "Skus": [
+        "451-BBMG"
+        ]
+    },
+    {
+        "Name": "LCD",
+        "Description": "15.6” HD Wide Screen LED Anti-Glare Display (1366x768) 720p",
+        "ProductCode": "15HDNT",
+        "Skus": [
+        "391-BBZY"
+        ]
+    },
+    {
+        "Name": "Cable",
+        "Description": "US Power Cord",
+        "ProductCode": "US125V",
+        "Skus": [
+        "537-BBBL"
+        ]
+    },
+    {
+        "Name": "Placemat",
+        "Description": "MOD,PLCMT,VOS,W10,3558/59,D/BC",
+        "ProductCode": "PLCMT10",
+        "Skus": [
+        "340-ATWV"
+        ]
+    },
+    {
+        "Name": "Support Tech Sheet and Powercord",
+        "Description": "No UPC",
+        "ProductCode": "NOUPC",
+        "Skus": [
+        "389-BDCE"
+        ]
+    },
+    {
+        "Name": "Color Choice",
+        "Description": "Black LCD cover(integrated Widescreen HD 720P Webcam with Dual digital microphone array)",
+        "ProductCode": "BLCD",
+        "Skus": [
+        "320-BBPG"
+        ]
+    },
+    {
+        "Name": "Retail Information",
+        "Description": "No Retail Software Required",
+        "ProductCode": "NORTLSW",
+        "Skus": [
+        "817-BBBP"
+        ]
+    },
+    {
+        "Name": "Processor Branding",
+        "Description": "Intel® Celeron® Label",
+        "ProductCode": "INCLBL",
+        "Skus": [
+        "338-BDXI"
+        ]
+    },
+    {
+        "Name": "Non-Microsoft Application Software",
+        "Description": "Windows 10 OS",
+        "ProductCode": "WIN10",
+        "Skus": [
+        "340-AJFC",
+        "340-AJFD",
+        "340-AOEY",
+        "525-BBCL",
+        "640-BBLW",
+        "658-BCVR"
+        ]
+    },
+    {
+        "Name": "Packaging",
+        "Description": "Shipment box",
+        "ProductCode": "SHP",
+        "Skus": [
+        "328-BCCD",
+        "340-AAPP"
+        ]
+    },
+    {
+        "Name": "Regulatory Label",
+        "Description": "Regulatory Label Included",
+        "ProductCode": "REGUMA",
+        "Skus": [
+        "340-APCH",
+        "340-APJM"
+        ]
+    },
+    {
+        "Name": "OS Label",
+        "Description": "No Palmrest Label",
+        "ProductCode": "NOLBL",
+        "Skus": [
+        "340-ACUG"
+        ]
+    },
+    {
+        "Name": "Order Information",
+        "Description": "Non-Canada orders only",
+        "ProductCode": "USNONE",
+        "Skus": [
+        "332-1286"
+        ]
+    },
+    {
+        "Name": "Service",
+        "Description": "1 Year Hardware Service with In-Home/Onsite Service After Remote Diagnosis",
+        "ProductCode": "NBD1",
+        "Skus": [
+        "802-7114",
+        "975-9426"
+        ]
+    },
+    {
+        "Name": "E-Star",
+        "Description": "Energy Star Label (on shipment box)",
+        "ProductCode": "ESTAR",
+        "Skus": [
+        "340-AAPZ"
+        ]
+    },
+    {
+        "Name": "Transportation from ODM to region",
+        "Description": "Standard Shipment",
+        "ProductCode": "STND",
+        "Skus": [
+        "800-BBGS"
+        ]
+    }
+    ],
+    "ShowComponents": true,
+    "Alerts": [],
+    "EvergreenMessages": [],
+    "HasBundledItems": false,
+    "BundledItems": [],
+    "IsBundledItem": false,
+    "IsFastTrack": false,
+    "Metadata": {
+        "itemType": "ConfigItem",
+        "brand": 36,
+        "family": 11451
+    },
+    "DeliveryMessageOverride": "Ships in 5-7 business days",
+    "HasDeliveryMessageOverride": true,
+    "StopSelling": false,
+    "IsStockItem": false,
+    "SubTotalAmountValue": 498.57,
+    "ConfigurationIdentifier": "1~ctov355815010rus~04~en~us~1__749;INCLBL;1"
+},
+{
+    "Id": "6ce5bff2-d992-47c3-9844-f9b08dfeabea",
+    "IdWithoutSpecialCharacters": "6ce5bff2d99247c39844f9b08dfeabea",
+    "ProductId": "xctomp751015us",
+    "Description": "Precision 15 7000 Series (7510)",
+    "ShowProductStackDescription": false,
+    "IsValid": true,
+    "LeadTimeInfo": {
+        "EstimatedShipDate": "6/14/2016",
+        "ShowEstimatedShipDate": true,
+        "ShowEstimatedDeliveryDate": false,
+        "HasValidEstimatedDeliveryDate": false,
+        "CanCalculateEstimatedDeliveryDate": true
+    },
+    "IsSavedCartItem": false,
+    "SubTotalAmount": "$1,712.86",
+    "DiscountsAndCouponsAmount": "-$633.86",
+    "DiscountsAndCouponsAmountValue": 633.86,
+    "DiscountsAndCoupons": [
+    {
+        "CampaignId": 512365,
+        "Amount": "-$633.86",
+        "ShortDescription": "Save 37% on Select New Dell Precision 15 7000 Series  through Dell Small Business!",
+        "LongDescription": "Save 37% on Select New Dell Precision 15 7000 Series  through Dell Small Business!",
+        "LegalDescription": "",
+        "ExpiryDate": "5/30/2017",
+        "HasExpiryDate": true,
+        "HasExpiryTextOverride": false,
+        "AllowRemove": false,
+        "ShowAmount": true
+    }
+    ],
+    "ShowDiscountsAndCoupons": true,
+    "DiscountsPopupTitle": "Additional Discounts & Coupons",
+    "TotalAmount": "$1,079.00",
+    "TotalAmountWithSubItems": "$1,079.00",
+    "TotalAmountWithSubItemsValue": 1079,
+    "Quantity": 1,
+    "QuantityWithSubItems": 1,
+    "AllowChangeQuantity": true,
+    "IsAssociatedItem": false,
+    "ImageUrl": "https://si.cdn.dell.com/images/global/configurator/chassis/precn-7510-nt-bk-ft-120x107.jpg",
+    "UnitPriceAmount": "$1,712.86",
+    "ShowManufacturerPartNumber": false,
+    "ShowDellPartNumber": false,
+    "ShowCatalogNumber": true,
+    "CatalogNumber": "4 xctomp751015us",
+    "Components": [
+    {
+        "Name": "Mobile Precision 7510",
+        "Description": "Mobile Precision7510 XCTO BASE",
+        "ProductCode": "7510X",
+        "Skus": [
+        "210-AFXM"
+        ]
+    },
+    {
+        "Name": "Processor",
+        "Description": "Intel® Core™ i5-6300HQ (Quad Core 2.30GHz, 3.20GHz Turbo, 6MB 45W, w/Intel HD Graphics 530)",
+        "ProductCode": "I56300",
+        "Skus": [
+        "379-BCDM"
+        ]
+    },
+    {
+        "Name": "Chassis Options",
+        "Description": "Intel Core i5-6300HQ with no Smart Card or Thunderbolt 3",
+        "ProductCode": "6300N",
+        "Skus": [
+        "338-BHRL"
+        ]
+    },
+    {
+        "Name": "Processor Branding",
+        "Description": "Intel Core i5 Label",
+        "ProductCode": "COREI5",
+        "Skus": [
+        "389-BHIB"
+        ]
+    },
+    {
+        "Name": "Operating System(s)",
+        "Description": "Windows 7 Professional English, French, Spanish 64bit (Includes Windows 10 Pro License)",
+        "ProductCode": "DW10P7M",
+        "Skus": [
+        "619-AIKP"
+        ]
+    },
+    {
+        "Name": "Non-Microsoft Application Software",
+        "Description": "Dell Applications Windows 7",
+        "ProductCode": "APPW7",
+        "Skus": [
+        "340-ADFZ",
+        "422-0007",
+        "422-0052",
+        "637-AAAS",
+        "640-BBDF",
+        "640-BBES",
+        "640-BBEV",
+        "640-BBLW",
+        "640-BBPN",
+        "658-BBMR",
+        "658-BBRB"
+        ]
+    },
+    {
+        "Name": "Office Productivity Software",
+        "Description": "Microsoft Office 30 Day Trial",
+        "ProductCode": "16MUI",
+        "Skus": [
+        "658-BCSB"
+        ]
+    },
+    {
+        "Name": "Video Card",
+        "Description": "AMD FirePro™ W5170M w/2GB GDDR5",
+        "ProductCode": "W5170M",
+        "Skus": [
+        "490-BCPI",
+        "490-BCQI"
+        ]
+    },
+    {
+        "Name": "Energy Star",
+        "Description": "No Energy Star",
+        "ProductCode": "NOESTAR",
+        "Skus": [
+        "387-BBDO"
+        ]
+    },
+    {
+        "Name": "LCD",
+        "Description": "15.6\" FHD (1920x1080) Anti-Glare LED-backlit (45% color gamut), with microphone only",
+        "ProductCode": "FHDNM",
+        "Skus": [
+        "319-BBDT",
+        "320-BBQV",
+        "391-BCFG"
+        ]
+    },
+    {
+        "Name": "Memory",
+        "Description": "8GB (2x4GB) 2133MHz DDR4 SDRAM, Non-ECC",
+        "ProductCode": "8G2D4",
+        "Skus": [
+        "370-ACIC"
+        ]
+    },
+    {
+        "Name": "Hard Drive",
+        "Description": "500GB 2.5 inch SATA 7200 rpm Hard Drive",
+        "ProductCode": "500GB",
+        "Skus": [
+        "400-AJBM"
+        ]
+    },
+    {
+        "Name": "2nd Hard Drive",
+        "Description": "No Additional Hard Drive",
+        "ProductCode": "NOMWOP",
+        "Skus": [
+        "401-AAGM"
+        ]
+    },
+    {
+        "Name": "Raid Connectivity",
+        "Description": "NO RAID",
+        "ProductCode": "NORAID",
+        "Skus": [
+        "817-BBBN"
+        ]
+    },
+    {
+        "Name": "Wireless",
+        "Description": "Intel® Dual-Band Wireless-AC 8260 Wi-Fi with Bluetooth 4.1 Wireless Card (2x2)",
+        "ProductCode": "8260AC",
+        "Skus": [
+        "555-BCMT"
+        ]
+    },
+    {
+        "Name": "Driver",
+        "Description": "Intel® Dual-Band Wireless-AC 8260 Wi-Fi + BT 4.1 Wireless Driver (2x2)",
+        "ProductCode": "8260BT",
+        "Skus": [
+        "555-BCNN"
+        ]
+    },
+    {
+        "Name": "Mobile Broadband",
+        "Description": "No Mobile Broadband",
+        "ProductCode": "NOMBB",
+        "Skus": [
+        "556-BBDZ"
+        ]
+    },
+    {
+        "Name": "Keyboard",
+        "Description": "Internal Dual Pointing Keyboard, English",
+        "ProductCode": "KIXP6UE",
+        "Skus": [
+        "580-ACLI",
+        "580-ADWY"
+        ]
+    },
+    {
+        "Name": "Primary Battery",
+        "Description": "6-cell (72Wh) Lithium Ion battery with ExpressCharge™",
+        "ProductCode": "6C72WH",
+        "Skus": [
+        "451-BBPP"
+        ]
+    },
+    {
+        "Name": "Power Supply",
+        "Description": "180W AC Adapter",
+        "ProductCode": "180AC",
+        "Skus": [
+        "450-AATJ"
+        ]
+    },
+    {
+        "Name": "Cable",
+        "Description": "US Power Cord",
+        "ProductCode": "USPWR",
+        "Skus": [
+        "450-AAUO"
+        ]
+    },
+    {
+        "Name": "Security Options",
+        "Description": "No Security",
+        "ProductCode": "PLMNFP",
+        "Skus": [
+        "346-BBRF"
+        ]
+    },
+    {
+        "Name": "Systems Management",
+        "Description": "No Out-of-Band Systems Management",
+        "ProductCode": "NOVPRO",
+        "Skus": [
+        "631-AAQR"
+        ]
+    },
+    {
+        "Name": "Dell Threat Protection and Endpoint Security Suite",
+        "Description": "No Dell Data Protection | Endpoint Security Suite Software",
+        "ProductCode": "NODDP",
+        "Skus": [
+        "634-BENZ"
+        ]
+    },
+    {
+        "Name": "Dell Data Protection Solutions",
+        "Description": "No DDPE Encryption Software",
+        "ProductCode": "NODDPE",
+        "Skus": [
+        "954-3465"
+        ]
+    },
+    {
+        "Name": "Documentation/Disks",
+        "Description": "Safety/Environment and Regulatory Guide (English/French Multi-language)",
+        "ProductCode": "EFDOC",
+        "Skus": [
+        "340-AGIK"
+        ]
+    },
+    {
+        "Name": "Keyboard",
+        "Description": "No Keyboard Selected",
+        "ProductCode": "NKYBD",
+        "Skus": [
+        "580-AABG"
+        ]
+    },
+    {
+        "Name": "Mouse",
+        "Description": "No Mouse",
+        "ProductCode": "NOMSE",
+        "Skus": [
+        "570-AADK"
+        ]
+    },
+    {
+        "Name": "Monitor Adapters",
+        "Description": "No Accessories",
+        "ProductCode": "NOADPTR",
+        "Skus": [
+        "461-AABV"
+        ]
+    },
+    {
+        "Name": "Operating System Recovery Options",
+        "Description": "Windows 10 OS Recovery 64bit – DVD",
+        "ProductCode": "M10PD6M",
+        "Skus": [
+        "620-AAYW"
+        ]
+    },
+    {
+        "Name": "Placemat",
+        "Description": "No Quick Reference Guide",
+        "ProductCode": "NOTSH",
+        "Skus": [
+        "340-AASE"
+        ]
+    },
+    {
+        "Name": "Canada Ship Options",
+        "Description": "US No Canada Ship Charge",
+        "ProductCode": "USNONE",
+        "Skus": [
+        "332-1286"
+        ]
+    },
+    {
+        "Name": "TAA",
+        "Description": "No TAA",
+        "ProductCode": "NOTAA",
+        "Skus": [
+        "340-ACQQ"
+        ]
+    },
+    {
+        "Name": "UPC Label",
+        "Description": "No UPC Label",
+        "ProductCode": "NOUPC",
+        "Skus": [
+        "389-BDCE"
+        ]
+    },
+    {
+        "Name": "Packaging",
+        "Description": "Mix Model Shipping Material",
+        "ProductCode": "MIX",
+        "Skus": [
+        "328-BCDJ",
+        "328-BCDK",
+        "328-BCDL",
+        "328-BCDM",
+        "340-AAPP"
+        ]
+    },
+    {
+        "Name": "Label",
+        "Description": "No Reg Label",
+        "ProductCode": "NONE",
+        "Skus": [
+        "817-BBBP"
+        ]
+    },
+    {
+        "Name": "Transportation from ODM to region",
+        "Description": "Standard Shipment",
+        "ProductCode": "STND",
+        "Skus": [
+        "800-BBGF"
+        ]
+    },
+    {
+        "Name": "Service",
+        "Description": "3 Years Hardware Service with Onsite/In-Home Service After Remote Diagnosis",
+        "ProductCode": "NBD3",
+        "Skus": [
+        "997-1022",
+        "997-1023"
+        ]
+    }
+    ],
+    "ShowComponents": true,
+    "Alerts": [],
+    "EvergreenMessages": [],
+    "HasBundledItems": false,
+    "BundledItems": [],
+    "IsBundledItem": false,
+    "IsFastTrack": false,
+    "Metadata": {
+        "itemType": "ConfigItem",
+        "brand": 6,
+        "family": 11721
+    },
+    "DeliveryMessageOverride": "Ships in 5-7 business days",
+    "HasDeliveryMessageOverride": true,
+    "StopSelling": false,
+    "IsStockItem": false,
+    "SubTotalAmountValue": 1712.86,
+    "ConfigurationIdentifier": "1~xctomp751015us~04~en~us~1__7;8260BT;1"
+},
+{
+    "Id": "7405fdbb-e677-404b-8e84-288c3630ceeb",
+    "IdWithoutSpecialCharacters": "7405fdbbe677404b8e84288c3630ceeb",
+    "ProductId": "xctop551015us",
+    "Description": "Precision 15 5000 Series (5510)",
+    "ShowProductStackDescription": false,
+    "IsValid": true,
+    "LeadTimeInfo": {
+        "EstimatedShipDate": "6/14/2016",
+        "ShowEstimatedShipDate": true,
+        "ShowEstimatedDeliveryDate": false,
+        "HasValidEstimatedDeliveryDate": false,
+        "CanCalculateEstimatedDeliveryDate": true
+    },
+    "IsSavedCartItem": false,
+    "SubTotalAmount": "$1,998.57",
+    "DiscountsAndCouponsAmount": "-$749.57",
+    "DiscountsAndCouponsAmountValue": 749.57,
+    "DiscountsAndCoupons": [
+    {
+        "CampaignId": 512341,
+        "Amount": "-$749.57",
+        "ShortDescription": "Save 37% on Select New Dell Precision 15 5000 Series  through Dell Small Business!",
+        "LongDescription": "Save 37% on Select New Dell Precision 15 5000 Series  through Dell Small Business!",
+        "LegalDescription": "",
+        "ExpiryDate": "5/30/2017",
+        "HasExpiryDate": true,
+        "HasExpiryTextOverride": false,
+        "AllowRemove": false,
+        "ShowAmount": true
+    }
+    ],
+    "ShowDiscountsAndCoupons": true,
+    "DiscountsPopupTitle": "Additional Discounts & Coupons",
+    "TotalAmount": "$1,249.00",
+    "TotalAmountWithSubItems": "$1,249.00",
+    "TotalAmountWithSubItemsValue": 1249,
+    "Quantity": 1,
+    "QuantityWithSubItems": 1,
+    "AllowChangeQuantity": true,
+    "IsAssociatedItem": false,
+    "ImageUrl": "https://si.cdn.dell.com/images/global/configurator/chassis/precn-5510-nt-gray-ft-120x107.jpg",
+    "UnitPriceAmount": "$1,998.57",
+    "ShowManufacturerPartNumber": false,
+    "ShowDellPartNumber": false,
+    "ShowCatalogNumber": true,
+    "CatalogNumber": "4 xctop551015us",
+    "Components": [
+    {
+        "Name": "Dell Mobile Precision Workstations 5510",
+        "Description": "Dell Mobile Precision Workstation 5510 XCTO",
+        "ProductCode": "X5510T",
+        "Skus": [
+        "210-AGQI"
+        ]
+    },
+    {
+        "Name": "Processor",
+        "Description": "Intel® Core™ i5-6300HQ (Quad Core 2.30GHz, 3.20GHz Turbo, 6MB 45W, w/Intel HD Graphics 530)",
+        "ProductCode": "I56300",
+        "Skus": [
+        "379-BCDM"
+        ]
+    },
+    {
+        "Name": "Base Options",
+        "Description": "Intel Core i5-6300HQ Processor with Nvidia Quadro M1000M Graphics w/2GB GDDR5",
+        "ProductCode": "I56300",
+        "Skus": [
+        "338-BIEY"
+        ]
+    },
+    {
+        "Name": "Processor Branding",
+        "Description": "Intel Core i5 Label",
+        "ProductCode": "CI5SML",
+        "Skus": [
+        "389-BHIB"
+        ]
+    },
+    {
+        "Name": "Operating System",
+        "Description": "Windows 7 Professional English, French, Spanish 64bit (Includes Windows 10 Pro License)",
+        "ProductCode": "DW10P7M",
+        "Skus": [
+        "619-AIKP"
+        ]
+    },
+    {
+        "Name": "Non-Microsoft Application Software",
+        "Description": "OS Recovery",
+        "ProductCode": "WIN7",
+        "Skus": [
+        "340-AAUC",
+        "340-ADFZ",
+        "340-ARXE",
+        "422-0007",
+        "422-0052",
+        "637-AAAS",
+        "640-BBDI",
+        "640-BBES",
+        "640-BBEU",
+        "658-BBMR",
+        "658-BBRB"
+        ]
+    },
+    {
+        "Name": "Office Productivity Software",
+        "Description": "Microsoft Office 30 Day Trial",
+        "ProductCode": "16MUI",
+        "Skus": [
+        "658-BCSB"
+        ]
+    },
+    {
+        "Name": "Video Card",
+        "Description": "Nvidia® Quadro® M1000M w/2GB GDDR5",
+        "ProductCode": "M1000M",
+        "Skus": [
+        "490-BCVC"
+        ]
+    },
+    {
+        "Name": "Energy Efficiancy Options",
+        "Description": "ENERGY STAR qualified",
+        "ProductCode": "ESTAR",
+        "Skus": [
+        "387-BBFE"
+        ]
+    },
+    {
+        "Name": "LCD",
+        "Description": "15.6\" UltraSharp™ FHD IPS (1920x1080) Wide View Anti-Glare LED-backlit with Premium Panel Guarantee",
+        "ProductCode": "LCDNT2",
+        "Skus": [
+        "391-BCOE"
+        ]
+    },
+    {
+        "Name": "Memory",
+        "Description": "8GB (2x4GB) 2133MHz DDR4 Non-ECC",
+        "ProductCode": "8GB",
+        "Skus": [
+        "370-ACIC"
+        ]
+    },
+    {
+        "Name": "Primary Storage",
+        "Description": "500GB 2.5 inch SATA 7200 rpm Hard Drive",
+        "ProductCode": "500AQUC",
+        "Skus": [
+        "400-AILO",
+        "575-BBHS"
+        ]
+    },
+    {
+        "Name": "Secondary Storage",
+        "Description": "No Additional Hard Drive",
+        "ProductCode": "NOHDDA",
+        "Skus": [
+        "401-AADF"
+        ]
+    },
+    {
+        "Name": "Wireless",
+        "Description": "Intel® Dual-Band Wireless-AC 8260 Wi-Fi + BT 4.1 Wireless Card (2x2)",
+        "ProductCode": "8260AW",
+        "Skus": [
+        "555-BCRV"
+        ]
+    },
+    {
+        "Name": "Driver",
+        "Description": "Dell Wireless 8260 Driver",
+        "ProductCode": "8260",
+        "Skus": [
+        "340-ARXP"
+        ]
+    },
+    {
+        "Name": "Keyboard",
+        "Description": "Internal Single Pointing Backlit Keyboard, English",
+        "ProductCode": "K80ENG",
+        "Skus": [
+        "580-AEJK"
+        ]
+    },
+    {
+        "Name": "Primary Battery",
+        "Description": "3-cell (56Wh)  Lithium Ion battery with ExpressCharge™",
+        "ProductCode": "3C",
+        "Skus": [
+        "451-BBUW"
+        ]
+    },
+    {
+        "Name": "Power Supply",
+        "Description": "AC Adaptor",
+        "ProductCode": "AC130W",
+        "Skus": [
+        "470-ABVP",
+        "492-BBGC"
+        ]
+    },
+    {
+        "Name": "Cable",
+        "Description": "Power Cord, US",
+        "ProductCode": "US25A",
+        "Skus": [
+        "537-BBBD"
+        ]
+    },
+    {
+        "Name": "PalmRest",
+        "Description": "Palmrest for English Keyboard",
+        "ProductCode": "PLST80",
+        "Skus": [
+        "346-BBTC"
+        ]
+    },
+    {
+        "Name": "Systems Management",
+        "Description": "No Out-of-Band Systems Management",
+        "ProductCode": "NOVPRO",
+        "Skus": [
+        "631-AATI"
+        ]
+    },
+    {
+        "Name": "Dell Threat Protection and Endpoint Security Suite",
+        "Description": "No Dell Data Protection | Endpoint Security Suite Software",
+        "ProductCode": "NODDP",
+        "Skus": [
+        "634-BENZ"
+        ]
+    },
+    {
+        "Name": "Dell Data Protection Solutions",
+        "Description": "No DDPE Encryption Software",
+        "ProductCode": "NODDPE",
+        "Skus": [
+        "954-3465"
+        ]
+    },
+    {
+        "Name": "Mouse",
+        "Description": "No Mouse Selected",
+        "ProductCode": "NOMSE",
+        "Skus": [
+        "570-AADK"
+        ]
+    },
+    {
+        "Name": "Operating System Recovery Options",
+        "Description": "Windows 10 OS Recovery 64bit – DVD",
+        "ProductCode": "M10PD6M",
+        "Skus": [
+        "620-AAYW"
+        ]
+    },
+    {
+        "Name": "Placemat",
+        "Description": "Quick Reference Guide",
+        "ProductCode": "PLCMT",
+        "Skus": [
+        "340-ARXO"
+        ]
+    },
+    {
+        "Name": "Canada Ship Options",
+        "Description": "US No Canada Ship Charge",
+        "ProductCode": "USNONE",
+        "Skus": [
+        "332-1286"
+        ]
+    },
+    {
+        "Name": "Support Tech Sheet and Powercord",
+        "Description": "No UPC Label",
+        "ProductCode": "NOLBL",
+        "Skus": [
+        "389-BCGW"
+        ]
+    },
+    {
+        "Name": "Packaging",
+        "Description": "Mix Model Shipping Material",
+        "ProductCode": "SHPMX",
+        "Skus": [
+        "340-AAPP",
+        "340-ARXK"
+        ]
+    },
+    {
+        "Name": "Label",
+        "Description": "Regulatory Label Included",
+        "ProductCode": "REG",
+        "Skus": [
+        "389-BEYY"
+        ]
+    },
+    {
+        "Name": "Transportation from ODM to region",
+        "Description": "Standard Shipment",
+        "ProductCode": "STND",
+        "Skus": [
+        "800-BBGF"
+        ]
+    },
+    {
+        "Name": "Cables and Dongles",
+        "Description": "No Accessories",
+        "ProductCode": "NOADPTR",
+        "Skus": [
+        "461-AABV"
+        ]
+    },
+    {
+        "Name": "TAA",
+        "Description": "No TAA",
+        "ProductCode": "NOTAA",
+        "Skus": [
+        "340-ACQQ"
+        ]
+    },
+    {
+        "Name": "Stands and Mounts",
+        "Description": "No Stand",
+        "ProductCode": "NOSTND",
+        "Skus": [
+        "575-BBCH"
+        ]
+    },
+    {
+        "Name": "Hardware Support Services",
+        "Description": "1 Year Hardware Service with Onsite/In-Home Service After Remote Diagnosis",
+        "ProductCode": "NBD1",
+        "Skus": [
+        "804-9773",
+        "804-9774"
+        ]
+    },
+    {
+        "Name": "Documentation/Disks",
+        "Description": "Safety/Environment and Regulatory Guide (English/French Multi-language)",
+        "ProductCode": "EFDOC",
+        "Skus": [
+        "340-AGIK"
+        ]
+    }
+    ],
+    "ShowComponents": true,
+    "Alerts": [],
+    "EvergreenMessages": [],
+    "HasBundledItems": false,
+    "BundledItems": [],
+    "IsBundledItem": false,
+    "IsFastTrack": false,
+    "Metadata": {
+        "itemType": "ConfigItem",
+        "brand": 6,
+        "family": 11798
+    },
+    "DeliveryMessageOverride": "Ships in 5-7 business days",
+    "HasDeliveryMessageOverride": true,
+    "StopSelling": false,
+    "IsStockItem": false,
+    "SubTotalAmountValue": 1998.57,
+    "ConfigurationIdentifier": "1~xctop551015us~04~en~us~1__"
+},
+{
+    "Id": "ed19f19d-cae8-4fe8-bb3a-a1a49aa74452",
+    "IdWithoutSpecialCharacters": "ed19f19dcae84fe8bb3aa1a49aa74452",
+    "ProductId": "xctop351015us",
+    "Description": "Precision 15 3000 Series (3510)",
+    "ShowProductStackDescription": false,
+    "IsValid": true,
+    "LeadTimeInfo": {
+        "EstimatedShipDate": "6/13/2016",
+        "ShowEstimatedShipDate": true,
+        "ShowEstimatedDeliveryDate": false,
+        "HasValidEstimatedDeliveryDate": false,
+        "CanCalculateEstimatedDeliveryDate": true
+    },
+    "IsSavedCartItem": false,
+    "SubTotalAmount": "$1,525.71",
+    "DiscountsAndCouponsAmount": "-$646.71",
+    "DiscountsAndCouponsAmountValue": 646.71,
+    "DiscountsAndCoupons": [
+    {
+        "CampaignId": 512328,
+        "Amount": "-$646.71",
+        "ShortDescription": "Save 42% on Select New Dell Precision 15 3000 Series  through Dell Small Business!",
+        "LongDescription": "Save 42% on Select New Dell Precision 15 3000 Series  through Dell Small Business!",
+        "LegalDescription": "",
+        "ExpiryDate": "5/30/2017",
+        "HasExpiryDate": true,
+        "HasExpiryTextOverride": false,
+        "AllowRemove": false,
+        "ShowAmount": true
+    }
+    ],
+    "ShowDiscountsAndCoupons": true,
+    "DiscountsPopupTitle": "Additional Discounts & Coupons",
+    "TotalAmount": "$879.00",
+    "TotalAmountWithSubItems": "$879.00",
+    "TotalAmountWithSubItemsValue": 879,
+    "Quantity": 1,
+    "QuantityWithSubItems": 1,
+    "AllowChangeQuantity": true,
+    "IsAssociatedItem": false,
+    "ImageUrl": "https://si.cdn.dell.com/images/global/configurator/chassis/wrkstn-precn-3510-nt-bk-ft-120x107.jpg",
+    "UnitPriceAmount": "$1,525.71",
+    "ShowManufacturerPartNumber": false,
+    "ShowDellPartNumber": false,
+    "ShowCatalogNumber": true,
+    "CatalogNumber": "4 xctop351015us",
+    "Components": [
+    {
+        "Name": "Dell Precision 3510",
+        "Description": "Dell Mobile Precision Workstations 3510 XCTO",
+        "ProductCode": "X3510T",
+        "Skus": [
+        "210-AGMF"
+        ]
+    },
+    {
+        "Name": "Processor",
+        "Description": "Intel® Core™ i5-6300HQ (Quad Core 2.30GHz, 3.20GHz Turbo, 6MB 35W, w/Intel HD Graphics 530)",
+        "ProductCode": "I56300",
+        "Skus": [
+        "379-BCDM"
+        ]
+    },
+    {
+        "Name": "Chassis Options",
+        "Description": "Intel® Core™ i5-6300HQ Processor without USB Type C Thunderbolt Chassis",
+        "ProductCode": "PDTI5",
+        "Skus": [
+        "338-BHYR"
+        ]
+    },
+    {
+        "Name": "Processor Branding",
+        "Description": "Intel Core i5 Label",
+        "ProductCode": "CI5SML",
+        "Skus": [
+        "389-BHIB"
+        ]
+    },
+    {
+        "Name": "Operating System",
+        "Description": "Windows 7 Professional English, French, Spanish 64bit (Includes Windows 10 Pro License)",
+        "ProductCode": "DW10P7M",
+        "Skus": [
+        "619-AIKP"
+        ]
+    },
+    {
+        "Name": "Non-Microsoft Application Software",
+        "Description": "OS Recovery",
+        "ProductCode": "WIN7",
+        "Skus": [
+        "340-AAUC",
+        "340-ADFZ",
+        "340-ARZU",
+        "422-0007",
+        "422-0052",
+        "637-AAAS",
+        "640-BBDI",
+        "640-BBES",
+        "640-BBEU",
+        "658-BBMR",
+        "658-BBRB"
+        ]
+    },
+    {
+        "Name": "Office Productivity Software",
+        "Description": "Microsoft Office 30 Day Trial",
+        "ProductCode": "16MUI",
+        "Skus": [
+        "658-BCSB"
+        ]
+    },
+    {
+        "Name": "Video Card",
+        "Description": "AMD FirePro W5130M w/2GB GDDR5",
+        "ProductCode": "AM5130",
+        "Skus": [
+        "490-BCWU"
+        ]
+    },
+    {
+        "Name": "Energy Star",
+        "Description": "ESTAR Label not included",
+        "ProductCode": "NONE",
+        "Skus": [
+        "817-BBBP"
+        ]
+    },
+    {
+        "Name": "LCD",
+        "Description": "15.6\"  HD TN (1366x768) Anti-Glare LED-backlit (45% color gamut), camera and mic, WWAN Capable",
+        "ProductCode": "LNCHWW",
+        "Skus": [
+        "320-BBUQ",
+        "391-BCHX"
+        ]
+    },
+    {
+        "Name": "Memory",
+        "Description": "8GB (2x4GB) 2133MHz DDR4 Non-ECC",
+        "ProductCode": "8G2D4",
+        "Skus": [
+        "370-ACIC"
+        ]
+    },
+    {
+        "Name": "Hard Drive",
+        "Description": "500GB 2.5 inch SATA 7200 rpm Hard Drive",
+        "ProductCode": "500G72",
+        "Skus": [
+        "400-AJBM",
+        "575-BBFI"
+        ]
+    },
+    {
+        "Name": "Wireless",
+        "Description": "Intel® Dual-Band Wireless-AC 8260 Wi-Fi + BT 4.1 Wireless Card (2x2)",
+        "ProductCode": "8260ACW",
+        "Skus": [
+        "555-BCPF"
+        ]
+    },
+    {
+        "Name": "Driver",
+        "Description": "Intel® Dual-Band Wireless-AC 8260 Wi-Fi + BT 4.1 Wireless Driver (2x2)",
+        "ProductCode": "8260WM",
+        "Skus": [
+        "555-BCNB"
+        ]
+    },
+    {
+        "Name": "Mobile Broadband",
+        "Description": "No Wireless WAN Card",
+        "ProductCode": "NOWWAN",
+        "Skus": [
+        "362-BBBB"
+        ]
+    },
+    {
+        "Name": "Keyboard",
+        "Description": "Internal Dual Pointing Keyboard, English",
+        "ProductCode": "KID6ENG",
+        "Skus": [
+        "580-ACLI",
+        "580-ADYF"
+        ]
+    },
+    {
+        "Name": "Primary Battery",
+        "Description": "4 Cell 62W/HR Battery",
+        "ProductCode": "4C",
+        "Skus": [
+        "451-BBSK"
+        ]
+    },
+    {
+        "Name": "Power Supply",
+        "Description": "130W AC Adapter",
+        "ProductCode": "130W3P",
+        "Skus": [
+        "450-ADFZ"
+        ]
+    },
+    {
+        "Name": "Cable",
+        "Description": "US Power Cord",
+        "ProductCode": "US125V",
+        "Skus": [
+        "537-BBBL"
+        ]
+    },
+    {
+        "Name": "PalmRest",
+        "Description": "No Security",
+        "ProductCode": "DPRNSC",
+        "Skus": [
+        "346-BBRS"
+        ]
+    },
+    {
+        "Name": "Systems Management",
+        "Description": "No Out-of-Band Systems Management",
+        "ProductCode": "NOVPRO",
+        "Skus": [
+        "631-AASG"
+        ]
+    },
+    {
+        "Name": "Dell Threat Protection and Endpoint Security Suite",
+        "Description": "No Dell Data Protection | Endpoint Security Suite Software",
+        "ProductCode": "NODDP",
+        "Skus": [
+        "634-BENZ"
+        ]
+    },
+    {
+        "Name": "Dell Data Protection Solutions",
+        "Description": "No DDPE Encryption Software",
+        "ProductCode": "NODDPE",
+        "Skus": [
+        "954-3465"
+        ]
+    },
+    {
+        "Name": "Mouse",
+        "Description": "No Mouse Selected",
+        "ProductCode": "NOMSE",
+        "Skus": [
+        "570-AADK"
+        ]
+    },
+    {
+        "Name": "Operating System Recovery Options",
+        "Description": "Windows 10 OS Recovery 64bit – DVD",
+        "ProductCode": "M10PD6M",
+        "Skus": [
+        "620-AAYW"
+        ]
+    },
+    {
+        "Name": "Placemat",
+        "Description": "No Quick Reference Guide",
+        "ProductCode": "NOTSH",
+        "Skus": [
+        "340-AASE"
+        ]
+    },
+    {
+        "Name": "Canada Ship Options",
+        "Description": "US No Canada Ship Charge",
+        "ProductCode": "USNONE",
+        "Skus": [
+        "332-1286"
+        ]
+    },
+    {
+        "Name": "TAA",
+        "Description": "No TAA",
+        "ProductCode": "NOTAA",
+        "Skus": [
+        "340-ACQQ"
+        ]
+    },
+    {
+        "Name": "Support Tech Sheet and Powercord",
+        "Description": "No UPC Label",
+        "ProductCode": "NOLBL",
+        "Skus": [
+        "389-BCGW"
+        ]
+    },
+    {
+        "Name": "Packaging",
+        "Description": "DAO Mix Ship Model",
+        "ProductCode": "DAOMIX",
+        "Skus": [
+        "340-AAPP",
+        "340-AQHR",
+        "340-AQHU",
+        "340-AQZQ",
+        "340-AQZR"
+        ]
+    },
+    {
+        "Name": "Label",
+        "Description": "Regulatory Label Included",
+        "ProductCode": "REGLBL",
+        "Skus": [
+        "389-BEYY"
+        ]
+    },
+    {
+        "Name": "Transportation from ODM to region",
+        "Description": "Standard Shipment",
+        "ProductCode": "STND",
+        "Skus": [
+        "800-BBGF"
+        ]
+    },
+    {
+        "Name": "Diagnostic CD / Diskette",
+        "Description": "No Resource DVD",
+        "ProductCode": "NRDVD",
+        "Skus": [
+        "430-XXYG"
+        ]
+    },
+    {
+        "Name": "Hard Drive Software",
+        "Description": "Intel Rapid Storage Technology",
+        "ProductCode": "IRST",
+        "Skus": [
+        "409-BBFX"
+        ]
+    },
+    {
+        "Name": "Hardware Support Services",
+        "Description": "3 Year Hardware Service with Onsite/In-Home Service After Remote Diagnosis",
+        "ProductCode": "NBD3",
+        "Skus": [
+        "997-1075",
+        "997-1129"
+        ]
+    },
+    {
+        "Name": "Stands and Mounts",
+        "Description": "No Stand",
+        "ProductCode": "NOSTND",
+        "Skus": [
+        "575-BBCH"
+        ]
+    },
+    {
+        "Name": "Documentation/Disks",
+        "Description": "Safety/Environment and Regulatory Guide (English/French Multi-language)",
+        "ProductCode": "EFDOC",
+        "Skus": [
+        "340-AGIK"
+        ]
+    }
+    ],
+    "ShowComponents": true,
+    "Alerts": [],
+    "EvergreenMessages": [],
+    "HasBundledItems": false,
+    "BundledItems": [],
+    "IsBundledItem": false,
+    "IsFastTrack": false,
+    "Metadata": {
+        "itemType": "ConfigItem",
+        "brand": 6,
+        "family": 11738
+    },
+    "DeliveryMessageOverride": "Ships in 4-6 business days",
+    "HasDeliveryMessageOverride": true,
+    "StopSelling": false,
+    "IsStockItem": false,
+    "SubTotalAmountValue": 1525.71,
+    "ConfigurationIdentifier": "1~xctop351015us~04~en~us~1__"
+}
+];
+
+/**
+* Finds edit distance between two strings (edit being appending, deleting, or
+* replacing a character with another character).
+* @param {String} stringOne
+* @param {String} stringTwo
+* @return {Number} u[stringTwoLength]
+*/
+
+function levenshtein(stringOne, stringTwo) {
+	var t = [], u, i, j, stringOneLength = stringOne.length, stringTwoLength = stringTwo.length;
+
+	if (!stringOneLength) {
+		return stringTwoLength;
+	}
+
+	if (!stringTwoLength) {
+		return stringOneLength;
+	}
+
+	for (j = 0; j <= stringTwoLength; j++) {
+		t[j] = j;
+	}
+
+	for (i = 1; i <= stringOneLength; i++) {
+		for (u = [i], j = 1; j <= stringTwoLength; j++) {
+			u[j] = stringOne[i - 1] === stringTwo[j - 1] ? t[j - 1] : Math.min(t[j - 1], t[j], u[j - 1]) + 1;
+		} 
+		t = u;
+	} 
+	return u[stringTwoLength];
+}
+
+/**
+* Finds edit distance between input and entries in an array, 
+* returns entry with smallest distance
+* @param {String} inputString
+* @param {Array} stringArray
+* @return {String} outputString
+*/
+
+// external memoization cache
+var memCache = {};
+
+function findLeastEditDistanceMemoized(inputString, stringArray) {
+	// output string is set as the string with the smallest edit distance,
+	// minimum number is used to check
+	var outputString = "";
+	var minimumNumber = Number.POSITIVE_INFINITY;
+
+	// console.log(memCache);
+
+	if (inputString in memCache) {
+		// console.log('Cache hit for ', inputString);
+		return memCache[inputString];
+	} else {
+		// console.log('Cache miss for ', inputString);
+		// iterate through input array, find distance between inputString and string in array
+		stringArray.forEach(function(arrayString) {
+			var distance = levenshtein(inputString.toLowerCase(), arrayString.toLowerCase());
+
+			// check if current distance is smaller than the minimum, set minimum and outputString 
+			// if so
+			if (distance < minimumNumber) {
+				minimumNumber = distance
+				outputString = arrayString
+			}
+		});
+
+		return memCache[inputString] = outputString;
+	}
+}
+
+var nlp = nlp_compromise;
+
 var dataParser = {
     init: function(){
         this.body();
@@ -14255,6 +20269,219 @@ var dataParser = {
     }
 };
 dataParser.init();
+
+/*
+*   Parsing module 
+*/
+
+var parseModule = (function() {
+    // private variables
+
+    // array of brands for auto-correction
+    var brandArray = ["Inspiron", "XPS", "AlienWare", "Latitude", "Precision", "ChromeBook"];
+
+    // temporary test variable
+    var hardCodedNlp = nlp.text("I'd like an AlienWare laptop with 8 gigabytes of memory").sentences[0];
+
+    // public methods
+    return {
+
+        // Iterate through nlp-converted input terms, performs regex
+        // match and noun-tracking to ascertain if application name is spoken
+        // returns boolean based on if name is present
+        parseDellyName: function(speechInput) {
+            var nameRE = /[dD]e[a]*[l]+[iy]+/;
+
+            hardCodedNlp.terms.forEach(function(term) {
+                if (term.tag === "Noun" && term.normal.match(nameRE)) {
+                    console.log("\'Delly\' present in speech input...");
+                    return true;
+                }
+            });
+
+            return false;
+        },
+
+        // Iterates through nlp-converted input terms, performs regex
+        // match to ascertain product category
+        // TODO: Improve regex to handle more cases
+        // Returns string representation of the category
+        parseItemCategory: function(speechInput) {
+            var laptopRe = /[lL]aptop/;
+            var desktopRe = /[dD]esktop/;
+            var category;
+
+            hardCodedNlp.terms.forEach(function(term) {
+                if (term.text.match(laptopRe)) {
+                    category = "laptop"
+                } else if (term.text.match(desktopRe)) {
+                    category = "desktop"
+                }
+            })
+
+            return category;
+        },
+
+        // Iterates through nlp-converted input terms, performs regex
+        // match via the returned item category, and obtains the first
+        // word of the returned branding phrase
+        // TODO: handle more cases
+        // Returns string representation of the brand
+        parseItemBrand: function(speechInput) {
+            var re = parseModule.parseItemCategory();
+            var brand;
+
+            hardCodedNlp.terms.forEach(function(term) {
+                if (term.text.match(re)) {
+                    brand = term.text.split(' ')[0];
+                }
+            });
+
+            return findLeastEditDistanceMemoized(brand, brandArray);
+        },
+
+        // Iterates through nlp-converted input terms, grabs term
+        // if the term is an nlp value, appends 'GB' to string and
+        // returns an object
+        parseItemConfiguration: function(speechInput) {
+            var config = {
+                processor: "i5",
+                memory: "8GB",
+                hardDisk: "1TB",
+                display: "15.6-inch"
+            };
+
+            hardCodedNlp.terms.forEach(function(term) {
+                if (term.reason === "is_value") {
+                    config.memory = term.number + "GB";
+                }
+            });
+
+            return config;
+        },
+
+        parseQuantity: function(text) {
+            var nlpOutput = nlp.value(text).number;
+            console.log(nlpOutput);
+        },
+
+        parseAssociation: function(text) {
+            var output = nlp.text(text).sentences[0];
+
+            var nounOutputs = [];
+
+            output.terms.forEach(function(term) {
+                if (term.reason != "lexicon_pass" && term.reason != "is_person"){
+                    nounOutputs.push(term);
+                }
+            });
+
+            console.log(nounOutputs);
+        },
+
+        getlaptopItems: function(category, brand, config, price, description) {
+			console.log(category);
+			console.log(brand);
+			console.log(config);
+            var laptopItems = [];
+            var desc = "";
+            var itemBrand = "";
+            var itemPrice = 10000;
+            var itemRam = "";
+            var itemProc = "";
+            var itemHD = "";
+            var itemScreenSize = "";
+            var itemCategory = "";
+			var itemIndex = 0;
+            
+			if(category){itemCategory = category.toLowerCase();}
+            if(brand){itemBrand = brand.toLowerCase();}
+			if(config)
+			{
+				if(config.memory){itemRam = config.memory.toLowerCase() + " ";}
+				if(config.processor){itemProc = config.processor}
+				if(config.hardDisk){itemHD = config.hardDisk.toLowerCase();}
+				if(config.display){itemScreenSize = config.display.toLowerCase();}
+				if(description){desc = description.toLowerCase();}
+				if(price){itemPrice = price.toLowerCase();}
+			}
+
+			if(!itemCategory && !itemBrand && !config ){
+					return cartItems;
+			}
+				
+            for (var i = 0; i < cartItems.length; i++) {
+                var item = cartItems[i];
+                var processorItem;
+                var ramItem;
+                var hardDiskItem;
+                var screenSizeItem;
+                var index;
+                var components = item.Components;
+				
+				var itemDescription = item.Description.toLowerCase();
+				
+				var isSearchedLaptop = true;
+				if(itemCategory === "business")
+				{
+					isSearchedLaptop = (itemDescription.indexOf("inspiron")>-1 || 
+										itemDescription.indexOf("xps")>-1 ||
+										itemDescription.indexOf("vostro")>-1 ||
+										itemDescription.indexOf("latitude")>-1 ||
+										itemDescription.indexOf("precison")>-1 ||
+										itemDescription.indexOf("chromebook")>-1 )
+					
+				}
+				else if(itemCategory === "home")
+				{
+										isSearchedLaptop = (itemDescription.indexOf("inspiron")>-1 || 
+										itemDescription.indexOf("xps")>-1 ||
+										itemDescription.indexOf("alienware")>-1 ||
+										itemDescription.indexOf("chromebook")>-1 )
+				}
+				
+                for (index in item.Components) {
+
+                    if (components[index].Name.indexOf("Processor") > -1) {
+                        processorItem = components[index];
+                    }
+
+                    if (components[index].Name.indexOf("Memory") > -1) {
+                        ramItem = components[index];
+                    }
+
+                    if (components[index].Name.indexOf("Hard Drive") > -1) {
+                        hardDiskItem = components[index];
+                    }
+
+                    if (components[index].Name.indexOf("Display") > -1) {
+                        screenSizeItem = components[index];
+                    }
+                }
+
+				var memoryProductCode = ramItem.Description.toLowerCase();
+                if (isSearchedLaptop && itemDescription.indexOf(itemBrand.toLowerCase()) > -1 &&
+				    memoryProductCode.indexOf(itemRam) === 0)
+				{
+                    laptopItems[itemIndex] = item;
+					itemIndex++;
+                }
+
+            }
+            console.log(laptopItems);
+            return laptopItems;
+        }
+    }
+})();
+
+// grab key terms from user spoken input
+var dellyName = parseModule.parseDellyName();
+var category = parseModule.parseItemCategory();
+var brand = parseModule.parseItemBrand();
+var config = parseModule.parseItemConfiguration();
+
+// grab items from cart items with said input
+parseModule.getlaptopItems(null, brand, config, null, null);
 
 angular.module('delly', [])
     .controller('MainCtrl', function($scope) {
@@ -14453,13 +20680,16 @@ var dialog = {
 // @codekit-prepend "vendor/angular.min.js";
 // @codekit-prepend "vendor/nlp_compromise.min.js";
 // @codekit-prepend "vendor/responsivevoice.js";
-// @codekit-prepend "bootstrap.js";
+// @codekit-prepend "bootstrap.min.js";
 // @codekit-prepend "nlp_compromise.js";
 // @codekit-prepend "speechInput.js";
 // @codekit-prepend "mappedCartItems.js";
 // @codekit-prepend "outputModel.js";
+// @codekit-prepend "cartItems.js"
+// @codekit-prepend "levenshtein.js"
 // @codekit-prepend "dataParser.js";
 // @codekit-prepend "app.js";
 // @codekit-prepend "common.js";
 // @codekit-prepend "dialog.js";
+
 
