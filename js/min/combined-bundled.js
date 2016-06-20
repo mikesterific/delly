@@ -214,144 +214,8892 @@ b.exports={suffixes:e,organizations:d}},{}],18:[function(a,b,c){"use strict";var
 a=a.toLowerCase(),a=a.replace(/([0-9]+)(nd|rd|th|st)/i,"$1");var b=a.split(" ").map(function(a){return a.match(/[0-9]/)?a:d(a)||a});return b.join(" ")},h=function(a){a=g(a);for(var b={year:null,month:null,day:null},c=0;c<e.length;c++)if(a.match(e[c].reg)){for(var d=a.match(e[c].reg),h=0;h<e[c].order.length;h++){var i=e[c].order[h];b[i]=f[i](d[h+1])}break}return b};b.exports=h},{"../value/parse/to_number.js":93,"./date_rules.js":73}],76:[function(a,b,c){"use strict";var d=a("../../data/irregular_nouns"),e=[/(^v)ies$/i,/ises$/i,/ives$/i,/(antenn|formul|nebul|vertebr|vit)ae$/i,/(octop|vir|radi|nucle|fung|cact|stimul)i$/i,/(buffal|tomat|tornad)oes$/i,/(analy|ba|diagno|parenthe|progno|synop|the)ses$/i,/(vert|ind|cort)ices$/i,/(matr|append)ices$/i,/(x|ch|ss|sh|s|z|o)es$/i,/men$/i,/news$/i,/.tia$/i,/(^f)ves$/i,/(lr)ves$/i,/(^aeiouy|qu)ies$/i,/(m|l)ice$/i,/(cris|ax|test)es$/i,/(alias|status)es$/i,/ics$/i],f=[/(ax|test)is$/i,/(octop|vir|radi|nucle|fung|cact|stimul)us$/i,/(octop|vir)i$/i,/(rl)f$/i,/(alias|status)$/i,/(bu)s$/i,/(al|ad|at|er|et|ed|ad)o$/i,/(ti)um$/i,/(ti)a$/i,/sis$/i,/(?:(^f)fe|(lr)f)$/i,/hive$/i,/(^aeiouy|qu)y$/i,/(x|ch|ss|sh|z)$/i,/(matr|vert|ind|cort)(ix|ex)$/i,/(m|l)ouse$/i,/(m|l)ice$/i,/(antenn|formul|nebul|vertebr|vit)a$/i,/.sis$/i,/^(?!talis|.*hu)(.*)man$/i],g=function(a){a=(a||"").toLowerCase();var b=a.match(/([a-z]*) (of|in|by|for) [a-z]/);b&&b[1]&&(a=b[1]);for(var c=0;c<d.length;c++){if(d[c][1]===a)return!0;if(d[c][0]===a)return!1}for(var c=0;c<e.length;c++)if(a.match(e[c]))return!0;for(var c=0;c<f.length;c++)if(a.match(f[c]))return!1;return a.match(/s$/)&&!a.match(/ss$/)&&a.length>3?!0:!1};b.exports=g},{"../../data/irregular_nouns":10}],77:[function(a,b,c){"use strict";var d=a("../../data/uncountables.js"),e=d.reduce(function(a,b){return a[b]=!0,a},{}),f=function(a){return e[a]?!0:!1};b.exports=f},{"../../data/uncountables.js":21}],78:[function(a,b,c){"use strict";function d(a,b){if(!(a instanceof b))throw new TypeError("Cannot call a class as a function")}function e(a,b){if(!a)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return!b||"object"!=typeof b&&"function"!=typeof b?a:b}function f(a,b){if("function"!=typeof b&&null!==b)throw new TypeError("Super expression must either be null or a function, not "+typeof b);a.prototype=Object.create(b&&b.prototype,{constructor:{value:a,enumerable:!1,writable:!0,configurable:!0}}),b&&(Object.setPrototypeOf?Object.setPrototypeOf(a,b):a.__proto__=b)}var g=function(){function a(a,b){for(var c=0;c<b.length;c++){var d=b[c];d.enumerable=d.enumerable||!1,d.configurable=!0,"value"in d&&(d.writable=!0),Object.defineProperty(a,d.key,d)}}return function(b,c,d){return c&&a(b.prototype,c),d&&a(b,d),b}}(),h=a("../term.js"),i=a("./article.js"),j=a("./is_plural.js"),k=a("./place/is_place.js"),l=a("./person/is_person.js"),m=a("./pronoun.js"),n=a("./value/is_value.js"),o=a("./date/is_date.js"),p=a("./organization/is_organization.js"),q=a("./singularize.js"),r=a("./pluralize.js"),s=a("./is_uncountable.js"),t=function(a){function b(a,c){d(this,b);var f=e(this,Object.getPrototypeOf(b).call(this,a));return f.tag=c,f.pos.Noun=!0,c&&(f.pos[c]=!0),f.is_plural()&&(f.pos.Plural=!0),f}return f(b,a),g(b,[{key:"article",value:function(){return this.pos.Person?this.pronoun():this.pos.Organization?"they":i(this.text)}},{key:"root",value:function(){return this.singularize()}},{key:"pronoun",value:function(){return this.is_organization()||this.is_place()||this.is_value()?"it":m(this.normal)}},{key:"is_plural",value:function(){return this.pos.Date||this.pos.Possessive?!1:this.has_abbreviation()?!1:j(this.normal)}},{key:"is_uncountable",value:function(){return s(this.strip_apostrophe())}},{key:"pluralize",value:function(){return r(this.strip_apostrophe())}},{key:"singularize",value:function(){return q(this.strip_apostrophe())}},{key:"is_person",value:function(){return"Date"===this.tag?!1:l(this.strip_apostrophe())}},{key:"is_organization",value:function(){return p(this.strip_apostrophe(),this.text)}},{key:"is_date",value:function(){return o(this.strip_apostrophe())}},{key:"is_value",value:function(){return"Date"===this.tag?!1:n(this.strip_apostrophe())}},{key:"is_place",value:function(){return k(this.strip_apostrophe())}}]),b}(h);t.fn=t.prototype,b.exports=t},{"../term.js":97,"./article.js":71,"./date/is_date.js":74,"./is_plural.js":76,"./is_uncountable.js":77,"./organization/is_organization.js":79,"./person/is_person.js":82,"./place/is_place.js":85,"./pluralize.js":87,"./pronoun.js":88,"./singularize.js":89,"./value/is_value.js":90}],79:[function(a,b,c){"use strict";var d=a("../../../data/abbreviations"),e=a("../../../data/organizations"),f={url:!0,http:!0,wtf:!0,irl:!0,ie:!0,eg:!0,gps:!0,dna:!0,sms:!0},g=d.orgs.reduce(function(a,b){return a[b]=!0,a},{});e.suffixes.forEach(function(a){g[a]=!0});var h=e.organizations.reduce(function(a,b){return a[b]=!0,a},{}),i=function(a,b){if(b=b||"",f[a])return!1;if(h[a])return!0;if(b.length<=5&&null!==b.match(/^[A-Z][A-Z]+$/))return!0;if(b.length>=4&&null!==b.match(/^([A-Z]\.)*$/))return!0;if(a.match(/ & /))return!0;if(a.match(/..s of /))return!0;if(a.match(/[a-z]{3}\.(com|net|org|biz)/))return!0;var c=a.split(" ");if(c.length>1){var d=c[c.length-1];if(g[d])return!0}return!1};b.exports=i},{"../../../data/abbreviations":1,"../../../data/organizations":17}],80:[function(a,b,c){"use strict";function d(a,b){if(!(a instanceof b))throw new TypeError("Cannot call a class as a function")}function e(a,b){if(!a)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return!b||"object"!=typeof b&&"function"!=typeof b?a:b}function f(a,b){if("function"!=typeof b&&null!==b)throw new TypeError("Super expression must either be null or a function, not "+typeof b);a.prototype=Object.create(b&&b.prototype,{constructor:{value:a,enumerable:!1,writable:!0,configurable:!0}}),b&&(Object.setPrototypeOf?Object.setPrototypeOf(a,b):a.__proto__=b)}var g=a("../noun.js"),h=function(a){function b(a,c){d(this,b);var f=e(this,Object.getPrototypeOf(b).call(this,a));return f.tag=c,f.pos.Organization=!0,f}return f(b,a),b}(g);h.fn=h.prototype,b.exports=h},{"../noun.js":78}],81:[function(a,b,c){"use strict";var d=a("../../../data/firstnames"),e=a("./parse_name.js"),f=function(a){if("he"===a)return"Male";if("she"===a)return"Female";var b=e(a),c=b.firstName;return c?"m"===d[c]?"Male":"f"===d[c]?"Female":a.match(/\b(mr|mister|sr|jr)\b/i)?"Male":a.match(/^(mrs|miss|ms|misses|mme|mlle)\.? /i)?"Female":c.match(/.(i|ee|[a|e]y|a)$/i)?"Female":c.match(/[ou]$/i)?"Male":c.match(/(nn|ll|tt)/i)?"Female":null:null};b.exports=f},{"../../../data/firstnames":7,"./parse_name.js":83}],82:[function(a,b,c){"use strict";var d=a("../../../data/firstnames"),e=a("../../../data/honourifics").reduce(function(a,b){return a[b]=!0,a},{}),f={he:!0,she:!0,i:!0,you:!0},g=function(a){if(f[a]||d[a])return!0;var b=a.split(" ");if(b.length>1){var c=b[0];if(e[c]||d[c])return!0}return!1};b.exports=g},{"../../../data/firstnames":7,"../../../data/honourifics":9}],83:[function(a,b,c){"use strict";var d=a("../../../data/firstnames"),e=a("../../../data/honourifics").reduce(function(a,b){return a[b]=!0,a},{}),f=function(a){var b=a.split(" "),c={honourific:null,firstName:null,middleName:null,lastName:null};if(e[b[0]]&&(c.honourific=b[0],b=b.slice(1,b.length)),e[b[b.length-1]]&&(c.honourific=b[b.length-1],b=b.slice(0,b.length-1)),d[b[0]])c.firstName=b[0],b=b.slice(1,b.length);else{if(1===b.length)return c;c.firstName=b[0],b=b.slice(1,b.length)}return b[b.length-1]&&(c.lastName=b[b.length-1],b=b.slice(0,b.length-1)),c.middleName=b.join(" "),c};b.exports=f},{"../../../data/firstnames":7,"../../../data/honourifics":9}],84:[function(a,b,c){"use strict";function d(a,b){if(!(a instanceof b))throw new TypeError("Cannot call a class as a function")}function e(a,b){if(!a)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return!b||"object"!=typeof b&&"function"!=typeof b?a:b}function f(a,b){if("function"!=typeof b&&null!==b)throw new TypeError("Super expression must either be null or a function, not "+typeof b);a.prototype=Object.create(b&&b.prototype,{constructor:{value:a,enumerable:!1,writable:!0,configurable:!0}}),b&&(Object.setPrototypeOf?Object.setPrototypeOf(a,b):a.__proto__=b)}var g=function(){function a(a,b){for(var c=0;c<b.length;c++){var d=b[c];d.enumerable=d.enumerable||!1,d.configurable=!0,"value"in d&&(d.writable=!0),Object.defineProperty(a,d.key,d)}}return function(b,c,d){return c&&a(b.prototype,c),d&&a(b,d),b}}(),h=a("../noun.js"),i=a("./gender.js"),j=a("./parse_name.js"),k=function(a){function b(a,c){d(this,b);var f=e(this,Object.getPrototypeOf(b).call(this,a));return f.tag=c,f.pos.Person=!0,f.honourific=null,f.firstName=null,f.middleName=null,f.lastName=null,f.parse(),f.isPronoun()&&(f.pos.Pronoun=!0),f}return f(b,a),g(b,[{key:"isPronoun",value:function(){var a={he:!0,she:!0,i:!0,you:!0};return a[this.normal]}},{key:"root",value:function(){if(this.isPronoun())return this.normal;var a=this.firstName||"";return this.middleName&&(a+=" "+this.middleName),this.lastName&&(a+=" "+this.lastName),a.trim()||this.normal}},{key:"parse",value:function(){var a=j(this.normal);this.honourific=a.honourific,this.firstName=a.firstName,this.middleName=a.middleName,this.lastName=a.lastName}},{key:"gender",value:function(){return i(this.normal)}},{key:"pronoun",value:function(){var a={Male:"he",Female:"she"},b=this.gender();return a[b]||"they"}}]),b}(h);k.fn=k.prototype,b.exports=k},{"../noun.js":78,"./gender.js":81,"./parse_name.js":83}],85:[function(a,b,c){"use strict";var d=a("../../../data/places"),e=a("../../../data/abbreviations"),f=d.countries.reduce(function(a,b){return a[b]=!0,a},{});d.cities.forEach(function(a){f[a]=!0}),d.airports.forEach(function(a){f[a]=!0}),e.places.forEach(function(a){f[a]=!0});var g=["west","east","nort","south","western","eastern","nortern","southern","mount"].reduce(function(a,b){return a[b]=!0,a},{}),h=["city","town","county","village","province","country","state","province","mountain","river","valley","park","avenue","street","road"].reduce(function(a,b){return a[b]=!0,a},{}),i=function(a){var b=a.split(" ");if(b.length>1){if(g[b[0]])return!0;if(h[b[b.length-1]])return!0}for(var c=0;c<b.length;c++)if(f[b[c]])return!0;return!1};b.exports=i},{"../../../data/abbreviations":1,"../../../data/places":19}],86:[function(a,b,c){"use strict";function d(a,b){if(!(a instanceof b))throw new TypeError("Cannot call a class as a function")}function e(a,b){if(!a)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return!b||"object"!=typeof b&&"function"!=typeof b?a:b}function f(a,b){if("function"!=typeof b&&null!==b)throw new TypeError("Super expression must either be null or a function, not "+typeof b);a.prototype=Object.create(b&&b.prototype,{constructor:{value:a,enumerable:!1,writable:!0,configurable:!0}}),b&&(Object.setPrototypeOf?Object.setPrototypeOf(a,b):a.__proto__=b)}var g=function(){function a(a,b){for(var c=0;c<b.length;c++){var d=b[c];d.enumerable=d.enumerable||!1,d.configurable=!0,"value"in d&&(d.writable=!0),Object.defineProperty(a,d.key,d)}}return function(b,c,d){return c&&a(b.prototype,c),d&&a(b,d),b}}(),h=a("../noun.js"),i=a("../../../data/places.js"),j=a("../../../fns.js"),k=j.toObj(i.countries),l=j.toObj(i.cities),m=function(a){function b(a,c){d(this,b);var f=e(this,Object.getPrototypeOf(b).call(this,a));return f.tag=c,f.pos.Place=!0,f.title=null,f.city=null,f.region=null,f.country=null,f.parse(),f}return f(b,a),g(b,[{key:"root",value:function(){return this.title||this.normal}},{key:"parse",value:function(){var a=this.strip_apostrophe().split(" ");this.title=a[0];for(var b=1;b<a.length;b++){var c=a[b];l[c]?this.city=j.titlecase(c):k[c]?this.country=j.titlecase(c):null!==this.city?this.region=j.titlecase(c):this.title+=" "+c}}}]),b}(h);m.fn=m.prototype,b.exports=m},{"../../../data/places.js":19,"../../../fns.js":23,"../noun.js":78}],87:[function(a,b,c){"use strict";var d=a("./is_uncountable.js"),e=a("../../data/irregular_nouns.js"),f=a("./is_plural.js"),g=a("../../fns.js"),h=[[/(ax|test)is$/i,"$1es"],[/(octop|vir|radi|nucle|fung|cact|stimul)us$/i,"$1i"],[/(octop|vir)i$/i,"$1i"],[/(kn|l|w)ife$/i,"$1ives"],[/^((?:ca|e|ha|(?:our|them|your)?se|she|wo)l|lea|loa|shea|thie)f$/i,"$1ves"],[/^(dwar|handkerchie|hoo|scar|whar)f$/i,"$1ves"],[/(alias|status)$/i,"$1es"],[/(bu)s$/i,"$1ses"],[/(al|ad|at|er|et|ed|ad)o$/i,"$1oes"],[/([ti])um$/i,"$1a"],[/([ti])a$/i,"$1a"],[/sis$/i,"ses"],[/(hive)$/i,"$1s"],[/([^aeiouy]|qu)y$/i,"$1ies"],[/(x|ch|ss|sh|s|z)$/i,"$1es"],[/(matr|vert|ind|cort)(ix|ex)$/i,"$1ices"],[/([m|l])ouse$/i,"$1ice"],[/([m|l])ice$/i,"$1ice"],[/^(ox)$/i,"$1en"],[/^(oxen)$/i,"$1"],[/(quiz)$/i,"$1zes"],[/(antenn|formul|nebul|vertebr|vit)a$/i,"$1ae"],[/(sis)$/i,"ses"],[/^(?!talis|.*hu)(.*)man$/i,"$1men"],[/(.*)/i,"$1s"]].map(function(a){return{reg:a[0],repl:a[1]}}),i=function j(a){var b=a.toLowerCase();if(d(b))return a;if(f(b)===!0)return a;var c=e.filter(function(a){return a[0]===b});if(c[0])return g.titlecase(b)===a?g.titlecase(c[0][1]):c[0][1];if(a.match(/([a-z]*) (of|in|by|for) [a-z]/)){var i=(a.match(/^([a-z]*) (of|in|by|for) [a-z]/)||[])[1];if(i){var k=j(i);return k+a.replace(i,"")}}for(var l=0;l<h.length;l++)if(a.match(h[l].reg))return a.replace(h[l].reg,h[l].repl);return null};b.exports=i},{"../../data/irregular_nouns.js":10,"../../fns.js":23,"./is_plural.js":76,"./is_uncountable.js":77}],88:[function(a,b,c){"use strict";var d=a("./person/is_person.js"),e=a("./is_plural.js"),f=a("./person/gender.js"),g=function(a){if(d(a)){var b=f(a);return"Male"===b?"he":"Female"===b?"she":"they"}return e(a)?"they":"it"};b.exports=g},{"./is_plural.js":76,"./person/gender.js":81,"./person/is_person.js":82}],89:[function(a,b,c){"use strict";var d=a("./is_uncountable.js"),e=a("../../data/irregular_nouns.js"),f=a("./is_plural.js"),g=a("../../fns.js"),h=[[/([^v])ies$/i,"$1y"],[/ises$/i,"isis"],[/(kn|[^o]l|w)ives$/i,"$1ife"],[/^((?:ca|e|ha|(?:our|them|your)?se|she|wo)l|lea|loa|shea|thie)ves$/i,"$1f"],[/^(dwar|handkerchie|hoo|scar|whar)ves$/i,"$1f"],[/(antenn|formul|nebul|vertebr|vit)ae$/i,"$1a"],[/(octop|vir|radi|nucle|fung|cact|stimul)(i)$/i,"$1us"],[/(buffal|tomat|tornad)(oes)$/i,"$1o"],[/((a)naly|(b)a|(d)iagno|(p)arenthe|(p)rogno|(s)ynop|(t)he)ses$/i,"$1sis"],[/(vert|ind|cort)(ices)$/i,"$1ex"],[/(matr|append)(ices)$/i,"$1ix"],[/(x|ch|ss|sh|s|z|o)es$/i,"$1"],[/men$/i,"man"],[/(n)ews$/i,"$1ews"],[/([ti])a$/i,"$1um"],[/([^aeiouy]|qu)ies$/i,"$1y"],[/(s)eries$/i,"$1eries"],[/(m)ovies$/i,"$1ovie"],[/([m|l])ice$/i,"$1ouse"],[/(cris|ax|test)es$/i,"$1is"],[/(alias|status)es$/i,"$1"],[/(ss)$/i,"$1"],[/(ics)$/i,"$1"],[/s$/i,""]].map(function(a){return{reg:a[0],repl:a[1]}}),i=function j(a){var b=a.toLowerCase();if(d(b))return a;if(f(b)===!1)return a;var c=e.filter(function(a){return a[1]===b});if(c[0])return g.titlecase(b)===a?g.titlecase(c[0][0]):c[0][0];if(a.match(/([a-z]*) (of|in|by|for) [a-z]/)){var i=a.match(/^([a-z]*) (of|in|by|for) [a-z]/);if(i&&i[1]){var k=j(i[1]);return k+a.replace(i[1],"")}}for(var l=0;l<h.length;l++)if(a.match(h[l].reg))return a.replace(h[l].reg,h[l].repl);return a};b.exports=i},{"../../data/irregular_nouns.js":10,"../../fns.js":23,"./is_plural.js":76,"./is_uncountable.js":77}],90:[function(a,b,c){"use strict";var d=a("../../../data/numbers.js"),e=a("../date/is_date"),f=function(a){var b=a.split(" ");if(e(a))return!1;for(var c=0;c<b.length;c++){var f=b[c];if(d.ones[f]||d.teens[f]||d.tens[f]||d.multiples[f]||d.prefixes[f])return!0;if(parseFloat(f))return!0}return!1};b.exports=f},{"../../../data/numbers.js":16,"../date/is_date":74}],91:[function(a,b,c){"use strict";var d=a("../../../../data/numbers.js"),e=a("../../../../fns"),f={};f=e.extend(f,d.ones),f=e.extend(f,d.teens),f=e.extend(f,d.ordinal_ones),f=e.extend(f,d.ordinal_teens);var g=function(a){for(var b="0.",c=0;c<a.length;c++){var d=a[c];if(!f[d])return 0;b+=f[d]}return parseFloat(b)};b.exports=g},{"../../../../data/numbers.js":16,"../../../../fns":23}],92:[function(a,b,c){"use strict";var d=function(a){for(var b=[{reg:/^(minus|negative)[\s\-]/i,mult:-1},{reg:/^(a\s)?half[\s\-](of\s)?/i,mult:.5},{reg:/^(a\s)?quarter[\s\-]/i,mult:.25}],c=0;c<b.length;c++)if(a.match(b[c].reg))return{amount:b[c].mult,str:a.replace(b[c].reg,"")};return{amount:1,str:a}};b.exports=d},{}],93:[function(a,b,c){"use strict";var d=a("../../../../data/numbers.js"),e=a("../../../../fns.js"),f=a("./modifiers.js"),g=a("./decimals.js"),h={},i={},j={},k={};h=e.extend(h,d.ones),h=e.extend(h,d.ordinal_ones),i=e.extend(i,d.teens),i=e.extend(i,d.ordinal_teens),j=e.extend(j,d.tens),j=e.extend(j,d.ordinal_tens),k=e.extend(k,d.multiples),k=e.extend(k,d.ordinal_multiples);var l=function(a){return a=a.replace(/, ?/g,""),a=a.replace(/([a-z])-([a-z])/gi,"$1 $2"),a=a.replace(/[$£€]/,""),a=a.replace(/[\$%\(\)~,]/g,""),a=a.trim()},m=function(a){return Object.keys(a).reduce(function(b,c){return b+=a[c]},0)},n=function(a,b){if(h[a]){if(b.ones||b.teens)return!1}else if(i[a]){if(b.ones||b.teens||b.tens)return!1}else if(j[a]&&(b.ones||b.teens||b.tens))return!1;return!0},o=function(a){if(!a||"number"==typeof a)return a;a=l(a);var b=f(a);a=b.str;for(var c=0,d={},e=0,o=!1,p=a.split(" "),q=0;q<p.length;q++){var r=p[q];if(r&&"and"!==r)if("-"!==r&&"negative"!==r){if(r.startsWith("-")&&(o=!0,r=r.substr(1)),"point"===r)return e+=m(d),e+=g(p.slice(q+1,p.length)),e*=b.amount;if(r.match(/^[0-9,\. ]+$/))e+=parseFloat(r.replace(/[, ]/g,""))||0;else{var s=r.match(/^([0-9,\. ]+)\/([0-9,\. ]+)$/);if(s){var t=parseFloat(s[1].replace(/[, ]/g,"")),u=parseFloat(s[2].replace(/[, ]/g,""));e+=t/u||0}else{if(!n(r,d))return null;if(h[r])d.ones=h[r];else if(i[r])d.teens=i[r];else if(j[r])d.tens=j[r];else if(k[r]){if(k[r]===c)return null;k[r]>c?(c=k[r],e+=m(d),e=(e||1)*k[r]):e+=(m(d)||1)*k[r],d={}}}}}else o=!0}return e+=m(d),e*=b.amount,e*=o?-1:1};b.exports=o},{"../../../../data/numbers.js":16,"../../../../fns.js":23,"./decimals.js":91,"./modifiers.js":92}],94:[function(a,b,c){"use strict";var d=["","one","two","three","four","five","six","seven","eight","nine","ten","eleven","twelve","thirteen","fourteen","fifteen","sixteen","seventeen","eighteen","nineteen"],e=[["ninety",90],["eighty",80],["seventy",70],["sixty",60],["fifty",50],["forty",40],["thirty",30],["twenty",20]],f=[[1e9,"million"],[1e8,"hundred million"],[1e6,"million"],[1e5,"hundred thousand"],[1e3,"thousand"],[100,"hundred"],[1,"one"]],g=function(a){var b=a,c=[];return f.forEach(function(d){if(a>d[0]){var e=Math.floor(b/d[0]);b-=e*d[0],e&&c.push({unit:d[1],count:e})}}),c},h=function(a){for(var b="",c=0;c<e.length;c++)a>=e[c][1]&&(a-=e[c][1],b+=" "+e[c][0]);return d[a]&&(b+=" "+d[a]),b.trim()},i=function(a){var b=!1;0>a&&(b=!0,a=Math.abs(a));for(var c=g(a),d="",e=0;e<c.length;e++){var f=c[e].unit;"one"===f&&(f="",d.length>1&&(d+=" and")),d+=" "+h(c[e].count)+" "+f}return d=d||"zero",d=d.replace(/ +/g," "),d=d.trim(),b&&(d="negative "+d),d};b.exports=i},{}],95:[function(a,b,c){"use strict";var d=a("../../../data/currencies").reduce(function(a,b){return a[b]="currency",a},{}),e={Temperature:{"°c":"Celsius","°f":"Fahrenheit",k:"Kelvin","°re":"Reaumur","°n":"Newton","°ra":"Rankine"},Volume:{"m³":"cubic meter",m3:"cubic meter","dm³":"cubic decimeter",dm3:"cubic decimeter","cm³":"cubic centimeter",cm3:"cubic centimeter",l:"liter",dl:"deciliter",cl:"centiliter",ml:"milliliter","in³":"cubic inch",in3:"cubic inch","ft³":"cubic foot",ft3:"cubic foot","yd³":"cubic yard",yd3:"cubic yard",gal:"gallon",bbl:"petroleum barrel",pt:"pint",qt:"quart",tbl:"tablespoon",tsp:"teaspoon",tbsp:"tablespoon",cp:"cup","fl oz":"fluid ounce"},Distance:{km:"kilometer",m:"meter",dm:"decimeter",cm:"centimeter",mm:"millimeter",mi:"mile","in":"inch",ft:"foot",feet:"foot",yd:"yard"},Weight:{t:"tonne",kg:"kilogram",hg:"hectogram",g:"gram",dg:"decigram",cg:"centigram",mg:"milligram","µg":"microgram",carat:"carat",grain:"grain",oz:"ounce",lb:"pound",ton:"tonne",st:"stone"},Area:{"km²":"square kilometer",km2:"square kilometer","m²":"square meter",m2:"square meter","dm²":"square decimeter",dm2:"square decimeter","cm²":"square centimeter",cm2:"square centimeter","mm²":"square millimeter",mm2:"square millimeter",ha:"hectare",ca:"centiare","mile²":"square mile",mile2:"square mile","in²":"square inch",in2:"square inch","yd²":"square yard",yd2:"square yard","ft²":"square foot",ft2:"square foot",acre:"acre"},Frequency:{hz:"hertz"},Speed:{"km/h":"kilometer per hour",kmph:"kilometer per hour",mps:"meter per second","m/s":"meter per second",mph:"mile per hour","mi/h":"mile per hour",knot:"knot"},Data:{b:"byte",kb:"kilobyte",mb:"megabyte",gb:"gigabyte",tb:"terabyte",pt:"petabyte",eb:"exabyte",zb:"zettabyte",yb:"yottabyte"},Energy:{j:"joule",pa:"pascal",bar:"bar",w:"watt",n:"newton",wb:"weber",t:"tesla",h:"henry",c:"coulomb",v:"volt",f:"farad",s:"siemens",o:"ohm",lx:"lux",lm:"lumen"},Time:{year:"year",week:"week",day:"day",h:"hour",min:"minute",s:"second",ms:"millisecond","µs":"microsecond",nanosecond:"nanosecond",picosecond:"picosecond",femtosecond:"femtosecond",attosecond:"attosecond"},Money:d};b.exports=Object.keys(e).reduce(function(a,b){return Object.keys(e[b]).forEach(function(c){a[c]={name:e[b][c],category:b},a[e[b][c]]={name:e[b][c],category:b}}),a},{})},{"../../../data/currencies":4}],96:[function(a,b,c){"use strict";function d(a,b){if(!(a instanceof b))throw new TypeError("Cannot call a class as a function")}function e(a,b){if(!a)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return!b||"object"!=typeof b&&"function"!=typeof b?a:b}function f(a,b){if("function"!=typeof b&&null!==b)throw new TypeError("Super expression must either be null or a function, not "+typeof b);a.prototype=Object.create(b&&b.prototype,{constructor:{value:a,enumerable:!1,writable:!0,configurable:!0}}),b&&(Object.setPrototypeOf?Object.setPrototypeOf(a,b):a.__proto__=b)}var g=function(){function a(a,b){for(var c=0;c<b.length;c++){var d=b[c];d.enumerable=d.enumerable||!1,d.configurable=!0,"value"in d&&(d.writable=!0),Object.defineProperty(a,d.key,d)}}return function(b,c,d){return c&&a(b.prototype,c),d&&a(b,d),b}}(),h=a("../noun"),i=a("./parse/to_number"),j=a("./to_text"),k=a("./units"),l=a("../../../data/numbers"),m=a("../../../fns"),n={};n=m.extend(n,l.ordinal_ones),n=m.extend(n,l.ordinal_teens),n=m.extend(n,l.ordinal_tens),n=m.extend(n,l.ordinal_multiples),n=Object.keys(n);var o=function(a){function b(a,c){d(this,b);var f=e(this,Object.getPrototypeOf(b).call(this,a));return f.tag=c,f.pos.Value=!0,f.number=null,f.unit=null,f.unit_name=null,f.measurement=null,f.of_what="",f.is_ordinal()&&(f.pos.Ordinal=!0),f.parse(),f}return f(b,a),g(b,[{key:"is_number",value:function(a){return a.match(/[:@]/)?!1:a.match(/[0-9][^(0-9|\/),\.][0-9]/)?a.match(/((?:[0-9]|\.)+) ((?:[0-9]|\.)+)\/((?:[0-9]|\.)+)/)?!0:!1:!0}},{key:"is_number_word",value:function(a){var b={minus:!0,negative:!0,point:!0,half:!0,quarter:!0};return a.match(/[0-9]/)||b[a]?!0:l.ones[a]||l.teens[a]||l.tens[a]||l.multiples[a]?!0:l.ordinal_ones[a]||l.ordinal_teens[a]||l.ordinal_tens[a]||l.ordinal_multiples[a]?!0:!1}},{key:"is_ordinal",value:function(){if(this.normal.match(/^[0-9]+(rd|st|nd|th)$/))return!0;for(var a=0;a<n.length;a++)if(m.endsWith(this.normal,n[a]))return!0;return!1}},{key:"to_ordinal",value:function(){var a=this.number;return a||0===a?a>=10&&20>=a?""+a+"th":(a=""+a,a.match(/[0-9]$/)?m.endsWith(a,"1")?a+"st":m.endsWith(a,"2")?a+"nd":m.endsWith(a,"3")?a+"rd":a+"th":a):""}},{key:"root",value:function(){var a=this.number;return this.unit&&(a+=" "+this.unit),a}},{key:"is_unit",value:function(){if(k[this.unit])return!0;if(this.pos.Currency)return!0;var a=this.unit.toLowerCase();return l.prefixes[a]?!0:(a=this.unit.replace(/s$/,""),k[a]?(this.unit=this.unit.replace(/s$/,""),!0):(a=this.unit.replace(/es$/,""),k[a]?(this.unit=this.unit.replace(/es$/,""),!0):!1))}},{key:"parse",value:function(){if(this.is_number(this.text)){for(var a=this.text.toLowerCase().split(/[ ]/),b=0;b<a.length;b++){var c=a[b];if(c.indexOf("-")===c.lastIndexOf("-")&&c.indexOf("-")>-1){var d=c.split(/[-]/);this.is_number_word(d[0])&&this.is_number_word(d[1])&&(a[b]=d[0],a.splice(b+1,0,d[1]))}}for(var e="",f="",b=0;b<a.length;b++){var c=a[b];this.is_number_word(c)?e+=" "+c:f+=" "+c}for(this.unit=f.trim();""!==this.unit;){if(this.is_unit()&&k[this.unit]){this.measurement=k[this.unit].category,this.unit_name=k[this.unit].name;break}this.unit=this.unit.substr(0,this.unit.lastIndexOf(" ")).trim()}var g=this.text.substr(0,1),h={"€":"euro",$:"dollar","¥":"yen","£":"pound","¢":"cent","฿":"bitcoin"};h[g]&&(this.measurement="Money",this.unit_name="currency",this.unit=h[g]),e=e.trim(),this.number=i(e);var j=this.text.indexOf(" of ");j>0?this.of_what=this.text.substring(j+4).trim():this.unit_name&&(this.of_what=this.unit_name)}}},{key:"textual",value:function(){return j(this.number||this.normal||this.text)}}]),b}(h);o.fn=o.prototype,b.exports=o},{"../../../data/numbers":16,"../../../fns":23,"../noun":78,"./parse/to_number":93,"./to_text":94,"./units":95}],97:[function(a,b,c){"use strict";function d(a,b){if(!(a instanceof b))throw new TypeError("Cannot call a class as a function")}var e=function(){function a(a,b){for(var c=0;c<b.length;c++){var d=b[c];d.enumerable=d.enumerable||!1,d.configurable=!0,"value"in d&&(d.writable=!0),Object.defineProperty(a,d.key,d)}}return function(b,c,d){return c&&a(b.prototype,c),d&&a(b,d),b}}(),f=a("./is_acronym"),g=a("../match/match_term"),h=a("../match/syntax_parse"),i=a("./implied"),j=function(){function a(b,c,e){d(this,a),"number"==typeof b?b=""+b:"string"!=typeof b&&(b=""),b=b.toString(),this.whitespace=e||{},this.whitespace.preceding=this.whitespace.preceding||"",this.whitespace.trailing=this.whitespace.trailing||"",this.text=b,this.normal="",this.expansion="",this.rebuild(),this.reason="";var f={Determiner:"Determiner",Conjunction:"Conjunction",Preposition:"Preposition",Possessive:"Possessive",Expression:"Expression",Condition:"Condition"};this.pos={},this.tag=f[c]||"?",f[c]&&(this.pos[f[c]]=!0)}return e(a,[{key:"rebuild",value:function(){this.text=this.text||"",this.text=this.text.trim(),this.normal="",this.normalize(),this.expansion=i(this.normal)}},{key:"changeTo",value:function(a){this.text=a,this.rebuild()}},{key:"match",value:function(a,b){var c=h([a]);return g(this,c[0],b)}},{key:"root",value:function(){return this.strip_apostrophe()}},{key:"strip_apostrophe",value:function(){if(this.normal.match(/[a-z]'[a-z][a-z]?$/)){var a=this.normal.split(/'/);if("s"===a[1])return a[0]}return this.normal}},{key:"has_comma",value:function(){return this.text.match(/,$/)?!0:!1}},{key:"has_abbreviation",value:function(){return this.text.match(/[a-z]'[a-z][a-z]?$/)?!0:this.text.match(/[a-z]s'$/)?!0:!1}},{key:"is_capital",value:function(){return this.text.match(/[A-Z][a-z]/)?!0:!1}},{key:"is_word",value:function(){return this.text.match(/^\[.*?\]\??$/)?!1:this.text.match(/[a-z|0-9]/i)?this.text.match(/[\|#\<\>]/i)?!1:!0:!1}},{key:"is_acronym",value:function(){return f(this.text)}},{key:"normalize",value:function(){var a=this.text||"";return a=a.toLowerCase(),a=a.replace(/[,\.!:;\?\(\)^$]/g,""),a=a.replace(/([a-z])\-([a-z])/g,"$1 $2"),a=a.replace(/[\u2018\u2019\u201A\u201B\u2032\u2035]+/g,"'"),a=a.replace(/[\u201C\u201D\u201E\u201F\u2033\u2036]+/g,""),a=a.replace(/^'/g,""),a=a.replace(/'$/g,""),a=a.replace(/"/g,""),a.match(/[a-z0-9]/i)?(this.normal=a,this.normal):""}},{key:"forms",value:function(){return this.pos.Noun?{singular:this.singularize(),plural:this.pluralize()}:this.pos.Verb||this.pos.Adjective?this.conjugate():this.pos.Adverb?{adjective:this.to_adjective()}:{}}}]),a}();j.fn=j.prototype,b.exports=j},{"../match/match_term":27,"../match/syntax_parse":29,"./implied":69,"./is_acronym":70}],98:[function(a,b,c){"use strict";var d="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(a){return typeof a}:function(a){return a&&"function"==typeof Symbol&&a.constructor===Symbol?"symbol":typeof a},e=a("./to_actor"),f=a("./to_infinitive"),g=a("./from_infinitive"),h=a("../../../data/irregular_verbs"),i=a("./predict_form.js"),j=a("./generic.js"),k=a("./strip_prefix.js"),l=a("../../../fns.js"),m=function(a,b){return a.infinitive?(a.gerund||(a.gerund=j.gerund(a)),a.present||(a.present=j.present(a)),a.past||(a.past=j.past(a)),void 0===a.actor&&(a.actor=e(a.infinitive)),b&&Object.keys(a).forEach(function(c){a[c]=b+a[c]}),a.future||(a.future=j.future(a)),a.perfect||(a.perfect=j.perfect(a)),a.pluperfect||(a.pluperfect=j.pluperfect(a)),a.future_perfect||(a.future_perfect=j.future_perfect(a)),a):a},n=function o(a){if(void 0===a)return{};var b=new RegExp("^(.*?) (in|out|on|off|behind|way|with|of|do|away|across|ahead|back|over|under|together|apart|up|upon|aback|down|about|before|after|around|to|forth|round|through|along|onto)$","i");if(a.match(b)){var c=function(){var c=a.match(b,""),d=c[1],e=c[2],f=o(d);return Object.keys(f).forEach(function(a){f[a]&&(f[a]+=" "+e)}),{v:f}}();if("object"===("undefined"==typeof c?"undefined":d(c)))return c.v}a=a.replace(/^had /i,""),a=a.replace(/^have /i,""),a=a.replace(/^will have /i,""),a=a.replace(/^will /i,"");var e=k(a);a=a.replace(e,"");var j=i(a)||"infinitive",n=f(a,j)||"",p=h[a]||h[n]||{};p=l.extend({},p);var q=g(n);return Object.keys(q).forEach(function(a){p[a]||(p[a]=q[a])}),m(p,e)};b.exports=n},{"../../../data/irregular_verbs":11,"../../../fns.js":23,"./from_infinitive":99,"./generic.js":100,"./predict_form.js":101,"./strip_prefix.js":102,"./to_actor":104,"./to_infinitive":105}],99:[function(a,b,c){"use strict";var d="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(a){return typeof a}:function(a){return a&&"function"==typeof Symbol&&a.constructor===Symbol?"symbol":typeof a},e=[{reg:/(eave)$/i,repl:{pr:"$1s",pa:"$1d",gr:"eaving",ar:"$1r"}},{reg:/(ink)$/i,repl:{pr:"$1s",pa:"unk",gr:"$1ing",ar:"$1er"}},{reg:/(end)$/i,repl:{pr:"$1s",pa:"ent",gr:"$1ing",ar:"$1er"}},{reg:/(ide)$/i,repl:{pr:"$1s",pa:"ode",gr:"iding",ar:"ider"}},{reg:/(ake)$/i,repl:{pr:"$1s",pa:"ook",gr:"aking",ar:"$1r"}},{reg:/(eed)$/i,repl:{pr:"$1s",pa:"$1ed",gr:"$1ing",ar:"$1er"}},{reg:/(e)(ep)$/i,repl:{pr:"$1$2s",pa:"$1pt",gr:"$1$2ing",ar:"$1$2er"}},{reg:/(a[tg]|i[zn]|ur|nc|gl|is)e$/i,repl:{pr:"$1es",pa:"$1ed",gr:"$1ing",prt:"$1en"}},{reg:/([i|f|rr])y$/i,repl:{pr:"$1ies",pa:"$1ied",gr:"$1ying"}},{reg:/([td]er)$/i,repl:{pr:"$1s",pa:"$1ed",gr:"$1ing"}},{reg:/([bd]l)e$/i,repl:{pr:"$1es",pa:"$1ed",gr:"$1ing"}},{reg:/(ish|tch|ess)$/i,repl:{pr:"$1es",pa:"$1ed",gr:"$1ing"}},{reg:/(ion|end|e[nc]t)$/i,repl:{pr:"$1s",pa:"$1ed",gr:"$1ing"}},{reg:/(om)e$/i,repl:{pr:"$1es",pa:"ame",gr:"$1ing"}},{reg:/([aeiu])([pt])$/i,repl:{pr:"$1$2s",pa:"$1$2",gr:"$1$2$2ing"}},{reg:/(er)$/i,repl:{pr:"$1s",pa:"$1ed",gr:"$1ing"}},{reg:/(en)$/i,repl:{pr:"$1s",pa:"$1ed",gr:"$1ing"}},{reg:/(..)(ow)$/i,repl:{pr:"$1$2s",pa:"$1ew",gr:"$1$2ing",prt:"$1$2n"}},{reg:/(..)([cs]h)$/i,repl:{pr:"$1$2es",pa:"$1$2ed",gr:"$1$2ing"}},{reg:/([^aeiou][ou])(g|d)$/i,repl:{pr:"$1$2s",pa:"$1$2$2ed",gr:"$1$2$2ing"}},{reg:/([^aeiou][aeiou])(b|t|p|m)$/i,repl:{pr:"$1$2s",pa:"$1$2$2ed",gr:"$1$2$2ing"}}],f={pr:"present",pa:"past",gr:"gerund",prt:"participle",ar:"actor"},g=function(a){var b={infinitive:a};if(!a||"string"!=typeof a)return b;for(var c=function(c){return a.match(e[c].reg)?(Object.keys(e[c].repl).forEach(function(d){b[f[d]]=a.replace(e[c].reg,e[c].repl[d])}),{v:b}):void 0},g=0;g<e.length;g++){var h=c(g);if("object"===("undefined"==typeof h?"undefined":d(h)))return h.v}return b};b.exports=g},{}],100:[function(a,b,c){"use strict";var d=a("../../../fns"),e={gerund:function(a){var b=a.infinitive;return d.endsWith(b,"e")?b.replace(/e$/,"ing"):b+"ing"},present:function(a){var b=a.infinitive;return d.endsWith(b,"s")?b+"es":b+"s"},past:function(a){var b=a.infinitive;return d.endsWith(b,"e")?b+"d":d.endsWith(b,"ed")?b:b+"ed"},future:function(a){return"will "+a.infinitive},perfect:function(a){return"have "+(a.participle||a.past)},pluperfect:function(a){
 return"had "+a.past},future_perfect:function(a){return"will have "+a.past}};b.exports=e},{"../../../fns":23}],101:[function(a,b,c){"use strict";var d=a("../../../fns.js"),e=a("./suffix_rules"),f=a("../../../data/irregular_verbs"),g=Object.keys(f).reduce(function(a,b){return Object.keys(f[b]).forEach(function(c){a[f[b][c]]=c}),a},{}),h=function(a){if(f[a])return"infinitive";if(g[a])return g[a];if(a.match(/will ha(ve|d) [a-z]{2}/))return"future_perfect";if(a.match(/will [a-z]{2}/))return"future";if(a.match(/had [a-z]{2}/))return"pluperfect";if(a.match(/have [a-z]{2}/))return"perfect";if(a.match(/..erer$/))return"actor";if(a.match(/[^aeiou]ing$/))return"gerund";for(var b=Object.keys(e),c=0;c<b.length;c++)if(d.endsWith(a,b[c])&&b[c].length<a.length)return e[b[c]];return"infinitive"};b.exports=h},{"../../../data/irregular_verbs":11,"../../../fns.js":23,"./suffix_rules":103}],102:[function(a,b,c){"use strict";var d=function(a){var b="",c=a.match(/^(over|under|re|anti|full|cross)([- ])?([^aeiou][a-z]*)/i);return c&&(b=c[1]+(c[2]||"")),b};b.exports=d},{}],103:[function(a,b,c){"use strict";for(var d={gerund:[],infinitive:["ate","ize","tion","rify","then","ress","ify","age","nce","ect","ise","ine","ish","ace","ash","ure","tch","end","ack","and","ute","ade","ock","ite","ase","ose","use","ive","int","nge","lay","est","ain","ant","eed","er","le"],participle:["own","unk","ung","en"],past:["ed","lt","nt","pt","ew","ld"],present:["rks","cks","nks","ngs","mps","tes","zes","ers","les","acks","ends","ands","ocks","lays","eads","lls","els","ils","ows","nds","ays","ams","ars","ops","ffs","als","urs","lds","ews","ips","es","ts","ns","s"]},e={},f=Object.keys(d),g=f.length,h=0;g>h;h++)for(var i=d[f[h]].length,j=0;i>j;j++)e[d[f[h]][j]]=f[h];b.exports=e},{}],104:[function(a,b,c){"use strict";var d=function(a){a=a||"";var b={tie:"tier",dream:"dreamer",sail:"sailer",run:"runner",rub:"rubber",begin:"beginner",win:"winner",claim:"claimant",deal:"dealer",spin:"spinner"},c={aid:1,fail:1,appear:1,happen:1,seem:1,"try":1,say:1,marry:1,be:1,forbid:1,understand:1,bet:1},d=[{reg:/e$/i,repl:"er"},{reg:/([aeiou])([mlgp])$/i,repl:"$1$2$2er"},{reg:/([rlf])y$/i,repl:"$1ier"},{reg:/^(.?.[aeiou])t$/i,repl:"$1tter"}];if(c.hasOwnProperty(a))return null;if(b.hasOwnProperty(a))return b[a];for(var e=0;e<d.length;e++)if(a.match(d[e].reg))return a.replace(d[e].reg,d[e].repl);return a+"er"};b.exports=d},{}],105:[function(a,b,c){"use strict";var d=a("../../../data/irregular_verbs"),e=Object.keys(d).reduce(function(a,b){return Object.keys(d[b]).forEach(function(c){a[d[b][c]]=b}),a},{}),f={participle:[{reg:/own$/i,to:"ow"},{reg:/(.)un([g|k])$/i,to:"$1in$2"}],actor:[{reg:/(er)er$/i,to:"$1"}],present:[{reg:/(ies)$/i,to:"y"},{reg:/(tch|sh)es$/i,to:"$1"},{reg:/(ss)es$/i,to:"$1"},{reg:/([tzlshicgrvdnkmu])es$/i,to:"$1e"},{reg:/(n[dtk]|c[kt]|[eo]n|i[nl]|er|a[ytrl])s$/i,to:"$1"},{reg:/(ow)s$/i,to:"$1"},{reg:/(op)s$/i,to:"$1"},{reg:/([eirs])ts$/i,to:"$1t"},{reg:/(ll)s$/i,to:"$1"},{reg:/(el)s$/i,to:"$1"},{reg:/(ip)es$/i,to:"$1e"},{reg:/ss$/i,to:"ss"},{reg:/s$/i,to:""}],gerund:[{reg:/pping$/i,to:"p"},{reg:/lling$/i,to:"ll"},{reg:/tting$/i,to:"t"},{reg:/ssing$/i,to:"ss"},{reg:/gging$/i,to:"g"},{reg:/([^aeiou])ying$/i,to:"$1y"},{reg:/(i.)ing$/i,to:"$1e"},{reg:/(u[rtcb]|[bdtpkg]l|n[cg]|a[gdkvtc]|[ua]s|[dr]g|yz|o[rlsp]|cre)ing$/i,to:"$1e"},{reg:/(ch|sh)ing$/i,to:"$1"},{reg:/(..)ing$/i,to:"$1"}],past:[{reg:/(ued)$/i,to:"ue"},{reg:/(e|i)lled$/i,to:"$1ll"},{reg:/(sh|ch)ed$/i,to:"$1"},{reg:/(tl|gl)ed$/i,to:"$1e"},{reg:/(um?pt?)ed$/i,to:"$1"},{reg:/(ss)ed$/i,to:"$1"},{reg:/pped$/i,to:"p"},{reg:/tted$/i,to:"t"},{reg:/gged$/i,to:"g"},{reg:/(h|ion|n[dt]|ai.|[cs]t|pp|all|ss|tt|int|ail|ld|en|oo.|er|k|pp|w|ou.|rt|ght|rm)ed$/i,to:"$1"},{reg:/(.ut)ed$/i,to:"$1e"},{reg:/(us)ed$/i,to:"$1e"},{reg:/(..[^aeiou])ed$/i,to:"$1e"},{reg:/ied$/i,to:"y"},{reg:/(.o)ed$/i,to:"$1o"},{reg:/(.i)ed$/i,to:"$1"},{reg:/([rl])ew$/i,to:"$1ow"},{reg:/([pl])t$/i,to:"$1t"}]},g=function(a,b){if(e.hasOwnProperty(a))return e[a];if("infinitive"===b)return a;for(var c=f[b]||[],d=0;d<c.length;d++)if(a.match(c[d].reg))return a.replace(c[d].reg,c[d].to);return a};b.exports=g},{"../../../data/irregular_verbs":11}],106:[function(a,b,c){"use strict";function d(a,b){if(!(a instanceof b))throw new TypeError("Cannot call a class as a function")}function e(a,b){if(!a)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return!b||"object"!=typeof b&&"function"!=typeof b?a:b}function f(a,b){if("function"!=typeof b&&null!==b)throw new TypeError("Super expression must either be null or a function, not "+typeof b);a.prototype=Object.create(b&&b.prototype,{constructor:{value:a,enumerable:!1,writable:!0,configurable:!0}}),b&&(Object.setPrototypeOf?Object.setPrototypeOf(a,b):a.__proto__=b)}var g=function(){function a(a,b){for(var c=0;c<b.length;c++){var d=b[c];d.enumerable=d.enumerable||!1,d.configurable=!0,"value"in d&&(d.writable=!0),Object.defineProperty(a,d.key,d)}}return function(b,c,d){return c&&a(b.prototype,c),d&&a(b,d),b}}(),h=a("../term.js"),i=a("./conjugate/conjugate.js"),j=a("./verb_negate.js"),k=a("./conjugate/predict_form.js"),l={infinitive:"Infinitive",present:"PresentTense",past:"PastTense",gerund:"Gerund",actor:"Actor",future:"FutureTense",pluperfect:"PluperfectTense",perfect:"PerfectTense"},m=function(a){function b(a,c){d(this,b);var f=e(this,Object.getPrototypeOf(b).call(this,a));return f.tag=c,f.pos.Verb=!0,c&&(f.pos[c]=!0),f}return f(b,a),g(b,[{key:"root",value:function(){return this.conjugate().infinitive}},{key:"conjugation",value:function(){for(var a=this.conjugate(),b=Object.keys(a),c=0;c<b.length;c++)if(a[b[c]]===this.normal)return l[b[c]];return l[k(this.normal)]}},{key:"tense",value:function(){var a={infinitive:"present",gerund:"present",actor:"present",present:"present",past:"past",future:"future",perfect:"past",pluperfect:"past",future_perfect:"future"},b=this.conjugation();return a[b]||"present"}},{key:"conjugate",value:function(){return i(this.normal)}},{key:"to_past",value:function(){var a="past",b=this.conjugate(this.normal);return this.tag=l[a],this.changeTo(b[a]),b[a]}},{key:"to_present",value:function(){var a="present",b=this.conjugate(this.normal);return this.tag=l[a],this.changeTo(b[a]),b[a]}},{key:"to_future",value:function(){var a="future",b=this.conjugate(this.normal);return this.tag=l[a],this.changeTo(b[a]),b[a]}},{key:"isNegative",value:function(){var a=this.normal;return a.match(/(n't|\bnot\b)/)?!0:!1}},{key:"negate",value:function(){return this.changeTo(j(this)),this}}]),b}(h);m.fn=m.prototype,b.exports=m},{"../term.js":97,"./conjugate/conjugate.js":98,"./conjugate/predict_form.js":101,"./verb_negate.js":107}],107:[function(a,b,c){"use strict";var d=a("../../fns"),e=function(a){var b={is:"isn't",are:"aren't",was:"wasn't",will:"won't",had:"hadn't",did:"didn't",would:"wouldn't",could:"couldn't",should:"shouldn't",can:"can't",must:"mustn't",have:"haven't",has:"hasn't",does:"doesn't","do":"don't"};if(b[a.normal])return b[a.normal];var c=d.reverseObj(b);if(c[a.normal])return c[a.normal];var e=a.normal.split(" ");if(e.length>1&&"not"===e[1])return e[0];if(e.length>1&&b[e[0]])return b[e[0]]+" "+e.slice(1,e.length).join(" ");var f=a.conjugation();return"PastTense"===f?"didn't "+a.conjugate().infinitive:"PresentTense"===f?"doesn't "+a.conjugate().infinitive:"Gerund"===f?"not "+a.text:"Actor"===f?"non-"+a.text:"Infinitive"===f?"don't "+a.text:a.text};b.exports=e},{"../../fns":23}],108:[function(a,b,c){"use strict";var d=a("../data/abbreviations").abbreviations,e=a("../fns"),f=function(a){var b=a.split(/(\n+)/);return b=b.map(function(a){return a.split(/(\S.+?[.!?])(?=\s+|$)/g)}),e.flatten(b)},g=function(a){var b=[],c=[];if(!a||"string"!=typeof a||!a.match(/\w/))return b;for(var e=f(a),g=0;g<e.length;g++){var h=e[g];if(h&&""!==h){if(!h.match(/\S/)){if(c[c.length-1]){c[c.length-1]+=h;continue}if(e[g+1]){e[g+1]=h+e[g+1];continue}}c.push(h)}}for(var i=new RegExp("\\b("+d.join("|")+")[.!?] ?$","i"),j=new RegExp("[ |.][A-Z].? +?$","i"),k=new RegExp("\\.\\.\\.* +?$"),g=0;g<c.length;g++)c[g+1]&&(c[g].match(i)||c[g].match(j)||c[g].match(k))?c[g+1]=c[g]+(c[g+1]||""):c[g]&&c[g].length>0&&(b.push(c[g]),c[g]="");return 0===b.length?[a]:b};b.exports=g},{"../data/abbreviations":1,"../fns":23}],109:[function(a,b,c){"use strict";function d(a,b){if(!(a instanceof b))throw new TypeError("Cannot call a class as a function")}var e=function(){function a(a,b){for(var c=0;c<b.length;c++){var d=b[c];d.enumerable=d.enumerable||!1,d.configurable=!0,"value"in d&&(d.writable=!0),Object.defineProperty(a,d.key,d)}}return function(b,c,d){return c&&a(b.prototype,c),d&&a(b,d),b}}(),f=a("./sentence_parser.js"),g=a("../sentence/question/question.js"),h=a("../sentence/statement/statement.js"),i=a("../fns.js"),j=function(){function a(b,c){d(this,a),c=c||{};var e=this;"string"==typeof b?this.raw_text=b:"number"==typeof b?this.raw_text=""+b:this.raw_text="",this.sentences=f(this.raw_text).map(function(a){var b=a.slice(-1);return"?"===b?new g(a,c):new h(a,c)}),this.contractions={expand:function(){return e.sentences=e.sentences.map(function(a){return a.contractions.expand()}),e},contract:function(){return e.sentences=e.sentences.map(function(a){return a.contractions.contract()}),e}}}return e(a,[{key:"text",value:function(){var a=this.sentences.map(function(a){return a.text()});return i.flatten(a).join("")}},{key:"normal",value:function(){var a=this.sentences.map(function(a){return a.normalized()});return i.flatten(a).join(" ")}},{key:"root",value:function(){var a=this.sentences.map(function(a){return a.root()});return i.flatten(a).join(" ")}},{key:"terms",value:function(){var a=this.sentences.map(function(a){return a.terms});return i.flatten(a)}},{key:"tags",value:function(){return this.sentences.map(function(a){return a.tags()})}},{key:"match",value:function(a,b){for(var c=[],d=0;d<this.sentences.length;d++)c=c.concat(this.sentences[d].match(a,b));return c}},{key:"replace",value:function(a,b,c){for(var d=0;d<this.sentences.length;d++)this.sentences[d].replace(a,b,c);return this}},{key:"to_past",value:function(){return this.sentences=this.sentences.map(function(a){return a.to_past()}),this}},{key:"to_present",value:function(){return this.sentences=this.sentences.map(function(a){return a.to_present()}),this}},{key:"to_future",value:function(){return this.sentences=this.sentences.map(function(a){return a.to_future()}),this}},{key:"negate",value:function(){return this.sentences=this.sentences.map(function(a){return a.negate()}),this}},{key:"nouns",value:function(){for(var a=[],b=0;b<this.sentences.length;b++)a=a.concat(this.sentences[b].nouns());return a}},{key:"adjectives",value:function(){for(var a=[],b=0;b<this.sentences.length;b++)a=a.concat(this.sentences[b].adjectives());return a}},{key:"verbs",value:function(){for(var a=[],b=0;b<this.sentences.length;b++)a=a.concat(this.sentences[b].verbs());return a}},{key:"adverbs",value:function(){for(var a=[],b=0;b<this.sentences.length;b++)a=a.concat(this.sentences[b].adverbs());return a}},{key:"people",value:function(){for(var a=[],b=0;b<this.sentences.length;b++)a=a.concat(this.sentences[b].people());return a}},{key:"places",value:function(){for(var a=[],b=0;b<this.sentences.length;b++)a=a.concat(this.sentences[b].places());return a}},{key:"organizations",value:function(){for(var a=[],b=0;b<this.sentences.length;b++)a=a.concat(this.sentences[b].organizations());return a}},{key:"dates",value:function(){for(var a=[],b=0;b<this.sentences.length;b++)a=a.concat(this.sentences[b].dates());return a}},{key:"values",value:function(){for(var a=[],b=0;b<this.sentences.length;b++)a=a.concat(this.sentences[b].values());return a}},{key:"topics",value:function b(){for(var a={},c=0;c<this.sentences.length;c++)for(var b=this.sentences[c].topics(),d=0;d<b.length;d++)a[b[d].text]?a[b[d].text].count+=b[d].count:a[b[d].text]=b[d];var e=Object.keys(a).map(function(b){return a[b]});return e.sort(function(a,b){return a.count>b.count?-1:1})}}]),a}();j.fn=j.prototype,b.exports=j},{"../fns.js":23,"../sentence/question/question.js":54,"../sentence/statement/statement.js":60,"./sentence_parser.js":108}]},{},[24])(24)});
 
-var speechInput = {
-  init: function(){
-    this.browserCheck();
-},
-browserCheck : function(){
-    if (!('webkitSpeechRecognition' in window)) {
-      return;
-  }else {
-      this.runSpeech();
+/*
+ ResponsiveVoice JS v1.4.7
+
+ (c) 2015 LearnBrite
+
+ License: http://responsivevoice.org/license
+*/
+if("undefined"!=typeof responsiveVoice)console.log("ResponsiveVoice already loaded"),console.log(responsiveVoice);else var ResponsiveVoice=function(){var a=this;a.version="1.4.7";console.log("ResponsiveVoice r"+a.version);a.responsivevoices=[{name:"UK English Female",flag:"gb",gender:"f",voiceIDs:[3,5,1,6,7,171,201,8]},{name:"UK English Male",flag:"gb",gender:"m",voiceIDs:[0,4,2,75,202,159,6,7]},{name:"US English Female",flag:"us",gender:"f",voiceIDs:[39,40,41,42,43,173,205,204,44]},{name:"Arabic Male",
+flag:"ar",gender:"m",voiceIDs:[96,95,97,196,98],deprecated:!0},{name:"Arabic Female",flag:"ar",gender:"f",voiceIDs:[96,95,97,196,98]},{name:"Armenian Male",flag:"hy",gender:"f",voiceIDs:[99]},{name:"Australian Female",flag:"au",gender:"f",voiceIDs:[87,86,5,201,88]},{name:"Brazilian Portuguese Female",flag:"br",gender:"f",voiceIDs:[124,123,125,186,223,126]},{name:"Chinese Female",flag:"cn",gender:"f",voiceIDs:[58,59,60,155,191,231,61]},{name:"Czech Female",flag:"cz",gender:"f",voiceIDs:[101,100,102,
+197,103]},{name:"Danish Female",flag:"dk",gender:"f",voiceIDs:[105,104,106,198,107]},{name:"Deutsch Female",flag:"de",gender:"f",voiceIDs:[27,28,29,30,31,78,170,199,32]},{name:"Dutch Female",flag:"nl",gender:"f",voiceIDs:[219,84,157,158,184,45]},{name:"Finnish Female",flag:"fi",gender:"f",voiceIDs:[90,89,91,209,92]},{name:"French Female",flag:"fr",gender:"f",voiceIDs:[21,22,23,77,178,210,26]},{name:"Greek Female",flag:"gr",gender:"f",voiceIDs:[62,63,80,200,64]},{name:"Hatian Creole Female",flag:"ht",
+gender:"f",voiceIDs:[109]},{name:"Hindi Female",flag:"hi",gender:"f",voiceIDs:[66,154,179,213,67]},{name:"Hungarian Female",flag:"hu",gender:"f",voiceIDs:[9,10,81,214,11]},{name:"Indonesian Female",flag:"id",gender:"f",voiceIDs:[111,112,180,215,113]},{name:"Italian Female",flag:"it",gender:"f",voiceIDs:[33,34,35,36,37,79,181,216,38]},{name:"Japanese Female",flag:"jp",gender:"f",voiceIDs:[50,51,52,153,182,217,53]},{name:"Korean Female",flag:"kr",gender:"f",voiceIDs:[54,55,56,156,183,218,57]},{name:"Latin Female",
+flag:"va",gender:"f",voiceIDs:[114]},{name:"Norwegian Female",flag:"no",gender:"f",voiceIDs:[72,73,221,74]},{name:"Polish Female",flag:"pl",gender:"f",voiceIDs:[120,119,121,185,222,122]},{name:"Portuguese Female",flag:"br",gender:"f",voiceIDs:[128,127,129,187,224,130]},{name:"Romanian Male",flag:"ro",gender:"m",voiceIDs:[151,150,152,225,46]},{name:"Russian Female",flag:"ru",gender:"f",voiceIDs:[47,48,83,188,226,49]},{name:"Slovak Female",flag:"sk",gender:"f",voiceIDs:[133,132,134,227,135]},{name:"Spanish Female",
+flag:"es",gender:"f",voiceIDs:[19,16,17,18,20,76,174,207,15]},{name:"Spanish Latin American Female",flag:"es",gender:"f",voiceIDs:[137,136,138,175,208,139]},{name:"Swedish Female",flag:"sv",gender:"f",voiceIDs:[85,148,149,228,65]},{name:"Tamil Male",flag:"hi",gender:"m",voiceIDs:[141]},{name:"Thai Female",flag:"th",gender:"f",voiceIDs:[143,142,144,189,229,145]},{name:"Turkish Female",flag:"tr",gender:"f",voiceIDs:[69,70,82,190,230,71]},{name:"Afrikaans Male",flag:"af",gender:"m",voiceIDs:[93]},{name:"Albanian Male",
+flag:"sq",gender:"m",voiceIDs:[94]},{name:"Bosnian Male",flag:"bs",gender:"m",voiceIDs:[14]},{name:"Catalan Male",flag:"catalonia",gender:"m",voiceIDs:[68]},{name:"Croatian Male",flag:"hr",gender:"m",voiceIDs:[13]},{name:"Czech Male",flag:"cz",gender:"m",voiceIDs:[161]},{name:"Danish Male",flag:"da",gender:"m",voiceIDs:[162],deprecated:!0},{name:"Esperanto Male",flag:"eo",gender:"m",voiceIDs:[108]},{name:"Finnish Male",flag:"fi",gender:"m",voiceIDs:[160],deprecated:!0},{name:"Greek Male",flag:"gr",
+gender:"m",voiceIDs:[163],deprecated:!0},{name:"Hungarian Male",flag:"hu",gender:"m",voiceIDs:[164]},{name:"Icelandic Male",flag:"is",gender:"m",voiceIDs:[110]},{name:"Latin Male",flag:"va",gender:"m",voiceIDs:[165],deprecated:!0},{name:"Latvian Male",flag:"lv",gender:"m",voiceIDs:[115]},{name:"Macedonian Male",flag:"mk",gender:"m",voiceIDs:[116]},{name:"Moldavian Male",flag:"md",gender:"m",voiceIDs:[117]},{name:"Montenegrin Male",flag:"me",gender:"m",voiceIDs:[118]},{name:"Norwegian Male",flag:"no",
+gender:"m",voiceIDs:[166]},{name:"Serbian Male",flag:"sr",gender:"m",voiceIDs:[12]},{name:"Serbo-Croatian Male",flag:"hr",gender:"m",voiceIDs:[131]},{name:"Slovak Male",flag:"sk",gender:"m",voiceIDs:[167],deprecated:!0},{name:"Swahili Male",flag:"sw",gender:"m",voiceIDs:[140]},{name:"Swedish Male",flag:"sv",gender:"m",voiceIDs:[168],deprecated:!0},{name:"Vietnamese Male",flag:"vi",gender:"m",voiceIDs:[146],deprecated:!0},{name:"Welsh Male",flag:"cy",gender:"m",voiceIDs:[147]},{name:"US English Male",
+flag:"us",gender:"m",voiceIDs:[0,4,2,6,7,75,159]},{name:"Fallback UK Female",flag:"gb",gender:"f",voiceIDs:[8]}];a.voicecollection=[{name:"Google UK English Male"},{name:"Agnes"},{name:"Daniel Compact"},{name:"Google UK English Female"},{name:"en-GB",rate:.25,pitch:1},{name:"en-AU",rate:.25,pitch:1},{name:"ingl\u00e9s Reino Unido"},{name:"English United Kingdom"},{name:"Fallback en-GB Female",lang:"en-GB",fallbackvoice:!0},{name:"Eszter Compact"},{name:"hu-HU",rate:.4},{name:"Fallback Hungarian",
+lang:"hu",fallbackvoice:!0,service:"g2"},{name:"Fallback Serbian",lang:"sr",fallbackvoice:!0},{name:"Fallback Croatian",lang:"hr",fallbackvoice:!0},{name:"Fallback Bosnian",lang:"bs",fallbackvoice:!0},{name:"Fallback Spanish",lang:"es",fallbackvoice:!0},{name:"Spanish Spain"},{name:"espa\u00f1ol Espa\u00f1a"},{name:"Diego Compact",rate:.3},{name:"Google Espa\u00f1ol"},{name:"es-ES",rate:.2},{name:"Google Fran\u00e7ais"},{name:"French France"},{name:"franc\u00e9s Francia"},{name:"Virginie Compact",
+rate:.5},{name:"fr-FR",rate:.25},{name:"Fallback French",lang:"fr",fallbackvoice:!0},{name:"Google Deutsch"},{name:"German Germany"},{name:"alem\u00e1n Alemania"},{name:"Yannick Compact",rate:.5},{name:"de-DE",rate:.25},{name:"Fallback Deutsch",lang:"de",fallbackvoice:!0},{name:"Google Italiano"},{name:"Italian Italy"},{name:"italiano Italia"},{name:"Paolo Compact",rate:.5},{name:"it-IT",rate:.25},{name:"Fallback Italian",lang:"it",fallbackvoice:!0},{name:"Google US English",timerSpeed:1},{name:"English United States"},
+{name:"ingl\u00e9s Estados Unidos"},{name:"Vicki"},{name:"en-US",rate:.2,pitch:1,timerSpeed:1.3},{name:"Fallback English",lang:"en-US",fallbackvoice:!0,timerSpeed:0},{name:"Fallback Dutch",lang:"nl",fallbackvoice:!0,timerSpeed:0},{name:"Fallback Romanian",lang:"ro",fallbackvoice:!0},{name:"Milena Compact"},{name:"ru-RU",rate:.25},{name:"Fallback Russian",lang:"ru",fallbackvoice:!0},{name:"Google \u65e5\u672c\u4eba",timerSpeed:1},{name:"Kyoko Compact"},{name:"ja-JP",rate:.25},{name:"Fallback Japanese",
+lang:"ja",fallbackvoice:!0},{name:"Google \ud55c\uad6d\uc758",timerSpeed:1},{name:"Narae Compact"},{name:"ko-KR",rate:.25},{name:"Fallback Korean",lang:"ko",fallbackvoice:!0},{name:"Google \u4e2d\u56fd\u7684",timerSpeed:1},{name:"Ting-Ting Compact"},{name:"zh-CN",rate:.25},{name:"Fallback Chinese",lang:"zh-CN",fallbackvoice:!0},{name:"Alexandros Compact"},{name:"el-GR",rate:.25},{name:"Fallback Greek",lang:"el",fallbackvoice:!0,service:"g2"},{name:"Fallback Swedish",lang:"sv",fallbackvoice:!0,service:"g2"},
+{name:"hi-IN",rate:.25},{name:"Fallback Hindi",lang:"hi",fallbackvoice:!0},{name:"Fallback Catalan",lang:"ca",fallbackvoice:!0},{name:"Aylin Compact"},{name:"tr-TR",rate:.25},{name:"Fallback Turkish",lang:"tr",fallbackvoice:!0},{name:"Stine Compact"},{name:"no-NO",rate:.25},{name:"Fallback Norwegian",lang:"no",fallbackvoice:!0,service:"g2"},{name:"Daniel"},{name:"Monica"},{name:"Amelie"},{name:"Anna"},{name:"Alice"},{name:"Melina"},{name:"Mariska"},{name:"Yelda"},{name:"Milena"},{name:"Xander"},{name:"Alva"},
+{name:"Lee Compact"},{name:"Karen"},{name:"Fallback Australian",lang:"en-AU",fallbackvoice:!0},{name:"Mikko Compact"},{name:"Satu"},{name:"fi-FI",rate:.25},{name:"Fallback Finnish",lang:"fi",fallbackvoice:!0,service:"g2"},{name:"Fallback Afrikans",lang:"af",fallbackvoice:!0},{name:"Fallback Albanian",lang:"sq",fallbackvoice:!0},{name:"Maged Compact"},{name:"Tarik"},{name:"ar-SA",rate:.25},{name:"Fallback Arabic",lang:"ar",fallbackvoice:!0,service:"g2"},{name:"Fallback Armenian",lang:"hy",fallbackvoice:!0,
+service:"g2"},{name:"Zuzana Compact"},{name:"Zuzana"},{name:"cs-CZ",rate:.25},{name:"Fallback Czech",lang:"cs",fallbackvoice:!0,service:"g2"},{name:"Ida Compact"},{name:"Sara"},{name:"da-DK",rate:.25},{name:"Fallback Danish",lang:"da",fallbackvoice:!0,service:"g2"},{name:"Fallback Esperanto",lang:"eo",fallbackvoice:!0},{name:"Fallback Hatian Creole",lang:"ht",fallbackvoice:!0},{name:"Fallback Icelandic",lang:"is",fallbackvoice:!0},{name:"Damayanti"},{name:"id-ID",rate:.25},{name:"Fallback Indonesian",
+lang:"id",fallbackvoice:!0},{name:"Fallback Latin",lang:"la",fallbackvoice:!0,service:"g2"},{name:"Fallback Latvian",lang:"lv",fallbackvoice:!0},{name:"Fallback Macedonian",lang:"mk",fallbackvoice:!0},{name:"Fallback Moldavian",lang:"mo",fallbackvoice:!0,service:"g2"},{name:"Fallback Montenegrin",lang:"sr-ME",fallbackvoice:!0},{name:"Agata Compact"},{name:"Zosia"},{name:"pl-PL",rate:.25},{name:"Fallback Polish",lang:"pl",fallbackvoice:!0},{name:"Raquel Compact"},{name:"Luciana"},{name:"pt-BR",rate:.25},
+{name:"Fallback Brazilian Portugese",lang:"pt-BR",fallbackvoice:!0,service:"g2"},{name:"Joana Compact"},{name:"Joana"},{name:"pt-PT",rate:.25},{name:"Fallback Portuguese",lang:"pt-PT",fallbackvoice:!0},{name:"Fallback Serbo-Croation",lang:"sh",fallbackvoice:!0,service:"g2"},{name:"Laura Compact"},{name:"Laura"},{name:"sk-SK",rate:.25},{name:"Fallback Slovak",lang:"sk",fallbackvoice:!0,service:"g2"},{name:"Javier Compact"},{name:"Paulina"},{name:"es-MX",rate:.25},{name:"Fallback Spanish (Latin American)",
+lang:"es-419",fallbackvoice:!0,service:"g2"},{name:"Fallback Swahili",lang:"sw",fallbackvoice:!0},{name:"Fallback Tamil",lang:"ta",fallbackvoice:!0},{name:"Narisa Compact"},{name:"Kanya"},{name:"th-TH",rate:.25},{name:"Fallback Thai",lang:"th",fallbackvoice:!0},{name:"Fallback Vietnamese",lang:"vi",fallbackvoice:!0},{name:"Fallback Welsh",lang:"cy",fallbackvoice:!0},{name:"Oskar Compact"},{name:"sv-SE",rate:.25},{name:"Simona Compact"},{name:"Ioana"},{name:"ro-RO",rate:.25},{name:"Kyoko"},{name:"Lekha"},
+{name:"Ting-Ting"},{name:"Yuna"},{name:"Xander Compact"},{name:"nl-NL",rate:.25},{name:"Fallback UK English Male",lang:"en-GB",fallbackvoice:!0,service:"g1",voicename:"rjs"},{name:"Finnish Male",lang:"fi",fallbackvoice:!0,service:"g1",voicename:""},{name:"Czech Male",lang:"cs",fallbackvoice:!0,service:"g1",voicename:""},{name:"Danish Male",lang:"da",fallbackvoice:!0,service:"g1",voicename:""},{name:"Greek Male",lang:"el",fallbackvoice:!0,service:"g1",voicename:"",rate:.25},{name:"Hungarian Male",
+lang:"hu",fallbackvoice:!0,service:"g1",voicename:""},{name:"Latin Male",lang:"la",fallbackvoice:!0,service:"g1",voicename:""},{name:"Norwegian Male",lang:"no",fallbackvoice:!0,service:"g1",voicename:""},{name:"Slovak Male",lang:"sk",fallbackvoice:!0,service:"g1",voicename:""},{name:"Swedish Male",lang:"sv",fallbackvoice:!0,service:"g1",voicename:""},{name:"Fallback US English Male",lang:"en",fallbackvoice:!0,service:"tts-api",voicename:""},{name:"German Germany",lang:"de_DE"},{name:"English United Kingdom",
+lang:"en_GB"},{name:"English India",lang:"en_IN"},{name:"English United States",lang:"en_US"},{name:"Spanish Spain",lang:"es_ES"},{name:"Spanish Mexico",lang:"es_MX"},{name:"Spanish United States",lang:"es_US"},{name:"French Belgium",lang:"fr_BE"},{name:"French France",lang:"fr_FR"},{name:"Hindi India",lang:"hi_IN"},{name:"Indonesian Indonesia",lang:"in_ID"},{name:"Italian Italy",lang:"it_IT"},{name:"Japanese Japan",lang:"ja_JP"},{name:"Korean South Korea",lang:"ko_KR"},{name:"Dutch Netherlands",
+lang:"nl_NL"},{name:"Polish Poland",lang:"pl_PL"},{name:"Portuguese Brazil",lang:"pt_BR"},{name:"Portuguese Portugal",lang:"pt_PT"},{name:"Russian Russia",lang:"ru_RU"},{name:"Thai Thailand",lang:"th_TH"},{name:"Turkish Turkey",lang:"tr_TR"},{name:"Chinese China",lang:"zh_CN_#Hans"},{name:"Chinese Hong Kong",lang:"zh_HK_#Hans"},{name:"Chinese Hong Kong",lang:"zh_HK_#Hant"},{name:"Chinese Taiwan",lang:"zh_TW_#Hant"},{name:"Alex"},{name:"Maged",lang:"ar-SA"},{name:"Zuzana",lang:"cs-CZ"},{name:"Sara",
+lang:"da-DK"},{name:"Anna",lang:"de-DE"},{name:"Melina",lang:"el-GR"},{name:"Karen",lang:"en-AU"},{name:"Daniel",lang:"en-GB"},{name:"Moira",lang:"en-IE"},{name:"Samantha (Enhanced)",lang:"en-US"},{name:"Samantha",lang:"en-US"},{name:"Tessa",lang:"en-ZA"},{name:"Monica",lang:"es-ES"},{name:"Paulina",lang:"es-MX"},{name:"Satu",lang:"fi-FI"},{name:"Amelie",lang:"fr-CA"},{name:"Thomas",lang:"fr-FR"},{name:"Carmit",lang:"he-IL"},{name:"Lekha",lang:"hi-IN"},{name:"Mariska",lang:"hu-HU"},{name:"Damayanti",
+lang:"id-ID"},{name:"Alice",lang:"it-IT"},{name:"Kyoko",lang:"ja-JP"},{name:"Yuna",lang:"ko-KR"},{name:"Ellen",lang:"nl-BE"},{name:"Xander",lang:"nl-NL"},{name:"Nora",lang:"no-NO"},{name:"Zosia",lang:"pl-PL"},{name:"Luciana",lang:"pt-BR"},{name:"Joana",lang:"pt-PT"},{name:"Ioana",lang:"ro-RO"},{name:"Milena",lang:"ru-RU"},{name:"Laura",lang:"sk-SK"},{name:"Alva",lang:"sv-SE"},{name:"Kanya",lang:"th-TH"},{name:"Yelda",lang:"tr-TR"},{name:"Ting-Ting",lang:"zh-CN"},{name:"Sin-Ji",lang:"zh-HK"},{name:"Mei-Jia",
+lang:"zh-TW"}];a.iOS=/(iPad|iPhone|iPod)/g.test(navigator.userAgent);a.iOS9=/(iphone|ipod|ipad).* os 9_/.test(navigator.userAgent.toLowerCase());a.is_chrome=-1<navigator.userAgent.indexOf("Chrome");a.is_safari=-1<navigator.userAgent.indexOf("Safari");a.is_chrome&&a.is_safari&&(a.is_safari=!1);a.is_opera=!!window.opera||0<=navigator.userAgent.indexOf(" OPR/");a.is_android=-1<navigator.userAgent.toLowerCase().indexOf("android");a.iOS_initialized=!1;a.iOS9_initialized=!1;a.cache_ios_voices=[{name:"he-IL",
+voiceURI:"he-IL",lang:"he-IL"},{name:"th-TH",voiceURI:"th-TH",lang:"th-TH"},{name:"pt-BR",voiceURI:"pt-BR",lang:"pt-BR"},{name:"sk-SK",voiceURI:"sk-SK",lang:"sk-SK"},{name:"fr-CA",voiceURI:"fr-CA",lang:"fr-CA"},{name:"ro-RO",voiceURI:"ro-RO",lang:"ro-RO"},{name:"no-NO",voiceURI:"no-NO",lang:"no-NO"},{name:"fi-FI",voiceURI:"fi-FI",lang:"fi-FI"},{name:"pl-PL",voiceURI:"pl-PL",lang:"pl-PL"},{name:"de-DE",voiceURI:"de-DE",lang:"de-DE"},{name:"nl-NL",voiceURI:"nl-NL",lang:"nl-NL"},{name:"id-ID",voiceURI:"id-ID",
+lang:"id-ID"},{name:"tr-TR",voiceURI:"tr-TR",lang:"tr-TR"},{name:"it-IT",voiceURI:"it-IT",lang:"it-IT"},{name:"pt-PT",voiceURI:"pt-PT",lang:"pt-PT"},{name:"fr-FR",voiceURI:"fr-FR",lang:"fr-FR"},{name:"ru-RU",voiceURI:"ru-RU",lang:"ru-RU"},{name:"es-MX",voiceURI:"es-MX",lang:"es-MX"},{name:"zh-HK",voiceURI:"zh-HK",lang:"zh-HK"},{name:"sv-SE",voiceURI:"sv-SE",lang:"sv-SE"},{name:"hu-HU",voiceURI:"hu-HU",lang:"hu-HU"},{name:"zh-TW",voiceURI:"zh-TW",lang:"zh-TW"},{name:"es-ES",voiceURI:"es-ES",lang:"es-ES"},
+{name:"zh-CN",voiceURI:"zh-CN",lang:"zh-CN"},{name:"nl-BE",voiceURI:"nl-BE",lang:"nl-BE"},{name:"en-GB",voiceURI:"en-GB",lang:"en-GB"},{name:"ar-SA",voiceURI:"ar-SA",lang:"ar-SA"},{name:"ko-KR",voiceURI:"ko-KR",lang:"ko-KR"},{name:"cs-CZ",voiceURI:"cs-CZ",lang:"cs-CZ"},{name:"en-ZA",voiceURI:"en-ZA",lang:"en-ZA"},{name:"en-AU",voiceURI:"en-AU",lang:"en-AU"},{name:"da-DK",voiceURI:"da-DK",lang:"da-DK"},{name:"en-US",voiceURI:"en-US",lang:"en-US"},{name:"en-IE",voiceURI:"en-IE",lang:"en-IE"},{name:"hi-IN",
+voiceURI:"hi-IN",lang:"hi-IN"},{name:"el-GR",voiceURI:"el-GR",lang:"el-GR"},{name:"ja-JP",voiceURI:"ja-JP",lang:"ja-JP"}];a.cache_ios9_voices=[{name:"Maged",voiceURI:"com.apple.ttsbundle.Maged-compact",lang:"ar-SA",localService:!0,"default":!0},{name:"Zuzana",voiceURI:"com.apple.ttsbundle.Zuzana-compact",lang:"cs-CZ",localService:!0,"default":!0},{name:"Sara",voiceURI:"com.apple.ttsbundle.Sara-compact",lang:"da-DK",localService:!0,"default":!0},{name:"Anna",voiceURI:"com.apple.ttsbundle.Anna-compact",
+lang:"de-DE",localService:!0,"default":!0},{name:"Melina",voiceURI:"com.apple.ttsbundle.Melina-compact",lang:"el-GR",localService:!0,"default":!0},{name:"Karen",voiceURI:"com.apple.ttsbundle.Karen-compact",lang:"en-AU",localService:!0,"default":!0},{name:"Daniel",voiceURI:"com.apple.ttsbundle.Daniel-compact",lang:"en-GB",localService:!0,"default":!0},{name:"Moira",voiceURI:"com.apple.ttsbundle.Moira-compact",lang:"en-IE",localService:!0,"default":!0},{name:"Samantha (Enhanced)",voiceURI:"com.apple.ttsbundle.Samantha-premium",
+lang:"en-US",localService:!0,"default":!0},{name:"Samantha",voiceURI:"com.apple.ttsbundle.Samantha-compact",lang:"en-US",localService:!0,"default":!0},{name:"Tessa",voiceURI:"com.apple.ttsbundle.Tessa-compact",lang:"en-ZA",localService:!0,"default":!0},{name:"Monica",voiceURI:"com.apple.ttsbundle.Monica-compact",lang:"es-ES",localService:!0,"default":!0},{name:"Paulina",voiceURI:"com.apple.ttsbundle.Paulina-compact",lang:"es-MX",localService:!0,"default":!0},{name:"Satu",voiceURI:"com.apple.ttsbundle.Satu-compact",
+lang:"fi-FI",localService:!0,"default":!0},{name:"Amelie",voiceURI:"com.apple.ttsbundle.Amelie-compact",lang:"fr-CA",localService:!0,"default":!0},{name:"Thomas",voiceURI:"com.apple.ttsbundle.Thomas-compact",lang:"fr-FR",localService:!0,"default":!0},{name:"Carmit",voiceURI:"com.apple.ttsbundle.Carmit-compact",lang:"he-IL",localService:!0,"default":!0},{name:"Lekha",voiceURI:"com.apple.ttsbundle.Lekha-compact",lang:"hi-IN",localService:!0,"default":!0},{name:"Mariska",voiceURI:"com.apple.ttsbundle.Mariska-compact",
+lang:"hu-HU",localService:!0,"default":!0},{name:"Damayanti",voiceURI:"com.apple.ttsbundle.Damayanti-compact",lang:"id-ID",localService:!0,"default":!0},{name:"Alice",voiceURI:"com.apple.ttsbundle.Alice-compact",lang:"it-IT",localService:!0,"default":!0},{name:"Kyoko",voiceURI:"com.apple.ttsbundle.Kyoko-compact",lang:"ja-JP",localService:!0,"default":!0},{name:"Yuna",voiceURI:"com.apple.ttsbundle.Yuna-compact",lang:"ko-KR",localService:!0,"default":!0},{name:"Ellen",voiceURI:"com.apple.ttsbundle.Ellen-compact",
+lang:"nl-BE",localService:!0,"default":!0},{name:"Xander",voiceURI:"com.apple.ttsbundle.Xander-compact",lang:"nl-NL",localService:!0,"default":!0},{name:"Nora",voiceURI:"com.apple.ttsbundle.Nora-compact",lang:"no-NO",localService:!0,"default":!0},{name:"Zosia",voiceURI:"com.apple.ttsbundle.Zosia-compact",lang:"pl-PL",localService:!0,"default":!0},{name:"Luciana",voiceURI:"com.apple.ttsbundle.Luciana-compact",lang:"pt-BR",localService:!0,"default":!0},{name:"Joana",voiceURI:"com.apple.ttsbundle.Joana-compact",
+lang:"pt-PT",localService:!0,"default":!0},{name:"Ioana",voiceURI:"com.apple.ttsbundle.Ioana-compact",lang:"ro-RO",localService:!0,"default":!0},{name:"Milena",voiceURI:"com.apple.ttsbundle.Milena-compact",lang:"ru-RU",localService:!0,"default":!0},{name:"Laura",voiceURI:"com.apple.ttsbundle.Laura-compact",lang:"sk-SK",localService:!0,"default":!0},{name:"Alva",voiceURI:"com.apple.ttsbundle.Alva-compact",lang:"sv-SE",localService:!0,"default":!0},{name:"Kanya",voiceURI:"com.apple.ttsbundle.Kanya-compact",
+lang:"th-TH",localService:!0,"default":!0},{name:"Yelda",voiceURI:"com.apple.ttsbundle.Yelda-compact",lang:"tr-TR",localService:!0,"default":!0},{name:"Ting-Ting",voiceURI:"com.apple.ttsbundle.Ting-Ting-compact",lang:"zh-CN",localService:!0,"default":!0},{name:"Sin-Ji",voiceURI:"com.apple.ttsbundle.Sin-Ji-compact",lang:"zh-HK",localService:!0,"default":!0},{name:"Mei-Jia",voiceURI:"com.apple.ttsbundle.Mei-Jia-compact",lang:"zh-TW",localService:!0,"default":!0}];a.systemvoices=null;a.CHARACTER_LIMIT=
+100;a.VOICESUPPORT_ATTEMPTLIMIT=5;a.voicesupport_attempts=0;a.fallbackMode=!1;a.WORDS_PER_MINUTE=130;a.fallback_parts=null;a.fallback_part_index=0;a.fallback_audio=null;a.fallback_playbackrate=1;a.def_fallback_playbackrate=a.fallback_playbackrate;a.fallback_audiopool=[];a.msgparameters=null;a.timeoutId=null;a.OnLoad_callbacks=[];a.useTimer=!1;a.utterances=[];a.tstCompiled=function(a){return eval("typeof xy === 'undefined'")};a.fallbackServicePath="https://code.responsivevoice.org/"+(a.tstCompiled()?
+"":"develop/")+"getvoice.php";a.default_rv=a.responsivevoices[0];a.init=function(){a.is_android&&(a.useTimer=!0);a.is_opera||"undefined"===typeof speechSynthesis?(console.log("RV: Voice synthesis not supported"),a.enableFallbackMode()):setTimeout(function(){var b=setInterval(function(){var c=window.speechSynthesis.getVoices();0!=c.length||null!=a.systemvoices&&0!=a.systemvoices.length?(console.log("RV: Voice support ready"),a.systemVoicesReady(c),clearInterval(b)):(console.log("Voice support NOT ready"),
+a.voicesupport_attempts++,a.voicesupport_attempts>a.VOICESUPPORT_ATTEMPTLIMIT&&(clearInterval(b),null!=window.speechSynthesis?a.iOS?(a.iOS9?a.systemVoicesReady(a.cache_ios9_voices):a.systemVoicesReady(a.cache_ios_voices),console.log("RV: Voice support ready (cached)")):(console.log("RV: speechSynthesis present but no system voices found"),a.enableFallbackMode()):a.enableFallbackMode()))},100)},100);a.Dispatch("OnLoad")};a.systemVoicesReady=function(b){a.systemvoices=b;a.mapRVs();null!=a.OnVoiceReady&&
+a.OnVoiceReady.call();a.Dispatch("OnReady");window.hasOwnProperty("dispatchEvent")&&window.dispatchEvent(new Event("ResponsiveVoice_OnReady"))};a.enableFallbackMode=function(){a.fallbackMode=!0;console.log("RV: Enabling fallback mode");a.mapRVs();null!=a.OnVoiceReady&&a.OnVoiceReady.call();a.Dispatch("OnReady");window.hasOwnProperty("dispatchEvent")&&window.dispatchEvent(new Event("ResponsiveVoice_OnReady"))};a.getVoices=function(){for(var b=[],c=0;c<a.responsivevoices.length;c++)b.push({name:a.responsivevoices[c].name});
+return b};a.speak=function(b,c,f){if(a.iOS9&&!a.iOS9_initialized)console.log("Initializing ios9"),setTimeout(function(){a.speak(b,c,f)},100),a.clickEvent(),a.iOS9_initialized=!0;else{a.isPlaying()&&(console.log("Cancelling previous speech"),a.cancel());a.fallbackMode&&0<a.fallback_audiopool.length&&a.clearFallbackPool();b=b.replace(/[\"\`]/gm,"'");a.msgparameters=f||{};a.msgtext=b;a.msgvoicename=c;a.onstartFired=!1;var h=[];if(b.length>a.CHARACTER_LIMIT){for(var e=b;e.length>a.CHARACTER_LIMIT;){var g=
+e.search(/[:!?.;]+/),d="";if(-1==g||g>=a.CHARACTER_LIMIT)g=e.search(/[,]+/);-1==g&&-1==e.search(" ")&&(g=99);if(-1==g||g>=a.CHARACTER_LIMIT)for(var k=e.split(" "),g=0;g<k.length&&!(d.length+k[g].length+1>a.CHARACTER_LIMIT);g++)d+=(0!=g?" ":"")+k[g];else d=e.substr(0,g+1);e=e.substr(d.length,e.length-d.length);h.push(d)}0<e.length&&h.push(e)}else h.push(b);a.multipartText=h;g=null==c?a.default_rv:a.getResponsiveVoice(c);!0===g.deprecated&&console.warn("ResponsiveVoice: Voice "+g.name+" is deprecated and will be removed in future releases");
+e={};if(null!=g.mappedProfile)e=g.mappedProfile;else if(e.systemvoice=a.getMatchedVoice(g),e.collectionvoice={},null==e.systemvoice){console.log("RV: ERROR: No voice found for: "+c);return}1==e.collectionvoice.fallbackvoice?(a.fallbackMode=!0,a.fallback_parts=[]):a.fallbackMode=!1;a.msgprofile=e;a.utterances=[];for(g=0;g<h.length;g++)if(a.fallbackMode){a.fallback_playbackrate=a.def_fallback_playbackrate;var d=a.selectBest([e.collectionvoice.pitch,e.systemvoice.pitch,1]),k=a.selectBest([a.iOS9?1:null,
+e.collectionvoice.rate,e.systemvoice.rate,1]),l=a.selectBest([e.collectionvoice.volume,e.systemvoice.volume,1]);null!=f&&(d*=null!=f.pitch?f.pitch:1,k*=null!=f.rate?f.rate:1,l*=null!=f.volume?f.volume:1);d/=2;k/=2;l*=2;d=Math.min(Math.max(d,0),1);k=Math.min(Math.max(k,0),1);l=Math.min(Math.max(l,0),1);d=a.fallbackServicePath+"?t="+encodeURIComponent(h[g])+"&tl="+(e.collectionvoice.lang||e.systemvoice.lang||"en-US")+"&sv="+(e.collectionvoice.service||e.systemvoice.service||"")+"&vn="+(e.collectionvoice.voicename||
+e.systemvoice.voicename||"")+"&pitch="+d.toString()+"&rate="+k.toString()+"&vol="+l.toString();k=document.createElement("AUDIO");k.src=d;k.playbackRate=a.fallback_playbackrate;k.preload="auto";k.load();a.fallback_parts.push(k)}else d=new SpeechSynthesisUtterance,d.voice=e.systemvoice,d.voiceURI=e.systemvoice.voiceURI,d.volume=a.selectBest([e.collectionvoice.volume,e.systemvoice.volume,1]),d.rate=a.selectBest([a.iOS9?1:null,e.collectionvoice.rate,e.systemvoice.rate,1]),d.pitch=a.selectBest([e.collectionvoice.pitch,
+e.systemvoice.pitch,1]),d.text=h[g],d.lang=a.selectBest([e.collectionvoice.lang,e.systemvoice.lang]),d.rvIndex=g,d.rvTotal=h.length,0==g&&(d.onstart=a.speech_onstart),a.msgparameters.onendcalled=!1,null!=f?(g<h.length-1&&1<h.length?(d.onend=a.onPartEnd,d.hasOwnProperty("addEventListener")&&d.addEventListener("end",a.onPartEnd)):(d.onend=a.speech_onend,d.hasOwnProperty("addEventListener")&&d.addEventListener("end",a.speech_onend)),d.onerror=f.onerror||function(a){console.log("RV: Unknow Error");console.log(a)},
+d.onpause=f.onpause,d.onresume=f.onresume,d.onmark=f.onmark,d.onboundary=f.onboundary||a.onboundary,d.pitch=null!=f.pitch?f.pitch:d.pitch,d.rate=a.iOS?(null!=f.rate?f.rate*f.rate:1)*d.rate:(null!=f.rate?f.rate:1)*d.rate,d.volume=null!=f.volume?f.volume:d.volume):(d.onend=a.speech_onend,d.onerror=function(a){console.log("RV: Unknow Error");console.log(a)}),a.utterances.push(d),0==g&&(a.currentMsg=d),console.log(d),a.tts_speak(d);a.fallbackMode&&(a.fallback_part_index=0,a.fallback_startPart())}};a.startTimeout=
+function(b,c){var f=a.msgprofile.collectionvoice.timerSpeed;null==a.msgprofile.collectionvoice.timerSpeed&&(f=1);if(!(0>=f)){var h=b.split(/\s+/).length,e=(b.match(/[^ ]/igm)||b).length,f=60/a.WORDS_PER_MINUTE*f*1E3*(e/h/5.1)*h;3>h&&(f=4E3);3E3>f&&(f=3E3);a.timeoutId=setTimeout(c,f)}};a.checkAndCancelTimeout=function(){null!=a.timeoutId&&(clearTimeout(a.timeoutId),a.timeoutId=null)};a.speech_timedout=function(){a.cancel();a.cancelled=!1;a.speech_onend()};a.speech_onend=function(){a.checkAndCancelTimeout();
+!0===a.cancelled?a.cancelled=!1:null!=a.msgparameters&&null!=a.msgparameters.onend&&1!=a.msgparameters.onendcalled&&(a.msgparameters.onendcalled=!0,a.msgparameters.onend())};a.speech_onstart=function(){if(!a.onstartFired){a.onstartFired=!0;if(a.iOS||a.is_safari||a.useTimer)a.fallbackMode||a.startTimeout(a.msgtext,a.speech_timedout);a.msgparameters.onendcalled=!1;if(null!=a.msgparameters&&null!=a.msgparameters.onstart)a.msgparameters.onstart()}};a.fallback_startPart=function(){0==a.fallback_part_index&&
+a.speech_onstart();a.fallback_audio=a.fallback_parts[a.fallback_part_index];if(null==a.fallback_audio)console.log("RV: Fallback Audio is not available");else{var b=a.fallback_audio;a.fallback_audiopool.push(b);setTimeout(function(){b.playbackRate=a.fallback_playbackrate},50);b.onloadedmetadata=function(){b.play();b.playbackRate=a.fallback_playbackrate};a.fallback_audio.play();a.fallback_audio.addEventListener("ended",a.fallback_finishPart);a.useTimer&&a.startTimeout(a.multipartText[a.fallback_part_index],
+a.fallback_finishPart)}};a.fallback_finishPart=function(b){a.checkAndCancelTimeout();a.fallback_part_index<a.fallback_parts.length-1?(a.fallback_part_index++,a.fallback_startPart()):a.speech_onend()};a.cancel=function(){a.checkAndCancelTimeout();a.fallbackMode?(null!=a.fallback_audio&&a.fallback_audio.pause(),a.clearFallbackPool()):(a.cancelled=!0,speechSynthesis.cancel())};a.voiceSupport=function(){return"speechSynthesis"in window};a.OnFinishedPlaying=function(b){if(null!=a.msgparameters&&null!=
+a.msgparameters.onend)a.msgparameters.onend()};a.setDefaultVoice=function(b){b=a.getResponsiveVoice(b);null!=b&&(a.default_rv=b)};a.mapRVs=function(){for(var b=0;b<a.responsivevoices.length;b++)for(var c=a.responsivevoices[b],f=0;f<c.voiceIDs.length;f++){var h=a.voicecollection[c.voiceIDs[f]];if(1!=h.fallbackvoice){var e=a.getSystemVoice(h.name);if(null!=e){c.mappedProfile={systemvoice:e,collectionvoice:h};break}}else{c.mappedProfile={systemvoice:{},collectionvoice:h};break}}};a.getMatchedVoice=function(b){for(var c=
+0;c<b.voiceIDs.length;c++){var f=a.getSystemVoice(a.voicecollection[b.voiceIDs[c]].name);if(null!=f)return f}return null};a.getSystemVoice=function(b){if("undefined"===typeof a.systemvoices||null===a.systemvoices)return null;for(var c=0;c<a.systemvoices.length;c++)if(a.systemvoices[c].name==b)return a.systemvoices[c];return null};a.getResponsiveVoice=function(b){for(var c=0;c<a.responsivevoices.length;c++)if(a.responsivevoices[c].name==b)return a.responsivevoices[c];return null};a.Dispatch=function(b){if(a.hasOwnProperty(b+
+"_callbacks")&&null!=a[b+"_callbacks"]&&0<a[b+"_callbacks"].length){for(var c=a[b+"_callbacks"],f=0;f<c.length;f++)c[f]();return!0}var h=b+"_callbacks_timeout",e=b+"_callbacks_timeoutCount";a.hasOwnProperty(h)||(a[e]=10,a[h]=setInterval(function(){--a[e];(a.Dispatch(b)||0>a[e])&&clearTimeout(a[h])},50));return!1};a.AddEventListener=function(b,c){a.hasOwnProperty(b+"_callbacks")||(a[b+"_callbacks"]=[]);a[b+"_callbacks"].push(c)};a.addEventListener=a.AddEventListener;a.clickEvent=function(){if(a.iOS&&
+!a.iOS_initialized){console.log("Initializing iOS click event");var b=new SpeechSynthesisUtterance(" ");speechSynthesis.speak(b);a.iOS_initialized=!0}};a.isPlaying=function(){return a.fallbackMode?null!=a.fallback_audio&&!a.fallback_audio.ended&&!a.fallback_audio.paused:speechSynthesis.speaking};a.clearFallbackPool=function(){for(var b=0;b<a.fallback_audiopool.length;b++)null!=a.fallback_audiopool[b]&&(a.fallback_audiopool[b].pause(),a.fallback_audiopool[b].src="");a.fallback_audiopool=[]};"complete"===
+document.readyState?a.init():document.addEventListener("DOMContentLoaded",function(){a.init()});a.selectBest=function(a){for(var c=0;c<a.length;c++)if(null!=a[c])return a[c];return null};a.pause=function(){a.fallbackMode?null!=a.fallback_audio&&a.fallback_audio.pause():speechSynthesis.pause()};a.resume=function(){a.fallbackMode?null!=a.fallback_audio&&a.fallback_audio.play():speechSynthesis.resume()};a.tts_speak=function(b){setTimeout(function(){a.cancelled=!1;speechSynthesis.speak(b)},.01)};a.setVolume=
+function(b){if(a.isPlaying())if(a.fallbackMode){for(var c=0;c<a.fallback_parts.length;c++)a.fallback_parts[c].volume=b;for(c=0;c<a.fallback_audiopool.length;c++)a.fallback_audiopool[c].volume=b;a.fallback_audio.volume=b}else for(c=0;c<a.utterances.length;c++)a.utterances[c].volume=b};a.onPartEnd=function(b){if(null!=a.msgparameters&&null!=a.msgparameters.onchuckend)a.msgparameters.onchuckend();a.Dispatch("OnPartEnd");b=a.utterances.indexOf(b.utterance);a.currentMsg=a.utterances[b+1]};a.onboundary=
+function(b){console.log("On Boundary");a.iOS&&!a.onstartFired&&a.speech_onstart()}},responsiveVoice=new ResponsiveVoice;
+
+/*!
+ * Bootstrap v3.3.6 (http://getbootstrap.com)
+ * Copyright 2011-2015 Twitter, Inc.
+ * Licensed under the MIT license
+ */
+if("undefined"==typeof jQuery)throw new Error("Bootstrap's JavaScript requires jQuery");+function(a){"use strict";var b=a.fn.jquery.split(" ")[0].split(".");if(b[0]<2&&b[1]<9||1==b[0]&&9==b[1]&&b[2]<1||b[0]>2)throw new Error("Bootstrap's JavaScript requires jQuery version 1.9.1 or higher, but lower than version 3")}(jQuery),+function(a){"use strict";function b(){var a=document.createElement("bootstrap"),b={WebkitTransition:"webkitTransitionEnd",MozTransition:"transitionend",OTransition:"oTransitionEnd otransitionend",transition:"transitionend"};for(var c in b)if(void 0!==a.style[c])return{end:b[c]};return!1}a.fn.emulateTransitionEnd=function(b){var c=!1,d=this;a(this).one("bsTransitionEnd",function(){c=!0});var e=function(){c||a(d).trigger(a.support.transition.end)};return setTimeout(e,b),this},a(function(){a.support.transition=b(),a.support.transition&&(a.event.special.bsTransitionEnd={bindType:a.support.transition.end,delegateType:a.support.transition.end,handle:function(b){return a(b.target).is(this)?b.handleObj.handler.apply(this,arguments):void 0}})})}(jQuery),+function(a){"use strict";function b(b){return this.each(function(){var c=a(this),e=c.data("bs.alert");e||c.data("bs.alert",e=new d(this)),"string"==typeof b&&e[b].call(c)})}var c='[data-dismiss="alert"]',d=function(b){a(b).on("click",c,this.close)};d.VERSION="3.3.6",d.TRANSITION_DURATION=150,d.prototype.close=function(b){function c(){g.detach().trigger("closed.bs.alert").remove()}var e=a(this),f=e.attr("data-target");f||(f=e.attr("href"),f=f&&f.replace(/.*(?=#[^\s]*$)/,""));var g=a(f);b&&b.preventDefault(),g.length||(g=e.closest(".alert")),g.trigger(b=a.Event("close.bs.alert")),b.isDefaultPrevented()||(g.removeClass("in"),a.support.transition&&g.hasClass("fade")?g.one("bsTransitionEnd",c).emulateTransitionEnd(d.TRANSITION_DURATION):c())};var e=a.fn.alert;a.fn.alert=b,a.fn.alert.Constructor=d,a.fn.alert.noConflict=function(){return a.fn.alert=e,this},a(document).on("click.bs.alert.data-api",c,d.prototype.close)}(jQuery),+function(a){"use strict";function b(b){return this.each(function(){var d=a(this),e=d.data("bs.button"),f="object"==typeof b&&b;e||d.data("bs.button",e=new c(this,f)),"toggle"==b?e.toggle():b&&e.setState(b)})}var c=function(b,d){this.$element=a(b),this.options=a.extend({},c.DEFAULTS,d),this.isLoading=!1};c.VERSION="3.3.6",c.DEFAULTS={loadingText:"loading..."},c.prototype.setState=function(b){var c="disabled",d=this.$element,e=d.is("input")?"val":"html",f=d.data();b+="Text",null==f.resetText&&d.data("resetText",d[e]()),setTimeout(a.proxy(function(){d[e](null==f[b]?this.options[b]:f[b]),"loadingText"==b?(this.isLoading=!0,d.addClass(c).attr(c,c)):this.isLoading&&(this.isLoading=!1,d.removeClass(c).removeAttr(c))},this),0)},c.prototype.toggle=function(){var a=!0,b=this.$element.closest('[data-toggle="buttons"]');if(b.length){var c=this.$element.find("input");"radio"==c.prop("type")?(c.prop("checked")&&(a=!1),b.find(".active").removeClass("active"),this.$element.addClass("active")):"checkbox"==c.prop("type")&&(c.prop("checked")!==this.$element.hasClass("active")&&(a=!1),this.$element.toggleClass("active")),c.prop("checked",this.$element.hasClass("active")),a&&c.trigger("change")}else this.$element.attr("aria-pressed",!this.$element.hasClass("active")),this.$element.toggleClass("active")};var d=a.fn.button;a.fn.button=b,a.fn.button.Constructor=c,a.fn.button.noConflict=function(){return a.fn.button=d,this},a(document).on("click.bs.button.data-api",'[data-toggle^="button"]',function(c){var d=a(c.target);d.hasClass("btn")||(d=d.closest(".btn")),b.call(d,"toggle"),a(c.target).is('input[type="radio"]')||a(c.target).is('input[type="checkbox"]')||c.preventDefault()}).on("focus.bs.button.data-api blur.bs.button.data-api",'[data-toggle^="button"]',function(b){a(b.target).closest(".btn").toggleClass("focus",/^focus(in)?$/.test(b.type))})}(jQuery),+function(a){"use strict";function b(b){return this.each(function(){var d=a(this),e=d.data("bs.carousel"),f=a.extend({},c.DEFAULTS,d.data(),"object"==typeof b&&b),g="string"==typeof b?b:f.slide;e||d.data("bs.carousel",e=new c(this,f)),"number"==typeof b?e.to(b):g?e[g]():f.interval&&e.pause().cycle()})}var c=function(b,c){this.$element=a(b),this.$indicators=this.$element.find(".carousel-indicators"),this.options=c,this.paused=null,this.sliding=null,this.interval=null,this.$active=null,this.$items=null,this.options.keyboard&&this.$element.on("keydown.bs.carousel",a.proxy(this.keydown,this)),"hover"==this.options.pause&&!("ontouchstart"in document.documentElement)&&this.$element.on("mouseenter.bs.carousel",a.proxy(this.pause,this)).on("mouseleave.bs.carousel",a.proxy(this.cycle,this))};c.VERSION="3.3.6",c.TRANSITION_DURATION=600,c.DEFAULTS={interval:5e3,pause:"hover",wrap:!0,keyboard:!0},c.prototype.keydown=function(a){if(!/input|textarea/i.test(a.target.tagName)){switch(a.which){case 37:this.prev();break;case 39:this.next();break;default:return}a.preventDefault()}},c.prototype.cycle=function(b){return b||(this.paused=!1),this.interval&&clearInterval(this.interval),this.options.interval&&!this.paused&&(this.interval=setInterval(a.proxy(this.next,this),this.options.interval)),this},c.prototype.getItemIndex=function(a){return this.$items=a.parent().children(".item"),this.$items.index(a||this.$active)},c.prototype.getItemForDirection=function(a,b){var c=this.getItemIndex(b),d="prev"==a&&0===c||"next"==a&&c==this.$items.length-1;if(d&&!this.options.wrap)return b;var e="prev"==a?-1:1,f=(c+e)%this.$items.length;return this.$items.eq(f)},c.prototype.to=function(a){var b=this,c=this.getItemIndex(this.$active=this.$element.find(".item.active"));return a>this.$items.length-1||0>a?void 0:this.sliding?this.$element.one("slid.bs.carousel",function(){b.to(a)}):c==a?this.pause().cycle():this.slide(a>c?"next":"prev",this.$items.eq(a))},c.prototype.pause=function(b){return b||(this.paused=!0),this.$element.find(".next, .prev").length&&a.support.transition&&(this.$element.trigger(a.support.transition.end),this.cycle(!0)),this.interval=clearInterval(this.interval),this},c.prototype.next=function(){return this.sliding?void 0:this.slide("next")},c.prototype.prev=function(){return this.sliding?void 0:this.slide("prev")},c.prototype.slide=function(b,d){var e=this.$element.find(".item.active"),f=d||this.getItemForDirection(b,e),g=this.interval,h="next"==b?"left":"right",i=this;if(f.hasClass("active"))return this.sliding=!1;var j=f[0],k=a.Event("slide.bs.carousel",{relatedTarget:j,direction:h});if(this.$element.trigger(k),!k.isDefaultPrevented()){if(this.sliding=!0,g&&this.pause(),this.$indicators.length){this.$indicators.find(".active").removeClass("active");var l=a(this.$indicators.children()[this.getItemIndex(f)]);l&&l.addClass("active")}var m=a.Event("slid.bs.carousel",{relatedTarget:j,direction:h});return a.support.transition&&this.$element.hasClass("slide")?(f.addClass(b),f[0].offsetWidth,e.addClass(h),f.addClass(h),e.one("bsTransitionEnd",function(){f.removeClass([b,h].join(" ")).addClass("active"),e.removeClass(["active",h].join(" ")),i.sliding=!1,setTimeout(function(){i.$element.trigger(m)},0)}).emulateTransitionEnd(c.TRANSITION_DURATION)):(e.removeClass("active"),f.addClass("active"),this.sliding=!1,this.$element.trigger(m)),g&&this.cycle(),this}};var d=a.fn.carousel;a.fn.carousel=b,a.fn.carousel.Constructor=c,a.fn.carousel.noConflict=function(){return a.fn.carousel=d,this};var e=function(c){var d,e=a(this),f=a(e.attr("data-target")||(d=e.attr("href"))&&d.replace(/.*(?=#[^\s]+$)/,""));if(f.hasClass("carousel")){var g=a.extend({},f.data(),e.data()),h=e.attr("data-slide-to");h&&(g.interval=!1),b.call(f,g),h&&f.data("bs.carousel").to(h),c.preventDefault()}};a(document).on("click.bs.carousel.data-api","[data-slide]",e).on("click.bs.carousel.data-api","[data-slide-to]",e),a(window).on("load",function(){a('[data-ride="carousel"]').each(function(){var c=a(this);b.call(c,c.data())})})}(jQuery),+function(a){"use strict";function b(b){var c,d=b.attr("data-target")||(c=b.attr("href"))&&c.replace(/.*(?=#[^\s]+$)/,"");return a(d)}function c(b){return this.each(function(){var c=a(this),e=c.data("bs.collapse"),f=a.extend({},d.DEFAULTS,c.data(),"object"==typeof b&&b);!e&&f.toggle&&/show|hide/.test(b)&&(f.toggle=!1),e||c.data("bs.collapse",e=new d(this,f)),"string"==typeof b&&e[b]()})}var d=function(b,c){this.$element=a(b),this.options=a.extend({},d.DEFAULTS,c),this.$trigger=a('[data-toggle="collapse"][href="#'+b.id+'"],[data-toggle="collapse"][data-target="#'+b.id+'"]'),this.transitioning=null,this.options.parent?this.$parent=this.getParent():this.addAriaAndCollapsedClass(this.$element,this.$trigger),this.options.toggle&&this.toggle()};d.VERSION="3.3.6",d.TRANSITION_DURATION=350,d.DEFAULTS={toggle:!0},d.prototype.dimension=function(){var a=this.$element.hasClass("width");return a?"width":"height"},d.prototype.show=function(){if(!this.transitioning&&!this.$element.hasClass("in")){var b,e=this.$parent&&this.$parent.children(".panel").children(".in, .collapsing");if(!(e&&e.length&&(b=e.data("bs.collapse"),b&&b.transitioning))){var f=a.Event("show.bs.collapse");if(this.$element.trigger(f),!f.isDefaultPrevented()){e&&e.length&&(c.call(e,"hide"),b||e.data("bs.collapse",null));var g=this.dimension();this.$element.removeClass("collapse").addClass("collapsing")[g](0).attr("aria-expanded",!0),this.$trigger.removeClass("collapsed").attr("aria-expanded",!0),this.transitioning=1;var h=function(){this.$element.removeClass("collapsing").addClass("collapse in")[g](""),this.transitioning=0,this.$element.trigger("shown.bs.collapse")};if(!a.support.transition)return h.call(this);var i=a.camelCase(["scroll",g].join("-"));this.$element.one("bsTransitionEnd",a.proxy(h,this)).emulateTransitionEnd(d.TRANSITION_DURATION)[g](this.$element[0][i])}}}},d.prototype.hide=function(){if(!this.transitioning&&this.$element.hasClass("in")){var b=a.Event("hide.bs.collapse");if(this.$element.trigger(b),!b.isDefaultPrevented()){var c=this.dimension();this.$element[c](this.$element[c]())[0].offsetHeight,this.$element.addClass("collapsing").removeClass("collapse in").attr("aria-expanded",!1),this.$trigger.addClass("collapsed").attr("aria-expanded",!1),this.transitioning=1;var e=function(){this.transitioning=0,this.$element.removeClass("collapsing").addClass("collapse").trigger("hidden.bs.collapse")};return a.support.transition?void this.$element[c](0).one("bsTransitionEnd",a.proxy(e,this)).emulateTransitionEnd(d.TRANSITION_DURATION):e.call(this)}}},d.prototype.toggle=function(){this[this.$element.hasClass("in")?"hide":"show"]()},d.prototype.getParent=function(){return a(this.options.parent).find('[data-toggle="collapse"][data-parent="'+this.options.parent+'"]').each(a.proxy(function(c,d){var e=a(d);this.addAriaAndCollapsedClass(b(e),e)},this)).end()},d.prototype.addAriaAndCollapsedClass=function(a,b){var c=a.hasClass("in");a.attr("aria-expanded",c),b.toggleClass("collapsed",!c).attr("aria-expanded",c)};var e=a.fn.collapse;a.fn.collapse=c,a.fn.collapse.Constructor=d,a.fn.collapse.noConflict=function(){return a.fn.collapse=e,this},a(document).on("click.bs.collapse.data-api",'[data-toggle="collapse"]',function(d){var e=a(this);e.attr("data-target")||d.preventDefault();var f=b(e),g=f.data("bs.collapse"),h=g?"toggle":e.data();c.call(f,h)})}(jQuery),+function(a){"use strict";function b(b){var c=b.attr("data-target");c||(c=b.attr("href"),c=c&&/#[A-Za-z]/.test(c)&&c.replace(/.*(?=#[^\s]*$)/,""));var d=c&&a(c);return d&&d.length?d:b.parent()}function c(c){c&&3===c.which||(a(e).remove(),a(f).each(function(){var d=a(this),e=b(d),f={relatedTarget:this};e.hasClass("open")&&(c&&"click"==c.type&&/input|textarea/i.test(c.target.tagName)&&a.contains(e[0],c.target)||(e.trigger(c=a.Event("hide.bs.dropdown",f)),c.isDefaultPrevented()||(d.attr("aria-expanded","false"),e.removeClass("open").trigger(a.Event("hidden.bs.dropdown",f)))))}))}function d(b){return this.each(function(){var c=a(this),d=c.data("bs.dropdown");d||c.data("bs.dropdown",d=new g(this)),"string"==typeof b&&d[b].call(c)})}var e=".dropdown-backdrop",f='[data-toggle="dropdown"]',g=function(b){a(b).on("click.bs.dropdown",this.toggle)};g.VERSION="3.3.6",g.prototype.toggle=function(d){var e=a(this);if(!e.is(".disabled, :disabled")){var f=b(e),g=f.hasClass("open");if(c(),!g){"ontouchstart"in document.documentElement&&!f.closest(".navbar-nav").length&&a(document.createElement("div")).addClass("dropdown-backdrop").insertAfter(a(this)).on("click",c);var h={relatedTarget:this};if(f.trigger(d=a.Event("show.bs.dropdown",h)),d.isDefaultPrevented())return;e.trigger("focus").attr("aria-expanded","true"),f.toggleClass("open").trigger(a.Event("shown.bs.dropdown",h))}return!1}},g.prototype.keydown=function(c){if(/(38|40|27|32)/.test(c.which)&&!/input|textarea/i.test(c.target.tagName)){var d=a(this);if(c.preventDefault(),c.stopPropagation(),!d.is(".disabled, :disabled")){var e=b(d),g=e.hasClass("open");if(!g&&27!=c.which||g&&27==c.which)return 27==c.which&&e.find(f).trigger("focus"),d.trigger("click");var h=" li:not(.disabled):visible a",i=e.find(".dropdown-menu"+h);if(i.length){var j=i.index(c.target);38==c.which&&j>0&&j--,40==c.which&&j<i.length-1&&j++,~j||(j=0),i.eq(j).trigger("focus")}}}};var h=a.fn.dropdown;a.fn.dropdown=d,a.fn.dropdown.Constructor=g,a.fn.dropdown.noConflict=function(){return a.fn.dropdown=h,this},a(document).on("click.bs.dropdown.data-api",c).on("click.bs.dropdown.data-api",".dropdown form",function(a){a.stopPropagation()}).on("click.bs.dropdown.data-api",f,g.prototype.toggle).on("keydown.bs.dropdown.data-api",f,g.prototype.keydown).on("keydown.bs.dropdown.data-api",".dropdown-menu",g.prototype.keydown)}(jQuery),+function(a){"use strict";function b(b,d){return this.each(function(){var e=a(this),f=e.data("bs.modal"),g=a.extend({},c.DEFAULTS,e.data(),"object"==typeof b&&b);f||e.data("bs.modal",f=new c(this,g)),"string"==typeof b?f[b](d):g.show&&f.show(d)})}var c=function(b,c){this.options=c,this.$body=a(document.body),this.$element=a(b),this.$dialog=this.$element.find(".modal-dialog"),this.$backdrop=null,this.isShown=null,this.originalBodyPad=null,this.scrollbarWidth=0,this.ignoreBackdropClick=!1,this.options.remote&&this.$element.find(".modal-content").load(this.options.remote,a.proxy(function(){this.$element.trigger("loaded.bs.modal")},this))};c.VERSION="3.3.6",c.TRANSITION_DURATION=300,c.BACKDROP_TRANSITION_DURATION=150,c.DEFAULTS={backdrop:!0,keyboard:!0,show:!0},c.prototype.toggle=function(a){return this.isShown?this.hide():this.show(a)},c.prototype.show=function(b){var d=this,e=a.Event("show.bs.modal",{relatedTarget:b});this.$element.trigger(e),this.isShown||e.isDefaultPrevented()||(this.isShown=!0,this.checkScrollbar(),this.setScrollbar(),this.$body.addClass("modal-open"),this.escape(),this.resize(),this.$element.on("click.dismiss.bs.modal",'[data-dismiss="modal"]',a.proxy(this.hide,this)),this.$dialog.on("mousedown.dismiss.bs.modal",function(){d.$element.one("mouseup.dismiss.bs.modal",function(b){a(b.target).is(d.$element)&&(d.ignoreBackdropClick=!0)})}),this.backdrop(function(){var e=a.support.transition&&d.$element.hasClass("fade");d.$element.parent().length||d.$element.appendTo(d.$body),d.$element.show().scrollTop(0),d.adjustDialog(),e&&d.$element[0].offsetWidth,d.$element.addClass("in"),d.enforceFocus();var f=a.Event("shown.bs.modal",{relatedTarget:b});e?d.$dialog.one("bsTransitionEnd",function(){d.$element.trigger("focus").trigger(f)}).emulateTransitionEnd(c.TRANSITION_DURATION):d.$element.trigger("focus").trigger(f)}))},c.prototype.hide=function(b){b&&b.preventDefault(),b=a.Event("hide.bs.modal"),this.$element.trigger(b),this.isShown&&!b.isDefaultPrevented()&&(this.isShown=!1,this.escape(),this.resize(),a(document).off("focusin.bs.modal"),this.$element.removeClass("in").off("click.dismiss.bs.modal").off("mouseup.dismiss.bs.modal"),this.$dialog.off("mousedown.dismiss.bs.modal"),a.support.transition&&this.$element.hasClass("fade")?this.$element.one("bsTransitionEnd",a.proxy(this.hideModal,this)).emulateTransitionEnd(c.TRANSITION_DURATION):this.hideModal())},c.prototype.enforceFocus=function(){a(document).off("focusin.bs.modal").on("focusin.bs.modal",a.proxy(function(a){this.$element[0]===a.target||this.$element.has(a.target).length||this.$element.trigger("focus")},this))},c.prototype.escape=function(){this.isShown&&this.options.keyboard?this.$element.on("keydown.dismiss.bs.modal",a.proxy(function(a){27==a.which&&this.hide()},this)):this.isShown||this.$element.off("keydown.dismiss.bs.modal")},c.prototype.resize=function(){this.isShown?a(window).on("resize.bs.modal",a.proxy(this.handleUpdate,this)):a(window).off("resize.bs.modal")},c.prototype.hideModal=function(){var a=this;this.$element.hide(),this.backdrop(function(){a.$body.removeClass("modal-open"),a.resetAdjustments(),a.resetScrollbar(),a.$element.trigger("hidden.bs.modal")})},c.prototype.removeBackdrop=function(){this.$backdrop&&this.$backdrop.remove(),this.$backdrop=null},c.prototype.backdrop=function(b){var d=this,e=this.$element.hasClass("fade")?"fade":"";if(this.isShown&&this.options.backdrop){var f=a.support.transition&&e;if(this.$backdrop=a(document.createElement("div")).addClass("modal-backdrop "+e).appendTo(this.$body),this.$element.on("click.dismiss.bs.modal",a.proxy(function(a){return this.ignoreBackdropClick?void(this.ignoreBackdropClick=!1):void(a.target===a.currentTarget&&("static"==this.options.backdrop?this.$element[0].focus():this.hide()))},this)),f&&this.$backdrop[0].offsetWidth,this.$backdrop.addClass("in"),!b)return;f?this.$backdrop.one("bsTransitionEnd",b).emulateTransitionEnd(c.BACKDROP_TRANSITION_DURATION):b()}else if(!this.isShown&&this.$backdrop){this.$backdrop.removeClass("in");var g=function(){d.removeBackdrop(),b&&b()};a.support.transition&&this.$element.hasClass("fade")?this.$backdrop.one("bsTransitionEnd",g).emulateTransitionEnd(c.BACKDROP_TRANSITION_DURATION):g()}else b&&b()},c.prototype.handleUpdate=function(){this.adjustDialog()},c.prototype.adjustDialog=function(){var a=this.$element[0].scrollHeight>document.documentElement.clientHeight;this.$element.css({paddingLeft:!this.bodyIsOverflowing&&a?this.scrollbarWidth:"",paddingRight:this.bodyIsOverflowing&&!a?this.scrollbarWidth:""})},c.prototype.resetAdjustments=function(){this.$element.css({paddingLeft:"",paddingRight:""})},c.prototype.checkScrollbar=function(){var a=window.innerWidth;if(!a){var b=document.documentElement.getBoundingClientRect();a=b.right-Math.abs(b.left)}this.bodyIsOverflowing=document.body.clientWidth<a,this.scrollbarWidth=this.measureScrollbar()},c.prototype.setScrollbar=function(){var a=parseInt(this.$body.css("padding-right")||0,10);this.originalBodyPad=document.body.style.paddingRight||"",this.bodyIsOverflowing&&this.$body.css("padding-right",a+this.scrollbarWidth)},c.prototype.resetScrollbar=function(){this.$body.css("padding-right",this.originalBodyPad)},c.prototype.measureScrollbar=function(){var a=document.createElement("div");a.className="modal-scrollbar-measure",this.$body.append(a);var b=a.offsetWidth-a.clientWidth;return this.$body[0].removeChild(a),b};var d=a.fn.modal;a.fn.modal=b,a.fn.modal.Constructor=c,a.fn.modal.noConflict=function(){return a.fn.modal=d,this},a(document).on("click.bs.modal.data-api",'[data-toggle="modal"]',function(c){var d=a(this),e=d.attr("href"),f=a(d.attr("data-target")||e&&e.replace(/.*(?=#[^\s]+$)/,"")),g=f.data("bs.modal")?"toggle":a.extend({remote:!/#/.test(e)&&e},f.data(),d.data());d.is("a")&&c.preventDefault(),f.one("show.bs.modal",function(a){a.isDefaultPrevented()||f.one("hidden.bs.modal",function(){d.is(":visible")&&d.trigger("focus")})}),b.call(f,g,this)})}(jQuery),+function(a){"use strict";function b(b){return this.each(function(){var d=a(this),e=d.data("bs.tooltip"),f="object"==typeof b&&b;(e||!/destroy|hide/.test(b))&&(e||d.data("bs.tooltip",e=new c(this,f)),"string"==typeof b&&e[b]())})}var c=function(a,b){this.type=null,this.options=null,this.enabled=null,this.timeout=null,this.hoverState=null,this.$element=null,this.inState=null,this.init("tooltip",a,b)};c.VERSION="3.3.6",c.TRANSITION_DURATION=150,c.DEFAULTS={animation:!0,placement:"top",selector:!1,template:'<div class="tooltip" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>',trigger:"hover focus",title:"",delay:0,html:!1,container:!1,viewport:{selector:"body",padding:0}},c.prototype.init=function(b,c,d){if(this.enabled=!0,this.type=b,this.$element=a(c),this.options=this.getOptions(d),this.$viewport=this.options.viewport&&a(a.isFunction(this.options.viewport)?this.options.viewport.call(this,this.$element):this.options.viewport.selector||this.options.viewport),this.inState={click:!1,hover:!1,focus:!1},this.$element[0]instanceof document.constructor&&!this.options.selector)throw new Error("`selector` option must be specified when initializing "+this.type+" on the window.document object!");for(var e=this.options.trigger.split(" "),f=e.length;f--;){var g=e[f];if("click"==g)this.$element.on("click."+this.type,this.options.selector,a.proxy(this.toggle,this));else if("manual"!=g){var h="hover"==g?"mouseenter":"focusin",i="hover"==g?"mouseleave":"focusout";this.$element.on(h+"."+this.type,this.options.selector,a.proxy(this.enter,this)),this.$element.on(i+"."+this.type,this.options.selector,a.proxy(this.leave,this))}}this.options.selector?this._options=a.extend({},this.options,{trigger:"manual",selector:""}):this.fixTitle()},c.prototype.getDefaults=function(){return c.DEFAULTS},c.prototype.getOptions=function(b){return b=a.extend({},this.getDefaults(),this.$element.data(),b),b.delay&&"number"==typeof b.delay&&(b.delay={show:b.delay,hide:b.delay}),b},c.prototype.getDelegateOptions=function(){var b={},c=this.getDefaults();return this._options&&a.each(this._options,function(a,d){c[a]!=d&&(b[a]=d)}),b},c.prototype.enter=function(b){var c=b instanceof this.constructor?b:a(b.currentTarget).data("bs."+this.type);return c||(c=new this.constructor(b.currentTarget,this.getDelegateOptions()),a(b.currentTarget).data("bs."+this.type,c)),b instanceof a.Event&&(c.inState["focusin"==b.type?"focus":"hover"]=!0),c.tip().hasClass("in")||"in"==c.hoverState?void(c.hoverState="in"):(clearTimeout(c.timeout),c.hoverState="in",c.options.delay&&c.options.delay.show?void(c.timeout=setTimeout(function(){"in"==c.hoverState&&c.show()},c.options.delay.show)):c.show())},c.prototype.isInStateTrue=function(){for(var a in this.inState)if(this.inState[a])return!0;return!1},c.prototype.leave=function(b){var c=b instanceof this.constructor?b:a(b.currentTarget).data("bs."+this.type);return c||(c=new this.constructor(b.currentTarget,this.getDelegateOptions()),a(b.currentTarget).data("bs."+this.type,c)),b instanceof a.Event&&(c.inState["focusout"==b.type?"focus":"hover"]=!1),c.isInStateTrue()?void 0:(clearTimeout(c.timeout),c.hoverState="out",c.options.delay&&c.options.delay.hide?void(c.timeout=setTimeout(function(){"out"==c.hoverState&&c.hide()},c.options.delay.hide)):c.hide())},c.prototype.show=function(){var b=a.Event("show.bs."+this.type);if(this.hasContent()&&this.enabled){this.$element.trigger(b);var d=a.contains(this.$element[0].ownerDocument.documentElement,this.$element[0]);if(b.isDefaultPrevented()||!d)return;var e=this,f=this.tip(),g=this.getUID(this.type);this.setContent(),f.attr("id",g),this.$element.attr("aria-describedby",g),this.options.animation&&f.addClass("fade");var h="function"==typeof this.options.placement?this.options.placement.call(this,f[0],this.$element[0]):this.options.placement,i=/\s?auto?\s?/i,j=i.test(h);j&&(h=h.replace(i,"")||"top"),f.detach().css({top:0,left:0,display:"block"}).addClass(h).data("bs."+this.type,this),this.options.container?f.appendTo(this.options.container):f.insertAfter(this.$element),this.$element.trigger("inserted.bs."+this.type);var k=this.getPosition(),l=f[0].offsetWidth,m=f[0].offsetHeight;if(j){var n=h,o=this.getPosition(this.$viewport);h="bottom"==h&&k.bottom+m>o.bottom?"top":"top"==h&&k.top-m<o.top?"bottom":"right"==h&&k.right+l>o.width?"left":"left"==h&&k.left-l<o.left?"right":h,f.removeClass(n).addClass(h)}var p=this.getCalculatedOffset(h,k,l,m);this.applyPlacement(p,h);var q=function(){var a=e.hoverState;e.$element.trigger("shown.bs."+e.type),e.hoverState=null,"out"==a&&e.leave(e)};a.support.transition&&this.$tip.hasClass("fade")?f.one("bsTransitionEnd",q).emulateTransitionEnd(c.TRANSITION_DURATION):q()}},c.prototype.applyPlacement=function(b,c){var d=this.tip(),e=d[0].offsetWidth,f=d[0].offsetHeight,g=parseInt(d.css("margin-top"),10),h=parseInt(d.css("margin-left"),10);isNaN(g)&&(g=0),isNaN(h)&&(h=0),b.top+=g,b.left+=h,a.offset.setOffset(d[0],a.extend({using:function(a){d.css({top:Math.round(a.top),left:Math.round(a.left)})}},b),0),d.addClass("in");var i=d[0].offsetWidth,j=d[0].offsetHeight;"top"==c&&j!=f&&(b.top=b.top+f-j);var k=this.getViewportAdjustedDelta(c,b,i,j);k.left?b.left+=k.left:b.top+=k.top;var l=/top|bottom/.test(c),m=l?2*k.left-e+i:2*k.top-f+j,n=l?"offsetWidth":"offsetHeight";d.offset(b),this.replaceArrow(m,d[0][n],l)},c.prototype.replaceArrow=function(a,b,c){this.arrow().css(c?"left":"top",50*(1-a/b)+"%").css(c?"top":"left","")},c.prototype.setContent=function(){var a=this.tip(),b=this.getTitle();a.find(".tooltip-inner")[this.options.html?"html":"text"](b),a.removeClass("fade in top bottom left right")},c.prototype.hide=function(b){function d(){"in"!=e.hoverState&&f.detach(),e.$element.removeAttr("aria-describedby").trigger("hidden.bs."+e.type),b&&b()}var e=this,f=a(this.$tip),g=a.Event("hide.bs."+this.type);return this.$element.trigger(g),g.isDefaultPrevented()?void 0:(f.removeClass("in"),a.support.transition&&f.hasClass("fade")?f.one("bsTransitionEnd",d).emulateTransitionEnd(c.TRANSITION_DURATION):d(),this.hoverState=null,this)},c.prototype.fixTitle=function(){var a=this.$element;(a.attr("title")||"string"!=typeof a.attr("data-original-title"))&&a.attr("data-original-title",a.attr("title")||"").attr("title","")},c.prototype.hasContent=function(){return this.getTitle()},c.prototype.getPosition=function(b){b=b||this.$element;var c=b[0],d="BODY"==c.tagName,e=c.getBoundingClientRect();null==e.width&&(e=a.extend({},e,{width:e.right-e.left,height:e.bottom-e.top}));var f=d?{top:0,left:0}:b.offset(),g={scroll:d?document.documentElement.scrollTop||document.body.scrollTop:b.scrollTop()},h=d?{width:a(window).width(),height:a(window).height()}:null;return a.extend({},e,g,h,f)},c.prototype.getCalculatedOffset=function(a,b,c,d){return"bottom"==a?{top:b.top+b.height,left:b.left+b.width/2-c/2}:"top"==a?{top:b.top-d,left:b.left+b.width/2-c/2}:"left"==a?{top:b.top+b.height/2-d/2,left:b.left-c}:{top:b.top+b.height/2-d/2,left:b.left+b.width}},c.prototype.getViewportAdjustedDelta=function(a,b,c,d){var e={top:0,left:0};if(!this.$viewport)return e;var f=this.options.viewport&&this.options.viewport.padding||0,g=this.getPosition(this.$viewport);if(/right|left/.test(a)){var h=b.top-f-g.scroll,i=b.top+f-g.scroll+d;h<g.top?e.top=g.top-h:i>g.top+g.height&&(e.top=g.top+g.height-i)}else{var j=b.left-f,k=b.left+f+c;j<g.left?e.left=g.left-j:k>g.right&&(e.left=g.left+g.width-k)}return e},c.prototype.getTitle=function(){var a,b=this.$element,c=this.options;return a=b.attr("data-original-title")||("function"==typeof c.title?c.title.call(b[0]):c.title)},c.prototype.getUID=function(a){do a+=~~(1e6*Math.random());while(document.getElementById(a));return a},c.prototype.tip=function(){if(!this.$tip&&(this.$tip=a(this.options.template),1!=this.$tip.length))throw new Error(this.type+" `template` option must consist of exactly 1 top-level element!");return this.$tip},c.prototype.arrow=function(){return this.$arrow=this.$arrow||this.tip().find(".tooltip-arrow")},c.prototype.enable=function(){this.enabled=!0},c.prototype.disable=function(){this.enabled=!1},c.prototype.toggleEnabled=function(){this.enabled=!this.enabled},c.prototype.toggle=function(b){var c=this;b&&(c=a(b.currentTarget).data("bs."+this.type),c||(c=new this.constructor(b.currentTarget,this.getDelegateOptions()),a(b.currentTarget).data("bs."+this.type,c))),b?(c.inState.click=!c.inState.click,c.isInStateTrue()?c.enter(c):c.leave(c)):c.tip().hasClass("in")?c.leave(c):c.enter(c)},c.prototype.destroy=function(){var a=this;clearTimeout(this.timeout),this.hide(function(){a.$element.off("."+a.type).removeData("bs."+a.type),a.$tip&&a.$tip.detach(),a.$tip=null,a.$arrow=null,a.$viewport=null})};var d=a.fn.tooltip;a.fn.tooltip=b,a.fn.tooltip.Constructor=c,a.fn.tooltip.noConflict=function(){return a.fn.tooltip=d,this}}(jQuery),+function(a){"use strict";function b(b){return this.each(function(){var d=a(this),e=d.data("bs.popover"),f="object"==typeof b&&b;(e||!/destroy|hide/.test(b))&&(e||d.data("bs.popover",e=new c(this,f)),"string"==typeof b&&e[b]())})}var c=function(a,b){this.init("popover",a,b)};if(!a.fn.tooltip)throw new Error("Popover requires tooltip.js");c.VERSION="3.3.6",c.DEFAULTS=a.extend({},a.fn.tooltip.Constructor.DEFAULTS,{placement:"right",trigger:"click",content:"",template:'<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>'}),c.prototype=a.extend({},a.fn.tooltip.Constructor.prototype),c.prototype.constructor=c,c.prototype.getDefaults=function(){return c.DEFAULTS},c.prototype.setContent=function(){var a=this.tip(),b=this.getTitle(),c=this.getContent();a.find(".popover-title")[this.options.html?"html":"text"](b),a.find(".popover-content").children().detach().end()[this.options.html?"string"==typeof c?"html":"append":"text"](c),a.removeClass("fade top bottom left right in"),a.find(".popover-title").html()||a.find(".popover-title").hide()},c.prototype.hasContent=function(){return this.getTitle()||this.getContent()},c.prototype.getContent=function(){var a=this.$element,b=this.options;return a.attr("data-content")||("function"==typeof b.content?b.content.call(a[0]):b.content)},c.prototype.arrow=function(){return this.$arrow=this.$arrow||this.tip().find(".arrow")};var d=a.fn.popover;a.fn.popover=b,a.fn.popover.Constructor=c,a.fn.popover.noConflict=function(){return a.fn.popover=d,this}}(jQuery),+function(a){"use strict";function b(c,d){this.$body=a(document.body),this.$scrollElement=a(a(c).is(document.body)?window:c),this.options=a.extend({},b.DEFAULTS,d),this.selector=(this.options.target||"")+" .nav li > a",this.offsets=[],this.targets=[],this.activeTarget=null,this.scrollHeight=0,this.$scrollElement.on("scroll.bs.scrollspy",a.proxy(this.process,this)),this.refresh(),this.process()}function c(c){return this.each(function(){var d=a(this),e=d.data("bs.scrollspy"),f="object"==typeof c&&c;e||d.data("bs.scrollspy",e=new b(this,f)),"string"==typeof c&&e[c]()})}b.VERSION="3.3.6",b.DEFAULTS={offset:10},b.prototype.getScrollHeight=function(){return this.$scrollElement[0].scrollHeight||Math.max(this.$body[0].scrollHeight,document.documentElement.scrollHeight)},b.prototype.refresh=function(){var b=this,c="offset",d=0;this.offsets=[],this.targets=[],this.scrollHeight=this.getScrollHeight(),a.isWindow(this.$scrollElement[0])||(c="position",d=this.$scrollElement.scrollTop()),this.$body.find(this.selector).map(function(){var b=a(this),e=b.data("target")||b.attr("href"),f=/^#./.test(e)&&a(e);return f&&f.length&&f.is(":visible")&&[[f[c]().top+d,e]]||null}).sort(function(a,b){return a[0]-b[0]}).each(function(){b.offsets.push(this[0]),b.targets.push(this[1])})},b.prototype.process=function(){var a,b=this.$scrollElement.scrollTop()+this.options.offset,c=this.getScrollHeight(),d=this.options.offset+c-this.$scrollElement.height(),e=this.offsets,f=this.targets,g=this.activeTarget;if(this.scrollHeight!=c&&this.refresh(),b>=d)return g!=(a=f[f.length-1])&&this.activate(a);if(g&&b<e[0])return this.activeTarget=null,this.clear();for(a=e.length;a--;)g!=f[a]&&b>=e[a]&&(void 0===e[a+1]||b<e[a+1])&&this.activate(f[a])},b.prototype.activate=function(b){this.activeTarget=b,this.clear();var c=this.selector+'[data-target="'+b+'"],'+this.selector+'[href="'+b+'"]',d=a(c).parents("li").addClass("active");
+d.parent(".dropdown-menu").length&&(d=d.closest("li.dropdown").addClass("active")),d.trigger("activate.bs.scrollspy")},b.prototype.clear=function(){a(this.selector).parentsUntil(this.options.target,".active").removeClass("active")};var d=a.fn.scrollspy;a.fn.scrollspy=c,a.fn.scrollspy.Constructor=b,a.fn.scrollspy.noConflict=function(){return a.fn.scrollspy=d,this},a(window).on("load.bs.scrollspy.data-api",function(){a('[data-spy="scroll"]').each(function(){var b=a(this);c.call(b,b.data())})})}(jQuery),+function(a){"use strict";function b(b){return this.each(function(){var d=a(this),e=d.data("bs.tab");e||d.data("bs.tab",e=new c(this)),"string"==typeof b&&e[b]()})}var c=function(b){this.element=a(b)};c.VERSION="3.3.6",c.TRANSITION_DURATION=150,c.prototype.show=function(){var b=this.element,c=b.closest("ul:not(.dropdown-menu)"),d=b.data("target");if(d||(d=b.attr("href"),d=d&&d.replace(/.*(?=#[^\s]*$)/,"")),!b.parent("li").hasClass("active")){var e=c.find(".active:last a"),f=a.Event("hide.bs.tab",{relatedTarget:b[0]}),g=a.Event("show.bs.tab",{relatedTarget:e[0]});if(e.trigger(f),b.trigger(g),!g.isDefaultPrevented()&&!f.isDefaultPrevented()){var h=a(d);this.activate(b.closest("li"),c),this.activate(h,h.parent(),function(){e.trigger({type:"hidden.bs.tab",relatedTarget:b[0]}),b.trigger({type:"shown.bs.tab",relatedTarget:e[0]})})}}},c.prototype.activate=function(b,d,e){function f(){g.removeClass("active").find("> .dropdown-menu > .active").removeClass("active").end().find('[data-toggle="tab"]').attr("aria-expanded",!1),b.addClass("active").find('[data-toggle="tab"]').attr("aria-expanded",!0),h?(b[0].offsetWidth,b.addClass("in")):b.removeClass("fade"),b.parent(".dropdown-menu").length&&b.closest("li.dropdown").addClass("active").end().find('[data-toggle="tab"]').attr("aria-expanded",!0),e&&e()}var g=d.find("> .active"),h=e&&a.support.transition&&(g.length&&g.hasClass("fade")||!!d.find("> .fade").length);g.length&&h?g.one("bsTransitionEnd",f).emulateTransitionEnd(c.TRANSITION_DURATION):f(),g.removeClass("in")};var d=a.fn.tab;a.fn.tab=b,a.fn.tab.Constructor=c,a.fn.tab.noConflict=function(){return a.fn.tab=d,this};var e=function(c){c.preventDefault(),b.call(a(this),"show")};a(document).on("click.bs.tab.data-api",'[data-toggle="tab"]',e).on("click.bs.tab.data-api",'[data-toggle="pill"]',e)}(jQuery),+function(a){"use strict";function b(b){return this.each(function(){var d=a(this),e=d.data("bs.affix"),f="object"==typeof b&&b;e||d.data("bs.affix",e=new c(this,f)),"string"==typeof b&&e[b]()})}var c=function(b,d){this.options=a.extend({},c.DEFAULTS,d),this.$target=a(this.options.target).on("scroll.bs.affix.data-api",a.proxy(this.checkPosition,this)).on("click.bs.affix.data-api",a.proxy(this.checkPositionWithEventLoop,this)),this.$element=a(b),this.affixed=null,this.unpin=null,this.pinnedOffset=null,this.checkPosition()};c.VERSION="3.3.6",c.RESET="affix affix-top affix-bottom",c.DEFAULTS={offset:0,target:window},c.prototype.getState=function(a,b,c,d){var e=this.$target.scrollTop(),f=this.$element.offset(),g=this.$target.height();if(null!=c&&"top"==this.affixed)return c>e?"top":!1;if("bottom"==this.affixed)return null!=c?e+this.unpin<=f.top?!1:"bottom":a-d>=e+g?!1:"bottom";var h=null==this.affixed,i=h?e:f.top,j=h?g:b;return null!=c&&c>=e?"top":null!=d&&i+j>=a-d?"bottom":!1},c.prototype.getPinnedOffset=function(){if(this.pinnedOffset)return this.pinnedOffset;this.$element.removeClass(c.RESET).addClass("affix");var a=this.$target.scrollTop(),b=this.$element.offset();return this.pinnedOffset=b.top-a},c.prototype.checkPositionWithEventLoop=function(){setTimeout(a.proxy(this.checkPosition,this),1)},c.prototype.checkPosition=function(){if(this.$element.is(":visible")){var b=this.$element.height(),d=this.options.offset,e=d.top,f=d.bottom,g=Math.max(a(document).height(),a(document.body).height());"object"!=typeof d&&(f=e=d),"function"==typeof e&&(e=d.top(this.$element)),"function"==typeof f&&(f=d.bottom(this.$element));var h=this.getState(g,b,e,f);if(this.affixed!=h){null!=this.unpin&&this.$element.css("top","");var i="affix"+(h?"-"+h:""),j=a.Event(i+".bs.affix");if(this.$element.trigger(j),j.isDefaultPrevented())return;this.affixed=h,this.unpin="bottom"==h?this.getPinnedOffset():null,this.$element.removeClass(c.RESET).addClass(i).trigger(i.replace("affix","affixed")+".bs.affix")}"bottom"==h&&this.$element.offset({top:g-b-f})}};var d=a.fn.affix;a.fn.affix=b,a.fn.affix.Constructor=c,a.fn.affix.noConflict=function(){return a.fn.affix=d,this},a(window).on("load",function(){a('[data-spy="affix"]').each(function(){var c=a(this),d=c.data();d.offset=d.offset||{},null!=d.offsetBottom&&(d.offset.bottom=d.offsetBottom),null!=d.offsetTop&&(d.offset.top=d.offsetTop),b.call(c,d)})})}(jQuery);
+
+(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.nlp_compromise = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+//these are common word shortenings used in the lexicon and sentence segmentation methods
+//there are all nouns, or at the least, belong beside one.
+'use strict';
+
+var honourifics = require('./honourifics'); //stored seperately, for 'noun.is_person()'
+
+//common abbreviations
+var main = ['arc', 'al', 'exp', 'rd', 'st', 'dist', 'mt', 'fy', 'pd', 'pl', 'plz', 'tce', 'llb', 'md', 'bl', 'ma', 'ba', 'lit', 'ex', 'eg', 'ie', 'circa', 'ca', 'cca', 'vs', 'etc', 'esp', 'ft', 'bc', 'ad'];
+
+//person titles like 'jr', (stored seperately)
+main = main.concat(honourifics);
+
+//org main
+var orgs = ['dept', 'univ', 'assn', 'bros', 'inc', 'ltd', 'co', 'corp',
+//proper nouns with exclamation marks
+'yahoo', 'joomla', 'jeopardy'];
+main = main.concat(orgs);
+
+//place main
+var places = ['ariz', 'cal', 'calif', 'col', 'colo', 'conn', 'fla', 'fl', 'ga', 'ida', 'ia', 'kan', 'kans', 'md', 'minn', 'neb', 'nebr', 'okla', 'penna', 'penn', 'pa', 'dak', 'tenn', 'tex', 'ut', 'vt', 'va', 'wis', 'wisc', 'wy', 'wyo', 'usafa', 'alta', 'ont', 'que', 'sask', 'ave', 'blvd', 'cl', 'ct', 'cres', 'hwy'];
+main = main.concat(places);
+
+//date abbrevs.
+//these are added seperately because they are not nouns
+var dates = ['jan', 'feb', 'mar', 'apr', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec', 'sept', 'sep'];
+main = main.concat(dates);
+
+module.exports = {
+  abbreviations: main,
+  dates: dates,
+  orgs: orgs,
+  places: places
+};
+
+},{"./honourifics":9}],2:[function(require,module,exports){
+//adjectives that either aren't covered by rules, or have superlative/comparative forms
+//this list is the seed, from which various forms are conjugated
+'use strict';
+
+var fns = require('../fns');
+
+//suffix-index adjectives
+//  {cial:'cru,spe'} -> 'crucial', 'special'
+var compressed = {
+  erate: 'degen,delib,desp,lit,mod',
+  icial: 'artif,benef,off,superf',
+  ntial: 'esse,influe,pote,substa',
+  teful: 'gra,ha,tas,was',
+  stant: 'con,di,in,resi',
+  going: 'easy,fore,on,out',
+  hing: 'astonis,das,far-reac,refres,scat,screec,self-loat,soot',
+  eful: 'car,grac,peac,sham,us,veng',
+  ming: 'alar,cal,glea,unassu,unbeco,upco',
+  cial: 'commer,cru,finan,ra,so,spe',
+  tful: 'deligh,doub,fre,righ,though,wis',
+  ight: 'overn,overwe,r,sl,upt',
+  ated: 'antiqu,intoxic,sophistic,unregul,unrel',
+  rant: 'aber,exube,flag,igno,vib',
+  uent: 'congr,fl,freq,subseq',
+  rate: 'accu,elabo,i,sepa',
+  ific: 'horr,scient,spec,terr',
+  rary: 'arbit,contempo,cont,tempo',
+  ntic: 'authe,fra,giga,roma',
+  wing: 'harro,kno,left-,right-',
+  nant: 'domi,malig,preg,reso',
+  nent: 'emi,immi,perma,promi',
+  iant: 'brill,def,g,luxur',
+  ging: 'dama,encoura,han,lon',
+  iate: 'appropr,immed,inappropr,intermed',
+  rect: 'cor,e,incor,indi',
+  zing: 'agoni,ama,appeti,free',
+  ant: 'abund,arrog,eleg,extravag,exult,hesit,irrelev,miscre,nonchal,obeis,observ,pl,pleas,redund,relev,reluct,signific,vac,verd',
+  ing: 'absorb,car,coo,liv,lov,ly,menac,perplex,shock,stand,surpris,tell,unappeal,unconvinc,unend,unsuspect,vex,want',
+  ate: 'adequ,delic,fortun,inadequ,inn,intim,legitim,priv,sed,ultim',
+  ted: 'expec,impor,limi,spiri,talen,tes,unexpec,unpreceden',
+  ish: 'dan,fool,hell,lout,self,snobb,squeam,styl',
+  ary: 'dre,legend,necess,prim,sc,second,w,we',
+  ite: 'el,favor,fin,oppos,pet,pol,recond,tr',
+  ely: 'hom,lik,liv,lon,lov,tim,unlik',
+  ure: 'fut,insec,miniat,obsc,premat,sec,s',
+  tly: 'cos,ghas,ghos,nigh,sain,sprigh,unsigh',
+  dly: 'cowar,cud,frien,frien,kin,ma',
+  ble: 'a,dou,hum,nim,no,proba',
+  rly: 'bu,disorde,elde,hou,neighbo,yea',
+  ine: 'div,femin,genu,mascul,prist,rout',
+  ute: 'absol,ac,c,m,resol',
+  ped: 'cram,pum,stereoty,stri,war',
+  sed: 'clo,disea,distres,unsupervi,u',
+  lly: 'chi,hi,jo,si,sme',
+  per: 'dap,impro,pro,su,up',
+  ile: 'fert,host,juven,mob,volat',
+  led: 'detai,disgrunt,fab,paralle,troub',
+  ern: 'east,north,south,st,west',
+  ast: 'e,l,p,steadf',
+  ent: 'abs,appar,b,pres',
+  ged: 'dama,deran,jag,rag',
+  ded: 'crow,guar,retar,undeci',
+  est: 'b,dishon,hon,quick',
+  ial: 'colon,impart,init,part',
+  ter: 'bet,lat,ou,ut',
+  ond: 'bey,bl,sec,vagab',
+  ady: 'he,re,sh,ste',
+  eal: 'ether,id,r,surr',
+  ard: 'abo,awkw,stand,straightforw',
+  ior: 'jun,pr,sen,super',
+  ale: 'fem,m,upsc,wholes',
+  ed: 'advanc,belov,craz,determin,hallow,hook,inbr,justifi,nak,nuanc,sacr,subdu,unauthoriz,unrecogniz,wick',
+  ly: 'dai,deep,earth,gris,heaven,low,meas,melancho,month,oi,on,prick,seem,s,ug,unru,week,wi,woman',
+  al: 'actu,coloss,glob,illeg,leg,leth,liter,loy,ov,riv,roy,univers,usu',
+  dy: 'baw,bloo,clou,gau,gid,han,mol,moo,stur,ti,tren,unti,unwiel',
+  se: 'adver,den,diver,fal,immen,inten,obe,perver,preci,profu',
+  er: 'clev,form,inn,oth,ov,she,slend,somb,togeth,und',
+  id: 'afra,hum,langu,plac,rab,sord,splend,stup,torp',
+  re: 'awa,bizar,di,enti,macab,me,seve,since,spa',
+  en: 'barr,brok,crav,op,sudd,unev,unwritt,wood',
+  ic: 'alcohol,didact,gener,hispan,organ,publ,symbol',
+  ny: 'ma,pho,pu,shi,skin,ti,za',
+  st: 'again,mo,populi,raci,robu,uttermo',
+  ne: 'do,go,insa,obsce,picayu,sere',
+  nd: 'behi,bla,bli,profou,undergrou,wou',
+  le: 'midd,multip,sing,so,subt,who',
+  pt: 'abru,ade,a,bankru,corru,nondescri',
+  ty: 'faul,hef,lof,mea,sal,uppi',
+  sy: 'bu,chee,lou,no,ro',
+  ct: 'abstra,exa,imperfe,inta,perfe',
+  in: 'certa,highfalut,ma,tw,va',
+  et: 'discre,secr,sovi,ups,viol',
+  me: 'part-ti,pri,sa,supre,welco',
+  cy: 'boun,fan,i,jui,spi',
+  ry: 'fur,sor,tawd,wi,w',
+  te: 'comple,concre,obsole,remo',
+  ld: 'ba,bo,go,mi',
+  an: 'deadp,republic,t,urb',
+  ll: 'a,i,overa,sti',
+  ay: 'everyd,g,gr,ok',
+  or: 'indo,maj,min,outdo',
+  my: 'foa,gloo,roo,sli',
+  ck: 'ba,qua,si,sli',
+  rt: 'cove,expe,hu,ove',
+  ul: 'fo,gainf,helpf,painf'
+};
+
+var arr = ['ablaze', 'above', 'adult', 'ahead', 'aloof', 'arab', 'asleep', 'average', 'awake', 'backwards', 'bad', 'blank', 'bogus', 'bottom', 'brisk', 'cagey', 'chief', 'civil', 'common', 'complex', 'cozy', 'crisp', 'deaf', 'devout', 'difficult', 'downtown', 'due', 'dumb', 'eerie', 'evil', 'excess', 'extra', 'fake', 'far', 'faux', 'fierce ', 'fit', 'foreign', 'fun', 'good', 'goofy', 'gratis', 'grey', 'groovy', 'gross', 'half', 'huge', 'humdrum', 'inside', 'kaput',
+//  'lax', -> airports
+'left', 'less', 'level', 'lewd', 'magenta', 'makeshift', 'mammoth', 'medium', 'moot', 'naive', 'nearby', 'next', 'nonstop', 'north', 'offbeat', 'ok', 'outside', 'overwrought', 'premium', 'pricey', 'pro', 'quaint', 'random', 'rear', 'rebel', 'ritzy', 'rough', 'savvy', 'sexy', 'shut', 'shy', 'sleek', 'smug', 'solemn', 'south', 'stark', 'superb', 'taboo', 'teenage', 'top', 'tranquil', 'ultra', 'understood', 'unfair', 'unknown', 'upbeat', 'upstairs', 'vanilla', 'various', 'widespread', 'woozy', 'wrong', 'final', 'true', 'modern', 'notable'];
+
+module.exports = fns.expand_suffixes(arr, compressed);
+
+},{"../fns":23}],3:[function(require,module,exports){
+'use strict';
+
+//these are adjectives that can become comparative + superlative with out "most/more"
+//its a whitelist for conjugation
+//this data is shared between comparative/superlative methods
+module.exports = ['absurd', 'aggressive', 'alert', 'alive', 'awesome', 'beautiful', 'big', 'bitter', 'black', 'blue', 'bored', 'boring', 'brash', 'brave', 'brief', 'bright', 'broad', 'brown', 'calm', 'charming', 'cheap', 'clean', 'cold', 'cool', 'cruel', 'cute', 'damp', 'deep', 'dear', 'dead', 'dark', 'dirty', 'drunk', 'dull', 'eager', 'efficient', 'even', 'faint', 'fair', 'fanc', 'fast', 'fat', 'feeble', 'few', 'fierce', 'fine', 'flat', 'forgetful', 'frail', 'full', 'gentle', 'glib', 'great', 'green', 'gruesome', 'handsome', 'hard', 'harsh', 'high', 'hollow', 'hot', 'impolite', 'innocent', 'keen', 'kind', 'lame', 'lean', 'light', 'little', 'loose', 'long', 'loud', 'low', 'lush', 'macho', 'mean', 'meek', 'mellow', 'mundane', 'near', 'neat', 'new', 'nice', 'normal', 'odd', 'old', 'pale', 'pink', 'plain', 'poor', 'proud', 'purple', 'quick', 'rare', 'rapid', 'red', 'rich', 'ripe', 'rotten', 'round', 'rude', 'sad', 'safe', 'scarce', 'scared', 'shallow', 'sharp', 'short', 'shrill', 'simple', 'slim', 'slow', 'small', 'smart', 'smooth', 'soft', 'sore', 'sour', 'square', 'stale', 'steep', 'stiff', 'straight', 'strange', 'strong', 'sweet', 'swift', 'tall', 'tame', 'tart', 'tender', 'tense', 'thick', 'thin', 'tight', 'tough', 'vague', 'vast', 'vulgar', 'warm', 'weak', 'wet', 'white', 'wide', 'wild', 'wise', 'young', 'yellow', 'easy', 'narrow', 'late', 'early', 'soon', 'close', 'empty', 'dry', 'windy', 'noisy', 'thirsty', 'hungry', 'fresh', 'quiet', 'clear', 'heavy', 'happy', 'funny', 'lucky', 'pretty', 'important', 'interesting', 'attractive', 'dangerous', 'intellegent', 'pure', 'orange', 'large', 'firm', 'grand', 'formal', 'raw', 'weird', 'glad', 'mad', 'strict', 'tired', 'solid', 'extreme', 'mature', 'true', 'free', 'curly', 'angry'].reduce(function (h, s) {
+  h[s] = 'Adjective';
+  return h;
+}, {});
+
+},{}],4:[function(require,module,exports){
+'use strict';
+
+module.exports = [
+//some most-common iso-codes (most are too ambiguous)
+'usd', 'cad', 'aud', 'gbp', 'krw', 'inr', 'hkd', 'dkk', 'cny', 'xaf', 'xof', 'eur', 'jpy',
+//some common, unambiguous currency names
+'denar', 'dobra', 'forint', 'kwanza', 'kyat', 'lempira', 'pound sterling', 'riel', 'yen', 'zloty',
+//colloquial currency names
+'dollar', 'cent', 'penny', 'dime', 'dinar', 'euro', 'lira', 'pound', 'pence', 'peso', 'sterling', 'rand', 'rouble', 'shekel', 'sheqel', 'yuan', 'franc', 'rupee', 'shilling', 'krona', 'dirham', 'bitcoin',
+// 'real',
+//currency symbols
+'€', '$', '¥', '£', 'лв', '₡', 'kn', 'kr', '¢', 'Ft', 'Rp', '﷼', '₭', 'ден', '₨', 'zł', 'lei', 'руб', '฿'];
+
+},{}],5:[function(require,module,exports){
+'use strict';
+//terms that are 'Date' term
+
+var months = ['january', 'february',
+// "march",  //ambig
+'april',
+// "may",   //ambig
+'june', 'july', 'august', 'september', 'october', 'november', 'december', 'jan', 'feb', 'mar', 'apr', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec', 'sept', 'sep'];
+var days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday', 'mon', 'tues', 'wed', 'thurs', 'fri', 'sat', 'sun'];
+//add 'mondays'
+for (var i = 0; i <= 6; i++) {
+  days.push(days[i] + 's');
+}
+
+var durations = ['millisecond', 'second', 'minute', 'hour', 'morning', 'afternoon', 'evening', 'night', 'day', 'week', 'month', 'year', 'decade'];
+//add their plurals
+var len = durations.length;
+for (var i = 0; i < len; i++) {
+  durations.push(durations[i] + 's');
+}
+durations.push('century');
+durations.push('centuries');
+
+var relative = ['yesterday', 'today', 'tomorrow', 'week', 'weekend', 'tonight'];
+
+module.exports = {
+  days: days,
+  months: months,
+  durations: durations,
+  relative: relative
+};
+
+},{}],6:[function(require,module,exports){
+'use strict';
+
+//adjectival forms of place names, as adjectives.
+module.exports = ['afghan', 'albanian', 'algerian', 'angolan', 'argentine', 'armenian', 'australian', 'aussie', 'austrian', 'bangladeshi', 'belarusian', 'belgian', 'bolivian', 'bosnian', 'brazilian', 'bulgarian', 'cambodian', 'cameroonian', 'canadian', 'chadian', 'chilean', 'chinese', 'colombian', 'congolese', 'croatian', 'cuban', 'czech', 'dominican', 'danish', 'egyptian', 'british', 'estonian', 'ethiopian', 'ecuadorian', 'finnish', 'french', 'gambian', 'georgian', 'german', 'greek', 'ghanaian', 'guatemalan', 'haitian', 'hungarian', 'honduran', 'icelandic', 'indian', 'indonesian', 'iranian', 'iraqi', 'irish', 'israeli', 'italian', 'ivorian', // of Ivory Coast
+'jamaican', 'japanese', 'jordanian', 'kazakh', 'kenyan', 'korean', 'kuwaiti', 'lao', // of Laos
+'latvian', 'lebanese', 'liberian', 'libyan', 'lithuanian', 'namibian', 'malagasy', // of Madagascar
+'macedonian', 'malaysian', 'mexican', 'mongolian', 'moroccan', 'dutch', 'nicaraguan', 'nigerian', // of Nigeria
+'nigerien', // of Niger
+'norwegian', 'omani', 'panamanian', 'paraguayan', 'pakistani', 'palestinian', 'peruvian', 'philippine', 'filipino', 'polish', 'portuguese', 'qatari', 'romanian', 'russian', 'rwandan', 'samoan', 'saudi', 'scottish', 'senegalese', 'serbian', 'singaporean', 'slovak', 'somalian', 'sudanese', 'swedish', 'swiss', 'syrian', 'taiwanese', 'trinidadian', 'thai', 'tunisian', 'turkmen', 'ugandan', 'ukrainian', 'american', 'hindi', 'spanish', 'venezuelan', 'vietnamese', 'welsh', 'zambian', 'zimbabwean', 'english', 'african', 'european', 'asian', 'californian'];
+
+},{}],7:[function(require,module,exports){
+// common first-names in compressed form.
+// from http://www.ssa.gov/oact/babynames/limits.html  and http://www.servicealberta.gov.ab.ca/pdf/vs/2001_Boys.pdf
+// not sure what regional/cultural/demographic bias this has. Probably a lot.
+// 73% of people are represented in the top 1000 names
+
+// used to reduce redundant named-entities in longer text. (don't spot the same person twice.)
+// used to identify gender for coreference resolution
+'use strict';
+
+var male = require('./names/male');
+var female = require('./names/female');
+var names = {};
+
+//names commonly used in either gender
+var ambiguous = ['casey', 'jamie', 'lee', 'jaime', 'jessie', 'morgan', 'rene', 'robin', 'devon', 'kerry', 'alexis', 'guadalupe', 'blair', 'kasey', 'jean', 'marion', 'aubrey', 'shelby', 'jan', 'shea', 'jade', 'kenyatta', 'kelsey', 'shay', 'lashawn', 'trinity', 'regan', 'jammie', 'cassidy', 'cheyenne', 'reagan', 'shiloh', 'marlo', 'andra', 'devan', 'rosario', 'lee'];
+for (var i = 0; i < male.length; i++) {
+  names[male[i]] = 'm';
+}
+for (var i = 0; i < female.length; i++) {
+  names[female[i]] = 'f';
+}
+//ambiguous/unisex names
+for (var i = 0; i < ambiguous.length; i += 1) {
+  names[ambiguous[i]] = 'a';
+}
+// console.log(names['spencer']);
+// console.log(names['jill']);
+// console.log(names['sue'])
+// console.log(names['jan'])
+module.exports = names;
+
+},{"./names/female":14,"./names/male":15}],8:[function(require,module,exports){
+'use strict';
+
+var fns = require('../fns');
+//turns holiday-names into text-versions of their dates
+//https://en.wikipedia.org/wiki/federal_holidays_in_the_united_states
+
+//some major, and unambiguous holidays with the same date each year
+var annual = {
+  //general
+  'new years eve': 'december 31',
+  'new years': 'january 1',
+  'new years day': 'january 1',
+  'thanksgiving': 'fourth thursday in november',
+  'christmas eve': 'december 24',
+  'christmas': 'december 25',
+  'christmas day': 'december 25',
+  'saint patricks day': 'march 17',
+  'st patricks day': 'march 17',
+  'april fools': 'april 1',
+  'halloween': 'october 31',
+  'valentines': 'february 14',
+  'valentines day': 'february 14',
+
+  //american
+  'martin luther king': 'third monday in january',
+  'inauguration day': 'january 20',
+  'washingtons birthday': 'third monday in february',
+  'presidents day': 'third monday in february',
+  'memorial day': 'last monday in may',
+  // 'independence': 'july 4',
+  'labor day': 'first monday in september',
+  'columbus day': 'second monday in october',
+  'veterans day': 'november 11',
+
+  //british
+  'labour day': 'first monday in september',
+  'commonwealth day': 'second monday in march',
+  'st andrews day': 'november 30',
+  'saint andrews day': 'november 30',
+  'may day': 'may 1',
+
+  //russian
+  'russia day': 'june 12',
+
+  //australian
+  'australia day': 'january 26',
+  'boxing day': 'december 26',
+  'queens birthday': '2nd monday in june',
+
+  //canadian
+  'canada day': 'july 1',
+  'victoria day': 'may 24',
+  'canadian thanksgiving': 'second monday in october',
+  'rememberance day': 'november 11',
+  'august civic holiday': 'first monday in august',
+  'natal day': 'first monday in august',
+
+  //european
+  'all saints day': 'november 1',
+  'armistice day': 'november 11',
+  'bastille day': 'july 14',
+  'st stephens day': 'december 26',
+  'saint stephens day': 'december 26'
+};
+
+// hardcoded dates for non-regular holidays
+//   ----change every few years(!)---   TODO :do more years
+var astronomical = {
+  2015: {
+    'chinese new year': 'february 19',
+    'easter': 'april 5',
+    'easter sunday': 'april 5',
+    'easter monday': 'april 6',
+    'good friday': 'april 3',
+    'ascension day': 'may 14',
+    'eid': 'july 17',
+    'eid al-fitr': 'july 17',
+    'eid al-adha': 'september 24',
+    'ramadan': 'june 6', //range
+    'ashura': '23 october',
+    'diwali': '11 november'
+  },
+  2016: {
+    'chinese new year': 'february 8',
+    'easter': 'march 27',
+    'easter sunday': 'march 27',
+    'easter monday': 'march 28',
+    'good friday': 'march 25',
+    'ascension day': 'may 5',
+    'eid': 'july 6',
+    'eid al-fitr': 'july 6',
+    'eid al-adha': 'september 11',
+    'ramadan': 'may 27',
+    'diwali': 'october 30'
+  },
+  2017: {
+    'chinese new year': '28 january',
+    'easter': 'april 16',
+    'easter sunday': 'april 16',
+    'easter monday': 'april 17',
+    'good friday': 'april 14',
+    'ascension day': 'may 25',
+    'eid': 'july 25',
+    'eid al-fitr': 'july 25',
+    'diwali': 'october 21',
+    'ramadan': 'may 27'
   }
-},
-runSpeech : function(){
-    var final_transcript = '',
-    recognizing = false,
-    ignore_onend,
-    start_timestamp;
-    // start_button.style.display = 'inline-block';
+};
+//select current year
+var thisYear = new Date().getFullYear();
+var holidays = fns.extend(annual, astronomical[thisYear] || {});
 
-    $("body").on("click", "#start_button", function(){
-      startButton(event);
-  })
+module.exports = holidays;
 
+},{"../fns":23}],9:[function(require,module,exports){
+'use strict';
 
-    var recognition = new webkitSpeechRecognition();
+//these are common person titles used in the lexicon and sentence segmentation methods
+//they are also used to identify that a noun is a person
+module.exports = [
+//honourifics
+'jr', 'mr', 'mrs', 'ms', 'dr', 'prof', 'sr', 'sen', 'corp', 'rep', 'gov', 'atty', 'supt', 'det', 'rev', 'col', 'gen', 'lt', 'cmdr', 'adm', 'capt', 'sgt', 'cpl', 'maj',
+// 'miss',
+// 'misses',
+'mister', 'sir', 'esq', 'mstr', 'phd', 'adj', 'adv', 'asst', 'bldg', 'brig', 'comdr', 'hon', 'messrs', 'mlle', 'mme', 'op', 'ord', 'pvt', 'reps', 'res', 'sens', 'sfc', 'surg'];
 
-    recognition.continuous = true;
-    recognition.interimResults = true;
+},{}],10:[function(require,module,exports){
+//nouns with irregular plural/singular forms
+//used in noun.inflect, and also in the lexicon.
+//compressed with '_' to reduce some redundancy.
+'use strict';
 
-    recognition.onstart = function() {
-      recognizing = true;
-      showInfo('info_speak_now');
-      start_img.src = 'images/mic-animate.gif';
+var main = [['child', '_ren'], ['person', 'people'], ['leaf', 'leaves'], ['database', '_s'], ['quiz', '_zes'], ['stomach', '_s'], ['sex', '_es'], ['move', '_s'], ['shoe', '_s'], ['goose', 'geese'], ['phenomenon', 'phenomena'], ['barracks', '_'], ['deer', '_'], ['syllabus', 'syllabi'], ['index', 'indices'], ['appendix', 'appendices'], ['criterion', 'criteria'], ['man', 'men'], ['sex', '_es'], ['rodeo', '_s'], ['epoch', '_s'], ['zero', '_s'], ['avocado', '_s'], ['halo', '_s'], ['tornado', '_s'], ['tuxedo', '_s'], ['sombrero', '_s'], ['addendum', 'addenda'], ['alga', '_e'], ['alumna', '_e'], ['alumnus', 'alumni'], ['bacillus', 'bacilli'], ['cactus', 'cacti'], ['beau', '_x'], ['château', '_x'], ['chateau', '_x'], ['tableau', '_x'], ['corpus', 'corpora'], ['curriculum', 'curricula'], ['echo', '_es'], ['embargo', '_es'], ['foot', 'feet'], ['genus', 'genera'], ['hippopotamus', 'hippopotami'], ['larva', '_e'], ['libretto', 'libretti'], ['loaf', 'loaves'], ['matrix', 'matrices'], ['memorandum', 'memoranda'], ['mosquito', '_es'], ['opus', 'opera'], ['ovum', 'ova'], ['ox', '_en'], ['radius', 'radii'], ['referendum', 'referenda'], ['thief', 'thieves'], ['tooth', 'teeth']];
+
+main = main.map(function (a) {
+  a[1] = a[1].replace('_', a[0]);
+  return a;
+});
+
+module.exports = main;
+
+},{}],11:[function(require,module,exports){
+'use strict';
+
+//a list of exceptions to the verb rules
+var irregular_verbs = {
+  take: {
+    perfect: 'have taken',
+    pluperfect: 'had taken',
+    future_perfect: 'will have taken'
+  },
+  free: {
+    gerund: 'freeing',
+    actor: ''
+  },
+  arise: {
+    past: 'arose',
+    participle: 'arisen'
+  },
+  babysit: {
+    past: 'babysat',
+    actor: 'babysitter'
+  },
+  be: { // this is crazy-hard and shouldn't be here
+    past: 'was',
+    present: 'is',
+    future: 'will be',
+    perfect: 'have been',
+    pluperfect: 'had been',
+    future_perfect: 'will have been',
+    actor: '',
+    gerund: 'am'
+  },
+  is: {
+    past: 'was',
+    present: 'is',
+    future: 'will be',
+    perfect: 'have been',
+    pluperfect: 'had been',
+    future_perfect: 'will have been',
+    actor: '',
+    gerund: 'being'
+  },
+  beat: {
+    gerund: 'beating',
+    actor: 'beater'
+  },
+  begin: {
+    gerund: 'beginning',
+    past: 'began'
+  },
+  bet: {
+    actor: 'better'
+  },
+  bind: {
+    past: 'bound'
+  },
+  bite: {
+    gerund: 'biting',
+    past: 'bit'
+  },
+  bleed: {
+    past: 'bled'
+  },
+  break: {
+    past: 'broke'
+  },
+  breed: {
+    past: 'bred'
+  },
+  bring: {
+    past: 'brought'
+  },
+  broadcast: {
+    past: 'broadcast'
+  },
+  build: {
+    past: 'built'
+  },
+  buy: {
+    past: 'bought'
+  },
+  catch: {
+    past: 'caught'
+  },
+  choose: {
+    gerund: 'choosing',
+    past: 'chose'
+  },
+  cost: {
+    past: 'cost'
+  },
+  deal: {
+    past: 'dealt'
+  },
+  die: {
+    past: 'died',
+    gerund: 'dying'
+  },
+  dig: {
+    gerund: 'digging',
+    past: 'dug'
+  },
+  do: {
+    past: 'did',
+    present: 'does'
+  },
+  draw: {
+    past: 'drew'
+  },
+  drink: {
+    past: 'drank'
+  },
+  drive: {
+    gerund: 'driving',
+    past: 'drove'
+  },
+  eat: {
+    gerund: 'eating',
+    past: 'ate',
+    actor: 'eater'
+  },
+  fall: {
+    past: 'fell'
+  },
+  feed: {
+    past: 'fed'
+  },
+  feel: {
+    past: 'felt',
+    actor: 'feeler'
+  },
+  fight: {
+    past: 'fought'
+  },
+  find: {
+    past: 'found'
+  },
+  fly: {
+    past: 'flew'
+  },
+  forbid: {
+    past: 'forbade'
+  },
+  forget: {
+    gerund: 'forgeting',
+    past: 'forgot'
+  },
+  forgive: {
+    gerund: 'forgiving',
+    past: 'forgave'
+  },
+  freeze: {
+    gerund: 'freezing',
+    past: 'froze'
+  },
+  get: {
+    past: 'got'
+  },
+  give: {
+    gerund: 'giving',
+    past: 'gave'
+  },
+  go: {
+    past: 'went',
+    present: 'goes'
+  },
+  hang: {
+    past: 'hung'
+  },
+  have: {
+    gerund: 'having',
+    past: 'had',
+    present: 'has'
+  },
+  hear: {
+    past: 'heard'
+  },
+  hide: {
+    past: 'hid'
+  },
+  hold: {
+    past: 'held'
+  },
+  hurt: {
+    past: 'hurt'
+  },
+  lay: {
+    past: 'laid'
+  },
+  lead: {
+    past: 'led'
+  },
+  leave: {
+    past: 'left'
+  },
+  lie: {
+    gerund: 'lying',
+    past: 'lay'
+  },
+  light: {
+    past: 'lit'
+  },
+  lose: {
+    gerund: 'losing',
+    past: 'lost'
+  },
+  make: {
+    past: 'made'
+  },
+  mean: {
+    past: 'meant'
+  },
+  meet: {
+    gerund: 'meeting',
+    past: 'met',
+    actor: 'meeter'
+  },
+  pay: {
+    past: 'paid'
+  },
+  read: {
+    past: 'read'
+  },
+  ring: {
+    past: 'rang'
+  },
+  rise: {
+    past: 'rose'
+  },
+  run: {
+    gerund: 'running',
+    past: 'ran'
+  },
+  say: {
+    past: 'said'
+  },
+  see: {
+    past: 'saw'
+  },
+  sell: {
+    past: 'sold'
+  },
+  shine: {
+    past: 'shone'
+  },
+  shoot: {
+    past: 'shot'
+  },
+  show: {
+    past: 'showed'
+  },
+  sing: {
+    past: 'sang'
+  },
+  sink: {
+    past: 'sank',
+    pluperfect: 'had sunk'
+  },
+  sit: {
+    past: 'sat'
+  },
+  slide: {
+    past: 'slid'
+  },
+  speak: {
+    past: 'spoke',
+    perfect: 'have spoken',
+    pluperfect: 'had spoken',
+    future_perfect: 'will have spoken'
+  },
+  spin: {
+    gerund: 'spinning',
+    past: 'spun'
+  },
+  spread: {
+    past: 'spread'
+  },
+  stand: {
+    past: 'stood'
+  },
+  steal: {
+    past: 'stole',
+    actor: 'stealer'
+  },
+  stick: {
+    past: 'stuck'
+  },
+  sting: {
+    past: 'stung'
+  },
+  stream: {
+    actor: 'streamer'
+  },
+  strike: {
+    gerund: 'striking',
+    past: 'struck'
+  },
+  swear: {
+    past: 'swore'
+  },
+  swim: {
+    past: 'swam'
+  },
+  swing: {
+    past: 'swung'
+  },
+  teach: {
+    past: 'taught',
+    present: 'teaches'
+  },
+  tear: {
+    past: 'tore'
+  },
+  tell: {
+    past: 'told'
+  },
+  think: {
+    past: 'thought'
+  },
+  understand: {
+    past: 'understood'
+  },
+  wake: {
+    past: 'woke'
+  },
+  wear: {
+    past: 'wore'
+  },
+  win: {
+    gerund: 'winning',
+    past: 'won'
+  },
+  withdraw: {
+    past: 'withdrew'
+  },
+  write: {
+    gerund: 'writing',
+    past: 'wrote'
+  },
+  tie: {
+    gerund: 'tying',
+    past: 'tied'
+  },
+  ski: {
+    past: 'skiied'
+  },
+  boil: {
+    actor: 'boiler'
+  },
+  miss: {
+    present: 'miss'
+  },
+  act: {
+    actor: 'actor'
+  },
+  compete: {
+    gerund: 'competing',
+    past: 'competed',
+    actor: 'competitor'
+  },
+  being: {
+    gerund: 'are',
+    past: 'were',
+    present: 'are'
+  },
+  imply: {
+    past: 'implied',
+    present: 'implies'
+  },
+  ice: {
+    gerund: 'icing',
+    past: 'iced'
+  },
+  develop: {
+    past: 'developed',
+    actor: 'developer',
+    gerund: 'developing'
+  },
+  wait: {
+    gerund: 'waiting',
+    past: 'waited',
+    actor: 'waiter'
+  },
+  aim: {
+    actor: 'aimer'
+  },
+  spill: {
+    past: 'spilt'
+  },
+  drop: {
+    gerund: 'dropping',
+    past: 'dropped'
+  },
+  log: {
+    gerund: 'logging',
+    past: 'logged'
+  },
+  rub: {
+    gerund: 'rubbing',
+    past: 'rubbed'
+  },
+  smash: {
+    present: 'smashes'
+  },
+  suit: {
+    gerund: 'suiting',
+    past: 'suited',
+    actor: 'suiter'
+  }
+};
+module.exports = irregular_verbs;
+
+},{}],12:[function(require,module,exports){
+'use strict';
+
+var misc = {
+  'there': 'NN',
+  'here': 'JJ',
+
+  'better': 'JJR',
+  'earlier': 'JJR',
+
+  'has': 'VB',
+  'sounds': 'VBZ',
+  //special case for took/taken
+  'taken': 'VBD',
+  'msg': 'VB', //slang
+  //date
+  'noon': 'DA',
+  'midnight': 'DA',
+  //errr....
+  'now': 'DA',
+  'morning': 'DA',
+  'evening': 'DA',
+  'afternoon': 'DA',
+  'ago': 'DA',
+  //end of day, end of month
+  'eod': 'DA',
+  'eom': 'DA',
+  'number': 'NN',
+  'system': 'NN',
+  'example': 'NN',
+  'part': 'NN',
+  'house': 'NN'
+};
+
+var compact = {
+  //conjunctions
+  'CC': ['yet', 'therefore', 'or', 'while', 'nor', 'whether', 'though', 'because', 'cuz', 'but', 'for', 'and', 'however', 'before', 'although', 'how', 'plus', 'versus', 'not'],
+  'CO': ['if', 'unless', 'otherwise', 'notwithstanding'],
+
+  'VBD': ['said', 'had', 'been', 'began', 'came', 'did', 'meant', 'went'],
+
+  'VBN': ['given', 'known', 'shown', 'seen', 'born'],
+
+  'VBG': ['going', 'being', 'according', 'resulting', 'developing', 'staining'],
+
+  //copula
+  'CP': ['is', 'will be', 'are', 'was', 'were', 'am', 'isn\'t', 'ain\'t', 'aren\'t'],
+
+  //determiners
+  'DT': ['this', 'any', 'enough', 'each', 'whatever', 'every', 'which', 'these', 'another', 'plenty', 'whichever', 'neither', 'an', 'a', 'least', 'own', 'few', 'both', 'those', 'the', 'that', 'various', 'what', 'either', 'much', 'some', 'else', 'no',
+  //some other languages (what could go wrong?)
+  'la', 'le', 'les', 'des', 'de', 'du', 'el'],
+
+  //prepositions
+  'IN': ['until', 'onto', 'of', 'into', 'out', 'except', 'across', 'by', 'between', 'at', 'down', 'as', 'from', 'around', 'with', 'among', 'upon', 'amid', 'to', 'along', 'since', 'about', 'off', 'on', 'within', 'in', 'during', 'per', 'without', 'throughout', 'through', 'than', 'via', 'up', 'unlike', 'despite', 'below', 'unless', 'towards', 'besides', 'after', 'whereas', '\'o', 'amidst', 'amongst', 'apropos', 'atop', 'barring', 'chez', 'circa', 'mid', 'midst', 'notwithstanding', 'qua', 'sans', 'vis-a-vis', 'thru', 'till', 'versus', 'without', 'w/o', 'o\'', 'a\''],
+
+  //modal verbs
+  'MD': ['can', 'may', 'could', 'might', 'will', 'ought to', 'would', 'must', 'shall', 'should', 'ought', 'shant', 'lets'],
+
+  //arguable
+  //Possessive pronouns
+  'PP': ['mine', 'something', 'none', 'anything', 'anyone', 'theirs', 'himself', 'ours', 'his', 'my', 'their', 'yours', 'your', 'our', 'its', 'herself', 'hers', 'themselves', 'myself', 'itself', 'her', //this one is pretty ambiguous
+  'who', 'whom', 'whose'],
+
+  //personal pronouns (nouns)
+  'PRP': ['it', 'they', 'i', 'them', 'you', 'she', 'me', 'he', 'him', 'ourselves', 'us', 'we', 'thou', 'il', 'elle', 'yourself', '\'em', 'he\'s', 'she\'s'],
+
+  //some manual adverbs (the rest are generated)
+  'RB': [
+  // 'now',
+  'again', 'already', 'soon', 'directly', 'toward', 'forever', 'apart', 'instead', 'yes', 'alone', 'indeed', 'ever', 'quite', 'perhaps', 'where', 'then', 'thus', 'very', 'often', 'once', 'never', 'why', 'when', 'away', 'always', 'sometimes', 'also', 'maybe', 'so', 'just', 'well', 'several', 'such', 'randomly', 'too', 'rather', 'abroad', 'almost', 'anyway', 'twice', 'aside', 'moreover', 'anymore', 'newly', 'damn', 'somewhat', 'somehow', 'meanwhile', 'hence', 'further', 'furthermore', 'more', 'way', 'kinda', 'totally'],
+
+  // 'notably',
+  //interjections, expressions
+  'EX': ['uh', 'uhh', 'uh huh', 'uh-oh', 'please', 'ugh', 'sheesh', 'eww', 'pff', 'voila', 'oy', 'hi', 'hello', 'bye', 'goodbye', 'hey', 'hai', 'eep', 'hurrah', 'yuck', 'ow', 'duh', 'oh', 'hmm', 'yeah', 'whoa', 'ooh', 'whee', 'ah', 'bah', 'gah', 'yaa', 'phew', 'gee', 'ahem', 'eek', 'meh', 'yahoo', 'oops', 'd\'oh', 'psst', 'argh', 'grr', 'nah', 'shhh', 'whew', 'mmm', 'ooo', 'yay', 'uh-huh', 'boo', 'wow', 'nope', 'haha', 'hahaha', 'lol', 'lols', 'ya', 'hee', 'ohh', 'eh', 'yup'],
+
+  //special nouns that shouldnt be seen as a verb
+  'NN': ['nothing', 'everything', 'god', 'student', 'patent', 'funding', 'banking', 'ceiling', 'energy', 'purpose', 'friend', 'event', 'room', 'door', 'thing', 'things', 'stuff', 'lunch', 'breakfast', 'dinner', 'home', 'problem', 'body', 'world', 'city', 'death', 'others'],
+  //family-terms are people
+  PN: ['father', 'mother', 'mom', 'dad', 'mommy', 'daddy', 'sister', 'brother', 'aunt', 'uncle', 'grandfather', 'grandmother', 'cousin', 'stepfather', 'stepmother', 'boy', 'girl', 'man', 'men', 'woman', 'women', 'guy', 'dude', 'bro', 'gentleman', 'someone']
+};
+//unpack the compact terms into the misc lexicon..
+var keys = Object.keys(compact);
+for (var i = 0; i < keys.length; i++) {
+  var arr = compact[keys[i]];
+  for (var i2 = 0; i2 < arr.length; i2++) {
+    misc[arr[i2]] = keys[i];
+  }
+}
+// console.log(misc.a);
+module.exports = misc;
+
+},{}],13:[function(require,module,exports){
+'use strict';
+
+//common terms that are multi-word, but one part-of-speech
+//these should not include phrasal verbs, like 'looked out'. These are handled elsewhere.
+module.exports = {
+  'a few': 'CD', //different than 'few people'
+  'of course': 'RB',
+  'at least': 'RB',
+  'no longer': 'RB',
+  'sort of': 'RB',
+  // 'at first': 'RB',
+  'once again': 'RB',
+  'once more': 'RB',
+  'up to': 'RB',
+  'by now': 'RB',
+  'all but': 'RB',
+  'just about': 'RB',
+  'so called': 'JJ', //?
+  'on board': 'JJ',
+  'a lot': 'RB',
+  'by far': 'RB',
+  'at best': 'RB',
+  'at large': 'RB',
+  'for good': 'RB',
+  'for example': 'RB',
+  'vice versa': 'JJ',
+  'en route': 'JJ',
+  'for sure': 'RB',
+  'upside down': 'JJ',
+  'at most': 'RB',
+  'per se': 'RB',
+  'at worst': 'RB',
+  'upwards of': 'RB',
+  'en masse': 'RB',
+  'point blank': 'RB',
+  'up front': 'JJ',
+  'in front': 'JJ',
+  'in situ': 'JJ',
+  'in vitro': 'JJ',
+  'ad hoc': 'JJ',
+  'de facto': 'JJ',
+  'ad infinitum': 'JJ',
+  'ad nauseam': 'RB',
+  'for keeps': 'JJ',
+  'a priori': 'JJ',
+  'et cetera': 'IN',
+  'off guard': 'JJ',
+  'spot on': 'JJ',
+  'ipso facto': 'JJ',
+  'not withstanding': 'RB',
+  'de jure': 'RB',
+  'a la': 'IN',
+  'ad hominem': 'NN',
+  'par excellence': 'RB',
+  'de trop': 'RB',
+  'a posteriori': 'RB',
+  'fed up': 'JJ',
+  'brand new': 'JJ',
+  'old fashioned': 'JJ',
+  'bona fide': 'JJ',
+  'well off': 'JJ',
+  'far off': 'JJ',
+  'straight forward': 'JJ',
+  'hard up': 'JJ',
+  'sui generis': 'JJ',
+  'en suite': 'JJ',
+  'avant garde': 'JJ',
+  'sans serif': 'JJ',
+  'gung ho': 'JJ',
+  'super duper': 'JJ',
+  'new york': 'NN',
+  'new england': 'NN',
+  'new hampshire': 'NN',
+  'new delhi': 'NN',
+  'new jersey': 'NN',
+  'new mexico': 'NN',
+  'united states': 'NN',
+  'united kingdom': 'NN',
+  'great britain': 'NN',
+  'head start': 'NN',
+  'make sure': 'VB',
+  'keep tabs': 'VB',
+  'credit card': 'NN',
+  //timezones
+  'standard time': 'DA',
+  'daylight time': 'DA',
+  'summer time': 'DA',
+  'fl oz': 'NN',
+  'us dollar': 'NN'
+};
+
+},{}],14:[function(require,module,exports){
+'use strict';
+
+var fns = require('../../fns');
+
+//the unique/uncompressed names..
+var arr = ['abby', 'amy', 'autumn', 'bobbi', 'brooke', 'carol', 'cheryl', 'claire', 'cleo', 'consuelo',
+// 'dawn',
+'eleanor', 'eliza', 'erika', 'faye', 'fern', 'genevieve', 'gertrude', 'gladys', 'inez', 'ingrid', 'jenny', 'jo', 'joni', 'kathryn', 'kelli', 'kim', 'latoya', 'leigh', 'lupe', 'luz', 'lynn', 'mae', 'maude', 'mildred', 'miriam', 'naomi', 'nikki', 'olga', 'reba', 'robyn', 'rosalind', 'ruth', 'sheryl', 'socorro', 'sonja', 'staci', 'tanya', 'therese', 'toni', 'traci', 'vicki', 'vicky'];
+
+//compressed by frequent suffixes
+var suffix_compressed = {
+  nette: 'an,antoi,ja,jea,jean,ly',
+  eline: 'ad,ang,jacqu,mad',
+  rlene: 'a,cha,da,ma',
+  stine: 'chri,erne,ju,kri',
+  tasha: 'la,na,',
+  andra: 'alex,cass,s',
+  helle: 'mic,rac,roc',
+  linda: 'be,,me',
+  stina: 'chri,cri,kri',
+  annie: ',f,je',
+  anne: ',di,je,jo,le,mari,rox,sus,suz',
+  elia: 'am,ang,cec,c,corn,d,of,sh',
+  llie: 'ca,ke,li,mi,mo,ne,o,sa',
+  anna: ',de,di,jo,joh,sh',
+  ette: 'bernad,b,bridg,claud,paul,yv',
+  ella: 'd,,est,lu,marc,st',
+  nnie: 'bo,co,je,mi,wi',
+  elle: 'dani,est,gabri,isab,jan',
+  icia: 'al,fel,let,patr,tr',
+  leen: 'ai,cath,col,ei,kath',
+  elma: ',s,th,v',
+  etta: ',henri,lor,ros',
+  anie: 'j,mel,stef,steph',
+  anda: 'am,mir,w,yol',
+  arla: 'c,d,k,m',
+  lena: 'e,he,,magda',
+  rina: 'kat,ma,sab,t',
+  isha: 'al,ke,lat,tr',
+  olly: 'd,m,p',
+  rice: 'beat,cla,pat',
+  ttie: 'be,ma,ne',
+  acie: 'gr,st,tr',
+  isty: 'chr,kr,m',
+  dith: 'e,ju,mere',
+  onya: 'lat,s,t',
+  onia: 'ant,s,t',
+  erri: 'k,sh,t',
+  lisa: 'a,e,',
+  rine: 'cathe,katha,kathe',
+  nita: 'a,bo,jua',
+  elyn: 'ev,jacqu,joc',
+  nine: 'ja,jea,jean',
+  nice: 'ber,eu,ja',
+  tney: 'brit,cour,whi',
+  ssie: 'be,ca,e',
+  beth: ',elisa,eliza',
+  ine: 'carol,ela,franc,gerald,jasm,joseph,lorra,max,nad,paul',
+  ana: 'adri,,d,de,di,j,ju,l,sh,sus',
+  rie: 'car,che,lau,lo,ma,marjo,rosema,sher,vale',
+  ina: 'angel,carol,d,georg,g,josef,mart,n,t',
+  ora: 'c,deb,d,fl,len,l,n,',
+  ara: 'barb,c,cl,k,l,s,tam,t',
+  ela: 'ang,carm,gabri,graci,l,manu,pam',
+  ica: 'angel,er,jess,mon,patr,veron',
+  nda: 'bre,gle,luci,ly,rho,ro',
+  ley: 'ash,kel,kimber,les,shel,shir',
+  eri: 'ch,j,k,sh,t',
+  ndy: 'ci,ma,mi,sa,we',
+  ene: 'hel,imog,ir,jol,lor',
+  ula: 'e,l,pa,urs',
+  ann: ',jo,le,mary',
+  ola: 'le,l,,vi',
+  nna: 'do,gle,je,lado',
+  nne: 'adrie,cori,ly,yvo',
+  lie: 'ju,les,nata,rosa',
+  ise: 'den,el,elo,lou',
+  die: 'ad,gol,jo,sa',
+  ena: 'd,lor,r,she',
+  ian: 'jill,lill,mar,viv',
+  lyn: 'caro,gwendo,jac,mari',
+  ssa: 'aly,mari,meli,vane',
+  thy: 'ca,doro,dor,ka',
+  tha: 'ber,mar,saman,tabi',
+  sie: 'el,jo,ro,su',
+  bel: 'isa,ma,mari',
+  via: 'oli,sil,syl',
+  tie: 'chris,ka,kris',
+  dra: 'au,ken,son',
+  ria: 'glo,ma,victo',
+  gie: 'an,mag,mar',
+  lly: 'ke,sa,she',
+  ila: 'le,l,she',
+  rna: 'lo,my,ve',
+  ole: 'car,nich,nic',
+  rma: 'e,i,no',
+  any: 'beth,britt,tiff',
+  ona: 'le,m,ram',
+  rta: 'albe,ma,robe',
+  en: 'carm,dore,ell,gretch,gw,hel,kar,kirst,krist,laur,maure',
+  ia: 'cecil,claud,cynth,eugen,georg,jul,luc,lyd,marc,soph,virgin',
+  le: 'ade,camil,ceci,ga,gay,luci,lucil,mab,miche,myrt',
+  ie: 'bobb,debb,dix,eff,jack,lizz,mam,soph,tamm,vick',
+  ra: 'barb,deb,elvi,lau,may,my,pet,ve',
+  er: 'amb,est,esth,heath,jenif,jennif,summ',
+  da: 'a,ai,fre,frie,hil,i,matil',
+  ce: 'ali,canda,candi,constan,floren,gra,joy',
+  ah: 'beul,debor,hann,le,rebek,sar',
+  sa: 'el,lui,mari,ro,tere,there',
+  ne: 'daph,dia,ja,jay,laver,simo',
+  el: 'eth,laur,muri,racha,rach,raqu',
+  is: 'delor,dor,jan,lo,mav,phyll',
+  et: 'bridg,harri,jan,margar,margr',
+  ta: 'al,chris,kris,margari,ri',
+  es: 'agn,delor,dolor,franc,merced',
+  an: 'jo,meag,meg,megh,sus',
+  cy: 'lu,mar,nan,sta,tra',
+  in: 'caitl,er,kar,krist',
+  ey: 'audr,linds,stac,trac',
+  ca: 'bian,blan,francis,rebec',
+  on: 'alis,allis,shann,shar',
+  il: 'abiga,apr,ga,syb',
+  ly: 'bever,emi,kimber,li',
+  ea: 'andr,chels,doroth,l',
+  ee: 'aim,d,desir,ren',
+  ma: 'al,em,wil',
+  di: 'bran,hei,jo',
+  va: 'el,e,i',
+  ue: 'dominiq,moniq,s',
+  ay: 'f,k,linds',
+  te: 'celes,ka,margueri',
+  ry: 'ma,rosema,sher',
+  na: 'ed,shau,shaw',
+  dy: 'jo,ju,tru',
+  ti: 'chris,kris,pat',
+  sy: 'bet,dai,pat',
+  ri: 'ka,lo,sha',
+  la: 'kay,priscil,wil',
+  al: 'cryst,kryst,op',
+  ll: 'jewe,ji,ne'
+};
+arr = fns.expand_suffixes(arr, suffix_compressed);
+
+var prefix_compressed = {
+  mar: 'go,isol,itza,sha',
+  tam: 'i,ika,my',
+  be: 'atriz,cky,tty,ttye',
+  pe: 'arl,ggy,nny',
+  pa: 'ige,m,tty'
+};
+arr = fns.expand_prefixes(arr, prefix_compressed);
+
+module.exports = arr;
+
+},{"../../fns":23}],15:[function(require,module,exports){
+'use strict';
+
+var fns = require('../../fns');
+
+//the unique/uncompressed names..
+var arr = ['adolfo', 'angelo', 'anthony', 'armand', 'arthur', 'bill', 'billy', 'bobby', 'bradford', 'bret', 'caleb', 'carroll', 'cliff', 'clifford', 'craig', 'curt', 'derek', 'doug', 'dwight', 'edmund', 'eli', 'elliot', 'enrique', 'erik', 'felipe', 'felix', 'francisco', 'frank', 'george', 'glenn', 'greg', 'gregg', 'hans', 'hugh', 'ira', 'irving', 'isaac', 'jim', 'kermit', 'kurt', 'leo', 'levi', 'lorenzo', 'lou', 'pablo', 'pat', 'percy', 'philip', 'phillip', 'rex', 'ricky', 'shaun', 'shawn', 'sterling', 'steve', 'tim', 'timothy', 'wilbur', 'williams', 'wm', 'woodrow'];
+
+//compressed by frequent suffixes
+var suffix_compressed = {
+  rence: 'cla,lau,law,te,ter',
+  lbert: 'a,de,e,gi,wi',
+  ustin: 'ag,a,d,j',
+  berto: 'al,gil,hum,ro',
+  ester: 'ch,l,sylv',
+  onnie: 'd,l,r',
+  wayne: 'de,d,',
+  erick: ',fred,rod',
+  athan: 'john,jon,n',
+  elvin: ',k,m',
+  anuel: 'em,emm,m',
+  bert: ',her,hu,nor,ro',
+  rick: 'der,fred,kend,pat,',
+  land: 'cleve,gar,le,ro',
+  ando: 'arm,fern,orl,rol',
+  ardo: 'edu,ger,leon,ric',
+  lton: 'a,car,e,mi',
+  arry: 'b,g,h,l',
+  nton: 'a,cli,qui',
+  fred: 'al,,wil',
+  ance: 'l,terr,v',
+  mmie: 'ji,sa,to',
+  erry: 'j,p,t',
+  mond: 'des,ed,ray',
+  rman: 'he,no,she',
+  rvin: 'e,i,ma',
+  nald: 'do,regi,ro',
+  rett: 'b,eve,gar',
+  son: 'harri,jack,ja,ma,nel,ty,wil',
+  ell: 'darn,darr,low,mitch,russ,terr,wend',
+  ard: 'bern,edw,ger,how,leon,rich,will',
+  ian: 'adr,br,christ,dam,fab,,jul',
+  don: 'bran,,el,gor,shel',
+  ron: 'aa,by,came,my,',
+  ton: 'bur,clay,clif,pres,wins',
+  lan: 'a,al,dy,har,no',
+  rey: 'ca,co,geoff,jeff',
+  ent: 'br,k,tr,vinc',
+  ael: 'ism,mich,raf,raph',
+  mmy: 'ji,sa,ti,to',
+  mon: 'da,ra,si,solo',
+  las: 'dal,doug,nicho,nico',
+  vin: 'al,cal,de,ke',
+  nny: 'be,da,joh,ke',
+  ius: 'cornel,dar,demetr,jul',
+  ley: 'brad,har,stan,wes',
+  lio: 'emi,ju,roge',
+  ben: ',reu,ru',
+  ory: 'c,greg,r',
+  lie: 'bil,char,wil',
+  van: 'e,i,',
+  roy: 'le,,t',
+  all: 'kend,marsh,rand',
+  ary: 'c,g,zach',
+  ddy: 'bu,fre,te',
+  art: 'b,stew,stu',
+  iel: 'dan,gabr,nathan',
+  lin: 'co,frank,mar',
+  yle: 'do,k,l',
+  her: 'christop,kristop,lut',
+  oyd: 'b,fl,ll',
+  ren: 'dar,lo,war',
+  ter: 'dex,pe,wal',
+  arl: 'c,e,k',
+  ane: 'd,du,sh',
+  aul: 'p,r,s',
+  dan: 'bren,,jor',
+  nie: 'ben,er,john',
+  ine: 'anto,bla,jerma',
+  lph: 'ra,rando,rudo',
+  est: 'earn,ern,forr',
+  win: 'dar,ed,er',
+  is: 'chr,curt,den,denn,ell,franc,lew,lou,lu,morr,ot,trav,will',
+  er: 'alexand,elm,grov,hom,jasp,javi,oliv,rodg,rog,spenc,tyl,xavi',
+  an: 'bry,de,esteb,eth,ju,log,rom,ry,se,st,steph',
+  el: 'ab,darr,fid,jo,lion,marc,mich,migu,no,russ,samu',
+  in: 'benjam,bra,dar,darr,efra,joaqu,mart,quent',
+  ie: 'arch,edd,frank,fredd,lou,regg,robb',
+  en: 'all,dami,gl,k,ow,steph,stev',
+  ey: 'dew,harv,jo,mick,rick,rodn,sidn',
+  al: ',h,jam,miche,ne,rand',
+  on: 'bry,j,jonath,le,marl,vern',
+  or: 'hect,juni,salvad,tayl,trev,vict',
+  dy: 'an,bra,co,gra,ran,ru',
+  ce: 'bru,bry,hora,mauri,roy,walla',
+  il: 'cec,em,ne,ph,virg',
+  ar: 'ces,edg,lam,om,osc',
+  es: 'andr,charl,jam,mil,mos',
+  ro: 'alejand,alva,artu,ped,rami',
+  am: 'abrah,ad,grah,s,willi',
+  ck: 'chu,domini,ja,ma,ni',
+  io: 'anton,gregor,ignac,mar,serg',
+  ah: 'elij,jeremi,mic,no',
+  nt: 'brya,cli,gra,lamo',
+  re: 'and,pier,salvato,theodo',
+  ed: ',jar,n,t',
+  ld: 'arno,gera,haro,jera',
+  as: 'eli,luc,thom,tom',
+  os: 'am,carl,marc,sant',
+  ew: 'andr,dr,math,matth',
+  ke: 'bla,ja,lu,mi',
+  tt: 'ellio,emme,ma,sco',
+  ty: 'mar,mon,rus,scot',
+  th: 'hea,kei,kenne,se',
+  ay: 'cl,j,murr,r',
+  le: 'da,mer,orvil',
+  te: 'mon,pe,vicen',
+  us: 'jes,marc,ruf',
+  od: 'elwo,jarr,r',
+  ob: 'b,jac,r',
+  to: 'beni,ernes,ot',
+  ne: 'euge,ge,tyro',
+  go: 'domin,hu,santia',
+  de: 'clau,cly,wa',
+  do: 'alfre,reynal,wilfre',
+  rk: 'cla,ki,ma',
+  se: 'cha,jes,jo',
+  ry: 'hen,jeffe,jeff',
+  ic: 'cedr,domin,er',
+  ad: 'br,ch,conr'
+};
+
+arr = fns.expand_suffixes(arr, suffix_compressed);
+
+var prefix_compressed = {
+  jos: 'eph,h,hua',
+  ro: 'cky,dolfo,osevelt,scoe,ss',
+  je: 'ff,remy,rome,ss',
+  to: 'by,dd,m,ny',
+  da: 'rryl,ryl,ve,vid',
+  jo: 'e,esph,hn,rge',
+  ma: 'lcolm,rc,rco,x',
+  al: 'ex,fonso,i,onzo',
+  gu: 'illermo,stavo,y'
+};
+arr = fns.expand_prefixes(arr, prefix_compressed);
+
+module.exports = arr;
+
+},{"../../fns":23}],16:[function(require,module,exports){
+'use strict';
+
+var cardinal = {
+  ones: {
+    'a': 1,
+    'zero': 0,
+    'one': 1,
+    'two': 2,
+    'three': 3,
+    'four': 4,
+    'five': 5,
+    'six': 6,
+    'seven': 7,
+    'eight': 8,
+    'nine': 9
+  },
+  teens: {
+    'ten': 10,
+    'eleven': 11,
+    'twelve': 12,
+    'thirteen': 13,
+    'fourteen': 14,
+    'fifteen': 15,
+    'sixteen': 16,
+    'seventeen': 17,
+    'eighteen': 18,
+    'nineteen': 19
+  },
+  tens: {
+    'twenty': 20,
+    'thirty': 30,
+    'forty': 40,
+    'fifty': 50,
+    'sixty': 60,
+    'seventy': 70,
+    'eighty': 80,
+    'ninety': 90
+  },
+  multiples: {
+    'hundred': 100,
+    'grand': 1000,
+    'thousand': 1000,
+    'million': 1000000,
+    'billion': 1000000000,
+    'trillion': 1000000000000,
+    'quadrillion': 1000000000000000,
+    'quintillion': 1000000000000000000,
+    'sextillion': 1000000000000000000000,
+    'septillion': 1000000000000000000000000
+  }
+};
+
+var ordinal = {
+  ones: {
+    'first': 1,
+    'second': 2,
+    'third': 3,
+    'fourth': 4,
+    'fifth': 5,
+    'sixth': 6,
+    'seventh': 7,
+    'eighth': 8,
+    'ninth': 9
+  },
+  teens: {
+    'tenth': 10,
+    'eleventh': 11,
+    'twelfth': 12,
+    'thirteenth': 13,
+    'fourteenth': 14,
+    'fifteenth': 15,
+    'sixteenth': 16,
+    'seventeenth': 17,
+    'eighteenth': 18,
+    'nineteenth': 19
+  },
+  tens: {
+    'twentieth': 20,
+    'thirtieth': 30,
+    'fourtieth': 40,
+    'fiftieth': 50,
+    'sixtieth': 60,
+    'seventieth': 70,
+    'eightieth': 80,
+    'ninetieth': 90
+  },
+  multiples: {
+    'hundredth': 100,
+    'thousandth': 1000,
+    'millionth': 1000000,
+    'billionth': 1000000000,
+    'trillionth': 1000000000000,
+    'quadrillionth': 1000000000000000,
+    'quintillionth': 1000000000000000000,
+    'sextillionth': 1000000000000000000000,
+    'septillionth': 1000000000000000000000000
+  }
+};
+
+//used for the units
+var prefixes = {
+  'yotta': 1,
+  'zetta': 1,
+  'exa': 1,
+  'peta': 1,
+  'tera': 1,
+  'giga': 1,
+  'mega': 1,
+  'kilo': 1,
+  'hecto': 1,
+  'deka': 1,
+  'deci': 1,
+  'centi': 1,
+  'milli': 1,
+  'micro': 1,
+  'nano': 1,
+  'pico': 1,
+  'femto': 1,
+  'atto': 1,
+  'zepto': 1,
+  'yocto': 1,
+
+  'square': 1,
+  'cubic': 1,
+  'quartic': 1
+};
+
+module.exports = {
+  ones: cardinal.ones,
+  teens: cardinal.teens,
+  tens: cardinal.tens,
+  multiples: cardinal.multiples,
+
+  ordinal_ones: ordinal.ones,
+  ordinal_teens: ordinal.teens,
+  ordinal_tens: ordinal.tens,
+  ordinal_multiples: ordinal.multiples,
+
+  prefixes: prefixes
+};
+
+},{}],17:[function(require,module,exports){
+'use strict';
+//just a few named-organizations
+//no acronyms needed. no product/brand pollution.
+
+var organizations = ['google', 'microsoft', 'walmart', 'exxonmobil', 'glencore', 'samsung', 'chevron', 'at&t', 'verizon', 'costco', 'nestlé', '7-eleven', 'adidas', 'nike', 'acer', 'mcdonalds', 'mcdonald\'s', 'comcast', 'compaq', 'craigslist', 'cisco', 'disney', 'coca cola', 'dupont', 'ebay', 'facebook', 'fedex', 'kmart', 'kkk', 'kodak', 'monsanto', 'myspace', 'netflix', 'sony', 'telus', 'twitter', 'usps', 'ubs', 'ups', 'walgreens', 'youtube', 'yahoo!', 'yamaha'];
+
+var suffixes = ['center', 'centre', 'memorial', 'school', 'government', 'faculty', 'society', 'union', 'ministry', 'collective', 'association', 'committee', 'university', 'bank', 'college', 'foundation', 'department', 'institute', 'club', 'co', 'sons'];
+
+module.exports = {
+  suffixes: suffixes,
+  organizations: organizations
+};
+
+},{}],18:[function(require,module,exports){
+//phrasal verbs are two words that really mean one verb.
+//'beef up' is one verb, and not some direction of beefing.
+//by @spencermountain, 2015 mit
+//many credits to http://www.allmyphrasalverbs.com/
+'use strict';
+
+var verb_conjugate = require('../term/verb/conjugate/conjugate.js');
+
+//start the list with some randoms
+var main = ['be onto', 'fall behind', 'fall through', 'fool with', 'get across', 'get along', 'get at', 'give way', 'hear from', 'hear of', 'lash into', 'make do', 'run across', 'set upon', 'take aback', 'keep from'];
+
+//if there's a phrasal verb "keep on", there's often a "keep off"
+var opposites = {
+  'away': 'back',
+  'in': 'out',
+  'on': 'off',
+  'over': 'under',
+  'together': 'apart',
+  'up': 'down'
+};
+
+//forms that have in/out symmetry
+var symmetric = {
+  'away': 'blow,bounce,bring,call,come,cut,drop,fire,get,give,go,keep,pass,put,run,send,shoot,switch,take,tie,throw',
+  'in': 'bang,barge,bash,beat,block,book,box,break,bring,burn,butt,carve,cash,check,come,cross,drop,fall,fence,fill,give,grow,hand,hang,head,jack,keep,leave,let,lock,log,move,opt,pack,peel,pull,put,reach,ring,rub,send,set,settle,shut,sign,smash,snow,strike,take,try,turn,type,warm,wave,wean,wear,wheel',
+  'on': 'add,call,carry,catch,count,feed,get,give,go,grind,head,hold,keep,lay,log,pass,pop,power,put,send,show,snap,switch,take,tell,try,turn,wait',
+  'over': 'come,go,look,read,run,talk',
+  'together': 'come,pull,put',
+  'up': 'add,back,beat,bend,blow,boil,bottle,break,bring,buckle,bundle,call,carve,clean,cut,dress,fill,flag,fold,get,give,grind,grow,hang,hold,keep,let,load,lock,look,man,mark,melt,move,pack,pin,pipe,plump,pop,power,pull,put,rub,scale,scrape,send,set,settle,shake,show,sit,slow,smash,square,stand,strike,take,tear,tie,turn,use,wash,wind'
+};
+Object.keys(symmetric).forEach(function (k) {
+  symmetric[k].split(',').forEach(function (s) {
+    //add the given form
+    main.push(s + ' ' + k);
+    //add its opposite form
+    main.push(s + ' ' + opposites[k]);
+  });
+});
+
+//forms that don't have in/out symmetry
+var asymmetric = {
+  'about': 'bring,fool,gad,go,root,mess',
+  'after': 'go,look,take',
+  'ahead': 'get,go,press',
+  'along': 'bring,move',
+  'apart': 'fall,take',
+  'around': 'ask,boss,bring,call,come,fool,get,horse,joke,lie,mess,play',
+  'away': 'back,carry,file,frighten,hide,wash',
+  'back': 'fall,fight,hit,hold,look,pay,stand,think',
+  'by': 'come,drop,get,go,stop,swear,swing,tick,zip',
+  'down': 'bog,calm,fall,hand,hunker,jot,knock,lie,narrow,note,pat,pour,run,tone,trickle,wear',
+  'for': 'fend,file,gun,hanker,root,shoot',
+  'forth': 'bring,come',
+  'forward': 'come,look',
+  'in': 'cave,chip,hone,jump,key,pencil,plug,rein,shade,sleep,stop,suck,tie,trade,tuck,usher,weigh,zero',
+  'into': 'look,run',
+  'it': 'go,have',
+  'off': 'auction,be,beat,blast,block,brush,burn,buzz,cast,cool,drop,end,face,fall,fend,frighten,goof,jack,kick,knock,laugh,level,live,make,mouth,nod,pair,pay,peel,read,reel,ring,rip,round,sail,shave,shoot,sleep,slice,split,square,stave,stop,storm,strike,tear,tee,tick,tip,top,walk,work,write',
+  'on': 'bank,bargain,frown,hit,latch,pile,prattle,press,spring,spur,tack,urge,yammer',
+  'out': 'act,ask,back,bail,bear,black,blank,bleed,blow,blurt,branch,buy,cancel,cut,eat,edge,farm,figure,find,fill,find,fish,fizzle,flake,flame,flare,flesh,flip,geek,get,help,hide,hold,iron,knock,lash,level,listen,lose,luck,make,max,miss,nerd,pan,pass,pick,pig,point,print,psych,rat,read,rent,root,rule,run,scout,see,sell,shout,single,sit,smoke,sort,spell,splash,stamp,start,storm,straighten,suss,time,tire,top,trip,trot,wash,watch,weird,whip,wimp,wipe,work,zone,zonk',
+  'over': 'bend,bubble,do,fall,get,gloss,hold,keel,mull,pore,sleep,spill,think,tide,tip',
+  'round': 'get,go',
+  'through': 'go,run',
+  'to': 'keep,see',
+  'up': 'act,beef,board,bone,boot,brighten,build,buy,catch,cheer,cook,end,eye,face,fatten,feel,fess,finish,fire,firm,flame,flare,free,freeze,freshen,fry,fuel,gang,gear,goof,hack,ham,heat,hit,hole,hush,jazz,juice,lap,light,lighten,line,link,listen,live,loosen,make,mash,measure,mess,mix,mock,mop,muddle,open,own,pair,patch,pick,prop,psych,read,rough,rustle,save,shack,sign,size,slice,slip,snap,sober,spark,split,spruce,stack,start,stay,stir,stitch,straighten,string,suck,suit,sum,team,tee,think,tidy,tighten,toss,trade,trip,type,vacuum,wait,wake,warm,weigh,whip,wire,wise,word,write,zip'
+};
+Object.keys(asymmetric).forEach(function (k) {
+  asymmetric[k].split(',').forEach(function (s) {
+    main.push(s + ' ' + k);
+  });
+});
+
+//at his point all verbs are infinitive. lets make this explicit.
+main = main.reduce(function (h, s) {
+  h[s] = 'VBP';
+  return h;
+}, {});
+
+//conjugate every phrasal verb. takes ~30ms
+var tags = {
+  present: 'VB',
+  past: 'VBD',
+  future: 'VBF',
+  gerund: 'VBG',
+  infinitive: 'VBP'
+};
+var cache = {}; //cache individual verbs to speed it up
+var split = undefined,
+    verb = undefined,
+    particle = undefined,
+    phrasal = undefined;
+Object.keys(main).forEach(function (s) {
+  split = s.split(' ');
+  verb = split[0];
+  particle = split[1];
+  if (cache[verb] === undefined) {
+    cache[verb] = verb_conjugate(verb);
+  }
+  Object.keys(cache[verb]).forEach(function (k) {
+    phrasal = cache[verb][k] + ' ' + particle;
+    if (tags[k]) {
+      main[phrasal] = tags[k];
+    }
+  });
+});
+
+// console.log(main);
+// console.log(main['mess about']);
+module.exports = main;
+
+},{"../term/verb/conjugate/conjugate.js":98}],19:[function(require,module,exports){
+'use strict';
+
+var fns = require('../fns');
+
+//uncompressed country names
+var countries = ['usa', 'u.s.a.', 'ussr', 'brazil', 'bangladesh', 'mexico', 'vietnam', 'egypt', 'germany', 'turkey', 'france', 'united kingdom', 'italy', 'kenya', 'iraq', 'morocco', 'peru', 'yemen', 'mozambique', 'sri lanka', 'burkina faso', 'niger', 'netherlands', 'chile', 'malawi', 'ecuador', 'côte d\'ivoire', 'mali', 'zimbabwe', 'chad', 'belgium', 'cuba', 'greece', 'haiti', 'burundi', 'hungary', 'sweden', 'honduras', 'israel', 'laos', 'el salvador', 'libya', 'nicaragua', 'denmark', 'congo-brazzaville', 'kuwait', 'moldova', 'panama', 'jamaica', 'lesotho', 'guinea-bissau', 'timor-leste', 'djibouti', 'fiji', 'comoros', 'solomon islands', 'luxembourg', 'suriname', 'cape verde', 'malta', 'bahamas'];
+var compressed_countries = {
+  istan: 'pak,uzbek,afghan,tajik,turkmen',
+  ublic: 'czech rep,dominican rep,central african rep',
+  uinea: 'g,papua new g,equatorial g',
+  land: 'thai,po,switzer,fin,republic of ire,new zea,swazi,ice',
+  ania: 'tanz,rom,maurit,lithu,alb',
+  rica: 'ame,united states of ame,south af,costa ',
+  mbia: 'colo,za,ga',
+  eria: 'nig,alg,lib',
+  nia: 'arme,macedo,slove,esto',
+  sia: 'indone,rus,malay,tuni',
+  ina: 'ch,argent,bosnia and herzegov',
+  tan: 'kazakhs,kyrgyzs,bhu',
+  ana: 'gh,botsw,guy',
+  bia: 'saudi ara,ser,nami',
+  lia: 'austra,soma,mongo',
+  rea: 'south ko,north ko,erit',
+  dan: 'su,south su,jor',
+  ria: 'sy,aust,bulga',
+  ia: 'ind,ethiop,cambod,boliv,slovak,georg,croat,latv',
+  an: 'jap,ir,taiw,azerbaij,om',
+  da: 'ugan,cana,rwan',
+  us: 'belar,mauriti,cypr',
+  al: 'nep,seneg,portug',
+  in: 'spa,ben,bahra',
+  go: 'dr con,to,trinidad-toba',
+  la: 'venezue,ango,guatema',
+  es: 'united stat,philippin,united arab emirat',
+  on: 'camero,leban,gab',
+  ar: 'myanm,madagasc,qat',
+  ay: 'paragu,norw,urugu',
+  ne: 'ukrai,sierra leo,palesti'
+};
+countries = fns.expand_suffixes(countries, compressed_countries);
+
+/////uncomressed cities
+var cities = ['guangzhou', 'ahmedabad', 'phoenix', 'jakarta', 'curitiba', 'moscow', 'tokyo', 'nagoya', 'kobe', 'mexico', 'cebu', 'ho chi minh', 'hanoi', 'giza', 'frankfurt', 'stuttgart', 'i̇zmir', 'paris', 'toulouse', 'nice', 'rome', 'palermo', 'genoa', 'cape town', 'port elizabeth', 'bogotá', 'medellín', 'seville', 'zaragoza', 'kiev', 'odessa', 'rosario', 'la plata', 'warsaw', 'kraków', 'łódź', 'wrocław', 'poznań', 'calgary', 'ottawa', 'sydney', 'perth', 'homs', 'iași', 'cluj-napoca', 'almaty', 'the hague', 'utrecht', 'phnom penh', 'antwerp', 'ghent', 'brussels', 'tunis', 'athens', 'thessaloniki', 'prague', 'brno', 'miskolc', 'stockholm', 'västerås', 'tegucigalpa', 'graz', 'innsbruck', 'abu dhabi', 'haifa', 'ashdod', 'dushanbe', 'niš', 'aqaba', 'aalborg', 'helsinki', 'espoo', 'vantaa', 'turku', 'košice', 'ashgabat', 'oslo', 'trondheim', 'auckland', 'tbilisi', 'zagreb', 'split', 'kuwait', 'montevideo', 'klaipėda', 'doha', 'skopje', 'riga', 'luxembourg', 'reykjavik', 'kingston'];
+
+var suffix_compressed_cities = {
+  burg: 'saint peters,yekaterin,ham,til,gothen,salz',
+  ton: 'hous,edmon,welling,hamil',
+  ion: 'hauts-bassins reg,nord reg,herakl',
+  ana: 'hav,tir,ljublj',
+  ara: 'guadalaj,ank,timișo',
+  an: 'tehr,mil,durb,bus,tain,abidj,amm,yerev',
+  ia: 'philadelph,brasíl,alexandr,pretor,valenc,sof,nicos',
+  on: 'ly,lond,yang,inche,daeje,lisb',
+  en: 'shenzh,eindhov,pils,copenhag,berg',
+  ng: 'beiji,chittago,pyongya,kaohsiu,taichu',
+  in: 'tianj,berl,tur,dubl,duned',
+  es: 'los angel,nant,napl,buenos air,f',
+  la: 'pueb,mani,barranquil,kampa,guatema',
+  or: 'salvad,san salvad,ulan bat,marib',
+  us: 'damasc,pirae,aarh,vilni',
+  as: 'carac,patr,burg,kaun',
+  va: 'craio,petah tik,gene,bratisla',
+  ai: 'shangh,mumb,chenn,chiang m',
+  ne: 'colog,melbour,brisba,lausan',
+  er: 'manchest,vancouv,tangi',
+  ka: 'dha,osa,banja lu',
+  ro: 'rio de janei,sappo,cai',
+  am: 'birmingh,amsterd,rotterd',
+  ur: 'kuala lump,winterth,kópavog',
+  ch: 'muni,züri,christchur',
+  na: 'barcelo,vien,var',
+  ma: 'yokoha,li,pana',
+  ul: 'istanb,seo,kab',
+  to: 'toron,qui,por',
+  iv: 'khark,lv,tel av',
+  sk: 'dnipropetrov,gdań,min'
+};
+
+cities = fns.expand_suffixes(cities, suffix_compressed_cities);
+
+var prefix_compressed_cities = {
+  'new ': 'delhi,york,taipei',
+  san: 'a\'a,tiago, josé',
+  ta: 'ipei,mpere,llinn,rtu',
+  ba: 'ngalore,ngkok,ku,sel',
+  li: 'verpool,ège,nz,massol',
+  ma: 'rseille,ndalay,drid,lmö',
+  be: 'rn,lgrade,irut',
+  ka: 'rachi,raj,ndy',
+  da: 'egu,kar,ugavpils',
+  ch: 'icago,arleroi,ișinău',
+  co: 'lombo,nstanța,rk',
+  bu: 'rsa,charest,dapest'
+};
+cities = fns.expand_prefixes(cities, prefix_compressed_cities);
+
+//some of the busiest airports in the world from
+//https://www.world-airport-codes.com/world-top-30-airports.html
+var airports = ['atl', 'pek', 'lhr', 'hnd', 'ord', 'lax', 'cdg', 'dfw', 'cgk', 'dxb', 'fra', 'hkg', 'den', 'bkk', 'ams', 'jfk', 'ist', 'sfo', 'clt', 'las', 'phx', 'iax', 'kul', 'mia', 'icn', 'muc', 'syd', 'fco', 'mco', 'bcn', 'yyz', 'lgw', 'phl'];
+
+module.exports = {
+  countries: countries,
+  cities: cities,
+  airports: airports
+};
+// console.log(cities[99]);
+// console.log(countries[99]);
+
+},{"../fns":23}],20:[function(require,module,exports){
+'use strict';
+
+//professions 'lawyer' that aren't covered by verb.to_actor()
+
+module.exports = ['accountant', 'advisor', 'farmer', 'mechanic', 'technician', 'architect', 'clerk', 'therapist', 'bricklayer', 'butcher', 'carpenter', 'nurse', 'engineer', 'supervisor', 'attendant', 'operator', 'dietician', 'housekeeper', 'advisor', 'agent', 'firefighter', 'fireman', 'policeman', 'attendant', 'scientist', 'gardener', 'hairdresser', 'instructor', 'programmer', 'administrator', 'journalist', 'assistant', 'lawyer', 'officer', 'plumber', 'inspector', 'psychologist', 'receptionist', 'roofer', 'sailor', 'security guard', 'photographer', 'soldier', 'surgeon', 'researcher', 'practitioner', 'politician', 'musician', 'artist', 'secretary', 'minister', 'deputy', 'president'];
+
+},{}],21:[function(require,module,exports){
+'use strict';
+
+//common nouns that have no plural form. These are suprisingly rare
+//used in noun.inflect(), and added as nouns in lexicon
+module.exports = ['aircraft', 'bass', 'bison', 'fowl', 'halibut', 'moose', 'salmon', 'spacecraft', 'tuna', 'trout', 'advice', 'information', 'knowledge', 'trouble', 'enjoyment', 'fun', 'recreation', 'relaxation', 'meat', 'rice', 'bread', 'cake', 'coffee', 'ice', 'water', 'oil', 'grass', 'hair', 'fruit', 'wildlife', 'equipment', 'machinery', 'furniture', 'mail', 'luggage', 'jewelry', 'clothing', 'money', 'mathematics', 'economics', 'physics', 'civics', 'ethics', 'gymnastics', 'mumps', 'measles', 'news', 'tennis', 'baggage', 'currency', 'soap', 'toothpaste', 'food', 'sugar', 'butter', 'flour', 'research', 'leather', 'wool', 'wood', 'coal', 'weather', 'homework', 'cotton', 'silk', 'patience', 'impatience', 'vinegar', 'art', 'beef', 'blood', 'cash', 'chaos', 'cheese', 'chewing', 'conduct', 'confusion', 'education', 'electricity', 'entertainment', 'fiction', 'forgiveness', 'gold', 'gossip', 'ground', 'happiness', 'history', 'honey', 'hospitality', 'importance', 'justice', 'laughter', 'leisure', 'lightning', 'literature', 'luck', 'melancholy', 'milk', 'mist', 'music', 'noise', 'oxygen', 'paper', 'peace', 'peanut', 'pepper', 'petrol', 'plastic', 'pork', 'power', 'pressure', 'rain', 'recognition', 'sadness', 'safety', 'salt', 'sand', 'scenery', 'shopping', 'silver', 'snow', 'softness', 'space', 'speed', 'steam', 'sunshine', 'tea', 'thunder', 'time', 'traffic', 'trousers', 'violence', 'warmth', 'wine', 'steel', 'soccer', 'hockey', 'golf', 'fish', 'gum', 'liquid', 'series', 'sheep', 'species', 'fahrenheit', 'celcius', 'kelvin', 'hertz', 'everyone', 'everybody'];
+
+},{}],22:[function(require,module,exports){
+//most-frequent non-irregular verbs, in infinitive form, to be conjugated for the lexicon
+//this list is the seed, from which various forms are conjugated
+'use strict';
+
+var fns = require('../fns');
+
+//suffix-index adjectives
+//  {cial:'cru,spe'} -> 'crucial', 'special'
+var compressed = {
+  prove: 'im,,ap,disap',
+  serve: ',de,ob,re',
+  ress: 'exp,p,prog,st,add,d',
+  lect: 'ref,se,neg,col,e',
+  sist: 'in,con,per,re,as',
+  tain: 'ob,con,main,s,re',
+  mble: 'rese,gru,asse,stu',
+  ture: 'frac,lec,tor,fea',
+  port: 're,sup,ex,im',
+  ate: 'rel,oper,indic,cre,h,activ,estim,particip,d,anticip,evalu',
+  use: 'ca,,over,ref,acc,am,pa,ho',
+  ive: 'l,rece,d,arr,str,surv,thr,rel',
+  are: 'prep,c,comp,sh,st,decl,d,sc',
+  ine: 'exam,imag,determ,comb,l,decl,underm,def',
+  nce: 'annou,da,experie,influe,bou,convi,enha',
+  ain: 'tr,rem,expl,dr,compl,g,str',
+  ent: 'prev,repres,r,res,rel,inv',
+  age: 'dam,mess,man,encour,eng,discour',
+  rge: 'su,cha,eme,u,me',
+  ise: 'ra,exerc,prom,surpr,pra',
+  ect: 'susp,dir,exp,def,rej',
+  ter: 'en,mat,cen,ca,al',
+  end: 't,dep,,ext,att',
+  est: 't,sugg,prot,requ,r',
+  ock: 'kn,l,sh,bl,unl',
+  nge: 'cha,excha,ra,challe,plu',
+  ase: 'incre,decre,purch,b,ce',
+  ish: 'establ,publ,w,fin,distingu',
+  mit: 'per,ad,sub,li',
+  ure: 'fig,ens,end,meas',
+  der: 'won,consi,mur,wan',
+  ave: 's,sh,w,cr',
+  ire: 'requ,des,h,ret',
+  tch: 'scra,swi,ma,stre',
+  ack: 'att,l,p,cr',
+  ion: 'ment,quest,funct,envis',
+  ump: 'j,l,p,d',
+  ide: 'dec,prov,gu,s',
+  ush: 'br,cr,p,r',
+  eat: 'def,h,tr,ch',
+  ash: 'sm,spl,w,fl',
+  rry: 'ca,ma,hu,wo',
+  ear: 'app,f,b,disapp',
+  er: 'answ,rememb,off,suff,cov,discov,diff,gath,deliv,both,empow,with',
+  le: 'fi,sett,hand,sca,whist,enab,smi,ming,ru,sprink,pi',
+  st: 'exi,foreca,ho,po,twi,tru,li,adju,boa,contra,boo',
+  it: 'vis,ed,depos,sp,awa,inhib,cred,benef,prohib,inhab',
+  nt: 'wa,hu,pri,poi,cou,accou,confro,warra,pai',
+  ch: 'laun,rea,approa,sear,tou,ar,enri,atta',
+  ss: 'discu,gue,ki,pa,proce,cro,glo,dismi',
+  ll: 'fi,pu,ki,ca,ro,sme,reca,insta',
+  rn: 'tu,lea,conce,retu,bu,ea,wa,gove',
+  ce: 'redu,produ,divor,fa,noti,pla,for,repla',
+  te: 'contribu,uni,tas,vo,no,constitu,ci',
+  rt: 'sta,comfo,exe,depa,asse,reso,conve',
+  ck: 'su,pi,che,ki,tri,wre',
+  ct: 'intera,restri,predi,attra,depi,condu',
+  ke: 'sta,li,bra,overta,smo,disli',
+  se: 'collap,suppo,clo,rever,po,sen',
+  nd: 'mi,surrou,dema,remi,expa,comma',
+  ve: 'achie,invol,remo,lo,belie,mo',
+  rm: 'fo,perfo,confi,confo,ha',
+  or: 'lab,mirr,fav,monit,hon',
+  ue: 'arg,contin,val,iss,purs',
+  ow: 'all,foll,sn,fl,borr',
+  ay: 'pl,st,betr,displ,portr',
+  ze: 'recogni,reali,snee,ga,emphasi',
+  ip: 'cl,d,gr,sl,sk',
+  re: 'igno,sto,interfe,sco',
+  ng: 'spri,ba,belo,cli',
+  ew: 'scr,vi,revi,ch',
+  gh: 'cou,lau,outwei,wei',
+  ly: 'app,supp,re,multip',
+  ge: 'jud,acknowled,dod,alle',
+  en: 'list,happ,threat,strength',
+  ee: 'fors,agr,disagr,guarant',
+  et: 'budg,regr,mark,targ',
+  rd: 'rega,gua,rewa,affo',
+  am: 'dre,j,sl,ro',
+  ry: 'va,t,c,bu'
+};
+var arr = ['hope', 'thank', 'work', 'stop', 'control', 'join', 'enjoy', 'fail', 'aid', 'ask', 'talk', 'add', 'walk', 'describe', 'study', 'seem', 'occur', 'claim', 'fix', 'help', 'design', 'include', 'need', 'keep', 'assume', 'accept', 'do', 'look', 'die', 'seek', 'attempt', 'bomb', 'cook', 'copy', 'claw', 'doubt', 'drift', 'envy', 'fold', 'flood', 'focus', 'lift', 'link', 'load', 'loan', 'melt', 'overlap', 'rub', 'repair', 'sail', 'sleep', 'trade', 'trap', 'travel', 'tune', 'undergo', 'undo', 'uplift', 'yawn', 'plan', 'reveal', 'owe', 'sneak', 'drop', 'name', 'head', 'spoil', 'echo', 'deny', 'yield', 'reason', 'defy', 'applaud', 'risk', 'step', 'deem', 'embody', 'adopt', 'convey', 'pop', 'grab', 'revel', 'stem', 'mark', 'drag', 'pour', 'reckon', 'assign', 'rank', 'destroy', 'float', 'appeal', 'grasp', 'shout', 'overcome', 'relax', 'excel', 'plug', 'proclaim', 'ruin', 'abandon', 'overwhelm', 'wipe', 'added', 'took', 'goes', 'avoid', 'come', 'set', 'pay', 'grow', 'inspect', 'instruct', 'know', 'take', 'let', 'sort', 'put', 'take', 'cut', 'become', 'reply', 'happen', 'watch', 'associate', 'send', 'archive', 'cancel', 'learn', 'transfer'];
+
+module.exports = fns.expand_suffixes(arr, compressed);
+
+},{"../fns":23}],23:[function(require,module,exports){
+'use strict';
+
+exports.pluck = function (arr, str) {
+  arr = arr || [];
+  return arr.map(function (o) {
+    return o[str];
+  });
+};
+
+//make an array of strings easier to lookup
+exports.toObj = function (arr) {
+  return arr.reduce(function (h, a) {
+    h[a] = true;
+    return h;
+  }, {});
+};
+//turn key->value into value->key
+exports.reverseObj = function (obj) {
+  return Object.keys(obj).reduce(function (h, k) {
+    h[obj[k]] = k;
+    return h;
+  }, {});
+};
+
+//turn a nested array into one array
+exports.flatten = function (arr) {
+  var all = [];
+  arr.forEach(function (a) {
+    all = all.concat(a);
+  });
+  return all;
+};
+
+//string utilities
+exports.endsWith = function (str, suffix) {
+  if (str && suffix && str.indexOf(suffix, str.length - suffix.length) !== -1) {
+    return true;
+  }
+  return false;
+};
+exports.startsWith = function (str, prefix) {
+  if (str && str.length && str.substr(0, 1) === prefix) {
+    return true;
+  }
+  return false;
+};
+
+exports.extend = function (a, b) {
+  var keys = Object.keys(b);
+  for (var i = 0; i < keys.length; i++) {
+    a[keys[i]] = b[keys[i]];
+  }
+  return a;
+};
+
+exports.titlecase = function (str) {
+  if (!str) {
+    return '';
+  }
+  str = str.toLowerCase();
+  return str.charAt(0).toUpperCase() + str.slice(1);
+};
+
+// typeof obj == "function" also works
+// but not in older browsers. :-/
+exports.isFunction = function (obj) {
+  return Object.prototype.toString.call(obj) === '[object Function]';
+};
+
+//uncompress data in the adhoc compressed form {'ly':'kind,quick'}
+exports.expand_suffixes = function (list, obj) {
+  var keys = Object.keys(obj);
+  var l = keys.length;
+  for (var i = 0; i < l; i++) {
+    var arr = obj[keys[i]].split(',');
+    for (var i2 = 0; i2 < arr.length; i2++) {
+      list.push(arr[i2] + keys[i]);
+    }
+  }
+  return list;
+};
+//uncompress data in the adhoc compressed form {'over':'blown,kill'}
+exports.expand_prefixes = function (list, obj) {
+  var keys = Object.keys(obj);
+  var l = keys.length;
+  for (var i = 0; i < l; i++) {
+    var arr = obj[keys[i]].split(',');
+    for (var i2 = 0; i2 < arr.length; i2++) {
+      list.push(keys[i] + arr[i2]);
+    }
+  }
+  return list;
+};
+
+},{}],24:[function(require,module,exports){
+'use strict';
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+
+var fns = require('./fns.js');
+
+var models = {
+  Term: require('./term/term.js'),
+  Text: require('./text/text.js'),
+  Sentence: require('./sentence/sentence.js'),
+  Statement: require('./sentence/statement/statement.js'),
+  Question: require('./sentence/question/question.js'),
+  Verb: require('./term/verb/verb.js'),
+  Adjective: require('./term/adjective/adjective.js'),
+  Adverb: require('./term/adverb/adverb.js'),
+  Noun: require('./term/noun/noun.js'),
+  Value: require('./term/noun/value/value.js'),
+  Person: require('./term/noun/person/person.js'),
+  Place: require('./term/noun/place/place.js'),
+  Date: require('./term/noun/date/date.js'),
+  Organization: require('./term/noun/organization/organization.js')
+};
+
+function NLP() {
+
+  this.plugin = function (obj) {
+    obj = obj || {};
+    // if obj is a function, pass it an instance of this nlp library
+    if (fns.isFunction(obj)) {
+      // run it in this current context
+      obj = obj.call(this, this);
+    }
+    //apply each plugin to the correct prototypes
+    Object.keys(obj).forEach(function (k) {
+      Object.keys(obj[k]).forEach(function (method) {
+        models[k].fn[method] = obj[k][method];
+      });
+    });
+  };
+  this.lexicon = function () {
+    return require('./lexicon.js');
   };
 
-  recognition.onerror = function(event) {
-      if (event.error == 'no-speech') {
-        start_img.src = 'images/mic.gif';
-        showInfo('info_no_speech');
-        ignore_onend = true;
+  this.term = function (s) {
+    return new models.Term(s);
+  };
+  this.noun = function (s) {
+    return new models.Noun(s);
+  };
+  this.verb = function (s) {
+    return new models.Verb(s);
+  };
+  this.adjective = function (s) {
+    return new models.Adjective(s);
+  };
+  this.adverb = function (s) {
+    return new models.Adverb(s);
+  };
+
+  this.value = function (s) {
+    return new models.Value(s);
+  };
+  this.person = function (s) {
+    return new models.Person(s);
+  };
+  this.place = function (s) {
+    return new models.Place(s);
+  };
+  this.date = function (s) {
+    return new models.Date(s);
+  };
+  this.organization = function (s) {
+    return new models.Organization(s);
+  };
+
+  this.text = function (s, options) {
+    return new models.Text(s, options);
+  };
+  this.sentence = function (s, options) {
+    return new models.Sentence(s, options);
+  };
+  this.statement = function (s) {
+    return new models.Statement(s);
+  };
+  this.question = function (s) {
+    return new models.Question(s);
+  };
+}
+
+var nlp = new NLP();
+//export to window or webworker
+if ((typeof window === 'undefined' ? 'undefined' : _typeof(window)) === 'object' || typeof DedicatedWorkerGlobalScope === 'function') {
+  self.nlp_compromise = nlp;
+}
+//export to commonjs
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = nlp;
+}
+//export to amd
+if (typeof define === 'function' && define.amd) {
+  define(nlp);
+}
+
+// console.log(nlp.sentence('Dr. John Smith is five feet tall.').normal());
+
+},{"./fns.js":23,"./lexicon.js":25,"./sentence/question/question.js":54,"./sentence/sentence.js":57,"./sentence/statement/statement.js":60,"./term/adjective/adjective.js":62,"./term/adverb/adverb.js":67,"./term/noun/date/date.js":72,"./term/noun/noun.js":78,"./term/noun/organization/organization.js":80,"./term/noun/person/person.js":84,"./term/noun/place/place.js":86,"./term/noun/value/value.js":96,"./term/term.js":97,"./term/verb/verb.js":106,"./text/text.js":109}],25:[function(require,module,exports){
+//the lexicon is a big hash of words to pos tags
+//it's built by conjugating and inflecting a small seed of terms
+'use strict';
+
+var fns = require('./fns.js');
+var verb_conjugate = require('./term/verb/conjugate/conjugate.js');
+var to_comparative = require('./term/adjective/to_comparative.js');
+var to_superlative = require('./term/adjective/to_superlative.js');
+var to_adverb = require('./term/adjective/to_adverb.js');
+var grand_mapping = require('./sentence/pos/parts_of_speech.js').tag_mapping;
+
+var lexicon = {};
+
+var addObj = function addObj(obj) {
+  var keys = Object.keys(obj);
+  var l = keys.length;
+  for (var i = 0; i < l; i++) {
+    lexicon[keys[i]] = obj[keys[i]];
+  }
+};
+
+var addArr = function addArr(arr, tag) {
+  var l = arr.length;
+  for (var i = 0; i < l; i++) {
+    lexicon[arr[i]] = tag;
+  }
+};
+
+//conjugate all verbs.
+var verbMap = {
+  infinitive: 'Infinitive',
+  present: 'PresentTense',
+  past: 'PastTense',
+  gerund: 'Gerund',
+  actor: 'Actor',
+  future: 'FutureTense',
+  pluperfect: 'PluperfectTense',
+  perfect: 'PerfectTense',
+
+  PerfectTense: 'PerfectTense',
+  PluperfectTense: 'PluperfectTense',
+  FutureTense: 'FutureTense',
+  PastTense: 'PastTense',
+  PresentTense: 'PresentTense'
+};
+
+var irregulars = require('./data/irregular_verbs.js');
+var verbs = require('./data/verbs.js').concat(Object.keys(irregulars));
+
+var _loop = function _loop(i) {
+  var o = verb_conjugate(verbs[i]);
+  Object.keys(o).forEach(function (k) {
+    if (k && o[k] && verbMap[k]) {
+      lexicon[o[k]] = verbMap[k];
     }
-    if (event.error == 'audio-capture') {
-        start_img.src = 'images/mic.gif';
-        showInfo('info_no_microphone');
-        ignore_onend = true;
+  });
+};
+
+for (var i = 0; i < verbs.length; i++) {
+  _loop(i);
+}
+
+var orgs = require('./data/organizations.js');
+addArr(orgs.organizations, 'Noun');
+addArr(orgs.suffixes, 'Noun');
+
+var places = require('./data/places.js');
+addArr(places.countries, 'Place');
+addArr(places.cities, 'Place');
+
+require('./data/adjectives.js').forEach(function (s) {
+  lexicon[s] = 'Adjective';
+  lexicon[to_comparative(s)] = 'Comparative';
+  lexicon[to_superlative(s)] = 'Superlative';
+  lexicon[to_adverb(s)] = 'Adverb';
+});
+Object.keys(require('./data/convertables.js')).forEach(function (s) {
+  lexicon[s] = 'Adjective';
+  lexicon[to_comparative(s)] = 'Comparative';
+  lexicon[to_superlative(s)] = 'Superlative';
+  lexicon[to_adverb(s)] = 'Adverb';
+});
+
+addArr(require('./data/abbreviations.js').abbreviations, 'Abbreviation');
+addArr(require('./data/demonyms.js'), 'Demonym');
+addArr(require('./data/currencies.js'), 'Currency');
+addArr(require('./data/honourifics.js'), 'Honourific');
+addArr(require('./data/uncountables.js'), 'Noun');
+var dates = require('./data/dates.js');
+addArr(dates.days, 'Date');
+addArr(dates.months, 'Date');
+addArr(dates.durations, 'Date');
+addArr(dates.relative, 'Date');
+
+//unpack the numbers
+var nums = require('./data/numbers.js');
+var all_nums = Object.keys(nums).reduce(function (arr, k) {
+  arr = arr.concat(Object.keys(nums[k]));
+  return arr;
+}, []);
+addArr(all_nums, 'Value');
+
+//a little fancy
+addArr(Object.keys(require('./data/firstnames.js')), 'Person');
+//add irregular nouns
+var irregNouns = require('./data/irregular_nouns.js');
+addArr(fns.pluck(irregNouns, 0), 'Noun');
+addArr(fns.pluck(irregNouns, 1), 'Plural');
+
+addObj(require('./data/misc.js'));
+addObj(require('./data/multiples.js'));
+addObj(require('./data/phrasal_verbs.js'));
+//add named holidays, like 'easter'
+Object.keys(require('./data/holidays.js')).forEach(function (k) {
+  lexicon[k] = 'Date';
+});
+
+//professions
+addArr(require('./data/professions.js'), 'Actor');
+
+//just in case
+delete lexicon[false];
+delete lexicon[true];
+delete lexicon[undefined];
+delete lexicon[null];
+delete lexicon[''];
+
+//use 'Noun', not 'NN'
+Object.keys(lexicon).forEach(function (k) {
+  lexicon[k] = grand_mapping[lexicon[k]] || lexicon[k];
+});
+
+module.exports = lexicon;
+// console.log(lexicon['raining in']);
+
+},{"./data/abbreviations.js":1,"./data/adjectives.js":2,"./data/convertables.js":3,"./data/currencies.js":4,"./data/dates.js":5,"./data/demonyms.js":6,"./data/firstnames.js":7,"./data/holidays.js":8,"./data/honourifics.js":9,"./data/irregular_nouns.js":10,"./data/irregular_verbs.js":11,"./data/misc.js":12,"./data/multiples.js":13,"./data/numbers.js":16,"./data/organizations.js":17,"./data/phrasal_verbs.js":18,"./data/places.js":19,"./data/professions.js":20,"./data/uncountables.js":21,"./data/verbs.js":22,"./fns.js":23,"./sentence/pos/parts_of_speech.js":36,"./term/adjective/to_adverb.js":63,"./term/adjective/to_comparative.js":64,"./term/adjective/to_superlative.js":66,"./term/verb/conjugate/conjugate.js":98}],26:[function(require,module,exports){
+'use strict';
+// a regex-like lookup for a list of terms.
+// returns matches in a 'Terms' class
+
+var Result = require('./result');
+var syntax_parse = require('./syntax_parse');
+var match_term = require('./match_term');
+
+// take a slice of our terms, and try a match starting here
+var tryFromHere = function tryFromHere(terms, regs, options) {
+  var result = [];
+  var which_term = 0;
+  for (var i = 0; i < regs.length; i++) {
+    var term = terms[which_term];
+    //if we hit the end of terms, prematurely
+    if (!term) {
+      return null;
     }
-    if (event.error == 'not-allowed') {
-        if (event.timeStamp - start_timestamp < 100) {
-          showInfo('info_blocked');
-      } else {
-          showInfo('info_denied');
+    //find a match with term, (..), [..], or ~..~ syntax
+    if (match_term(term, regs[i], options)) {
+      //handle '$' logic
+      if (regs[i].signals.trailing && terms[which_term + 1]) {
+        return null;
       }
-      ignore_onend = true;
-  }
-};
-
-recognition.onend = function() {
-  recognizing = false;
-  if (ignore_onend) {
-    return;
-}
-start_img.src = 'images/mic.gif';
-if (!final_transcript) {
-    showInfo('info_start');
-    return;
-}
-showInfo('');
-if (window.getSelection) {
-    window.getSelection().removeAllRanges();
-    var range = document.createRange();
-    range.selectNode(document.getElementById('final_span'));
-    window.getSelection().addRange(range);
-}
-};
-
-recognition.onresult = function(event) {
-  var interim_transcript = '';
-  for (var i = event.resultIndex; i < event.results.length; ++i) {
-    if (event.results[i].isFinal) {
-      final_transcript += event.results[i][0].transcript;
-  } else {
-      interim_transcript += event.results[i][0].transcript;
-  }
-}
-final_transcript = capitalize(final_transcript);
-final_span.innerHTML = linebreak(final_transcript);
-interim_span.innerHTML = linebreak(interim_transcript);
-if (final_transcript || interim_transcript) {
-    showButtons('inline-block');
-}
-};
-
-var two_line = /\n\n/g;
-var one_line = /\n/g;
-function linebreak(s) {
-  return s.replace(two_line, '<p></p>').replace(one_line, '<br>');
-}
-var first_char = /\S/;
-function capitalize(s) {
-  return s.replace(first_char, function(m) { return m.toUpperCase(); });
-}
-
-function startButton(event) {
-  if (recognizing) {
-    recognition.stop();
-    return;
-}
-final_transcript = '';
-recognition.lang = '6';
-// recognition.lang = select_dialect.value;
-recognition.start();
-ignore_onend = false;
-final_span.innerHTML = '';
-interim_span.innerHTML = '';
-start_img.src = '/images/mic-slash.gif';
-showInfo('info_allow');
-showButtons('none');
-start_timestamp = event.timeStamp;
-}
-function showInfo(s) {
-  if (s) {
-    for (var child = info.firstChild; child; child = child.nextSibling) {
-      if (child.style) {
-        child.style.display = child.id == s ? 'inline' : 'none';
+      //handle '^' logic
+      if (regs[i].signals.leading && which_term !== 0) {
+        return null;
+      }
+      result.push(terms[which_term]);
+      which_term += 1;
+      continue;
     }
+    //if it's a contraction, go to next term
+    if (term.normal === '') {
+      result.push(terms[which_term]);
+      which_term += 1;
+      term = terms[which_term];
+    }
+    //support wildcards, some matching logic
+    // '.' means easy-pass
+    if (regs[i].signals.any_one) {
+      result.push(terms[which_term]);
+      which_term += 1;
+      continue;
+    }
+    //else, if term was optional, continue anyways
+    if (regs[i].signals.optional) {
+      continue; //(this increments i, but not which_term)
+    }
+    //attempt is dead.
+    return null;
+  }
+  //success, return terms subset
+  return result;
+};
+
+//find first match and return []Terms
+var findAll = function findAll(terms, regs, options) {
+  var result = [];
+  regs = syntax_parse(regs || '');
+  // one-off lookup for ^
+  // '^' token is 'must start at 0'
+  if (regs[0].signals.leading) {
+    var match = tryFromHere(terms, regs, options) || [];
+    if (match) {
+      return [new Result(match)];
+    } else {
+      return null;
+    }
+  }
+
+  //repeating version starting from each term
+  var len = terms.length; // - regs.length + 1;
+  for (var i = 0; i < len; i++) {
+    var termSlice = terms.slice(i, terms.length);
+    var match = tryFromHere(termSlice, regs, options);
+    if (match) {
+      result.push(new Result(match));
+    }
+  }
+  //if we have no results, return null
+  if (result.length === 0) {
+    return null;
+  }
+  return result;
+};
+
+//calls Terms.replace() on each found result
+var replaceAll = function replaceAll(terms, regs, replacement, options) {
+  var list = findAll(terms, regs, options);
+  if (list) {
+    list.forEach(function (t) {
+      t.replace(replacement, options);
+    });
+  }
+};
+
+module.exports = {
+  findAll: findAll,
+  replaceAll: replaceAll
+};
+
+},{"./match_term":27,"./result":28,"./syntax_parse":29}],27:[function(require,module,exports){
+'use strict';
+
+var fns = require('../fns.js');
+
+//a regex-like string search
+// returns a boolean for match/not
+var match_term = function match_term(term, reg) {
+  //fail-fast
+  if (!term || !reg || !reg.signals) {
+    return false;
+  }
+  var signals = reg.signals;
+
+  //support optional (foo|bar) syntax
+  if (signals.one_of) {
+    var arr = reg.term.split('|');
+    for (var i = 0; i < arr.length; i++) {
+      if (arr[i] === term.normal || arr[i] === term.text) {
+        return true;
+      }
+    }
+    return false;
+  }
+  //support [Pos] syntax
+  if (signals.pos) {
+    var pos = fns.titlecase(reg.term);
+    if (term.pos[pos]) {
+      return true;
+    }
+    return false;
+  }
+  //support ~alias~ syntax
+  if (signals.alias) {
+    if (reg.term === term.root()) {
+      return true;
+    }
+    return false;
+  }
+  //straight-up text match
+  if (reg.term === term.normal || reg.term === term.text || reg.term === term.expansion) {
+    return true;
+  }
+
+  return false;
+};
+
+module.exports = match_term;
+
+},{"../fns.js":23}],28:[function(require,module,exports){
+'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var _match = require('./match.js');
+
+// a slice of term objects returned from .match()
+// ideally changes that happen here happen in the original object
+
+var Result = function () {
+  function Result(terms) {
+    _classCallCheck(this, Result);
+
+    this.terms = terms;
+  }
+  //wha, this is possible eg. text.match().match()
+
+  _createClass(Result, [{
+    key: 'match',
+    value: function match(str, options) {
+      return _match(this.terms, str, options);
+    }
+    //a 1-1 replacement of strings
+
+  }, {
+    key: 'replace',
+    value: function replace(words) {
+      for (var i = 0; i < this.terms.length; i++) {
+        //umm, this is like a capture-group in regexp..
+        //so just leave it
+        if (words[i] === '$') {
+          continue;
+        }
+        //allow replacements with the capture group, like 'cyber-$1'
+        if (words[i].match(/\$1/)) {
+          var combined = words[1].replace(/\$1/, this.terms[i].text);
+          this.terms[i].changeTo(combined);
+          continue;
+        }
+        this.terms[i].changeTo(words[i] || '');
+      }
+      return this;
+    }
+  }, {
+    key: 'text',
+    value: function text() {
+      return this.terms.reduce(function (s, t) {
+        //implicit contractions shouldn't be included
+        if (t.text) {
+          s += ' ' + t.text;
+        }
+        return s;
+      }, '').trim();
+    }
+  }, {
+    key: 'normal',
+    value: function normal() {
+      return this.terms.reduce(function (s, t) {
+        //implicit contractions shouldn't be included
+        if (t.normal) {
+          s += ' ' + t.normal;
+        }
+        return s;
+      }, '').trim();
+    }
+  }]);
+
+  return Result;
+}();
+//a slice of term objects
+
+module.exports = Result;
+
+},{"./match.js":26}],29:[function(require,module,exports){
+'use strict';
+// parse a search lookup term find the regex-like syntax in this term
+
+var fns = require('../fns.js');
+// flags:
+// {
+//   pos: true,
+//   optional: true,
+//   one_of: true,
+//   alias: true,
+//   leading: true,
+//   trailing: true,
+//   any_one: true,
+//   any_many: true,
+// }
+
+var parse_term = function parse_term(term, i) {
+  term = term || '';
+  term = term.trim();
+  var signals = {};
+  //order matters!
+
+  //leading ^ flag
+  if (fns.startsWith(term, '^')) {
+    term = term.substr(1, term.length);
+    signals.leading = true;
+  }
+  //trailing $ flag means ending
+  if (fns.endsWith(term, '$')) {
+    term = term.replace(/\$$/, '');
+    signals.trailing = true;
+  }
+  //optional flag
+  if (fns.endsWith(term, '?')) {
+    term = term.replace(/\?$/, '');
+    signals.optional = true;
+  }
+
+  //pos flag
+  if (fns.startsWith(term, '[') && fns.endsWith(term, ']')) {
+    term = term.replace(/\]$/, '');
+    term = term.replace(/^\[/, '');
+    signals.pos = true;
+  }
+  //one_of options flag
+  if (fns.startsWith(term, '(') && fns.endsWith(term, ')')) {
+    term = term.replace(/\)$/, '');
+    term = term.replace(/^\(/, '');
+    signals.one_of = true;
+  }
+  //alias flag
+  if (fns.startsWith(term, '~')) {
+    term = term.replace(/^\~/, '');
+    term = term.replace(/\~$/, '');
+    signals.alias = true;
+  }
+  //addition flag
+  if (fns.startsWith(term, '+')) {
+    term = term.replace(/^\+/, '');
+    term = term.replace(/\+$/, '');
+    signals.extra = true;
+  }
+
+  //a period means anything
+  if (term === '.') {
+    signals.any_one = true;
+  }
+  //a * means anything
+  if (term === '*') {
+    signals.any_many = true;
+  }
+  return {
+    term: term,
+    signals: signals,
+    i: i
+  };
+};
+// console.log(parse_term('(one|1) (two|2)'));
+
+//turn a match string into an array of objects
+var parse_all = function parse_all(regs) {
+  regs = regs || [];
+  return regs.map(parse_term);
+};
+// console.log(parse_all(''));
+
+module.exports = parse_all;
+
+},{"../fns.js":23}],30:[function(require,module,exports){
+'use strict';
+//turns 'is not' into "isn't", and "he is" into "he's"
+
+var contractor = {
+  'will': 'll',
+  'would': 'd',
+  'have': 've',
+  'are': 're',
+  'not': 't',
+  'is': 's'
+  // 'was': 's' //this is too folksy
+};
+
+var contract = function contract(terms) {
+  for (var i = 1; i < terms.length; i++) {
+    if (contractor[terms[i].normal]) {
+      //remember expansion
+      terms[i - 1].expansion = terms[i - 1].text;
+      terms[i].expansion = terms[i].text;
+      //handle special `n't` case
+      if (terms[i].normal === 'not') {
+        terms[i - 1].text += 'n';
+      }
+      terms[i - 1].text += '\'' + contractor[terms[i].normal];
+      terms[i - 1].rebuild();
+      terms[i].text = '';
+      terms[i].rebuild();
+    }
+  }
+  return terms;
+};
+
+module.exports = contract;
+
+},{}],31:[function(require,module,exports){
+'use strict';
+
+var expand = function expand(terms) {
+  for (var i = 0; i < terms.length; i++) {
+    if (terms[i].expansion) {
+      terms[i].text = terms[i].expansion;
+      terms[i].rebuild();
+    }
+  }
+  return terms;
+};
+
+module.exports = expand;
+
+},{}],32:[function(require,module,exports){
+'use strict';
+
+//boolean if sentence has
+
+// "[copula] [pastTense] by"
+// "[pastParticiple] by"
+
+var passive_voice = function passive_voice(s) {
+  var terms = s.terms;
+  for (var i = 0; i < terms.length - 2; i++) {
+    if (terms[i].pos['Copula'] && terms[i + 1].pos['Verb'] && terms[i + 2].normal === 'by') {
+      //don't do 'june was approaching by then'
+      if (terms[i + 1].pos['Gerund']) {
+        continue;
+      }
+      return true;
+    }
+  }
+  return false;
+};
+
+module.exports = passive_voice;
+
+},{}],33:[function(require,module,exports){
+'use strict';
+
+var pos = require('./parts_of_speech');
+
+//set the part-of-speech of a particular term
+var assign = function assign(t, tag, reason) {
+  var P = pos.classMapping[tag] || pos.Term;
+  var expansion = t.expansion;
+  var whitespace = t.whitespace;
+  t = new P(t.text, tag);
+  t.reason = reason;
+  t.whitespace = whitespace;
+  t.expansion = expansion;
+  return t;
+};
+module.exports = assign;
+
+},{"./parts_of_speech":36}],34:[function(require,module,exports){
+//fancy combining/chunking of terms
+'use strict';
+
+var pos = require('./parts_of_speech');
+
+var shouldLumpThree = function shouldLumpThree(a, b, c) {
+  if (!a || !b || !c) {
+    return false;
+  }
+  //some weak-pos
+
+  var lump_rules = [{
+    condition: a.pos.Noun && b.text === '&' && c.pos.Noun, //John & Joe's
+    result: 'Person'
+  }, {
+    condition: a.pos.Noun && b.text === 'N' && c.pos.Noun, //John N Joe's
+    result: 'Person'
+  }, {
+    condition: a.pos.Date && b.normal === 'the' && c.pos.Value, //June the 5th
+    result: 'Date'
+  }, {
+    condition: a.pos.Value && b.pos.Preposition && c.pos.Date, //June the 5th
+    result: 'Date'
+  }, {
+    condition: a.pos.Date && b.pos.Preposition && c.pos.Value, //June 5th to 7th
+    result: 'Date'
+  }, {
+    condition: a.is_capital() && b.normal === 'of' && c.is_capital(), //President of Mexico
+    result: 'Noun'
+  }, {
+    condition: a.text.match(/^["']/) && !b.text.match(/["']/) && c.text.match(/["']$/), //three-word quote
+    result: 'Noun'
+  }, {
+    condition: a.normal === 'will' && b.normal === 'have' && b.pos.Verb, //will have walk
+    result: 'FutureTense'
+  }, {
+    condition: a.pos.Date && (c.pos.Date || c.pos.Ordinal) && (b.pos.Preposition || b.pos.Determiner || b.pos.Conjunction || b.pos.Adjective), //3hrs after 5pm
+    result: 'Date'
+  }];
+  for (var i = 0; i < lump_rules.length; i++) {
+    if (lump_rules[i].condition) {
+      return lump_rules[i].result;
+    }
+  }
+  return false;
+};
+
+var shouldLumpTwo = function shouldLumpTwo(a, b) {
+  if (!a || !b) {
+    return false;
+  }
+  //don't chunk non-word things with word-things
+  if (a.is_word() === false || b.is_word() === false) {
+    return false;
+  }
+  var lump_rules = [{
+    condition: a.pos.Person && b.pos.Honourific || a.pos.Honourific && b.pos.Person, //"John sr."
+    result: 'Person'
+  }, {
+    condition: (a.pos.Value || a.pos.Date) && (b.normal === 'am' || b.normal === 'pm'), //6 am
+    result: 'Date'
+  }, {
+    condition: a.pos.Honourific && b.is_capital(), //'Dr. John
+    result: 'Person'
+  }, {
+    condition: a.pos.Person && b.is_capital(), //'Person, Capital -> Person'
+    result: 'Person'
+  }, {
+    condition: a.pos.Date && b.pos.Value, //June 4
+    result: 'Date'
+  }, {
+    condition: a.pos.Value && b.pos.Date, //4 June
+    result: 'Date'
+  }, {
+    condition: (a.normal === 'last' || a.normal === 'next' || a.normal === 'this') && b.pos.Date, //last wednesday
+    result: 'Date'
+  }, {
+    condition: a.pos.Noun && b.pos.Actor, //Aircraft designer
+    result: 'Actor'
+  }, {
+    condition: a.pos.Value && b.pos.Noun && !a.pos.Ordinal, //5 books
+    result: 'Value'
+  }, {
+    condition: a.is_capital() && b.pos['Organization'] || b.is_capital() && a.pos['Organization'], //Canada Inc
+    result: 'Organization'
+  }, {
+    condition: a.text.match(/^["']/) && b.text.match(/["']$/), //two-word quote
+    result: 'Noun'
+  }, {
+    condition: a.normal === 'will' && b.pos.Verb, //will walk (perfect)
+    result: 'PerfectTense'
+  }, {
+    condition: a.normal.match(/^will ha(ve|d)$/) && b.pos.Verb, //will have walked (pluperfect)
+    result: 'PluperfectTense'
+  },
+  //timezones
+  {
+    condition: b.normal.match(/(standard|daylight|summer) time/) && (a.pos['Adjective'] || a.pos['Place']),
+    result: 'Date'
+  }, {
+    condition: a.pos.Demonym && b.pos.Currency, //canadian dollar, Brazilian pesos
+    result: 'Currency'
+  }];
+  for (var i = 0; i < lump_rules.length; i++) {
+    if (lump_rules[i].condition) {
+      return lump_rules[i].result;
+    }
+  }
+  return false;
+};
+
+var fancy_lumping = function fancy_lumping(terms) {
+  for (var i = 1; i < terms.length; i++) {
+    var a = terms[i - 1];
+    var b = terms[i];
+    var c = terms[i + 1];
+
+    // rules for lumping two terms
+    var tag = shouldLumpTwo(a, b);
+    if (tag) {
+      var Cl = pos.classMapping[tag] || pos.Term;
+      var space = a.whitespace.trailing + b.whitespace.preceding;
+      // console.log(terms[i - 1]);
+      // console.log(terms[i]);
+      terms[i] = new Cl(a.text + space + b.text, tag);
+      terms[i].reason = 'lumpedtwo(' + terms[i].reason + ')';
+      terms[i].whitespace.preceding = a.whitespace.preceding;
+      terms[i].whitespace.trailing = b.whitespace.trailing;
+      terms[i - 1] = null;
+      continue;
+    }
+
+    // rules for lumpting three terms
+    if (c) {
+      tag = shouldLumpThree(a, b, c);
+      if (tag) {
+        var Cl = pos.classMapping[tag] || pos.Term;
+        var space1 = a.whitespace.trailing + b.whitespace.preceding;
+        var space2 = b.whitespace.trailing + c.whitespace.preceding;
+        var text = a.text + space1 + b.text + space2 + c.text;
+        terms[i - 1] = new Cl(text, tag);
+        terms[i - 1].reason = 'lumpedThree(' + terms[i].reason + ')';
+        //transfer unused-up whitespace
+        terms[i - 1].whitespace.preceding = a.whitespace.preceding;
+        terms[i - 1].whitespace.trailing = c.whitespace.trailing;
+        terms[i] = null;
+        terms[i + 1] = null;
+        continue;
+      }
+    }
+  }
+  //remove killed terms
+  terms = terms.filter(function (t) {
+    return t !== null;
+  });
+  return terms;
+};
+
+module.exports = fancy_lumping;
+
+},{"./parts_of_speech":36}],35:[function(require,module,exports){
+'use strict';
+
+var friendlies = [['Noun', 'Abbreviation'], ['Abbreviation', 'Noun']];
+
+var should_chunk = function should_chunk(a, b) {
+  if (!a || !b) {
+    return false;
+  }
+  //if A has a comma, don't chunk it, (unless it's a  date)
+  if (a.has_comma() && !a.pos.Date) {
+    return false;
+  }
+  //eg "spencer's house"
+  if (a.pos['Possessive']) {
+    return false;
+  }
+  //don't chunk non-word things with word-things
+  if (a.is_word() === false || b.is_word() === false) {
+    return false;
+  }
+  //dont chunk these pos
+  var dont_chunk = ['Expression', 'Phrasal'];
+  for (var i = 0; i < dont_chunk.length; i++) {
+    if (a.pos[dont_chunk[i]] || b.pos[dont_chunk[i]]) {
+      return false;
+    }
+  }
+  //dont chunk contractions (again)
+  if (a.expansion || b.expansion) {
+    return false;
+  }
+  if (a.tag === b.tag) {
+    return true;
+  }
+  for (var i = 0; i < friendlies.length; i++) {
+    var f = friendlies[i];
+    if (a.pos[f[0]] && b.pos[f[1]]) {
+      return true;
+    }
+  }
+  //matching nouns
+  // if (a.pos['Noun'] && b.pos['Noun']) {
+  //   return true;
+  // }
+  return false;
+};
+
+//turn [noun, noun..] into [noun..]
+var chunk_neighbours = function chunk_neighbours(terms) {
+  var new_terms = [];
+  var last_one = null;
+  for (var i = 0; i < terms.length; i++) {
+    var t = terms[i];
+    //if the tags match (but it's not a hidden contraction)
+    if (should_chunk(last_one, t)) {
+      var space = last_one.whitespace.trailing + t.whitespace.preceding;
+      new_terms[new_terms.length - 1].text += space + t.text;
+      new_terms[new_terms.length - 1].normalize();
+      new_terms[new_terms.length - 1].whitespace.trailing = t.whitespace.trailing;
+      new_terms[new_terms.length - 1].whitespace.preceding = last_one.whitespace.preceding;
+    } else {
+      new_terms.push(t);
+    }
+    last_one = t;
+  }
+  return new_terms;
+};
+
+module.exports = chunk_neighbours;
+
+},{}],36:[function(require,module,exports){
+'use strict';
+
+var Term = require('../../term/term.js');
+
+var Verb = require('../../term/verb/verb.js');
+var Adverb = require('../../term/adverb/adverb.js');
+var Adjective = require('../../term/adjective/adjective.js');
+
+var Noun = require('../../term/noun/noun.js');
+var Person = require('../../term/noun/person/person.js');
+var Place = require('../../term/noun/place/place.js');
+var Organization = require('../../term/noun/organization/organization.js');
+var Value = require('../../term/noun/value/value.js');
+var _Date = require('../../term/noun/date/date.js');
+
+var tag_mapping = {
+  //nouns
+  'NNA': 'Acronym',
+  'NNS': 'Plural',
+  'NN': 'Noun',
+  'NNO': 'Possessive',
+  'CD': 'Value',
+  // 'NNP': 'Noun',
+  // 'NNPA': 'Noun',
+  // 'NNAB': 'Noun',
+  // 'NNPS': 'Noun',
+  // 'NNG': 'Noun',
+  'AC': 'Actor',
+  'DA': 'Date',
+  'CO': 'Condition',
+  'PN': 'Person',
+
+  //glue
+  'PP': 'Possessive',
+  'PRP': 'Pronoun',
+  'EX': 'Expression', //interjection
+  'DT': 'Determiner',
+  'CC': 'Conjunction',
+  'IN': 'Preposition',
+
+  //verbs
+  'VB': 'Verb',
+  'VBD': 'PastTense',
+  'VBF': 'FutureTense',
+  'VBP': 'Infinitive',
+  'VBZ': 'PresentTense',
+  'VBG': 'Gerund',
+  'VBN': 'Verb',
+  'CP': 'Copula',
+  'MD': 'Modal',
+  'JJ': 'Adjective',
+  'JJR': 'Comparative',
+  'JJS': 'Superlative',
+  'RB': 'Adverb'
+};
+
+var classMapping = {
+  'Noun': Noun,
+  'Honourific': Noun,
+  'Acronym': Noun,
+  'Plural': Noun,
+  'Pronoun': Noun,
+  'Actor': Noun,
+  'Abbreviation': Noun,
+  'Currency': Noun,
+
+  'Verb': Verb,
+  'PresentTense': Verb,
+  'FutureTense': Verb,
+  'PastTense': Verb,
+  'Infinitive': Verb,
+  'PerfectTense': Verb,
+  'PluperfectTense': Verb,
+  'Gerund': Verb,
+  'Copula': Verb,
+  'Modal': Verb,
+
+  'Comparative': Adjective,
+  'Superlative': Adjective,
+  'Adjective': Adjective,
+  'Demonym': Adjective,
+
+  'Determiner': Term,
+  'Preposition': Term,
+  'Expression': Term,
+  'Conjunction': Term,
+  'Possessive': Term,
+
+  'Adverb': Adverb,
+  'Value': Value,
+  'Place': Place,
+  'Person': Person,
+  'Organization': Organization,
+  'Date': _Date
+};
+
+module.exports = {
+  tag_mapping: tag_mapping,
+  classMapping: classMapping,
+  Term: Term,
+  'Date': _Date,
+  Value: Value,
+  Verb: Verb,
+  Person: Person,
+  Place: Place,
+  Organization: Organization,
+  Adjective: Adjective,
+  Adverb: Adverb,
+  Noun: Noun
+};
+
+},{"../../term/adjective/adjective.js":62,"../../term/adverb/adverb.js":67,"../../term/noun/date/date.js":72,"../../term/noun/noun.js":78,"../../term/noun/organization/organization.js":80,"../../term/noun/person/person.js":84,"../../term/noun/place/place.js":86,"../../term/noun/value/value.js":96,"../../term/term.js":97,"../../term/verb/verb.js":106}],37:[function(require,module,exports){
+'use strict';
+
+var assign = require('../assign');
+
+//date words that are sometimes-not..
+var tough_dates = {
+  may: true,
+  april: true,
+  march: true,
+  june: true,
+  jan: true
+};
+
+//an integer that looks year-like
+var maybe_year = function maybe_year(t) {
+  if (t.pos.Value) {
+    var num = t.number || 0;
+    if (num >= 1900 && num < 2030) {
+      return true;
+    }
+  }
+  return false;
+};
+
+//neighbouring words that indicate it is a date
+var date_signals = {
+  between: true,
+  before: true,
+  after: true,
+  during: true,
+  from: true,
+  to: true,
+  in: true,
+  of: true,
+  the: true,
+  next: true
+};
+
+var ambiguous_dates = function ambiguous_dates(terms) {
+  for (var i = 0; i < terms.length; i++) {
+    var t = terms[i];
+    if (tough_dates[t.normal] || maybe_year(t)) {
+      //'march' or '2015'
+      //if nearby another date or value
+      // console.log(terms[i + 1].pos.Verb);
+      if (terms[i + 1] && (terms[i + 1].pos['Value'] || terms[i + 1].pos['Date'])) {
+        terms[i] = assign(t, 'Date', 'date_signal');
+        continue;
+      }
+      if (terms[i - 1] && (terms[i - 1].pos['Value'] || terms[i - 1].pos['Date'])) {
+        terms[i] = assign(t, 'Date', 'date_signal');
+        continue;
+      }
+
+      //if next term is date-like
+      if (terms[i + 1] && date_signals[terms[i + 1].normal]) {
+        terms[i] = assign(t, 'Date', 'date_signal');
+        continue;
+      }
+      //if last term is date-like
+      if (terms[i - 1] && date_signals[terms[i - 1].normal]) {
+        terms[i] = assign(t, 'Date', 'date_signal');
+        continue;
+      }
+    }
+  }
+  return terms;
+};
+
+module.exports = ambiguous_dates;
+
+},{"../assign":33}],38:[function(require,module,exports){
+'use strict';
+
+var assign = require('../assign');
+//set POS for capitalised words
+var capital_signals = function capital_signals(terms) {
+  //first words need careful rules
+  if (terms[0] && terms[0].is_acronym()) {
+    terms[0] = assign(terms[0], 'Noun', 'acronym');
+  }
+  //non-first-word capitals are nouns
+  for (var i = 1; i < terms.length; i++) {
+    if (terms[i].is_capital() || terms[i].is_acronym()) {
+      terms[i] = assign(terms[i], 'Noun', 'capital_signal');
+    }
+  }
+  return terms;
+};
+module.exports = capital_signals;
+
+},{"../assign":33}],39:[function(require,module,exports){
+'use strict';
+
+var starts = {
+  'if': true,
+  'in the event': true,
+  'in order to': true,
+  'so long as': true,
+  'provided': true,
+  'save that': true,
+  'after': true,
+  'once': true,
+  'subject to': true,
+  'without': true,
+  'effective': true,
+  'upon': true,
+  'during': true,
+  'unless': true,
+  'according': true,
+  'notwithstanding': true,
+  'when': true,
+  'before': true
+};
+
+// ensure there's a verb in a couple words
+var verbSoon = function verbSoon(terms, x) {
+  for (var i = 0; i < 5; i++) {
+    if (terms[i + x] && terms[i + x].pos['Verb']) {
+      return true;
+    }
+  }
+  return false;
+};
+
+// find the next upcoming comma
+var nextComma = function nextComma(terms, i) {
+  //don't be too aggressive
+  var max = terms.length - 1;
+  if (max > i + 7) {
+    max = i + 7;
+  }
+  for (var x = i; x < max; x++) {
+    //ensure there's a command and a verb coming up soon
+    if (terms[x].has_comma() && verbSoon(terms, x)) {
+      return x;
+    }
+  }
+  //allow trailing conditions too
+  if (i > 5 && terms.length - i < 5) {
+    return terms.length;
+  }
+  return null;
+};
+
+//set these terms as conditional
+var tagCondition = function tagCondition(terms, start, stop) {
+  for (var i = start; i <= stop; i++) {
+    if (!terms[i]) {
+      break;
+    }
+    terms[i].pos['Condition'] = true;
+  }
+};
+
+var conditional_pass = function conditional_pass(terms) {
+
+  //try leading condition
+  if (terms[0] && starts[terms[0].normal]) {
+    var until = nextComma(terms, 0);
+    if (until) {
+      tagCondition(terms, 0, until);
+    }
+  }
+
+  //try trailing condition
+  for (var i = 3; i < terms.length; i++) {
+    if (starts[terms[i].normal] && terms[i - 1].has_comma()) {
+      var until = nextComma(terms, i);
+      if (until) {
+        tagCondition(terms, i, until);
+        i += until;
+      }
+    }
+  }
+  return terms;
+};
+
+module.exports = conditional_pass;
+
+},{}],40:[function(require,module,exports){
+'use strict';
+
+var pos = require('../../parts_of_speech');
+//places a 'silent' term where a contraction, like "they're" exists
+
+//the formulaic contraction types:
+var supported = {
+  'll': 'will',
+  'd': 'would',
+  've': 'have',
+  're': 'are',
+  'm': 'am' //this is not the safest way to support i'm
+  //these ones are a bit tricksier:
+  // 't': 'not',
+  // 's': 'is' //or was
+};
+
+var irregulars = {
+  'dunno': ['do not', 'know'],
+  'wanna': ['want', 'to'],
+  'gonna': ['going', 'to'],
+  'im': ['i', 'am'],
+  'alot': ['a', 'lot'],
+
+  'dont': ['do not'],
+  'don\'t': ['do not'],
+  'dun': ['do not'],
+
+  'won\'t': ['will not'],
+  'wont': ['will not'],
+
+  'can\'t': ['can not'],
+  'cannot': ['can not'],
+
+  'aint': ['is not'], //or 'are'
+  'ain\'t': ['is not'],
+  'shan\'t': ['should not'],
+
+  'where\'d': ['where', 'did'],
+  'when\'d': ['when', 'did'],
+  'how\'d': ['how', 'did'],
+  'what\'d': ['what', 'did'],
+  'brb': ['be', 'right', 'back'],
+  'let\'s': ['let', 'us']
+};
+
+// `n't` contractions - negate doesn't have a second term
+var handle_negate = function handle_negate(terms, i) {
+  terms[i].expansion = terms[i].text.replace(/n'.*/, '');
+  terms[i].expansion += ' not';
+  return terms;
+};
+
+//puts a 'implicit term' in this sentence, at 'i'
+var handle_simple = function handle_simple(terms, i, particle) {
+  terms[i].expansion = terms[i].text.replace(/'.*/, '');
+  //make ghost-term
+  var second_word = new pos.Verb('');
+  second_word.expansion = particle;
+  second_word.whitespace.trailing = terms[i].whitespace.trailing;
+  terms[i].whitespace.trailing = ' ';
+  terms.splice(i + 1, 0, second_word);
+  return terms;
+};
+
+// expand manual contractions
+var handle_irregulars = function handle_irregulars(terms, x, arr) {
+  terms[x].expansion = arr[0];
+  for (var i = 1; i < arr.length; i++) {
+    var t = new pos.Term('');
+    t.whitespace.trailing = terms[x].whitespace.trailing; //move whitespace
+    terms[x].whitespace.trailing = ' ';
+    t.expansion = arr[i];
+    terms.splice(x + i, 0, t);
+  }
+  return terms;
+};
+
+// `'s` contractions
+var handle_copula = function handle_copula(terms, i) {
+  //fixup current term
+  terms[i].expansion = terms[i].text.replace(/'s$/, '');
+  //make ghost-term
+  var second_word = new pos.Verb('');
+  second_word.whitespace.trailing = terms[i].whitespace.trailing; //move whitespace
+  terms[i].whitespace.trailing = ' ';
+  second_word.expansion = 'is';
+  terms.splice(i + 1, 0, second_word);
+  return terms;
+};
+
+//turn all contraction-forms into 'silent' tokens
+var interpret = function interpret(terms) {
+  for (var i = 0; i < terms.length; i++) {
+    //known-forms
+    if (irregulars[terms[i].normal]) {
+      terms = handle_irregulars(terms, i, irregulars[terms[i].normal]);
+      continue;
+    }
+    //words with an apostrophe
+    if (terms[i].has_abbreviation()) {
+      var split = terms[i].normal.split(/'/);
+      var pre = split[0];
+      var post = split[1];
+      // eg "they've"
+      if (supported[post]) {
+        terms = handle_simple(terms, i, supported[post]);
+        continue;
+      }
+      // eg "couldn't"
+      if (post === 't' && pre.match(/n$/)) {
+        terms = handle_negate(terms, i);
+        continue;
+      }
+      //eg "spencer's" -if it's possessive, it's not a contraction.
+      if (post === 's' && terms[i].pos['Possessive']) {
+        continue;
+      }
+      // eg "spencer's"
+      if (post === 's') {
+        terms = handle_copula(terms, i);
+        continue;
+      }
+    }
+  }
+
+  return terms;
+};
+
+module.exports = interpret;
+
+// let t = new pos.Verb(`spencer's`);
+// let terms = interpret([t]);
+// console.log(terms);
+
+},{"../../parts_of_speech":36}],41:[function(require,module,exports){
+'use strict';
+
+var assign = require('../assign');
+var grammar_rules = require('./rules/grammar_rules');
+var fns = require('../../../fns');
+// const match = require('../../match/match');
+
+//tests a subset of terms against a array of tags
+var hasTags = function hasTags(terms, tags) {
+  if (terms.length !== tags.length) {
+    return false;
+  }
+  for (var i = 0; i < tags.length; i++) {
+    //do a [tag] match
+    if (fns.startsWith(tags[i], '[') && fns.endsWith(tags[i], ']')) {
+      var pos = tags[i].match(/^\[(.*?)\]$/)[1];
+      if (!terms[i].pos[pos]) {
+        return false;
+      }
+    } else if (terms[i].normal !== tags[i]) {
+      //do a text-match
+      return false;
+    }
+  }
+  return true;
+};
+
+//hints from the sentence grammar
+var grammar_rules_pass = function grammar_rules_pass(s) {
+  for (var i = 0; i < s.terms.length; i++) {
+    for (var o = 0; o < grammar_rules.length; o++) {
+      var rule = grammar_rules[o];
+      //does this rule match
+      var terms = s.terms.slice(i, i + rule.before.length);
+      if (hasTags(terms, rule.before)) {
+        //change before/after for each term
+        for (var c = 0; c < rule.before.length; c++) {
+          if (rule.after[c]) {
+            var newPos = rule.after[c].match(/^\[(.*?)\]$/)[1];
+            s.terms[i + c] = assign(s.terms[i + c], newPos, 'grammar_rule  (' + rule.before.join(',') + ')');
+          }
+        }
+        break;
+      }
+    }
+  }
+  return s.terms;
+};
+module.exports = grammar_rules_pass;
+
+},{"../../../fns":23,"../assign":33,"./rules/grammar_rules":49}],42:[function(require,module,exports){
+'use strict';
+
+var assign = require('../assign');
+
+//clear-up ambiguous interjections "ok"[Int], "thats ok"[Adj]
+var interjection_fixes = function interjection_fixes(terms) {
+  var interjections = {
+    ok: true,
+    so: true,
+    please: true,
+    alright: true,
+    well: true,
+    now: true
+  };
+  for (var i = 0; i < terms.length; i++) {
+    if (i > 3) {
+      break;
+    }
+    if (interjections[terms[i].normal]) {
+      terms[i] = assign(terms[i], 'Expression', 'interjection_fixes');
+    } else {
+      break;
+    }
+  }
+  return terms;
+};
+
+module.exports = interjection_fixes;
+
+},{"../assign":33}],43:[function(require,module,exports){
+'use strict';
+
+var defaultLexicon = require('../../../lexicon.js');
+var assign = require('../assign');
+
+//consult lexicon for this known-word
+var lexicon_pass = function lexicon_pass(terms, options) {
+  var lexicon = options.lexicon || defaultLexicon;
+  return terms.map(function (t) {
+
+    var normal = t.normal;
+    //normalize apostrophe s for grammatical purposes
+    if (t.has_abbreviation()) {
+      var split = normal.split(/'/);
+      if (split[1] === 's') {
+        normal = split[0];
+      }
+    }
+
+    //check lexicon straight-up
+    if (lexicon[normal] !== undefined) {
+      return assign(t, lexicon[normal], 'lexicon_pass');
+    }
+
+    if (lexicon[t.expansion] !== undefined) {
+      return assign(t, lexicon[t.expansion], 'lexicon_expansion');
+    }
+    //try to match it without a prefix - eg. outworked -> worked
+    if (normal.match(/^(over|under|out|-|un|re|en).{3}/)) {
+      var attempt = normal.replace(/^(over|under|out|.*?-|un|re|en)/, '');
+      return assign(t, lexicon[attempt], 'lexicon_prefix');
+    }
+    //try to match without a contraction - "they've" -> "they"
+    if (t.has_abbreviation()) {
+      var attempt = normal.replace(/'(ll|re|ve|re|d|m)/, '');
+      // attempt = normal.replace(/n't/, '');
+      return assign(t, lexicon[attempt], 'lexicon_prefix');
+    }
+
+    //match 'twenty-eight'
+    if (normal.match(/-/)) {
+      var sides = normal.split('-');
+      if (lexicon[sides[0]]) {
+        return assign(t, lexicon[sides[0]], 'lexicon_dash');
+      }
+      if (lexicon[sides[1]]) {
+        return assign(t, lexicon[sides[1]], 'lexicon_dash');
+      }
+    }
+    return t;
+  });
+};
+module.exports = lexicon_pass;
+
+},{"../../../lexicon.js":25,"../assign":33}],44:[function(require,module,exports){
+'use strict';
+
+var lexicon = require('../../../lexicon.js');
+var assign = require('../assign');
+
+var should_merge = function should_merge(a, b) {
+  if (!a || !b) {
+    return false;
+  }
+  //if it's a known multiple-word term
+  if (lexicon[a.normal + ' ' + b.normal]) {
+    return true;
+  }
+  return false;
+};
+
+var multiples_pass = function multiples_pass(terms) {
+  var new_terms = [];
+  var last_one = null;
+  for (var i = 0; i < terms.length; i++) {
+    var t = terms[i];
+    //if the tags match (but it's not a hidden contraction)
+    if (should_merge(last_one, t)) {
+      var last = new_terms[new_terms.length - 1];
+      var space = t.whitespace.preceding + last.whitespace.trailing;
+      last.text += space + t.text;
+      last.rebuild();
+      last.whitespace.trailing = t.whitespace.trailing;
+      var pos = lexicon[last.normal];
+      new_terms[new_terms.length - 1] = assign(last, pos, 'multiples_pass_lexicon');
+      new_terms[new_terms.length - 1].whitespace = last.whitespace;
+    } else {
+      new_terms.push(t);
+    }
+    last_one = t;
+  }
+  return new_terms;
+};
+
+module.exports = multiples_pass;
+
+},{"../../../lexicon.js":25,"../assign":33}],45:[function(require,module,exports){
+'use strict';
+
+//some prepositions are clumped onto the back of a verb "looked for", "looks at"
+//they should be combined with the verb, sometimes.
+//does not handle seperated phrasal verbs ('take the coat off' -> 'take off')
+
+var phrasals = require('../../../data/phrasal_verbs');
+
+//combine ['blew','up'] -> 'blew up'
+var phrasal_verbs = function phrasal_verbs(terms) {
+  for (var i = 0; i < terms.length - 1; i++) {
+    if (!terms[i] || !terms[i + 1]) {
+      break;
+    }
+    if (terms[i].pos['Verb'] && phrasals[terms[i].normal + terms[i + 1].normal]) {
+      //don't do 'is in'
+      if (terms[i].pos['Copula']) {
+        continue;
+      }
+      terms[i].pos['Phrasal'] = true;
+      terms[i].text = terms[i].text + ' ' + terms[i + 1].text;
+      terms[i].reason = 'phrasal(' + terms[i].reason + ')';
+      terms[i + 1] = null;
+      terms[i].rebuild();
+      // terms[i].conjugate();
+    }
+  }
+  //remove killed-off ones
+  terms = terms.filter(function (t) {
+    return t !== null;
+  });
+  return terms;
+};
+
+module.exports = phrasal_verbs;
+
+},{"../../../data/phrasal_verbs":18}],46:[function(require,module,exports){
+'use strict';
+
+var assign = require('../assign');
+//decide if an apostrophe s is a contraction or not
+// 'spencer's nice' -> 'spencer is nice'
+// 'spencer's house' -> 'spencer's house'
+
+//these are always contractions
+var blacklist = {
+  'it\'s': true,
+  'that\'s': true
+};
+
+//a possessive means "'s" describes ownership, not a contraction, like 'is'
+var is_possessive = function is_possessive(terms, x) {
+  //these are always contractions, not possessive
+  if (blacklist[terms[x].normal]) {
+    return false;
+  }
+  //"spencers'" - this is always possessive - eg "flanders'"
+  if (terms[x].normal.match(/[a-z]s'$/)) {
+    return true;
+  }
+  //if no apostrophe s, return
+  if (!terms[x].normal.match(/[a-z]'s$/)) {
+    return false;
+  }
+  //some parts-of-speech can't be possessive
+  if (terms[x].pos['Pronoun']) {
+    return false;
+  }
+  var nextWord = terms[x + 1];
+  //last word is possessive  - "better than spencer's"
+  if (!nextWord) {
+    return true;
+  }
+  //next word is 'house'
+  if (nextWord.pos['Noun']) {
+    return true;
+  }
+  //rocket's red glare
+  if (nextWord.pos['Adjective'] && terms[x + 2] && terms[x + 2].pos['Noun']) {
+    return true;
+  }
+  //next word is an adjective
+  if (nextWord.pos['Adjective'] || nextWord.pos['Verb'] || nextWord.pos['Adverb']) {
+    return false;
+  }
+  return false;
+};
+
+//tag each term as possessive, if it should
+var possessive_pass = function possessive_pass(terms) {
+  for (var i = 0; i < terms.length; i++) {
+    if (is_possessive(terms, i)) {
+      //if it's not already a noun, co-erce it to one
+      if (!terms[i].pos['Noun']) {
+        terms[i] = assign(terms[i], 'Noun', 'possessive_pass');
+      }
+      terms[i].pos['Possessive'] = true;
+    }
+  }
+  return terms;
+};
+module.exports = possessive_pass;
+
+},{"../assign":33}],47:[function(require,module,exports){
+'use strict';
+// knowing if something is inside a quotation is important grammatically
+//set all the words inside quotations marks as pos['Quotation']=true
+// verbatim change of narration only, 'scare quotes' don't count.
+
+var startQuote = function startQuote(s) {
+  return s.match(/^["\u201C]./);
+};
+var endQuote = function endQuote(s) {
+  return s.match(/.["\u201D]$/);
+};
+
+//find the next quotation terminator
+var quotation_ending = function quotation_ending(terms, start) {
+  for (var i = start; i < terms.length; i++) {
+    if (endQuote(terms[i].text)) {
+      return i;
+    }
+  }
+  return null;
+};
+
+//set these terms as quotations
+var tagQuotation = function tagQuotation(terms, start, stop) {
+  for (var i = start; i <= stop; i++) {
+    if (!terms[i]) {
+      break;
+    }
+    terms[i].pos['Quotation'] = true;
+  }
+};
+
+//hunt
+var quotation_pass = function quotation_pass(terms) {
+  for (var i = 0; i < terms.length; i++) {
+    if (startQuote(terms[i].text)) {
+      var end = quotation_ending(terms, [i]);
+      if (end !== null) {
+        tagQuotation(terms, i, end);
+        return terms;
+      }
+    }
+  }
+  return terms;
+};
+
+module.exports = quotation_pass;
+
+},{}],48:[function(require,module,exports){
+'use strict';
+
+var word_rules = require('./rules/word_rules');
+var assign = require('../assign');
+
+//word-rules that run on '.text', not '.normal'
+var punct_rules = [{ //2:54pm
+  reg: new RegExp('^[12]?[0-9]\:[0-9]{2}( am| pm)?$', 'i'),
+  pos: 'Date'
+}, { //1999/12/25
+  reg: new RegExp('^[0-9]{1,4}[-/][0-9]{1,2}[-/][0-9]{1,4}$', 'i'),
+  pos: 'Date'
+}, { //3:32
+  reg: new RegExp('^[0-9]{1,2}:[0-9]{2}(:[0-9]{2})?', 'i'),
+  pos: 'Date'
+}];
+
+var regex_pass = function regex_pass(terms) {
+  terms.forEach(function (t, i) {
+    //don't overwrite
+    if (terms[i].tag !== '?') {
+      return;
+    }
+    var text = terms[i].text;
+    var normal = terms[i].normal;
+    //normalize apostrophe s for grammatical purposes
+    if (terms[i].has_abbreviation()) {
+      var split = terms[i].normal.split(/'/);
+      if (split[1] === 's') {
+        normal = split[0];
+      }
+    }
+    //regexes that involve punctuation
+    for (var o = 0; o < punct_rules.length; o++) {
+      if (text.match(punct_rules[o].reg)) {
+        terms[i] = assign(terms[i], punct_rules[o].pos, 'rules_pass_' + o);
+        return;
+      }
+    }
+    //bigger list of regexes on normal
+    for (var o = 0; o < word_rules.length; o++) {
+      if (normal.match(word_rules[o].reg)) {
+        terms[i] = assign(terms[i], word_rules[o].pos, 'rules_pass_' + o);
+        return;
+      }
+    }
+  });
+
+  return terms;
+};
+
+module.exports = regex_pass;
+
+},{"../assign":33,"./rules/word_rules":50}],49:[function(require,module,exports){
+'use strict';
+
+module.exports = [
+//determiner hints
+{
+  'before': ['[Determiner]', '[?]'],
+  'after': ['[Determiner]', '[Noun]']
+}, {
+  'before': ['the', '[Verb]'],
+  'after': [null, '[Noun]']
+}, {
+  'before': ['[Determiner]', '[Adjective]', '[Verb]'],
+  'after': ['[Noun]', '[Noun]', '[Noun]']
+}, {
+  'before': ['[Determiner]', '[Adverb]', '[Adjective]', '[?]'],
+  'after': ['[Determiner]', '[Adverb]', '[Adjective]', '[Noun]']
+}, {
+  'before': ['[?]', '[Determiner]', '[Noun]'],
+  'after': ['[Verb]', '[Determiner]', '[Noun]']
+},
+//"peter the great"
+{
+  'before': ['[Person]', 'the', '[Noun]'],
+  'after': ['[Person]', null, '[Noun]']
+},
+// //"book the flight"
+{
+  'before': ['[Noun]', 'the', '[Noun]'],
+  'after': ['[Verb]', null, '[Noun]']
+},
+
+//Possessive hints
+{
+  'before': ['[Possessive]', '[?]'],
+  'after': ['[Possessive]', '[Noun]']
+},
+// {
+//   'before': ['[Possessive]', '[Verb]'],
+//   'after': ['[Possessive]', '[Noun]'],
+// },
+{
+  'before': ['[?]', '[Possessive]', '[Noun]'],
+  'after': ['[Verb]', '[Possessive]', '[Noun]']
+},
+//copula hints
+{
+  'before': ['[Copula]', '[?]'],
+  'after': ['[Copula]', '[Adjective]'] }, // not sure
+{
+  'before': ['[Copula]', '[Adverb]', '[?]'],
+  'after': ['[Copula]', '[Adverb]', '[Adjective]'] }, // not sure
+
+//preposition hints
+{
+  'before': ['[?]', '[Preposition]'],
+  'after': ['[Verb]', '[Preposition]']
+},
+//conjunction hints, like lists (a little sloppy)
+{
+  'before': ['[Adverb]', '[Conjunction]', '[Adverb]'],
+  'after': ['[Adverb]', '[Adverb]', '[Adverb]']
+},
+//do not
+{
+  'before': ['[Verb]', 'not'],
+  'after': ['[Verb]', '[Verb]']
+},
+// {
+//   'before': ['[Noun]', '[Conjunction]', '[Noun]'],
+//   'after': ['[Noun]', '[Noun]', '[Noun]'],
+// },
+{
+  'before': ['[Adjective]', '[Conjunction]', '[Adjective]'],
+  'after': ['[Adjective]', '[Adjective]', '[Adjective]']
+}, {
+  'before': ['[?]', '[Conjunction]', '[Verb]'],
+  'after': ['[Verb]', '[Conjunction]', '[Verb]']
+}, {
+  'before': ['[Verb]', '[Conjunction]', '[?]'],
+  'after': ['[Verb]', '[Conjunction]', '[Verb]']
+},
+//adverb hints
+{
+  'before': ['[Noun]', '[Adverb]', '[Noun]'],
+  'after': ['[Noun]', '[Adverb]', '[Verb]']
+},
+//pronoun hints
+{
+  'before': ['[?]', '[Pronoun]'],
+  'after': ['[Verb]', '[Pronoun]']
+},
+//modal hints
+{
+  'before': ['[Modal]', '[?]'],
+  'after': ['[Modal]', '[Verb]']
+}, {
+  'before': ['[Modal]', '[Adverb]', '[?]'],
+  'after': ['[Modal]', '[Adverb]', '[Verb]']
+},
+//ambiguous dates (march/may)
+// {
+//   'before': ['[Modal]', '[Value]'],
+//   'after': ['[Modal]', '[Verb]'],
+// },
+{
+  'before': ['[Adverb]', '[Value]'],
+  'after': ['[Adverb]', '[Verb]']
+}];
+
+},{}],50:[function(require,module,exports){
+'use strict';
+
+var tag_mapping = require('../../parts_of_speech.js').tag_mapping;
+//regex patterns and parts of speech],
+module.exports = [['^[0-9]+ ?(am|pm)$', 'DA'], ['^[0-9]+(st|nd|rd)?$', 'CD'], ['^[a-z]et$', 'VB'], ['cede$', 'VB'], ['.[cts]hy$', 'JJ'], ['.[st]ty$', 'JJ'], ['.[lnr]ize$', 'VB'], ['.[gk]y$', 'JJ'], ['.fies$', 'VB'], ['.some$', 'JJ'], ['.[nrtumcd]al$', 'JJ'], ['.que$', 'JJ'], ['.[tnl]ary$', 'JJ'], ['.[di]est$', 'JJS'], ['^(un|de|re)\\-[a-z]..', 'VB'], ['.lar$', 'JJ'], ['[bszmp]{2}y', 'JJ'], ['.zes$', 'VB'], ['.[icldtgrv]ent$', 'JJ'], ['.[rln]ates$', 'VBZ'], ['.[oe]ry$', 'JJ'], ['[rdntkdhs]ly$', 'RB'], ['.[lsrnpb]ian$', 'JJ'], ['.[^aeiou]ial$', 'JJ'], ['.[^aeiou]eal$', 'JJ'], ['.[vrl]id$', 'JJ'], ['.[ilk]er$', 'JJR'], ['.ike$', 'JJ'], ['.ends?$', 'VB'], ['.wards$', 'RB'], ['.rmy$', 'JJ'], ['.rol$', 'NN'], ['.tors$', 'NN'], ['.azy$', 'JJ'], ['.where$', 'RB'], ['.ify$', 'VB'], ['.bound$', 'JJ'], ['.[^z]ens$', 'VB'], ['.oid$', 'JJ'], ['.vice$', 'NN'], ['.rough$', 'JJ'], ['.mum$', 'JJ'], ['.teen(th)?$', 'CD'], ['.oses$', 'VB'], ['.ishes$', 'VB'], ['.ects$', 'VB'], ['.tieth$', 'CD'], ['.ices$', 'NN'], ['.bles$', 'VB'], ['.pose$', 'VB'], ['.ions$', 'NN'], ['.ean$', 'JJ'], ['.[ia]sed$', 'JJ'], ['.tized$', 'VB'], ['.llen$', 'JJ'], ['.fore$', 'RB'], ['.ances$', 'NN'], ['.gate$', 'VB'], ['.nes$', 'VB'], ['.less$', 'RB'], ['.ried$', 'JJ'], ['.gone$', 'JJ'], ['.made$', 'JJ'], ['.[pdltrkvyns]ing$', 'JJ'], ['.tions$', 'NN'], ['.tures$', 'NN'], ['.ous$', 'JJ'], ['.ports$', 'NN'], ['. so$', 'RB'], ['.ints$', 'NN'], ['.[gt]led$', 'JJ'], ['.lked$', 'VB'], ['.fully$', 'RB'], ['.*ould$', 'MD'], ['^-?[0-9]+(.[0-9]+)?$', 'CD'], ['[a-z]*\\-[a-z]*\\-', 'JJ'], ['[a-z]\'s$', 'NNO'], ['.\'n$', 'VB'], ['.\'re$', 'CP'], ['.\'ll$', 'MD'], ['.\'t$', 'VB'], ['.tches$', 'VB'], ['^https?\:?\/\/[a-z0-9]', 'NN'], //the colon is removed in normalisation
+['^www\.[a-z0-9]', 'NN'], ['.ize$', 'VB'], ['.[^aeiou]ise$', 'VB'], ['.[aeiou]te$', 'VB'], ['.ea$', 'NN'], ['[aeiou][pns]er$', 'NN'], ['.ia$', 'NN'], ['.sis$', 'NN'], ['.[aeiou]na$', 'NN'], ['.[^aeiou]ity$', 'NN'], ['.[^aeiou]ium$', 'NN'], ['.[^aeiou][ei]al$', 'JJ'], ['.ffy$', 'JJ'], ['.[^aeiou]ic$', 'JJ'], ['.(gg|bb|zz)ly$', 'JJ'], ['.[aeiou]my$', 'JJ'], ['.[aeiou]ble$', 'JJ'], ['.[^aeiou]ful$', 'JJ'], ['.[^aeiou]ish$', 'JJ'], ['.[^aeiou]ica$', 'NN'], ['[aeiou][^aeiou]is$', 'NN'], ['[^aeiou]ard$', 'NN'], ['[^aeiou]ism$', 'NN'], ['.[^aeiou]ity$', 'NN'], ['.[^aeiou]ium$', 'NN'], ['.[lstrn]us$', 'NN'], ['..ic$', 'JJ'], ['[aeiou][^aeiou]id$', 'JJ'], ['.[^aeiou]ish$', 'JJ'], ['.[^aeiou]ive$', 'JJ'], ['[ea]{2}zy$', 'JJ'], ['[^aeiou]ician$', 'AC'], ['.keeper$', 'AC'], ['.logist$', 'AC'], ['..ier$', 'AC'], ['.[^aeiou][ao]pher$', 'AC'], ['.tive$', 'AC'], ['[aeiou].*ist$', 'JJ'], ['[^i]fer$', 'VB'],
+//slang things
+['^um+$', 'EX'], //ummmm
+['^([hyj]a)+$', 'EX'], //hahah
+['^(k)+$', 'EX'], //kkkk
+['^(yo)+$', 'EX'], //yoyo
+['^yes+$', 'EX'], //yessss
+['^no+$', 'EX'], //noooo
+['^lol[sz]$', 'EX'], //lol
+['^woo+[pt]?$', 'EX'], //woo
+['^ug?h+$', 'EX'], //uhh
+['^uh[ -]?oh$', 'EX']]. //uhoh
+map(function (a) {
+  return {
+    reg: new RegExp(a[0], 'i'),
+    pos: tag_mapping[a[1]]
+  };
+});
+
+},{"../../parts_of_speech.js":36}],51:[function(require,module,exports){
+//part-of-speech tagging
+'use strict';
+
+var lumper = require('./lumper');
+var fancy_lumping = require('./fancy_lumping');
+var pos = require('./parts_of_speech');
+var assign = require('./assign');
+
+var grammar_pass = require('./passes/grammar_pass');
+var phrasal_verbs = require('./passes/phrasal_verbs');
+var interjection_fixes = require('./passes/interjection_fixes');
+var lexicon_pass = require('./passes/lexicon_pass');
+var capital_signals = require('./passes/capital_signals');
+var conditional_pass = require('./passes/conditional_pass');
+var ambiguous_dates = require('./passes/ambiguous_dates');
+var multiple_pass = require('./passes/multiples_pass');
+var regex_pass = require('./passes/regex_pass');
+var quotation_pass = require('./passes/quotation_pass');
+var possessive_pass = require('./passes/possessive_pass');
+var contraction_pass = require('./passes/contractions/interpret');
+
+var noun_fallback = function noun_fallback(terms) {
+  for (var i = 0; i < terms.length; i++) {
+    if (terms[i].tag === '?' && terms[i].normal.match(/[a-z]/)) {
+      terms[i] = assign(terms[i], 'Noun', 'fallback');
+    }
+  }
+  return terms;
+};
+
+//turn nouns into person/place
+var specific_noun = function specific_noun(terms) {
+  for (var i = 0; i < terms.length; i++) {
+    var t = terms[i];
+    if (t instanceof pos.Noun) {
+      if (t.is_person()) {
+        terms[i] = assign(t, 'Person', 'is_person');
+      } else if (t.is_place()) {
+        terms[i] = assign(t, 'Place', 'is_place');
+      } else if (t.is_value()) {
+        terms[i] = assign(t, 'Value', 'is_value');
+      } else if (t.is_date()) {
+        terms[i] = assign(t, 'Date', 'is_date');
+      } else if (t.is_organization()) {
+        terms[i] = assign(t, 'Organization', 'is_organization');
+      }
+    }
+  }
+  return terms;
+};
+
+var tagger = function tagger(s, options) {
+  //word-level rules
+  s.terms = capital_signals(s.terms);
+  s.terms = lexicon_pass(s.terms, options);
+  s.terms = multiple_pass(s.terms);
+  s.terms = regex_pass(s.terms);
+  s.terms = interjection_fixes(s.terms);
+  //repeat these steps a couple times, to wiggle-out the grammar
+  for (var i = 0; i < 2; i++) {
+    s.terms = grammar_pass(s);
+    s.terms = specific_noun(s.terms);
+    s.terms = ambiguous_dates(s.terms);
+    s.terms = lumper(s.terms);
+    s.terms = noun_fallback(s.terms);
+    s.terms = phrasal_verbs(s.terms);
+    s.terms = fancy_lumping(s.terms);
+    s.terms = possessive_pass(s.terms);
+  }
+  s.terms = conditional_pass(s.terms);
+  s.terms = quotation_pass(s.terms);
+  s.terms = contraction_pass(s.terms);
+  return s.terms;
+};
+
+module.exports = tagger;
+
+},{"./assign":33,"./fancy_lumping":34,"./lumper":35,"./parts_of_speech":36,"./passes/ambiguous_dates":37,"./passes/capital_signals":38,"./passes/conditional_pass":39,"./passes/contractions/interpret":40,"./passes/grammar_pass":41,"./passes/interjection_fixes":42,"./passes/lexicon_pass":43,"./passes/multiples_pass":44,"./passes/phrasal_verbs":45,"./passes/possessive_pass":46,"./passes/quotation_pass":47,"./passes/regex_pass":48}],52:[function(require,module,exports){
+'use strict';
+//build-out this mapping
+
+var interrogatives = {
+  'who': 'who',
+  'whose': 'who',
+  'whom': 'who',
+  'which person': 'who',
+
+  'where': 'where',
+  'when': 'when',
+
+  'why': 'why',
+  'how come': 'why'
+};
+
+var easyForm = function easyForm(s, i) {
+  var t = s.terms[i];
+  var nextTerm = s.terms[i + 1];
+
+  //some interrogative forms are two-terms, try it.
+  if (nextTerm) {
+    var twoTerm = t.normal + ' ' + nextTerm.normal;
+    if (interrogatives[twoTerm]) {
+      return interrogatives[twoTerm];
+    }
+  }
+  //try an interrogative first - 'who'
+  if (interrogatives[t.normal]) {
+    return interrogatives[t.normal];
+  }
+  //an interrogative as a contraction - 'why'd'
+  if (interrogatives[t.expansion]) {
+    return interrogatives[t.expansion];
+  }
+  return false;
+};
+
+module.exports = easyForm;
+
+},{}],53:[function(require,module,exports){
+'use strict';
+
+var hardFormVerb = {
+  'which': 'which',
+  'what': 'what'
+};
+
+// "what time" -> 'when'
+var knownForm = {
+  time: 'when',
+  day: 'when',
+  year: 'when',
+
+  person: 'who', //more covered by pos["Actor"]
+
+  amount: 'number',
+  number: 'number'
+};
+
+var hardForm = function hardForm(s, i) {
+  var t = s.terms[i];
+  var nextTerm = s.terms[i + 1];
+  // which, or what
+  var questionWord = hardFormVerb[t.normal] || hardFormVerb[t.expanded];
+  // end early.
+  if (!nextTerm || !questionWord) {
+    return null;
+  }
+
+  //"which is.."
+  if (nextTerm.pos['Copula']) {
+    return t.normal;
+  }
+  //"which politician.."
+  if (nextTerm.pos['Actor']) {
+    return 'who';
+  }
+  //"what time.."
+  if (knownForm[nextTerm.normal]) {
+    return knownForm[nextTerm.normal];
+  }
+
+  return questionWord;
+};
+
+module.exports = hardForm;
+
+},{}],54:[function(require,module,exports){
+'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Sentence = require('../sentence.js');
+var question_form = require('./question_form');
+
+var Question = function (_Sentence) {
+  _inherits(Question, _Sentence);
+
+  function Question(str, options) {
+    _classCallCheck(this, Question);
+
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(Question).call(this, str, options));
+  }
+
+  _createClass(Question, [{
+    key: 'form',
+    value: function form() {
+      return question_form(this);
+    }
+  }]);
+
+  return Question;
+}(Sentence);
+
+Question.fn = Question.prototype;
+
+module.exports = Question;
+
+// let q = new Question(`accordingly, is he cool?`);
+// let q = new Question(`what time did you show up?`);
+// console.log(q.form());
+
+},{"../sentence.js":57,"./question_form":55}],55:[function(require,module,exports){
+'use strict';
+//classifies a question into:
+
+var yesNoTerm = require('./yesNo.js');
+var easyForm = require('./easyForm.js');
+var hardForm = require('./hardForm.js');
+
+// how, when, where, who, why
+// what, which
+// number
+// yesNo
+
+//exceptions:
+// You bought what!? - Echo question
+// Who bought what? - Multiple wh-expressions
+// I wonder who Fred will ask to leave. - passive question
+
+// "Five Ws and one H" + 'which'
+// let forms = {
+// how: ['in what way'],
+// what: ['what\'s'],
+// which: ['what one'],
+// number: ['how many', 'how much', 'how far', 'how long'],
+// };
+
+var question_form = function question_form(s) {
+  //loop through and find first signal
+  for (var i = 0; i < s.terms.length; i++) {
+
+    //who is.. -> "who"
+    var form = easyForm(s, i);
+    if (form) {
+      return form;
+    }
+    //which politician.. -> "who"
+    form = hardForm(s, i);
+    if (form) {
+      return form;
+    }
+    //is he..  -> "yesNo"
+    if (yesNoTerm(s, i)) {
+      return 'yesNo';
+    }
+  }
+  return null;
+};
+
+module.exports = question_form;
+
+},{"./easyForm.js":52,"./hardForm.js":53,"./yesNo.js":56}],56:[function(require,module,exports){
+'use strict';
+
+// Yes/No questions take the form:
+// he is -> is he?
+
+var yesNoVerb = {
+  is: true,
+  are: true,
+  was: true,
+  will: true,
+  do: true,
+  did: true
+};
+
+var yesNoTerm = function yesNoTerm(s, i) {
+  var t = s.terms[i];
+  var lastTerm = s.terms[i - 1];
+  var nextTerm = s.terms[i + 1];
+  //try a yes/no question then
+  if (yesNoVerb[t.normal] || yesNoVerb[t.expansion]) {
+    //leading 'is x...' is a question
+    if (!lastTerm) {
+      return true;
+    }
+    //ending '... are.' is a not question
+    if (!lastTerm) {
+      return false;
+    }
+    // 'he is' is not a question..
+    if (lastTerm.pos['Pronoun'] || lastTerm.pos['Person']) {
+      return false;
+    }
+    // 'is he' is a question..
+    if (nextTerm.pos['Pronoun'] || nextTerm.pos['Person']) {
+      return true;
+    }
+  }
+  return false;
+};
+
+module.exports = yesNoTerm;
+
+},{}],57:[function(require,module,exports){
+'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Term = require('../term/term');
+var tagger = require('./pos/tagger');
+var passive_voice = require('./passive_voice');
+var contractions = {
+  contract: require('./contractions/contract'),
+  expand: require('./contractions/expand')
+};
+var change_tense = require('./tense');
+var spot = require('./spot');
+var _match = require('../match/match');
+var tokenize_match = function tokenize_match() {};
+
+//a sentence is an array of Term objects, along with their various methods
+
+var Sentence = function () {
+  function Sentence(str, options) {
+    _classCallCheck(this, Sentence);
+
+    this.str = '';
+    if (typeof str === 'string') {
+      this.str = str;
+    } else if (typeof str === 'number') {
+      this.str = '' + str;
+    }
+    options = options || {};
+    var the = this;
+    var words = this.str.split(/( +)/);
+    //build-up term-objects
+    this.terms = [];
+    if (words[0] === '') {
+      words.shift();
+    }
+    for (var i = 0; i < words.length; i++) {
+      if (!words[i] || !words[i].match(/\S/i)) {
+        continue;
+      }
+      var whitespace = {
+        preceding: words[i - 1],
+        trailing: words[i + 1]
+      };
+      //don't use them twice
+      words[i - 1] = null;
+      words[i + 1] = null;
+      this.terms.push(new Term(words[i], null, whitespace));
+    }
+    // console.log(this.terms);
+    //part-of-speech tagging
+    this.terms = tagger(this, options);
+    // process contractions
+    //now the hard part is already done, just flip them
+    this.contractions = {
+      // "he'd go" -> "he would go"
+      expand: function expand() {
+        the.terms = contractions.expand(the.terms);
+        return the;
+      },
+      // "he would go" -> "he'd go"
+      contract: function contract() {
+        the.terms = contractions.contract(the.terms);
+        return the;
+      }
+    };
+  }
+
+  //Sentence methods:
+
+  //insert a new word at this point
+
+  _createClass(Sentence, [{
+    key: 'addBefore',
+    value: function addBefore(i, str) {
+      var t = new Term(str);
+      this.terms.splice(i, 0, t);
+    }
+  }, {
+    key: 'addAfter',
+    value: function addAfter(i, str) {
+      var t = new Term(str);
+      this.terms.splice(i + 1, 0, t);
+    }
+
+    // a regex-like lookup for a list of terms.
+    // returns [] of matches in a 'Terms' class
+
+  }, {
+    key: 'match',
+    value: function match(match_str, options) {
+      var regs = tokenize_match(match_str);
+      return _match.findAll(this.terms, regs, options);
+    }
+    //returns a transformed sentence
+
+  }, {
+    key: 'replace',
+    value: function replace(match_str, replacement, options) {
+      var regs = tokenize_match(match_str);
+      replacement = tokenize_match(replacement);
+      _match.replaceAll(this.terms, regs, replacement, options);
+      return this;
+    }
+
+    //the ending punctuation
+
+  }, {
+    key: 'terminator',
+    value: function terminator() {
+      var allowed = ['.', '?', '!'];
+      var punct = this.str.slice(-1) || '';
+      if (allowed.indexOf(punct) !== -1) {
+        return punct;
+      }
+      return '.';
+    }
+
+    //part-of-speech assign each term
+
+  }, {
+    key: 'tag',
+    value: function tag() {
+      this.terms = tagger(this);
+      return this.terms;
+    }
+
+    //is it a question/statement
+
+  }, {
+    key: 'sentence_type',
+    value: function sentence_type() {
+      var char = this.terminator();
+      var types = {
+        '?': 'interrogative',
+        '!': 'exclamative',
+        '.': 'declarative'
+      };
+      return types[char] || 'declarative';
+    }
+
+    // A was verbed by B - B verbed A
+
+  }, {
+    key: 'is_passive',
+    value: function is_passive() {
+      return passive_voice(this);
+    }
+    // Question doesn't have negate, this is a placeholder
+
+  }, {
+    key: 'negate',
+    value: function negate() {
+      return this;
+    }
+
+    //map over Term methods
+
+  }, {
+    key: 'text',
+    value: function text() {
+      return this.terms.reduce(function (s, t) {
+        //implicit contractions shouldn't be included
+        if (t.text) {
+          s += (t.whitespace.preceding || '') + t.text + (t.whitespace.trailing || '');
+        }
+        return s;
+      }, '');
+    }
+    //like text but for cleaner text
+
+  }, {
+    key: 'normal',
+    value: function normal() {
+      return this.terms.reduce(function (s, t) {
+        if (t.normal) {
+          s += ' ' + t.normal;
+        }
+        return s;
+      }, '').trim();
+    }
+
+    //further 'lemmatisation/inflection'
+
+  }, {
+    key: 'root',
+    value: function root() {
+      return this.terms.reduce(function (s, t) {
+        s += ' ' + t.root();
+        return s;
+      }, '').trim();
+    }
+    //return only the main POS classnames/tags
+
+  }, {
+    key: 'tags',
+    value: function tags() {
+      return this.terms.map(function (t) {
+        return t.tag || '?';
+      });
+    }
+    //mining for specific things
+
+  }, {
+    key: 'people',
+    value: function people() {
+      return this.terms.filter(function (t) {
+        return t.pos['Person'];
+      });
+    }
+  }, {
+    key: 'places',
+    value: function places() {
+      return this.terms.filter(function (t) {
+        return t.pos['Place'];
+      });
+    }
+  }, {
+    key: 'dates',
+    value: function dates() {
+      return this.terms.filter(function (t) {
+        return t.pos['Date'];
+      });
+    }
+  }, {
+    key: 'organizations',
+    value: function organizations() {
+      return this.terms.filter(function (t) {
+        return t.pos['Organization'];
+      });
+    }
+  }, {
+    key: 'values',
+    value: function values() {
+      return this.terms.filter(function (t) {
+        return t.pos['Value'];
+      });
+    }
+
+    //parts of speech
+
+  }, {
+    key: 'nouns',
+    value: function nouns() {
+      return this.terms.filter(function (t) {
+        return t.pos['Noun'];
+      });
+    }
+  }, {
+    key: 'adjectives',
+    value: function adjectives() {
+      return this.terms.filter(function (t) {
+        return t.pos['Adjective'];
+      });
+    }
+  }, {
+    key: 'verbs',
+    value: function verbs() {
+      return this.terms.filter(function (t) {
+        return t.pos['Verb'];
+      });
+    }
+  }, {
+    key: 'adverbs',
+    value: function adverbs() {
+      return this.terms.filter(function (t) {
+        return t.pos['Adverb'];
+      });
+    }
+
+    // john walks quickly -> john walked quickly
+
+  }, {
+    key: 'to_past',
+    value: function to_past() {
+      change_tense(this, 'past');
+      return this;
+    }
+    // john walked quickly -> john walks quickly
+
+  }, {
+    key: 'to_present',
+    value: function to_present() {
+      change_tense(this, 'present');
+      return this;
+    }
+    // john walked quickly -> john will walk quickly
+
+  }, {
+    key: 'to_future',
+    value: function to_future() {
+      change_tense(this, 'future');
+      return this;
+    }
+  }, {
+    key: 'strip_conditions',
+    value: function strip_conditions() {
+      var _this = this;
+
+      this.terms = this.terms.filter(function (t, i) {
+        //remove preceding condition
+        if (i > 0 && t.pos['Condition'] && !_this.terms[i - 1].pos['Condition']) {
+          _this.terms[i - 1].text = _this.terms[i - 1].text.replace(/,$/, '');
+          _this.terms[i - 1].whitespace.trailing = '';
+          _this.terms[i - 1].rebuild();
+        }
+        return !t.pos['Condition'];
+      });
+      //
+      return this;
+    }
+
+    //named-entity recognition
+
+  }, {
+    key: 'topics',
+    value: function topics() {
+      return spot(this);
+    }
+  }]);
+
+  return Sentence;
+}();
+
+//unpublished methods
+//tokenize the match string, just like you'd tokenize the sentence.
+//this avoids lumper/splitter problems between haystack and needle
+
+tokenize_match = function tokenize_match(str) {
+  var regs = new Sentence(str).terms; //crazy!
+  regs = regs.map(function (t) {
+    return t.text;
+  });
+  regs = regs.filter(function (t) {
+    return t !== '';
+  });
+  return regs;
+};
+
+Sentence.fn = Sentence.prototype;
+
+module.exports = Sentence;
+
+// let s = new Sentence(`don't go`);
+// console.log(s.text());
+// s.contractions.expand();
+// console.log(s.text());
+// s.contractions.contract();
+// console.log(s.text());
+
+},{"../match/match":26,"../term/term":97,"./contractions/contract":30,"./contractions/expand":31,"./passive_voice":32,"./pos/tagger":51,"./spot":58,"./tense":61}],58:[function(require,module,exports){
+'use strict';
+//generic named-entity-recognition
+
+var blacklist = {
+  man: true,
+  woman: true,
+  girl: true,
+  boy: true,
+  guy: true,
+  father: true,
+  mother: true,
+  sister: true,
+  brother: true
+};
+
+var consolidate = function consolidate(topics) {
+  var names = {};
+  for (var i = 0; i < topics.length; i++) {
+    var normal = topics[i].root();
+    if (normal) {
+      names[normal] = names[normal] || {
+        count: 0,
+        text: normal
+      };
+      names[normal].count += 1;
+    }
+  }
+  //sort by freq
+  var arr = Object.keys(names).map(function (k) {
+    return names[k];
+  });
+  return arr.sort(function (a, b) {
+    if (a.count > b.count) {
+      return -1;
+    } else {
+      return 1;
+    }
+  });
+};
+
+var spot = function spot(s) {
+  var topics = [];
+  for (var i = 0; i < s.terms.length; i++) {
+    var t = s.terms[i];
+    //some stop-words
+    if (blacklist[t.normal]) {
+      continue;
+    }
+    //grab person, place, locations
+    if (t.pos['Place'] || t.pos['Organization']) {
+      topics.push(t);
+      continue;
+    }
+    if (t.pos['Person'] && !t.pos['Pronoun']) {
+      topics.push(t);
+      continue;
+    }
+    //add capitalized nouns...
+    if (i !== 0 && t.pos['Noun'] && t.is_capital()) {
+      //no dates, or values
+      if (t.pos['Value'] || t.pos['Date'] || t.pos['Pronoun']) {
+        continue;
+      }
+      topics.push(t);
+    }
+  }
+  return consolidate(topics);
+};
+
+module.exports = spot;
+
+},{}],59:[function(require,module,exports){
+'use strict';
+
+var fns = require('../../../fns');
+
+//these terms are nicer ways to negate a sentence
+//ie. john always walks -> john always doesn't walk
+var logical_negate = {
+  'everyone': 'no one',
+  'everybody': 'nobody',
+  'someone': 'no one',
+  'somebody': 'nobody',
+  // everything:"nothing",
+  'always': 'never'
+};
+//create corrollary
+var logical_affirm = fns.reverseObj(logical_negate);
+//these are not symmetic
+logical_affirm['nobody'] = 'somebody';
+
+var negate = function negate(s) {
+  var _loop = function _loop(i) {
+    var t = s.terms[i];
+    //these verbs are red-herrings
+    if (t.pos['Condition'] || t.pos['Quotation']) {
+      return 'continue';
+    }
+    //logical-negations are smoother than verb-negations
+    //ie. always -> never
+    if (logical_negate[t.normal]) {
+      t.changeTo(logical_negate[t.normal]);
+      return 'break';
+    }
+    if (logical_affirm[t.normal]) {
+      t.changeTo(logical_affirm[t.normal]);
+      return 'break';
+    }
+    //negate the first verb
+    if (t.pos['Verb']) {
+
+      //different rule for i/we/they/you + infinitive
+      //that is, 'i walk' -> 'i don\'t walk', not 'I not walk'
+
+      var isPronounAndInfinitive = function isPronounAndInfinitive() {
+        if (s.terms[i - 1]) {
+          var p = s.terms[i - 1].text;
+          return (p === 'i' || p === 'we' || p === 'they' || p === 'you') && t.pos['Infinitive'];
+        }
+        return false;
+      };
+
+      if (isPronounAndInfinitive()) {
+        t.changeTo('don\'t ' + t.text);
+        return 'break';
+      }
+      t.negate();
+      return 'break';
+    }
+  };
+
+  _loop2: for (var i = 0; i < s.terms.length; i++) {
+    var _ret = _loop(i);
+
+    switch (_ret) {
+      case 'continue':
+        continue;
+
+      case 'break':
+        break _loop2;}
+  }
+
+  return;
+};
+
+module.exports = negate;
+
+},{"../../../fns":23}],60:[function(require,module,exports){
+'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Sentence = require('../sentence.js');
+var _negate = require('./negate/negate.js');
+
+var Statement = function (_Sentence) {
+  _inherits(Statement, _Sentence);
+
+  function Statement(str, options) {
+    _classCallCheck(this, Statement);
+
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(Statement).call(this, str, options));
+  }
+
+  _createClass(Statement, [{
+    key: 'negate',
+    value: function negate() {
+      _negate(this);
+      return this;
+    }
+  }]);
+
+  return Statement;
+}(Sentence);
+
+Statement.fn = Statement.prototype;
+
+module.exports = Statement;
+
+// let s = new Statement('john is a person');
+// console.log(s);
+
+},{"../sentence.js":57,"./negate/negate.js":59}],61:[function(require,module,exports){
+'use strict';
+//change a sentence to past, present, or future tense
+
+var pos = require('./pos/parts_of_speech.js');
+
+//conjugate a specific verb
+var flip_verb = function flip_verb(t, tense) {
+  if (tense === 'present') {
+    t.to_present();
+  } else if (tense === 'past') {
+    t.to_past();
+  } else if (tense === 'future') {
+    t.to_future();
+  }
+  return t;
+};
+
+var change_tense = function change_tense(s, tense) {
+  //convert all verbs
+  s.terms.forEach(function (t) {
+    if (t instanceof pos.Verb) {
+      flip_verb(t, tense);
+    }
+  });
+  return s;
+};
+
+// [
+//   'john walks to the church',
+//   'john walks and feeds the birds',
+//   'john always walks',
+//   'will you walk?',
+// ];
+
+module.exports = change_tense;
+
+},{"./pos/parts_of_speech.js":36}],62:[function(require,module,exports){
+'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Term = require('../term.js');
+
+var _to_comparative = require('./to_comparative');
+var _to_superlative = require('./to_superlative');
+var adj_to_adv = require('./to_adverb');
+var adj_to_noun = require('./to_noun');
+
+var Adjective = function (_Term) {
+  _inherits(Adjective, _Term);
+
+  function Adjective(str, tag) {
+    _classCallCheck(this, Adjective);
+
+    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Adjective).call(this, str));
+
+    _this.tag = tag;
+    if (tag) {
+      _this.pos[tag] = true;
+    }
+    _this.pos['Adjective'] = true;
+    return _this;
+  }
+
+  _createClass(Adjective, [{
+    key: 'to_comparative',
+    value: function to_comparative() {
+      return _to_comparative(this.normal);
+    }
+  }, {
+    key: 'to_superlative',
+    value: function to_superlative() {
+      return _to_superlative(this.normal);
+    }
+  }, {
+    key: 'to_noun',
+    value: function to_noun() {
+      return adj_to_noun(this.normal);
+    }
+  }, {
+    key: 'to_adverb',
+    value: function to_adverb() {
+      return adj_to_adv(this.normal);
+    }
+  }, {
+    key: 'conjugate',
+    value: function conjugate() {
+      return {
+        comparative: _to_comparative(this.normal),
+        superlative: _to_superlative(this.normal),
+        adverb: adj_to_adv(this.normal),
+        noun: adj_to_noun(this.normal)
+      };
+    }
+  }]);
+
+  return Adjective;
+}(Term);
+
+Adjective.fn = Adjective.prototype;
+// let t = new Adjective("quick")
+// console.log(t.conjugate())
+
+module.exports = Adjective;
+
+},{"../term.js":97,"./to_adverb":63,"./to_comparative":64,"./to_noun":65,"./to_superlative":66}],63:[function(require,module,exports){
+//turn 'quick' into 'quickly'
+'use strict';
+
+var adj_to_adv = function adj_to_adv(str) {
+  var irregulars = {
+    'idle': 'idly',
+    'public': 'publicly',
+    'vague': 'vaguely',
+    'day': 'daily',
+    'icy': 'icily',
+    'single': 'singly',
+    'female': 'womanly',
+    'male': 'manly',
+    'simple': 'simply',
+    'whole': 'wholly',
+    'special': 'especially',
+    'straight': 'straight',
+    'wrong': 'wrong',
+    'fast': 'fast',
+    'hard': 'hard',
+    'late': 'late',
+    'early': 'early',
+    'well': 'well',
+    'good': 'well',
+    'little': 'little',
+    'long': 'long',
+    'low': 'low',
+    'best': 'best',
+    'latter': 'latter',
+    'bad': 'badly'
+  };
+
+  var dont = {
+    'foreign': 1,
+    'black': 1,
+    'modern': 1,
+    'next': 1,
+    'difficult': 1,
+    'degenerate': 1,
+    'young': 1,
+    'awake': 1,
+    'back': 1,
+    'blue': 1,
+    'brown': 1,
+    'orange': 1,
+    'complex': 1,
+    'cool': 1,
+    'dirty': 1,
+    'done': 1,
+    'empty': 1,
+    'fat': 1,
+    'fertile': 1,
+    'frozen': 1,
+    'gold': 1,
+    'grey': 1,
+    'gray': 1,
+    'green': 1,
+    'medium': 1,
+    'parallel': 1,
+    'outdoor': 1,
+    'unknown': 1,
+    'undersized': 1,
+    'used': 1,
+    'welcome': 1,
+    'yellow': 1,
+    'white': 1,
+    'fixed': 1,
+    'mixed': 1,
+    'super': 1,
+    'guilty': 1,
+    'tiny': 1,
+    'able': 1,
+    'unable': 1,
+    'same': 1,
+    'adult': 1
+  };
+
+  var transforms = [{
+    reg: /al$/i,
+    repl: 'ally'
+  }, {
+    reg: /ly$/i,
+    repl: 'ly'
+  }, {
+    reg: /(.{3})y$/i,
+    repl: '$1ily'
+  }, {
+    reg: /que$/i,
+    repl: 'quely'
+  }, {
+    reg: /ue$/i,
+    repl: 'uly'
+  }, {
+    reg: /ic$/i,
+    repl: 'ically'
+  }, {
+    reg: /ble$/i,
+    repl: 'bly'
+  }, {
+    reg: /l$/i,
+    repl: 'ly'
+  }];
+
+  var not_matches = [/airs$/, /ll$/, /ee.$/, /ile$/];
+
+  if (dont[str]) {
+    return null;
+  }
+  if (irregulars[str]) {
+    return irregulars[str];
+  }
+  if (str.length <= 3) {
+    return null;
+  }
+  for (var i = 0; i < not_matches.length; i++) {
+    if (str.match(not_matches[i])) {
+      return null;
+    }
+  }
+  for (var i = 0; i < transforms.length; i++) {
+    if (str.match(transforms[i].reg)) {
+      return str.replace(transforms[i].reg, transforms[i].repl);
+    }
+  }
+  return str + 'ly';
+};
+// console.log(adj_to_adv('direct'))
+
+module.exports = adj_to_adv;
+
+},{}],64:[function(require,module,exports){
+//turn 'quick' into 'quickly'
+'use strict';
+
+var convertables = require('../../data/convertables.js');
+
+var to_comparative = function to_comparative(str) {
+  var irregulars = {
+    'grey': 'greyer',
+    'gray': 'grayer',
+    'green': 'greener',
+    'yellow': 'yellower',
+    'red': 'redder',
+    'good': 'better',
+    'well': 'better',
+    'bad': 'worse',
+    'sad': 'sadder'
+  };
+
+  var dont = {
+    'overweight': 1,
+    'main': 1,
+    'nearby': 1,
+    'asleep': 1,
+    'weekly': 1,
+    'secret': 1,
+    'certain': 1
+  };
+
+  var transforms = [{
+    reg: /y$/i,
+    repl: 'ier'
+  }, {
+    reg: /([aeiou])t$/i,
+    repl: '$1tter'
+  }, {
+    reg: /([aeou])de$/i,
+    repl: '$1der'
+  }, {
+    reg: /nge$/i,
+    repl: 'nger'
+  }];
+
+  var matches = [/ght$/, /nge$/, /ough$/, /ain$/, /uel$/, /[au]ll$/, /ow$/, /old$/, /oud$/, /e[ae]p$/];
+
+  var not_matches = [/ary$/, /ous$/];
+
+  if (dont.hasOwnProperty(str)) {
+    return null;
+  }
+
+  for (var i = 0; i < transforms.length; i++) {
+    if (str.match(transforms[i].reg)) {
+      return str.replace(transforms[i].reg, transforms[i].repl);
+    }
+  }
+
+  if (convertables.hasOwnProperty(str)) {
+    if (str.match(/e$/)) {
+      return str + 'r';
+    }
+    return str + 'er';
+  }
+
+  if (irregulars.hasOwnProperty(str)) {
+    return irregulars[str];
+  }
+
+  for (var i = 0; i < not_matches.length; i++) {
+    if (str.match(not_matches[i])) {
+      return 'more ' + str;
+    }
+  }
+
+  for (var i = 0; i < matches.length; i++) {
+    if (str.match(matches[i])) {
+      return str + 'er';
+    }
+  }
+  return 'more ' + str;
+};
+
+// console.log(to_comparative("great"))
+
+module.exports = to_comparative;
+
+},{"../../data/convertables.js":3}],65:[function(require,module,exports){
+//convert cute to cuteness
+'use strict';
+
+var to_noun = function to_noun(w) {
+  var irregulars = {
+    'clean': 'cleanliness',
+    'naivety': 'naivety'
+  };
+  if (!w) {
+    return '';
+  }
+  if (irregulars.hasOwnProperty(w)) {
+    return irregulars[w];
+  }
+  if (w.match(' ')) {
+    return w;
+  }
+  if (w.match(/w$/)) {
+    return w;
+  }
+  var transforms = [{
+    'reg': /y$/,
+    'repl': 'iness'
+  }, {
+    'reg': /le$/,
+    'repl': 'ility'
+  }, {
+    'reg': /ial$/,
+    'repl': 'y'
+  }, {
+    'reg': /al$/,
+    'repl': 'ality'
+  }, {
+    'reg': /ting$/,
+    'repl': 'ting'
+  }, {
+    'reg': /ring$/,
+    'repl': 'ring'
+  }, {
+    'reg': /bing$/,
+    'repl': 'bingness'
+  }, {
+    'reg': /sing$/,
+    'repl': 'se'
+  }, {
+    'reg': /ing$/,
+    'repl': 'ment'
+  }, {
+    'reg': /ess$/,
+    'repl': 'essness'
+  }, {
+    'reg': /ous$/,
+    'repl': 'ousness'
+  }];
+
+  for (var i = 0; i < transforms.length; i++) {
+    if (w.match(transforms[i].reg)) {
+      return w.replace(transforms[i].reg, transforms[i].repl);
+    }
+  }
+
+  if (w.match(/s$/)) {
+    return w;
+  }
+  return w + 'ness';
+};
+
+// console.log(to_noun("great"))
+
+module.exports = to_noun;
+
+},{}],66:[function(require,module,exports){
+//turn 'quick' into 'quickest'
+'use strict';
+
+var convertables = require('../../data/convertables.js');
+
+var to_superlative = function to_superlative(str) {
+  var irregulars = {
+    'nice': 'nicest',
+    'late': 'latest',
+    'hard': 'hardest',
+    'inner': 'innermost',
+    'outer': 'outermost',
+    'far': 'furthest',
+    'worse': 'worst',
+    'bad': 'worst',
+    'good': 'best'
+  };
+
+  var dont = {
+    'overweight': 1,
+    'ready': 1
+  };
+
+  var transforms = [{
+    'reg': /y$/i,
+    'repl': 'iest'
+  }, {
+    'reg': /([aeiou])t$/i,
+    'repl': '$1ttest'
+  }, {
+    'reg': /([aeou])de$/i,
+    'repl': '$1dest'
+  }, {
+    'reg': /nge$/i,
+    'repl': 'ngest'
+  }];
+
+  var matches = [/ght$/, /nge$/, /ough$/, /ain$/, /uel$/, /[au]ll$/, /ow$/, /oud$/, /...p$/];
+
+  var not_matches = [/ary$/];
+
+  var generic_transformation = function generic_transformation(s) {
+    if (s.match(/e$/)) {
+      return s + 'st';
+    }
+    return s + 'est';
+  };
+
+  for (var i = 0; i < transforms.length; i++) {
+    if (str.match(transforms[i].reg)) {
+      return str.replace(transforms[i].reg, transforms[i].repl);
+    }
+  }
+
+  if (convertables.hasOwnProperty(str)) {
+    return generic_transformation(str);
+  }
+
+  if (dont.hasOwnProperty(str)) {
+    return 'most ' + str;
+  }
+
+  if (irregulars.hasOwnProperty(str)) {
+    return irregulars[str];
+  }
+  for (var i = 0; i < not_matches.length; i++) {
+    if (str.match(not_matches[i])) {
+      return 'most ' + str;
+    }
+  }
+
+  for (var i = 0; i < matches.length; i++) {
+    if (str.match(matches[i])) {
+      return generic_transformation(str);
+    }
+  }
+  return 'most ' + str;
+};
+
+// console.log(to_superlative("great"))
+
+module.exports = to_superlative;
+
+},{"../../data/convertables.js":3}],67:[function(require,module,exports){
+'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Term = require('../term.js');
+var _to_adjective = require('./to_adjective.js');
+
+var Adverb = function (_Term) {
+  _inherits(Adverb, _Term);
+
+  function Adverb(str, tag) {
+    _classCallCheck(this, Adverb);
+
+    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Adverb).call(this, str));
+
+    _this.tag = tag;
+    _this.pos['Adverb'] = true;
+    return _this;
+  }
+
+  _createClass(Adverb, [{
+    key: 'to_adjective',
+    value: function to_adjective() {
+      return _to_adjective(this.normal);
+    }
+  }]);
+
+  return Adverb;
+}(Term);
+
+Adverb.fn = Adverb.prototype;
+// let t = new Adverb("quickly")
+// console.log(t.to_adjective())
+
+module.exports = Adverb;
+
+},{"../term.js":97,"./to_adjective.js":68}],68:[function(require,module,exports){
+//turns 'quickly' into 'quick'
+'use strict';
+
+var to_adjective = function to_adjective(str) {
+  var irregulars = {
+    'idly': 'idle',
+    'sporadically': 'sporadic',
+    'basically': 'basic',
+    'grammatically': 'grammatical',
+    'alphabetically': 'alphabetical',
+    'economically': 'economical',
+    'conically': 'conical',
+    'politically': 'political',
+    'vertically': 'vertical',
+    'practically': 'practical',
+    'theoretically': 'theoretical',
+    'critically': 'critical',
+    'fantastically': 'fantastic',
+    'mystically': 'mystical',
+    'pornographically': 'pornographic',
+    'fully': 'full',
+    'jolly': 'jolly',
+    'wholly': 'whole'
+  };
+  var transforms = [{
+    'reg': /bly$/i,
+    'repl': 'ble'
+  }, {
+    'reg': /gically$/i,
+    'repl': 'gical'
+  }, {
+    'reg': /([rsdh])ically$/i,
+    'repl': '$1ical'
+  }, {
+    'reg': /ically$/i,
+    'repl': 'ic'
+  }, {
+    'reg': /uly$/i,
+    'repl': 'ue'
+  }, {
+    'reg': /ily$/i,
+    'repl': 'y'
+  }, {
+    'reg': /(.{3})ly$/i,
+    'repl': '$1'
+  }];
+  if (irregulars.hasOwnProperty(str)) {
+    return irregulars[str];
+  }
+  for (var i = 0; i < transforms.length; i++) {
+    if (str.match(transforms[i].reg)) {
+      return str.replace(transforms[i].reg, transforms[i].repl);
+    }
+  }
+  return str;
+};
+
+// console.log(to_adjective('quickly') === 'quick')
+// console.log(to_adjective('marvelously') === 'marvelous')
+module.exports = to_adjective;
+
+},{}],69:[function(require,module,exports){
+'use strict';
+//turn "plz"  "please"
+
+var implications = {
+  'plz': 'please',
+  'tmrw': 'tomorrow',
+  'wat': 'what',
+  'r': 'are',
+  'u': 'you'
+};
+
+var implied = function implied(str) {
+  if (implications[str]) {
+    return implications[str];
+  }
+  return null;
+};
+
+module.exports = implied;
+
+},{}],70:[function(require,module,exports){
+'use strict';
+
+var is_acronym = function is_acronym(str) {
+  //like N.D.A
+  if (str.match(/([A-Z]\.)+[A-Z]?$/)) {
+    return true;
+  }
+  //like NDA
+  if (str.match(/[A-Z]{3}$/)) {
+    return true;
+  }
+  return false;
+};
+module.exports = is_acronym;
+
+},{}],71:[function(require,module,exports){
+'use strict';
+
+var is_acronym = require('../is_acronym.js');
+
+//chooses an indefinite aricle 'a/an' for a word
+var irregulars = {
+  'hour': 'an',
+  'heir': 'an',
+  'heirloom': 'an',
+  'honest': 'an',
+  'honour': 'an',
+  'honor': 'an',
+  'uber': 'an' //german u
+};
+
+var indefinite_article = function indefinite_article(str) {
+  if (!str) {
+    return null;
+  }
+
+  //pronounced letters of acronyms that get a 'an'
+  var an_acronyms = {
+    A: true,
+    E: true,
+    F: true,
+    H: true,
+    I: true,
+    L: true,
+    M: true,
+    N: true,
+    O: true,
+    R: true,
+    S: true,
+    X: true
+  };
+  //'a' regexes
+  var a_regexs = [/^onc?e/i, //'wu' sound of 'o'
+  /^u[bcfhjkqrstn][aeiou]/i, // 'yu' sound for hard 'u'
+  /^eul/i];
+
+  //begin business time
+  ////////////////////
+  //explicit irregular forms
+  if (irregulars.hasOwnProperty(str)) {
+    return irregulars[str];
+  }
+  //spelled-out acronyms
+  if (is_acronym(str) && an_acronyms.hasOwnProperty(str.substr(0, 1))) {
+    return 'an';
+  }
+  //'a' regexes
+  for (var i = 0; i < a_regexs.length; i++) {
+    if (str.match(a_regexs[i])) {
+      return 'a';
+    }
+  }
+  //basic vowel-startings
+  if (str.match(/^[aeiou]/i)) {
+    return 'an';
+  }
+  return 'a';
+};
+
+module.exports = indefinite_article;
+
+// console.log(indefinite_article('N.D.A'));
+
+},{"../is_acronym.js":70}],72:[function(require,module,exports){
+'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Noun = require('../noun.js');
+var parse_date = require('./parse_date.js');
+
+var _Date = function (_Noun) {
+  _inherits(_Date, _Noun);
+
+  function _Date(str, tag) {
+    _classCallCheck(this, _Date);
+
+    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(_Date).call(this, str));
+
+    _this.tag = tag;
+    _this.pos['Date'] = true;
+    _this.data = parse_date(_this.text) || {};
+    return _this;
+  }
+
+  //can we make it a js Date object?
+
+  _createClass(_Date, [{
+    key: 'is_date',
+    value: function is_date() {
+      var o = this.data;
+      if (o.month === null || o.day === null || o.year === null) {
+        return false;
+      }
+      return true;
+    }
+  }, {
+    key: 'date',
+    value: function date() {
+      if (this.is_date() === false) {
+        return null;
+      }
+      var d = new Date();
+      if (this.data.year) {
+        d.setYear(this.data.year);
+      }
+      if (this.data.month !== null) {
+        d.setMonth(this.data.month);
+      }
+      if (this.data.day !== null) {
+        d.setDate(this.data.day);
+      }
+      return d;
+    }
+  }]);
+
+  return _Date;
+}(Noun);
+
+_Date.fn = _Date.prototype;
+
+module.exports = _Date;
+
+// let d = new _Date('June 4th 1993');
+// console.log(d.date());
+
+},{"../noun.js":78,"./parse_date.js":75}],73:[function(require,module,exports){
+'use strict';
+
+var months = require('../../../data/dates').months.concat(['march', 'may']); //(march and may are ambiguous grammatically)
+var month = '(' + months.join('|') + ')';
+var day = '([0-9]{1,2})';
+var year = '\'?([12][0-9]{3})';
+
+var rules = [{
+  reg: month + ' ' + day + ' ' + year, //'March 1st 1987'
+  order: ['month', 'day', 'year']
+}, {
+  reg: day + ' of ' + month + ' ' + year, //'3rd of March 1969',
+  order: ['day', 'month', 'year']
+},
+
+//incomplete versions
+{
+  reg: day + ' of ' + month, //'3rd of March',
+  order: ['day', 'month']
+}, {
+  reg: month + ' ' + year, //'March 1969',
+  order: ['month', 'year']
+}, {
+  reg: month + ' ' + day, //'March 18th',
+  order: ['month', 'day']
+}, {
+  reg: day + ' ' + month, //'18th of March',
+  order: ['day', 'month']
+}, {
+  reg: '' + month, //'january'
+  order: ['month']
+}, {
+  reg: '' + year, //'1998'
+  order: ['year']
+}].map(function (o) {
+  o.reg = new RegExp('\\b' + o.reg + '\\b', '');
+  return o;
+});
+module.exports = rules;
+
+},{"../../../data/dates":5}],74:[function(require,module,exports){
+
+'use strict';
+
+var dates = require('../../../data/dates');
+
+//build date regex
+var terms = dates.months.concat(dates.days);
+var day_reg = '(\\b' + terms.join('\\b|\\b') + '\\b)';
+day_reg = new RegExp(day_reg, 'i');
+var times_reg = /1?[0-9]:[0-9]{2}/;
+var is_date = function is_date(str) {
+  if (str.match(day_reg) || str.match(times_reg)) {
+    return true;
+  }
+  //a straight-up year, like '2016'
+  if (str.match(/^[12][0-9]{3}$/)) {
+    var n = parseInt(str, 10);
+    if (n > 1300 && n < 2100) {
+      return true;
+    }
+  }
+  return false;
+};
+
+module.exports = is_date;
+
+// console.log(is_date('2015'));
+
+},{"../../../data/dates":5}],75:[function(require,module,exports){
+'use strict';
+// #generates properly-formatted dates from free-text date forms
+// #by spencer kelly 2015
+
+var to_number = require('../value/parse/to_number.js');
+//regexes to top-parse
+var rules = require('./date_rules.js');
+
+//return integers from strings
+var wrangle = {
+
+  year: function year(s) {
+    var num = s.match(/[0-9]+/);
+    num = parseInt(num, 10);
+    if (!num || num > 2900 || num < 0) {
+      return null;
+    }
+    //honestly, prob not a year either
+    if (num > 100 && num < 1000) {
+      return null;
+    }
+    //'20BC' becomes -20
+    if (s.match(/[0-9] ?bc/i)) {
+      return num *= -1;
+    }
+    // '98 becomes 1998
+    if (num < 100 && num > 30) {
+      num += 1900;
+    }
+    return num;
+  },
+
+  month: function month(s) {
+    //0 based months, 1 based days...
+    var months_obj = {
+      january: 0,
+      february: 1,
+      march: 2,
+      april: 3,
+      may: 4,
+      june: 5,
+      july: 6,
+      august: 7,
+      september: 8,
+      october: 9,
+      november: 10,
+      december: 11,
+      jan: 0,
+      feb: 1,
+      mar: 2,
+      apr: 3,
+      aug: 7,
+      sept: 8,
+      oct: 9,
+      nov: 10,
+      dec: 11
+    };
+    return months_obj[s];
+  },
+
+  day: function day(s) {
+    var n = to_number(s) || parseInt(s, 10);
+    if (n < 0 || n > 31) {
+      return null;
+    }
+    return n;
+  }
+};
+
+//cleanup string
+var preprocess = function preprocess(str) {
+  str = str.toLowerCase();
+  str = str.replace(/([0-9]+)(nd|rd|th|st)/i, '$1');
+  var words = str.split(' ').map(function (w) {
+    if (!w.match(/[0-9]/)) {
+      return to_number(w) || w;
+    }
+    return w;
+  });
+  return words.join(' ');
+};
+
+var date_parser = function date_parser(str) {
+  str = preprocess(str);
+  var result = {
+    year: null,
+    month: null,
+    day: null
+  };
+  for (var i = 0; i < rules.length; i++) {
+    if (str.match(rules[i].reg)) {
+      var m = str.match(rules[i].reg);
+      for (var o = 0; o < rules[i].order.length; o++) {
+        var type = rules[i].order[o];
+        result[type] = wrangle[type](m[o + 1]);
+      }
+      break;
+    }
+  }
+  return result;
+};
+module.exports = date_parser;
+// console.log(wrangle.year('1998'));
+// console.log(date_parser('March 1st 1987'));
+// console.log(date_extractor('june second 1999'));
+
+},{"../value/parse/to_number.js":93,"./date_rules.js":73}],76:[function(require,module,exports){
+'use strict';
+
+var irregulars = require('../../data/irregular_nouns');
+
+//similar to plural/singularize rules, but not the same
+var plural_indicators = [/(^v)ies$/i, /ises$/i, /ives$/i, /(antenn|formul|nebul|vertebr|vit)ae$/i, /(octop|vir|radi|nucle|fung|cact|stimul)i$/i, /(buffal|tomat|tornad)oes$/i, /(analy|ba|diagno|parenthe|progno|synop|the)ses$/i, /(vert|ind|cort)ices$/i, /(matr|append)ices$/i, /(x|ch|ss|sh|s|z|o)es$/i, /men$/i, /news$/i, /.tia$/i, /(^f)ves$/i, /(lr)ves$/i, /(^aeiouy|qu)ies$/i, /(m|l)ice$/i, /(cris|ax|test)es$/i, /(alias|status)es$/i, /ics$/i];
+
+//similar to plural/singularize rules, but not the same
+var singular_indicators = [/(ax|test)is$/i, /(octop|vir|radi|nucle|fung|cact|stimul)us$/i, /(octop|vir)i$/i, /(rl)f$/i, /(alias|status)$/i, /(bu)s$/i, /(al|ad|at|er|et|ed|ad)o$/i, /(ti)um$/i, /(ti)a$/i, /sis$/i, /(?:(^f)fe|(lr)f)$/i, /hive$/i, /(^aeiouy|qu)y$/i, /(x|ch|ss|sh|z)$/i, /(matr|vert|ind|cort)(ix|ex)$/i, /(m|l)ouse$/i, /(m|l)ice$/i, /(antenn|formul|nebul|vertebr|vit)a$/i, /.sis$/i, /^(?!talis|.*hu)(.*)man$/i];
+
+var is_plural = function is_plural(str) {
+  str = (str || '').toLowerCase();
+  //handle 'mayors of chicago'
+  var preposition = str.match(/([a-z]*) (of|in|by|for) [a-z]/);
+  if (preposition && preposition[1]) {
+    str = preposition[1];
+  }
+  // if it's a known irregular case
+  for (var i = 0; i < irregulars.length; i++) {
+    if (irregulars[i][1] === str) {
+      return true;
+    }
+    if (irregulars[i][0] === str) {
+      return false;
+    }
+  }
+  for (var i = 0; i < plural_indicators.length; i++) {
+    if (str.match(plural_indicators[i])) {
+      return true;
+    }
+  }
+  for (var i = 0; i < singular_indicators.length; i++) {
+    if (str.match(singular_indicators[i])) {
+      return false;
+    }
+  }
+  // some 'looks pretty plural' rules
+  if (str.match(/s$/) && !str.match(/ss$/) && str.length > 3) {
+    //needs some lovin'
+    return true;
+  }
+  return false;
+};
+
+// console.log(is_plural('octopus') === false)
+// console.log(is_plural('octopi') === true)
+// console.log(is_plural('eyebrow') === false)
+// console.log(is_plural('eyebrows') === true)
+// console.log(is_plural('child') === false)
+// console.log(is_plural('children') === true)
+
+module.exports = is_plural;
+
+},{"../../data/irregular_nouns":10}],77:[function(require,module,exports){
+//uncountables are words that shouldn't ever inflect, for metaphysical reasons, like 'peace'
+'use strict';
+
+var uncountable_arr = require('../../data/uncountables.js');
+
+var uncountable = uncountable_arr.reduce(function (h, a) {
+  h[a] = true;
+  return h;
+}, {});
+
+var is_uncountable = function is_uncountable(str) {
+  if (uncountable[str]) {
+    return true;
+  }
+  return false;
+};
+// console.log(is_uncountable("peace") === true)
+// console.log(is_uncountable("dog") === false)
+module.exports = is_uncountable;
+
+},{"../../data/uncountables.js":21}],78:[function(require,module,exports){
+'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Term = require('../term.js');
+var _article = require('./article.js');
+var _is_plural = require('./is_plural.js');
+var _is_place = require('./place/is_place.js');
+var _is_person = require('./person/is_person.js');
+var _pronoun = require('./pronoun.js');
+var _is_value = require('./value/is_value.js');
+var _is_date = require('./date/is_date.js');
+var _is_organization = require('./organization/is_organization.js');
+var _singularize = require('./singularize.js');
+var _pluralize = require('./pluralize.js');
+var _is_uncountable = require('./is_uncountable.js');
+
+var Noun = function (_Term) {
+  _inherits(Noun, _Term);
+
+  function Noun(str, tag) {
+    _classCallCheck(this, Noun);
+
+    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Noun).call(this, str));
+
+    _this.tag = tag;
+    _this.pos['Noun'] = true;
+    if (tag) {
+      _this.pos[tag] = true;
+    }
+    if (_this.is_plural()) {
+      _this.pos['Plural'] = true;
+    }
+    return _this;
+  }
+  //noun methods
+
+  _createClass(Noun, [{
+    key: 'article',
+    value: function article() {
+      //if it's a person, it's he/she, not a/an
+      if (this.pos['Person']) {
+        return this.pronoun();
+      }
+      //groups of people are 'they'
+      if (this.pos['Organization']) {
+        return 'they';
+      }
+      return _article(this.text);
+    }
+  }, {
+    key: 'root',
+    value: function root() {
+      return this.singularize();
+    }
+  }, {
+    key: 'pronoun',
+    value: function pronoun() {
+      if (this.is_organization() || this.is_place() || this.is_value()) {
+        return 'it';
+      }
+      return _pronoun(this.normal);
+    }
+  }, {
+    key: 'is_plural',
+    value: function is_plural() {
+      if (this.pos['Date'] || this.pos['Possessive']) {
+        return false;
+      } else if (this.has_abbreviation()) {
+        //contractions & possessives are not plural
+        return false;
+      } else {
+        return _is_plural(this.normal);
+      }
+    }
+  }, {
+    key: 'is_uncountable',
+    value: function is_uncountable() {
+      return _is_uncountable(this.strip_apostrophe());
+    }
+  }, {
+    key: 'pluralize',
+    value: function pluralize() {
+      return _pluralize(this.strip_apostrophe());
+    }
+  }, {
+    key: 'singularize',
+    value: function singularize() {
+      return _singularize(this.strip_apostrophe());
+    }
+    //sub-classes
+
+  }, {
+    key: 'is_person',
+    value: function is_person() {
+      //don't overwrite dates, etc
+      if (this.tag === 'Date') {
+        return false;
+      }
+      return _is_person(this.strip_apostrophe());
+    }
+  }, {
+    key: 'is_organization',
+    value: function is_organization() {
+      return _is_organization(this.strip_apostrophe(), this.text);
+    }
+  }, {
+    key: 'is_date',
+    value: function is_date() {
+      return _is_date(this.strip_apostrophe());
+    }
+  }, {
+    key: 'is_value',
+    value: function is_value() {
+      //don't overwrite dates, etc
+      if (this.tag === 'Date') {
+        return false;
+      }
+      return _is_value(this.strip_apostrophe());
+    }
+  }, {
+    key: 'is_place',
+    value: function is_place() {
+      return _is_place(this.strip_apostrophe());
+    }
+  }]);
+
+  return Noun;
+}(Term);
+
+Noun.fn = Noun.prototype;
+
+module.exports = Noun;
+
+// let t = new Noun('NDA');
+// console.log(t.article());
+
+},{"../term.js":97,"./article.js":71,"./date/is_date.js":74,"./is_plural.js":76,"./is_uncountable.js":77,"./organization/is_organization.js":79,"./person/is_person.js":82,"./place/is_place.js":85,"./pluralize.js":87,"./pronoun.js":88,"./singularize.js":89,"./value/is_value.js":90}],79:[function(require,module,exports){
+'use strict';
+
+var abbreviations = require('../../../data/abbreviations');
+var org_data = require('../../../data/organizations');
+
+//some boring capitalised acronyms you see frequently
+var blacklist = {
+  url: true,
+  http: true,
+  wtf: true,
+  irl: true,
+  ie: true,
+  eg: true,
+  gps: true,
+  dna: true,
+  sms: true };
+
+//words like 'co' and ltd
+//these should maybe be somewhere else
+var org_suffix = abbreviations.orgs.reduce(function (h, s) {
+  h[s] = true;
+  return h;
+}, {});
+org_data.suffixes.forEach(function (s) {
+  //a few more
+  org_suffix[s] = true;
+});
+
+//named orgs like google and nestle
+var org_names = org_data.organizations.reduce(function (h, s) {
+  h[s] = true;
+  return h;
+}, {});
+
+var is_organization = function is_organization(str, text) {
+  text = text || '';
+  //blacklist some boring ones
+  if (blacklist[str]) {
+    return false;
+  }
+  //some known organizations, like microsoft
+  if (org_names[str]) {
+    return true;
+  }
+  //no period acronyms
+  if (text.length <= 5 && text.match(/^[A-Z][A-Z]+$/) !== null) {
+    return true;
+  }
+  //period acronyms
+  if (text.length >= 4 && text.match(/^([A-Z]\.)*$/) !== null) {
+    return true;
+  }
+  // eg 'Smith & Co'
+  if (str.match(/ & /)) {
+    return true;
+  }
+  // Girlscouts of Canada
+  if (str.match(/..s of /)) {
+    return true;
+  }
+  // eg pets.com
+  if (str.match(/[a-z]{3}\.(com|net|org|biz)/)) {
+    //not a perfect url regex, but a "org.com"
+    return true;
+  }
+  // "foobar inc."
+  var words = str.split(' ');
+  if (words.length > 1) {
+    var last = words[words.length - 1];
+    if (org_suffix[last]) {
+      return true;
+    }
+  }
+
+  return false;
+};
+
+module.exports = is_organization;
+
+// console.log(is_organization('Captain of Jamaica'));
+
+},{"../../../data/abbreviations":1,"../../../data/organizations":17}],80:[function(require,module,exports){
+'use strict';
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Noun = require('../noun.js');
+
+var Organization = function (_Noun) {
+  _inherits(Organization, _Noun);
+
+  function Organization(str, tag) {
+    _classCallCheck(this, Organization);
+
+    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Organization).call(this, str));
+
+    _this.tag = tag;
+    _this.pos['Organization'] = true;
+
+    return _this;
+  }
+
+  return Organization;
+}(Noun);
+
+Organization.fn = Organization.prototype;
+module.exports = Organization;
+
+},{"../noun.js":78}],81:[function(require,module,exports){
+'use strict';
+
+var firstnames = require('../../../data/firstnames');
+var parse_name = require('./parse_name.js');
+
+var gender = function gender(normal) {
+  if (normal === 'he') {
+    return 'Male';
+  }
+  if (normal === 'she') {
+    return 'Female';
+  }
+  var o = parse_name(normal);
+  var firstName = o.firstName;
+  if (!firstName) {
+    return null;
+  }
+  if (firstnames[firstName] === 'm') {
+    return 'Male';
+  }
+  if (firstnames[firstName] === 'f') {
+    return 'Female';
+  }
+  //male honourifics
+  if (normal.match(/\b(mr|mister|sr|jr)\b/i)) {
+    return 'Male';
+  }
+  //female honourifics
+  if (normal.match(/^(mrs|miss|ms|misses|mme|mlle)\.? /i)) {
+    return 'Female';
+  }
+  //statistical guesses
+  if (firstName.match(/.(i|ee|[a|e]y|a)$/i)) {
+    //this is almost-always true
+    return 'Female';
+  }
+  if (firstName.match(/[ou]$/i)) {
+    //if it ends in a 'oh or uh', male
+    return 'Male';
+  }
+  if (firstName.match(/(nn|ll|tt)/i)) {
+    //if it has double-consonants, female
+    return 'Female';
+  }
+  // name not recognized, or recognized as of indeterminate gender
+  return null;
+};
+module.exports = gender;
+
+// console.log(gender('john', 'john') === 'Male');
+// console.log(gender('jane smith', 'jane') === 'Female');
+// console.log(gender('jan smith', 'jan') === null);
+
+},{"../../../data/firstnames":7,"./parse_name.js":83}],82:[function(require,module,exports){
+'use strict';
+
+var firstnames = require('../../../data/firstnames');
+var honourifics = require('../../../data/honourifics').reduce(function (h, s) {
+  h[s] = true;
+  return h;
+}, {});
+
+var whitelist = {
+  'he': true,
+  'she': true,
+  'i': true,
+  'you': true
+};
+
+var is_person = function is_person(str) {
+  if (whitelist[str] || firstnames[str]) {
+    return true;
+  }
+  var words = str.split(' ');
+  if (words.length > 1) {
+    var first = words[0];
+    if (honourifics[first] || firstnames[first]) {
+      return true;
+    }
+  }
+  return false;
+};
+
+module.exports = is_person;
+
+// console.log(is_person('Illi Danza'));
+
+},{"../../../data/firstnames":7,"../../../data/honourifics":9}],83:[function(require,module,exports){
+'use strict';
+
+var firstnames = require('../../../data/firstnames');
+var honourifics = require('../../../data/honourifics').reduce(function (h, s) {
+  h[s] = true;
+  return h;
+}, {});
+
+var parse_name = function parse_name(str) {
+
+  var words = str.split(' ');
+  var o = {
+    honourific: null,
+    firstName: null,
+    middleName: null,
+    lastName: null
+  };
+
+  //first-word honourific
+  if (honourifics[words[0]]) {
+    o.honourific = words[0];
+    words = words.slice(1, words.length);
+  }
+  //last-word honourific
+  if (honourifics[words[words.length - 1]]) {
+    o.honourific = words[words.length - 1];
+    words = words.slice(0, words.length - 1);
+  }
+  //see if the first word is now a known first-name
+  if (firstnames[words[0]]) {
+    o.firstName = words[0];
+    words = words.slice(1, words.length);
+  } else {
+    //ambiguous one-word name
+    if (words.length === 1) {
+      return o;
+    }
+    //looks like an unknown first-name
+    o.firstName = words[0];
+    words = words.slice(1, words.length);
+  }
+  //assume the remaining is '[middle..] [last]'
+  if (words[words.length - 1]) {
+    o.lastName = words[words.length - 1];
+    words = words.slice(0, words.length - 1);
+  }
+  o.middleName = words.join(' ');
+  return o;
+};
+
+module.exports = parse_name;
+
+// console.log(parse_name('john smith'));
+
+},{"../../../data/firstnames":7,"../../../data/honourifics":9}],84:[function(require,module,exports){
+// not all cultures use the firstname-lastname practice. this does make some assumptions.
+'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Noun = require('../noun.js');
+var guess_gender = require('./gender.js');
+var parse_name = require('./parse_name.js');
+
+var Person = function (_Noun) {
+  _inherits(Person, _Noun);
+
+  function Person(str, tag) {
+    _classCallCheck(this, Person);
+
+    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Person).call(this, str));
+
+    _this.tag = tag;
+    _this.pos['Person'] = true;
+    _this.honourific = null;
+    _this.firstName = null;
+    _this.middleName = null;
+    _this.lastName = null;
+    _this.parse();
+    if (_this.isPronoun()) {
+      _this.pos['Pronoun'] = true;
+    }
+    return _this;
+  }
+
+  _createClass(Person, [{
+    key: 'isPronoun',
+    value: function isPronoun() {
+      var whitelist = {
+        'he': true,
+        'she': true,
+        'i': true,
+        'you': true
+      };
+      return whitelist[this.normal];
+    }
+
+    //proper normalised name without the cruft
+
+  }, {
+    key: 'root',
+    value: function root() {
+      if (this.isPronoun()) {
+        return this.normal;
+      }
+      var str = this.firstName || '';
+      if (this.middleName) {
+        str += ' ' + this.middleName;
+      }
+      if (this.lastName) {
+        str += ' ' + this.lastName;
+      }
+      return str.trim() || this.normal;
+    }
+
+    //turn a multi-word string into [first, middle, last, honourific]
+
+  }, {
+    key: 'parse',
+    value: function parse() {
+      var o = parse_name(this.normal);
+      this.honourific = o.honourific;
+      this.firstName = o.firstName;
+      this.middleName = o.middleName;
+      this.lastName = o.lastName;
+    }
+  }, {
+    key: 'gender',
+    value: function gender() {
+      return guess_gender(this.normal);
+    }
+  }, {
+    key: 'pronoun',
+    value: function pronoun() {
+      var pronouns = {
+        Male: 'he',
+        Female: 'she'
+      };
+      var gender = this.gender();
+      //return 'singular they' if no gender is found
+      return pronouns[gender] || 'they';
+    }
+  }]);
+
+  return Person;
+}(Noun);
+
+Person.fn = Person.prototype;
+module.exports = Person;
+
+// let p = new Person('John Smith');
+// console.log(p.gender());
+
+},{"../noun.js":78,"./gender.js":81,"./parse_name.js":83}],85:[function(require,module,exports){
+'use strict';
+
+var places = require('../../../data/places');
+var abbreviations = require('../../../data/abbreviations');
+
+//add Country names
+var isPlace = places.countries.reduce(function (h, s) {
+  h[s] = true;
+  return h;
+}, {});
+//add City names
+places.cities.forEach(function (s) {
+  isPlace[s] = true;
+});
+//add airports
+places.airports.forEach(function (s) {
+  isPlace[s] = true;
+});
+//add place abbreviations names
+abbreviations.places.forEach(function (s) {
+  isPlace[s] = true;
+});
+
+//these are signals too
+var firstwords = ['west', 'east', 'nort', 'south', 'western', 'eastern', 'nortern', 'southern', 'mount'].reduce(function (h, s) {
+  h[s] = true;
+  return h;
+}, {});
+
+var lastwords = ['city', 'town', 'county', 'village', 'province', 'country', 'state', 'province', 'mountain', 'river', 'valley', 'park', 'avenue', 'street', 'road']. //these should maybe be somewhere else
+reduce(function (h, s) {
+  h[s] = true;
+  return h;
+}, {});
+
+var is_place = function is_place(str) {
+  var words = str.split(' ');
+
+  if (words.length > 1) {
+    //first words, like 'eastern'
+    if (firstwords[words[0]]) {
+      return true;
+    }
+    //last words, like 'mountain'
+    if (lastwords[words[words.length - 1]]) {
+      return true;
+    }
+  }
+  for (var i = 0; i < words.length; i++) {
+    if (isPlace[words[i]]) {
+      return true;
+    }
+  }
+
+  return false;
+};
+
+module.exports = is_place;
+
+},{"../../../data/abbreviations":1,"../../../data/places":19}],86:[function(require,module,exports){
+'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Noun = require('../noun.js');
+var places = require('../../../data/places.js');
+var fns = require('../../../fns.js');
+//make cities/countries easy to lookup
+var countries = fns.toObj(places.countries);
+var cities = fns.toObj(places.cities);
+
+var Place = function (_Noun) {
+  _inherits(Place, _Noun);
+
+  function Place(str, tag) {
+    _classCallCheck(this, Place);
+
+    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Place).call(this, str));
+
+    _this.tag = tag;
+    _this.pos['Place'] = true;
+
+    _this.title = null;
+    _this.city = null;
+    _this.region = null; //'2nd-tier' (state/province/county/whatever)
+    _this.country = null;
+    _this.parse();
+    return _this;
+  }
+
+  _createClass(Place, [{
+    key: 'root',
+    value: function root() {
+      return this.title || this.normal;
+    }
+  }, {
+    key: 'parse',
+    value: function parse() {
+      //parse a comma-described place like "toronto, ontario"
+      var terms = this.strip_apostrophe().split(' ');
+      this.title = terms[0];
+      for (var i = 1; i < terms.length; i++) {
+        var t = terms[i];
+        if (cities[t]) {
+          this.city = fns.titlecase(t);
+        } else if (countries[t]) {
+          this.country = fns.titlecase(t);
+        } else if (this.city !== null) {
+          //if we already got the city..
+          this.region = fns.titlecase(t);
+        } else {
+          //it's part of the title
+          this.title += ' ' + t;
+        }
+      }
+    }
+  }]);
+
+  return Place;
+}(Noun);
+Place.fn = Place.prototype;
+module.exports = Place;
+
+// console.log(new Place('Toronto, Ontario, Canada'));
+
+},{"../../../data/places.js":19,"../../../fns.js":23,"../noun.js":78}],87:[function(require,module,exports){
+'use strict';
+
+var is_uncountable = require('./is_uncountable.js');
+var irregulars = require('../../data/irregular_nouns.js');
+var is_plural = require('./is_plural.js');
+var fns = require('../../fns.js');
+
+var pluralize_rules = [[/(ax|test)is$/i, '$1es'], [/(octop|vir|radi|nucle|fung|cact|stimul)us$/i, '$1i'], [/(octop|vir)i$/i, '$1i'], [/(kn|l|w)ife$/i, '$1ives'], [/^((?:ca|e|ha|(?:our|them|your)?se|she|wo)l|lea|loa|shea|thie)f$/i, '$1ves'], [/^(dwar|handkerchie|hoo|scar|whar)f$/i, '$1ves'], [/(alias|status)$/i, '$1es'], [/(bu)s$/i, '$1ses'], [/(al|ad|at|er|et|ed|ad)o$/i, '$1oes'], [/([ti])um$/i, '$1a'], [/([ti])a$/i, '$1a'], [/sis$/i, 'ses'], [/(hive)$/i, '$1s'], [/([^aeiouy]|qu)y$/i, '$1ies'], [/(x|ch|ss|sh|s|z)$/i, '$1es'], [/(matr|vert|ind|cort)(ix|ex)$/i, '$1ices'], [/([m|l])ouse$/i, '$1ice'], [/([m|l])ice$/i, '$1ice'], [/^(ox)$/i, '$1en'], [/^(oxen)$/i, '$1'], [/(quiz)$/i, '$1zes'], [/(antenn|formul|nebul|vertebr|vit)a$/i, '$1ae'], [/(sis)$/i, 'ses'], [/^(?!talis|.*hu)(.*)man$/i, '$1men'], [/(.*)/i, '$1s']].map(function (a) {
+  return {
+    reg: a[0],
+    repl: a[1]
+  };
+});
+
+var pluralize = function pluralize(str) {
+  var low = str.toLowerCase();
+  //uncountable
+  if (is_uncountable(low)) {
+    //uncountables shouldn't ever inflect
+    return str;
+  }
+  //is it already plural?
+  if (is_plural(low) === true) {
+    return str;
+  }
+  //irregular
+  var found = irregulars.filter(function (r) {
+    return r[0] === low;
+  });
+  if (found[0]) {
+    if (fns.titlecase(low) === str) {
+      //handle capitalisation properly
+      return fns.titlecase(found[0][1]);
+    }
+    return found[0][1];
+  }
+  //inflect first word of preposition-phrase
+  if (str.match(/([a-z]*) (of|in|by|for) [a-z]/)) {
+    var first = (str.match(/^([a-z]*) (of|in|by|for) [a-z]/) || [])[1];
+    if (first) {
+      var better_first = pluralize(first);
+      return better_first + str.replace(first, '');
+    }
+  }
+  //regular
+  for (var i = 0; i < pluralize_rules.length; i++) {
+    if (str.match(pluralize_rules[i].reg)) {
+      return str.replace(pluralize_rules[i].reg, pluralize_rules[i].repl);
+    }
+  }
+  return null;
+};
+// console.log(pluralize('gas') === "gases")
+// console.log(pluralize('narrative') === "narratives")
+// console.log(pluralize('video') === "videos")
+// console.log(pluralize('photo') === "photos")
+// console.log(pluralize('stomach') === "stomachs")
+// console.log(pluralize('database') === "databases")
+// console.log(pluralize('kiss') === "kisses")
+// console.log(pluralize('towns') === "towns")
+// console.log(pluralize('peace') === "peace")
+// console.log(pluralize('mayor of chicago') === "mayors of chicago")
+module.exports = pluralize;
+
+},{"../../data/irregular_nouns.js":10,"../../fns.js":23,"./is_plural.js":76,"./is_uncountable.js":77}],88:[function(require,module,exports){
+'use strict';
+
+var is_person = require('./person/is_person.js');
+var is_plural = require('./is_plural.js');
+var gender = require('./person/gender.js');
+
+var pronoun = function pronoun(str) {
+  if (is_person(str)) {
+    var g = gender(str);
+    if (g === 'Male') {
+      return 'he';
+    } else if (g === 'Female') {
+      return 'she';
+    }
+    return 'they'; //singular they
+  }
+  //non-person, like 'microwaves'
+  if (is_plural(str)) {
+    return 'they';
+  }
+  return 'it';
+};
+
+module.exports = pronoun;
+
+// console.log(pronoun('Illi Danza'));
+
+},{"./is_plural.js":76,"./person/gender.js":81,"./person/is_person.js":82}],89:[function(require,module,exports){
+'use strict';
+
+var is_uncountable = require('./is_uncountable.js');
+var irregulars = require('../../data/irregular_nouns.js');
+var is_plural = require('./is_plural.js');
+var fns = require('../../fns.js');
+
+var singularize_rules = [[/([^v])ies$/i, '$1y'], [/ises$/i, 'isis'], [/(kn|[^o]l|w)ives$/i, '$1ife'], [/^((?:ca|e|ha|(?:our|them|your)?se|she|wo)l|lea|loa|shea|thie)ves$/i, '$1f'], [/^(dwar|handkerchie|hoo|scar|whar)ves$/i, '$1f'], [/(antenn|formul|nebul|vertebr|vit)ae$/i, '$1a'], [/(octop|vir|radi|nucle|fung|cact|stimul)(i)$/i, '$1us'], [/(buffal|tomat|tornad)(oes)$/i, '$1o'], [/((a)naly|(b)a|(d)iagno|(p)arenthe|(p)rogno|(s)ynop|(t)he)ses$/i, '$1sis'], [/(vert|ind|cort)(ices)$/i, '$1ex'], [/(matr|append)(ices)$/i, '$1ix'], [/(x|ch|ss|sh|s|z|o)es$/i, '$1'], [/men$/i, 'man'], [/(n)ews$/i, '$1ews'], [/([ti])a$/i, '$1um'], [/([^aeiouy]|qu)ies$/i, '$1y'], [/(s)eries$/i, '$1eries'], [/(m)ovies$/i, '$1ovie'], [/([m|l])ice$/i, '$1ouse'], [/(cris|ax|test)es$/i, '$1is'], [/(alias|status)es$/i, '$1'], [/(ss)$/i, '$1'], [/(ics)$/i, '$1'], [/s$/i, '']].map(function (a) {
+  return {
+    reg: a[0],
+    repl: a[1]
+  };
+});
+
+var singularize = function singularize(str) {
+  var low = str.toLowerCase();
+  //uncountable
+  if (is_uncountable(low)) {
+    return str;
+  }
+  //is it already singular?
+  if (is_plural(low) === false) {
+    return str;
+  }
+  //irregular
+  var found = irregulars.filter(function (r) {
+    return r[1] === low;
+  });
+  if (found[0]) {
+    if (fns.titlecase(low) === str) {
+      //handle capitalisation properly
+      return fns.titlecase(found[0][0]);
+    }
+    return found[0][0];
+  }
+  //inflect first word of preposition-phrase
+  if (str.match(/([a-z]*) (of|in|by|for) [a-z]/)) {
+    var first = str.match(/^([a-z]*) (of|in|by|for) [a-z]/);
+    if (first && first[1]) {
+      var better_first = singularize(first[1]);
+      return better_first + str.replace(first[1], '');
+    }
+  }
+  //regular
+  for (var i = 0; i < singularize_rules.length; i++) {
+    if (str.match(singularize_rules[i].reg)) {
+      return str.replace(singularize_rules[i].reg, singularize_rules[i].repl);
+    }
+  }
+  return str;
+};
+
+// console.log(singularize('gases') === "gas")
+// console.log(singularize('kisses') === "kiss")
+// console.log(singularize('kiss') === "kiss")
+// console.log(singularize('children') === "child")
+// console.log(singularize('peace') === "peace")
+// console.log(singularize('child') === "child")
+// console.log(singularize('mayors of chicago') === "mayor of chicago")
+
+module.exports = singularize;
+
+},{"../../data/irregular_nouns.js":10,"../../fns.js":23,"./is_plural.js":76,"./is_uncountable.js":77}],90:[function(require,module,exports){
+'use strict';
+
+var nums = require('../../../data/numbers.js');
+var is_date = require('../date/is_date');
+
+var is_value = function is_value(str) {
+  var words = str.split(' ');
+  //'january 5' is not a value
+  if (is_date(str)) {
+    return false;
+  }
+  for (var i = 0; i < words.length; i++) {
+    var w = words[i];
+    if (nums.ones[w] || nums.teens[w] || nums.tens[w] || nums.multiples[w] || nums.prefixes[w]) {
+      return true;
+    }
+    if (parseFloat(w)) {
+      return true;
+    }
+  }
+  return false;
+};
+
+module.exports = is_value;
+
+},{"../../../data/numbers.js":16,"../date/is_date":74}],91:[function(require,module,exports){
+'use strict';
+// handle 'nine point eight four'
+
+var nums = require('../../../../data/numbers.js');
+var fns = require('../../../../fns');
+var ones = {};
+ones = fns.extend(ones, nums.ones);
+ones = fns.extend(ones, nums.teens);
+ones = fns.extend(ones, nums.ordinal_ones);
+ones = fns.extend(ones, nums.ordinal_teens);
+
+//concatenate into a string with leading '0.'
+var decimals = function decimals(words) {
+  var str = '0.';
+  for (var i = 0; i < words.length; i++) {
+    var w = words[i];
+    if (ones[w]) {
+      str += ones[w];
+    } else {
+      return 0;
+    }
+  }
+  return parseFloat(str);
+};
+
+module.exports = decimals;
+
+},{"../../../../data/numbers.js":16,"../../../../fns":23}],92:[function(require,module,exports){
+'use strict';
+
+//support global multipliers, like 'half-million' by doing 'million' then multiplying by 0.5
+
+var find_modifiers = function find_modifiers(str) {
+  var mults = [{
+    reg: /^(minus|negative)[\s\-]/i,
+    mult: -1
+  }, {
+    reg: /^(a\s)?half[\s\-](of\s)?/i,
+    mult: 0.5
+  }, {
+    reg: /^(a\s)?quarter[\s\-]/i,
+    mult: 0.25
+  }];
+  for (var i = 0; i < mults.length; i++) {
+    if (str.match(mults[i].reg)) {
+      return {
+        amount: mults[i].mult,
+        str: str.replace(mults[i].reg, '')
+      };
+    }
+  }
+  return {
+    amount: 1,
+    str: str
+  };
+};
+
+module.exports = find_modifiers;
+
+},{}],93:[function(require,module,exports){
+'use strict';
+// Spoken numbers take the following format
+// [sixty five] (thousand) [sixty five] (hundred) [sixty five]
+// aka: [one/teen/ten] (multiple) [one/teen/ten] (multiple) ...
+
+var nums = require('../../../../data/numbers.js');
+var fns = require('../../../../fns.js');
+var find_modifiers = require('./modifiers.js');
+var parse_decimals = require('./decimals.js');
+
+var ones = {};
+var teens = {};
+var tens = {};
+var multiples = {};
+ones = fns.extend(ones, nums.ones);
+ones = fns.extend(ones, nums.ordinal_ones);
+
+teens = fns.extend(teens, nums.teens);
+teens = fns.extend(teens, nums.ordinal_teens);
+
+tens = fns.extend(tens, nums.tens);
+tens = fns.extend(tens, nums.ordinal_tens);
+
+multiples = fns.extend(multiples, nums.multiples);
+multiples = fns.extend(multiples, nums.ordinal_multiples);
+
+var normalize = function normalize(s) {
+  //pretty-printed numbers
+  s = s.replace(/, ?/g, '');
+  s = s.replace(/([a-z])-([a-z])/gi, '$1 $2');
+  //parse-out currency
+  s = s.replace(/[$£€]/, '');
+  s = s.replace(/[\$%\(\)~,]/g, '');
+  s = s.trim();
+  return s;
+};
+
+var section_sum = function section_sum(obj) {
+  return Object.keys(obj).reduce(function (sum, k) {
+    sum += obj[k];
+    return sum;
+  }, 0);
+};
+
+//prevent things like 'fifteen ten', and 'five sixty'
+var appropriate = function appropriate(w, has) {
+  if (ones[w]) {
+    if (has.ones || has.teens) {
+      return false;
+    }
+  } else if (teens[w]) {
+    if (has.ones || has.teens || has.tens) {
+      return false;
+    }
+  } else if (tens[w]) {
+    if (has.ones || has.teens || has.tens) {
+      return false;
+    }
+  }
+  return true;
+};
+
+var to_number = function to_number(str) {
+  //try to fail-fast
+  if (!str || typeof str === 'number') {
+    return str;
+  }
+  str = normalize(str);
+  var modifier = find_modifiers(str);
+  str = modifier.str;
+  var biggest_yet = 0;
+  var has = {};
+  var sum = 0;
+  var isNegative = false;
+  var words = str.split(' ');
+  for (var i = 0; i < words.length; i++) {
+    var w = words[i];
+    if (!w || w === 'and') {
+      continue;
+    }
+    if (w === "-" || w === "negative") {
+      isNegative = true;
+      continue;
+    }
+    if (w.startsWith("-")) {
+      isNegative = true;
+      w = w.substr(1);
+    }
+    //decimal mode
+    if (w === 'point') {
+      sum += section_sum(has);
+      sum += parse_decimals(words.slice(i + 1, words.length));
+      sum *= modifier.amount;
+      return sum;
+    }
+    //maybe it's just a number typed as a string
+    if (w.match(/^[0-9,\. ]+$/)) {
+      sum += parseFloat(w.replace(/[, ]/g, '')) || 0;
+      continue;
+    }
+    //improper fraction
+    var improperFractionMatch = w.match(/^([0-9,\. ]+)\/([0-9,\. ]+)$/);
+    if (improperFractionMatch) {
+      var num = parseFloat(improperFractionMatch[1].replace(/[, ]/g, ''));
+      var denom = parseFloat(improperFractionMatch[2].replace(/[, ]/g, ''));
+      sum += num / denom || 0;
+      continue;
+    }
+    //prevent mismatched units, like 'seven eleven'
+    if (!appropriate(w, has)) {
+      return null;
+    }
+    //collect 'has' values
+    if (ones[w]) {
+      has['ones'] = ones[w];
+    } else if (teens[w]) {
+      has['teens'] = teens[w];
+    } else if (tens[w]) {
+      has['tens'] = tens[w];
+    } else if (multiples[w]) {
+      //something has gone wrong : 'two hundred five hundred'
+      if (multiples[w] === biggest_yet) {
+        return null;
+      }
+      //if it's the biggest yet, multiply the whole sum - eg 'five hundred thousand'
+      if (multiples[w] > biggest_yet) {
+        biggest_yet = multiples[w];
+        sum += section_sum(has);
+        sum = (sum || 1) * multiples[w];
+      } else {
+        //it's smaller, so only multiply section_sum - eg 'five thousand one hundred'
+        sum += (section_sum(has) || 1) * multiples[w];
+      }
+      //reset our section
+      has = {};
+    }
+  }
+  //dump the remaining has values
+  sum += section_sum(has);
+  //post-process add modifier
+  sum *= modifier.amount;
+  sum *= isNegative ? -1 : 1;
+  return sum;
+};
+
+module.exports = to_number;
+
+// console.log(to_number('half a million'));
+
+},{"../../../../data/numbers.js":16,"../../../../fns.js":23,"./decimals.js":91,"./modifiers.js":92}],94:[function(require,module,exports){
+'use strict';
+// const nums = require('../../../data/numbers.js');
+// const fns = require('../../../fns.js');
+
+var ones_mapping = ['', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen'];
+var tens_mapping = [['ninety', 90], ['eighty', 80], ['seventy', 70], ['sixty', 60], ['fifty', 50], ['forty', 40], ['thirty', 30], ['twenty', 20]];
+
+var sequence = [[1000000000, 'million'], [100000000, 'hundred million'], [1000000, 'million'], [100000, 'hundred thousand'], [1000, 'thousand'], [100, 'hundred'], [1, 'one']];
+
+//turn number into an array of magnitudes
+var breakdown_magnitudes = function breakdown_magnitudes(num) {
+  var working = num;
+  var have = [];
+  sequence.forEach(function (a) {
+    if (num > a[0]) {
+      var howmany = Math.floor(working / a[0]);
+      working -= howmany * a[0];
+      if (howmany) {
+        have.push({
+          unit: a[1],
+          count: howmany
+        });
+      }
+    }
+  });
+  return have;
+};
+
+//turn numbers from 100-0 into their text
+var breakdown_hundred = function breakdown_hundred(num) {
+  var str = '';
+  for (var i = 0; i < tens_mapping.length; i++) {
+    if (num >= tens_mapping[i][1]) {
+      num -= tens_mapping[i][1];
+      str += ' ' + tens_mapping[i][0];
+    }
+  }
+  //(hopefully) we should only have 20-0 now
+  if (ones_mapping[num]) {
+    str += ' ' + ones_mapping[num];
+  }
+  return str.trim();
+};
+
+var to_text = function to_text(num) {
+  var isNegative = false;
+  if (num < 0) {
+    isNegative = true;
+    num = Math.abs(num);
+  }
+  //break-down into units, counts
+  var units = breakdown_magnitudes(num);
+  //build-up the string from its components
+  var str = '';
+  for (var i = 0; i < units.length; i++) {
+    var unit_name = units[i].unit;
+    if (unit_name === 'one') {
+      unit_name = '';
+      //put an 'and' in here
+      if (str.length > 1) {
+        str += ' and';
+      }
+    }
+    str += ' ' + breakdown_hundred(units[i].count) + ' ' + unit_name;
+  }
+  str = str || 'zero';
+  str = str.replace(/ +/g, ' ');
+  str = str.trim();
+  if (isNegative) {
+    str = 'negative ' + str;
+  }
+  return str;
+};
+
+module.exports = to_text;
+
+// console.log(to_text(-5));
+
+},{}],95:[function(require,module,exports){
+'use strict';
+
+var money = require('../../../data/currencies').reduce(function (h, s) {
+  h[s] = 'currency';
+  return h;
+}, {});
+
+var units = {
+  'Temperature': {
+    '°c': 'Celsius',
+    '°f': 'Fahrenheit',
+    'k': 'Kelvin',
+    '°re': 'Reaumur',
+    '°n': 'Newton',
+    '°ra': 'Rankine'
+  },
+  'Volume': {
+    'm³': 'cubic meter',
+    'm3': 'cubic meter',
+    'dm³': 'cubic decimeter',
+    'dm3': 'cubic decimeter',
+    'cm³': 'cubic centimeter',
+    'cm3': 'cubic centimeter',
+    'l': 'liter',
+    'dl': 'deciliter',
+    'cl': 'centiliter',
+    'ml': 'milliliter',
+    'in³': 'cubic inch',
+    'in3': 'cubic inch',
+    'ft³': 'cubic foot',
+    'ft3': 'cubic foot',
+    'yd³': 'cubic yard',
+    'yd3': 'cubic yard',
+    'gal': 'gallon',
+    'bbl': 'petroleum barrel',
+    'pt': 'pint',
+    'qt': 'quart',
+    'tbl': 'tablespoon',
+    'tsp': 'teaspoon',
+    'tbsp': 'tablespoon',
+    'cp': 'cup',
+    'fl oz': 'fluid ounce'
+  },
+  'Distance': {
+    'km': 'kilometer',
+    'm': 'meter',
+    'dm': 'decimeter',
+    'cm': 'centimeter',
+    'mm': 'millimeter',
+    'mi': 'mile',
+    'in': 'inch',
+    'ft': 'foot',
+    'feet': 'foot',
+    'yd': 'yard'
+  },
+  'Weight': {
+    't': 'tonne',
+    'kg': 'kilogram',
+    'hg': 'hectogram',
+    'g': 'gram',
+    'dg': 'decigram',
+    'cg': 'centigram',
+    'mg': 'milligram',
+    'µg': 'microgram',
+    'carat': 'carat',
+    'grain': 'grain',
+    'oz': 'ounce',
+    'lb': 'pound',
+    'ton': 'tonne',
+    'st': 'stone'
+  },
+  'Area': {
+    'km²': 'square kilometer',
+    'km2': 'square kilometer',
+    'm²': 'square meter',
+    'm2': 'square meter',
+    'dm²': 'square decimeter',
+    'dm2': 'square decimeter',
+    'cm²': 'square centimeter',
+    'cm2': 'square centimeter',
+    'mm²': 'square millimeter',
+    'mm2': 'square millimeter',
+    'ha': 'hectare',
+    'ca': 'centiare',
+    'mile²': 'square mile',
+    'mile2': 'square mile',
+    'in²': 'square inch',
+    'in2': 'square inch',
+    'yd²': 'square yard',
+    'yd2': 'square yard',
+    'ft²': 'square foot',
+    'ft2': 'square foot',
+    'acre': 'acre'
+  },
+  'Frequency': {
+    'hz': 'hertz'
+  },
+  'Speed': {
+    'km/h': 'kilometer per hour',
+    'kmph': 'kilometer per hour',
+    'mps': 'meter per second',
+    'm/s': 'meter per second',
+    'mph': 'mile per hour',
+    'mi/h': 'mile per hour',
+    'knot': 'knot'
+  },
+  'Data': {
+    'b': 'byte',
+    'kb': 'kilobyte',
+    'mb': 'megabyte',
+    'gb': 'gigabyte',
+    'tb': 'terabyte',
+    'pt': 'petabyte',
+    'eb': 'exabyte',
+    'zb': 'zettabyte',
+    'yb': 'yottabyte'
+  },
+  'Energy': {
+    'j': 'joule',
+    'pa': 'pascal',
+    'bar': 'bar',
+    'w': 'watt',
+    'n': 'newton',
+    'wb': 'weber',
+    't': 'tesla',
+    'h': 'henry',
+    'c': 'coulomb',
+    'v': 'volt',
+    'f': 'farad',
+    's': 'siemens',
+    'o': 'ohm',
+    'lx': 'lux',
+    'lm': 'lumen'
+  },
+  'Time': {
+    'year': 'year',
+    'week': 'week',
+    'day': 'day',
+    'h': 'hour',
+    'min': 'minute',
+    's': 'second',
+    'ms': 'millisecond',
+    'µs': 'microsecond',
+    'nanosecond': 'nanosecond',
+    'picosecond': 'picosecond',
+    'femtosecond': 'femtosecond',
+    'attosecond': 'attosecond'
+  },
+  'Money': money
+};
+
+module.exports = Object.keys(units).reduce(function (h, k) {
+  Object.keys(units[k]).forEach(function (u) {
+    h[u] = {
+      name: units[k][u],
+      category: k
+    };
+    h[units[k][u]] = {
+      name: units[k][u],
+      category: k
+    };
+  });
+  return h;
+}, {});
+
+},{"../../../data/currencies":4}],96:[function(require,module,exports){
+'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Noun = require('../noun');
+var to_number = require('./parse/to_number');
+var to_text = require('./to_text');
+var units = require('./units');
+var nums = require('../../../data/numbers');
+var fns = require('../../../fns');
+//get an array of ordinal (first, second...) numbers
+var ordinals = {};
+ordinals = fns.extend(ordinals, nums.ordinal_ones);
+ordinals = fns.extend(ordinals, nums.ordinal_teens);
+ordinals = fns.extend(ordinals, nums.ordinal_tens);
+ordinals = fns.extend(ordinals, nums.ordinal_multiples);
+ordinals = Object.keys(ordinals);
+
+var Value = function (_Noun) {
+  _inherits(Value, _Noun);
+
+  function Value(str, tag) {
+    _classCallCheck(this, Value);
+
+    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Value).call(this, str));
+
+    _this.tag = tag;
+    _this.pos['Value'] = true;
+    _this.number = null;
+    _this.unit = null;
+    _this.unit_name = null;
+    _this.measurement = null;
+    _this.of_what = '';
+    // this.text = str;
+    // this.normal = str;
+    if (_this.is_ordinal()) {
+      _this.pos['Ordinal'] = true;
+    }
+    _this.parse();
+    return _this;
+  }
+
+  //test for nearly-numbers, like phonenumbers, or whatever
+
+  _createClass(Value, [{
+    key: 'is_number',
+    value: function is_number(s) {
+      //phone numbers, etc
+      if (s.match(/[:@]/)) {
+        return false;
+      }
+      //if there's a number, then something, then a number
+      if (s.match(/[0-9][^(0-9|\/),\.][0-9]/)) {
+        if (s.match(/((?:[0-9]|\.)+) ((?:[0-9]|\.)+)\/((?:[0-9]|\.)+)/)) {
+          // I'm sure there is a better regexpxs
+          return true;
+        }
+        return false;
+      }
+      return true;
+    }
+  }, {
+    key: 'is_number_word',
+    value: function is_number_word(w) {
+      var number_words = {
+        minus: true,
+        negative: true,
+        point: true,
+        half: true,
+        quarter: true
+      };
+
+      if (w.match(/[0-9]/) || number_words[w]) {
+        return true;
+      } else if (nums.ones[w] || nums.teens[w] || nums.tens[w] || nums.multiples[w]) {
+        return true;
+      } else if (nums.ordinal_ones[w] || nums.ordinal_teens[w] || nums.ordinal_tens[w] || nums.ordinal_multiples[w]) {
+        return true;
+      }
+
+      return false;
+    }
+  }, {
+    key: 'is_ordinal',
+    value: function is_ordinal() {
+      //1st
+      if (this.normal.match(/^[0-9]+(rd|st|nd|th)$/)) {
+        return true;
+      }
+      //first, second...
+      for (var i = 0; i < ordinals.length; i++) {
+        if (fns.endsWith(this.normal, ordinals[i])) {
+          return true;
+        }
+      }
+      return false;
+    }
+
+    //turn an integer like 22 into '22nd'
+
+  }, {
+    key: 'to_ordinal',
+    value: function to_ordinal() {
+      var num = this.number;
+      //fail fast
+      if (!num && num !== 0) {
+        return '';
+      }
+      //teens are all 'th'
+      if (num >= 10 && num <= 20) {
+        return '' + num + 'th';
+      }
+      //treat it as a string..
+      num = '' + num;
+      //fail safely
+      if (!num.match(/[0-9]$/)) {
+        return num;
+      }
+      if (fns.endsWith(num, '1')) {
+        return num + 'st';
+      }
+      if (fns.endsWith(num, '2')) {
+        return num + 'nd';
+      }
+      if (fns.endsWith(num, '3')) {
+        return num + 'rd';
+      }
+      return num + 'th';
+    }
+
+    //overwrite term.normalize?
+    // normalize() {
+    //   let str = '' + (this.number || '');
+    //   if (this.is_ordinal()) {
+    //     str = this.to_ordinal(str);
+    //   }
+    //   if (this.unit) {
+    //     str += ' ' + this.unit;
+    //   }
+    //   return str;
+    // }
+
+  }, {
+    key: 'root',
+    value: function root() {
+      var str = this.number;
+      if (this.unit) {
+        str += ' ' + this.unit;
+      }
+      return str;
+    }
+  }, {
+    key: 'is_unit',
+    value: function is_unit() {
+      //if it's a known unit
+      if (units[this.unit]) {
+        return true;
+      }
+      //currencies are derived-through POS
+      if (this.pos['Currency']) {
+        return true;
+      }
+
+      var s = this.unit.toLowerCase();
+      if (nums.prefixes[s]) {
+        return true;
+      }
+
+      //try singular version
+      s = this.unit.replace(/s$/, '');
+      if (units[s]) {
+        this.unit = this.unit.replace(/s$/, '');
+        return true;
+      }
+
+      s = this.unit.replace(/es$/, '');
+      if (units[s]) {
+        this.unit = this.unit.replace(/es$/, '');
+        return true;
+      }
+      return false;
+    }
+  }, {
+    key: 'parse',
+    value: function parse() {
+      if (!this.is_number(this.text)) {
+        return;
+      }
+
+      var words = this.text.toLowerCase().split(/[ ]/);
+      //split at '-' only for numbers like twenty-two, sixty-seven, etc.
+      //so that 'twelve six-gram pieces' returns 12 for number, not null
+      //however, still returns null for 'three sevel-eleven stores'
+      for (var i = 0; i < words.length; i++) {
+        var w = words[i];
+        if (w.indexOf('-') === w.lastIndexOf('-') && w.indexOf('-') > -1) {
+          var halves = w.split(/[-]/);
+          if (this.is_number_word(halves[0]) && this.is_number_word(halves[1])) {
+            words[i] = halves[0];
+            words.splice(i + 1, 0, halves[1]);
+          }
+        }
+      }
+
+      var numbers = '';
+      var raw_units = '';
+
+      //seperate number-words from unit-words
+      for (var i = 0; i < words.length; i++) {
+        var w = words[i];
+        if (this.is_number_word(w)) {
+          numbers += ' ' + w;
+        } else {
+          raw_units += ' ' + w;
+        }
+      }
+      this.unit = raw_units.trim();
+
+      //if raw_units is something like "grams of sugar", try it first,
+      //then "grams of", and then "grams".
+      while (this.unit !== '') {
+        if (this.is_unit() && units[this.unit]) {
+          this.measurement = units[this.unit].category;
+          this.unit_name = units[this.unit].name;
+          break;
+        } else {
+          this.unit = this.unit.substr(0, this.unit.lastIndexOf(' ')).trim();
+        }
+      }
+
+      //support '$400' => 400 dollars
+      var firstChar = this.text.substr(0, 1);
+      var symbolic_currency = {
+        '€': 'euro',
+        '$': 'dollar',
+        '¥': 'yen',
+        '£': 'pound',
+        '¢': 'cent',
+        '฿': 'bitcoin'
+      };
+      if (symbolic_currency[firstChar]) {
+        this.measurement = 'Money';
+        this.unit_name = 'currency';
+        this.unit = symbolic_currency[firstChar];
+      }
+
+      numbers = numbers.trim();
+      this.number = to_number(numbers);
+
+      //of_what
+      var of_pos = this.text.indexOf(' of ');
+      if (of_pos > 0) {
+        this.of_what = this.text.substring(of_pos + 4).trim();
+      } else if (this.unit_name) {
+        this.of_what = this.unit_name;
+      }
+    }
+  }, {
+    key: 'textual',
+    value: function textual() {
+      return to_text(this.number || this.normal || this.text);
+    }
+  }]);
+
+  return Value;
+}(Noun);
+
+Value.fn = Value.prototype;
+module.exports = Value;
+
+// console.log(new Value('fifty saudi riyals'));
+
+},{"../../../data/numbers":16,"../../../fns":23,"../noun":78,"./parse/to_number":93,"./to_text":94,"./units":95}],97:[function(require,module,exports){
+'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var _is_acronym = require('./is_acronym');
+var match_term = require('../match/match_term');
+var syntax_parse = require('../match/syntax_parse');
+var implied = require('./implied');
+
+var Term = function () {
+  function Term(str, tag, whitespace) {
+    _classCallCheck(this, Term);
+
+    //don't pass non-strings through here any further..
+    if (typeof str === 'number') {
+      str = '' + str;
+    } else if (typeof str !== 'string') {
+      str = '';
+    }
+    str = str.toString();
+    //trailing & preceding whitespace
+    this.whitespace = whitespace || {};
+    this.whitespace.preceding = this.whitespace.preceding || '';
+    this.whitespace.trailing = this.whitespace.trailing || '';
+    //set .text
+    this.text = str;
+    //the normalised working-version of the word
+    this.normal = '';
+    //if it's a contraction or slang, the implication, or 'hidden word'
+    this.expansion = '';
+    //set .normal
+    this.rebuild();
+    //the reasoning behind it's part-of-speech
+    this.reason = '';
+    //these are orphaned POS that have no methods
+    var types = {
+      Determiner: 'Determiner',
+      Conjunction: 'Conjunction',
+      Preposition: 'Preposition',
+      Possessive: 'Possessive',
+      Expression: 'Expression',
+      Condition: 'Condition'
+    };
+    this.pos = {};
+    this.tag = types[tag] || '?';
+    //record them in pos{}
+    if (types[tag]) {
+      this.pos[types[tag]] = true;
+    }
+  }
+
+  //when the text changes, rebuild derivative fields
+
+  _createClass(Term, [{
+    key: 'rebuild',
+    value: function rebuild() {
+      this.text = this.text || '';
+      this.text = this.text.trim();
+
+      this.normal = '';
+      this.normalize();
+      this.expansion = implied(this.normal);
+    }
+  }, {
+    key: 'changeTo',
+    value: function changeTo(str) {
+      this.text = str;
+      this.rebuild();
+    }
+    //a regex-like string search
+
+  }, {
+    key: 'match',
+    value: function match(match_str, options) {
+      var reg = syntax_parse([match_str]);
+      return match_term(this, reg[0], options);
+    }
+    //the 'root' singular/infinitive/whatever.
+    // method is overloaded by each pos type
+
+  }, {
+    key: 'root',
+    value: function root() {
+      return this.strip_apostrophe();
+    }
+    //strip apostrophe s
+
+  }, {
+    key: 'strip_apostrophe',
+    value: function strip_apostrophe() {
+      if (this.normal.match(/[a-z]'[a-z][a-z]?$/)) {
+        var split = this.normal.split(/'/);
+        if (split[1] === 's') {
+          return split[0];
+        }
+      }
+      return this.normal;
+    }
+  }, {
+    key: 'has_comma',
+    value: function has_comma() {
+      if (this.text.match(/,$/)) {
+        return true;
+      }
+      return false;
+    }
+  }, {
+    key: 'has_abbreviation',
+    value: function has_abbreviation() {
+      // "spencer's"
+      if (this.text.match(/[a-z]'[a-z][a-z]?$/)) {
+        return true;
+      }
+      // "flanders' house"
+      if (this.text.match(/[a-z]s'$/)) {
+        return true;
+      }
+      return false;
+    }
+  }, {
+    key: 'is_capital',
+    value: function is_capital() {
+      if (this.text.match(/[A-Z][a-z]/)) {
+        return true;
+      }
+      return false;
+    }
+    //utility method to avoid lumping words with non-word stuff
+
+  }, {
+    key: 'is_word',
+    value: function is_word() {
+      if (this.text.match(/^\[.*?\]\??$/)) {
+        return false;
+      }
+      if (!this.text.match(/[a-z|0-9]/i)) {
+        return false;
+      }
+      if (this.text.match(/[\|#\<\>]/i)) {
+        return false;
+      }
+      return true;
+    }
+    //FBI or F.B.I.
+
+  }, {
+    key: 'is_acronym',
+    value: function is_acronym() {
+      return _is_acronym(this.text);
+    }
+    //working word
+
+  }, {
+    key: 'normalize',
+    value: function normalize() {
+      var str = this.text || '';
+      str = str.toLowerCase();
+      //strip grammatical punctuation
+      str = str.replace(/[,\.!:;\?\(\)^$]/g, '');
+      //convert hyphenations to a multiple-word term
+      str = str.replace(/([a-z])\-([a-z])/g, '$1 $2');
+      // coerce single curly quotes
+      str = str.replace(/[\u2018\u2019\u201A\u201B\u2032\u2035]+/g, '\'');
+      // coerce double curly quotes
+      str = str.replace(/[\u201C\u201D\u201E\u201F\u2033\u2036]+/g, '');
+      //remove quotations + scare-quotes
+      str = str.replace(/^'/g, '');
+      str = str.replace(/'$/g, '');
+      str = str.replace(/"/g, '');
+      if (!str.match(/[a-z0-9]/i)) {
+        return '';
+      }
+      this.normal = str;
+      return this.normal;
+    }
+  }, {
+    key: 'forms',
+    value: function forms() {
+      if (this.pos['Noun']) {
+        return {
+          'singular': this.singularize(),
+          'plural': this.pluralize()
+        };
+      } else if (this.pos['Verb'] || this.pos['Adjective']) {
+        return this.conjugate();
+      } else if (this.pos['Adverb']) {
+        return {
+          'adjective': this.to_adjective()
+        };
+      }
+      return {};
+    }
+  }]);
+
+  return Term;
+}();
+
+Term.fn = Term.prototype;
+// let t = new Term(`first`);
+// console.log(t.normal);
+
+module.exports = Term;
+
+},{"../match/match_term":27,"../match/syntax_parse":29,"./implied":69,"./is_acronym":70}],98:[function(require,module,exports){
+//turn a verb into its other grammatical forms.
+'use strict';
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+
+var verb_to_actor = require('./to_actor');
+var to_infinitive = require('./to_infinitive');
+var from_infinitive = require('./from_infinitive');
+var irregular_verbs = require('../../../data/irregular_verbs');
+var predict = require('./predict_form.js');
+var generic = require('./generic.js');
+var strip_prefix = require('./strip_prefix.js');
+var fns = require('../../../fns.js');
+
+//make sure object has all forms
+var fufill = function fufill(obj, prefix) {
+  //we're toast if there's no infinitive
+  if (!obj.infinitive) {
+    return obj;
+  }
+  //apply generic methods to missing forms
+  if (!obj.gerund) {
+    obj.gerund = generic.gerund(obj);
+  }
+  if (!obj.present) {
+    obj.present = generic.present(obj);
+  }
+  if (!obj.past) {
+    obj.past = generic.past(obj);
+  }
+  if (obj.actor === undefined) {
+    obj.actor = verb_to_actor(obj.infinitive);
+  }
+
+  //add the prefix to all forms, if it exists
+  if (prefix) {
+    Object.keys(obj).forEach(function (k) {
+      obj[k] = prefix + obj[k];
+    });
+  }
+  //future is 'will'+infinitive
+  if (!obj.future) {
+    obj.future = generic.future(obj);
+  }
+  //perfect is 'have'+past-tense
+  if (!obj.perfect) {
+    obj.perfect = generic.perfect(obj);
+  }
+  //pluperfect is 'had'+past-tense
+  if (!obj.pluperfect) {
+    obj.pluperfect = generic.pluperfect(obj);
+  }
+  //future perfect is 'will have'+past-tense
+  if (!obj.future_perfect) {
+    obj.future_perfect = generic.future_perfect(obj);
+  }
+  return obj;
+};
+
+var conjugate = function conjugate(w) {
+  if (w === undefined) {
+    return {};
+  }
+
+  //for phrasal verbs ('look out'), conjugate look, then append 'out'
+  var phrasal_reg = new RegExp('^(.*?) (in|out|on|off|behind|way|with|of|do|away|across|ahead|back|over|under|together|apart|up|upon|aback|down|about|before|after|around|to|forth|round|through|along|onto)$', 'i');
+  if (w.match(phrasal_reg)) {
+    var _ret = function () {
+      var split = w.match(phrasal_reg, '');
+      var phrasal_verb = split[1];
+      var particle = split[2];
+      var result = conjugate(phrasal_verb); //recursive
+      Object.keys(result).forEach(function (k) {
+        if (result[k]) {
+          result[k] += ' ' + particle;
+        }
+      });
+      return {
+        v: result
+      };
+    }();
+
+    if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
+  }
+
+  //for pluperfect ('had tried') remove 'had' and call it past-tense
+  w = w.replace(/^had /i, '');
+  //for perfect ('have tried') remove 'have' and call it past-tense
+  w = w.replace(/^have /i, '');
+  //for future perfect ('will have tried') remove 'will have' and call it past-tense
+  w = w.replace(/^will have /i, '');
+  //chop it if it's future-tense
+  w = w.replace(/^will /i, '');
+
+  //un-prefix the verb, and add it in later
+  var prefix = strip_prefix(w);
+  w = w.replace(prefix, '');
+
+  //guess the tense, so we know which transormation to make
+  var predicted = predict(w) || 'infinitive';
+  //check against suffix rules
+  var infinitive = to_infinitive(w, predicted) || '';
+  //check irregulars
+  var obj = irregular_verbs[w] || irregular_verbs[infinitive] || {};
+  obj = fns.extend({}, obj);
+  //apply regex-transformations
+  var conjugations = from_infinitive(infinitive);
+  Object.keys(conjugations).forEach(function (k) {
+    if (!obj[k]) {
+      obj[k] = conjugations[k];
+    }
+  });
+  return fufill(obj, prefix);
+};
+module.exports = conjugate;
+
+// console.log(conjugate('learn'));
+
+},{"../../../data/irregular_verbs":11,"../../../fns.js":23,"./from_infinitive":99,"./generic.js":100,"./predict_form.js":101,"./strip_prefix.js":102,"./to_actor":104,"./to_infinitive":105}],99:[function(require,module,exports){
+'use strict';
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+
+var rules = [{
+  reg: /(eave)$/i,
+  repl: {
+    pr: '$1s',
+    pa: '$1d',
+    gr: 'eaving',
+    ar: '$1r'
+  }
+}, {
+  reg: /(ink)$/i,
+  repl: {
+    pr: '$1s',
+    pa: 'unk',
+    gr: '$1ing',
+    ar: '$1er'
+  }
+}, {
+  reg: /(end)$/i,
+  repl: {
+    pr: '$1s',
+    pa: 'ent',
+    gr: '$1ing',
+    ar: '$1er'
+  }
+}, {
+  reg: /(ide)$/i,
+  repl: {
+    pr: '$1s',
+    pa: 'ode',
+    gr: 'iding',
+    ar: 'ider'
+  }
+}, {
+  reg: /(ake)$/i,
+  repl: {
+    pr: '$1s',
+    pa: 'ook',
+    gr: 'aking',
+    ar: '$1r'
+  }
+}, {
+  reg: /(eed)$/i,
+  repl: {
+    pr: '$1s',
+    pa: '$1ed',
+    gr: '$1ing',
+    ar: '$1er'
+  }
+}, {
+  reg: /(e)(ep)$/i,
+  repl: {
+    pr: '$1$2s',
+    pa: '$1pt',
+    gr: '$1$2ing',
+    ar: '$1$2er'
+  }
+}, {
+  reg: /(a[tg]|i[zn]|ur|nc|gl|is)e$/i,
+  repl: {
+    pr: '$1es',
+    pa: '$1ed',
+    gr: '$1ing',
+    prt: '$1en'
+  }
+}, {
+  reg: /([i|f|rr])y$/i,
+  repl: {
+    pr: '$1ies',
+    pa: '$1ied',
+    gr: '$1ying'
+  }
+}, {
+  reg: /([td]er)$/i,
+  repl: {
+    pr: '$1s',
+    pa: '$1ed',
+    gr: '$1ing'
+  }
+}, {
+  reg: /([bd]l)e$/i,
+  repl: {
+    pr: '$1es',
+    pa: '$1ed',
+    gr: '$1ing'
+  }
+}, {
+  reg: /(ish|tch|ess)$/i,
+  repl: {
+    pr: '$1es',
+    pa: '$1ed',
+    gr: '$1ing'
+  }
+}, {
+  reg: /(ion|end|e[nc]t)$/i,
+  repl: {
+    pr: '$1s',
+    pa: '$1ed',
+    gr: '$1ing'
+  }
+}, {
+  reg: /(om)e$/i,
+  repl: {
+    pr: '$1es',
+    pa: 'ame',
+    gr: '$1ing'
+  }
+}, {
+  reg: /([aeiu])([pt])$/i,
+  repl: {
+    pr: '$1$2s',
+    pa: '$1$2',
+    gr: '$1$2$2ing'
+  }
+}, {
+  reg: /(er)$/i,
+  repl: {
+    pr: '$1s',
+    pa: '$1ed',
+    gr: '$1ing'
+  }
+}, {
+  reg: /(en)$/i,
+  repl: {
+    pr: '$1s',
+    pa: '$1ed',
+    gr: '$1ing'
+  }
+}, {
+  reg: /(..)(ow)$/i,
+  repl: {
+    pr: '$1$2s',
+    pa: '$1ew',
+    gr: '$1$2ing',
+    prt: '$1$2n'
+  }
+}, {
+  reg: /(..)([cs]h)$/i,
+  repl: {
+    pr: '$1$2es',
+    pa: '$1$2ed',
+    gr: '$1$2ing'
+  }
+}, {
+  reg: /([^aeiou][ou])(g|d)$/i,
+  repl: {
+    pr: '$1$2s',
+    pa: '$1$2$2ed',
+    gr: '$1$2$2ing'
+  }
+}, {
+  reg: /([^aeiou][aeiou])(b|t|p|m)$/i,
+  repl: {
+    pr: '$1$2s',
+    pa: '$1$2$2ed',
+    gr: '$1$2$2ing'
+  }
+}];
+
+var keys = {
+  pr: 'present',
+  pa: 'past',
+  gr: 'gerund',
+  prt: 'participle',
+  ar: 'actor'
+};
+
+var from_infinitive = function from_infinitive(str) {
+  var obj = {
+    infinitive: str
+  };
+  if (!str || typeof str !== 'string') {
+    // console.log(str);
+    return obj;
+  }
+
+  var _loop = function _loop(i) {
+    if (str.match(rules[i].reg)) {
+      // console.log(rules[i]);
+      Object.keys(rules[i].repl).forEach(function (k) {
+        obj[keys[k]] = str.replace(rules[i].reg, rules[i].repl[k]);
+      });
+      return {
+        v: obj
+      };
+    }
+  };
+
+  for (var i = 0; i < rules.length; i++) {
+    var _ret = _loop(i);
+
+    if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
+  }
+  return obj;
+};
+// console.log(from_infinitive('watch'));
+
+module.exports = from_infinitive;
+
+},{}],100:[function(require,module,exports){
+'use strict';
+//non-specifc, 'hail-mary' transforms from infinitive, into other forms
+
+var fns = require('../../../fns');
+var generic = {
+
+  gerund: function gerund(o) {
+    var inf = o.infinitive;
+    if (fns.endsWith(inf, 'e')) {
+      return inf.replace(/e$/, 'ing');
+    }
+    return inf + 'ing';
+  },
+
+  present: function present(o) {
+    var inf = o.infinitive;
+    if (fns.endsWith(inf, 's')) {
+      return inf + 'es';
+    }
+    return inf + 's';
+  },
+
+  past: function past(o) {
+    var inf = o.infinitive;
+    if (fns.endsWith(inf, 'e')) {
+      return inf + 'd';
+    }
+    if (fns.endsWith(inf, 'ed')) {
+      return inf;
+    }
+    return inf + 'ed';
+  },
+
+  future: function future(o) {
+    return 'will ' + o.infinitive;
+  },
+
+  perfect: function perfect(o) {
+    return 'have ' + (o.participle || o.past);
+  },
+
+  pluperfect: function pluperfect(o) {
+    return 'had ' + o.past;
+  },
+
+  future_perfect: function future_perfect(o) {
+    return 'will have ' + o.past;
+  }
+
+};
+
+module.exports = generic;
+
+},{"../../../fns":23}],101:[function(require,module,exports){
+'use strict';
+//this method is used to predict which current conjugation a verb is
+
+//this method is the slowest in the whole library,
+
+var fns = require('../../../fns.js');
+var suffix_rules = require('./suffix_rules');
+var irregular_verbs = require('../../../data/irregular_verbs');
+var known_verbs = Object.keys(irregular_verbs).reduce(function (h, k) {
+  Object.keys(irregular_verbs[k]).forEach(function (k2) {
+    h[irregular_verbs[k][k2]] = k2;
+  });
+  return h;
+}, {});
+
+var predict = function predict(w) {
+
+  //check if known infinitive
+  if (irregular_verbs[w]) {
+    return 'infinitive';
+  }
+  //check if known infinitive
+  if (known_verbs[w]) {
+    return known_verbs[w];
+  }
+
+  if (w.match(/will ha(ve|d) [a-z]{2}/)) {
+    return 'future_perfect';
+  }
+  if (w.match(/will [a-z]{2}/)) {
+    return 'future';
+  }
+  if (w.match(/had [a-z]{2}/)) {
+    return 'pluperfect';
+  }
+  if (w.match(/have [a-z]{2}/)) {
+    return 'perfect';
+  }
+  if (w.match(/..erer$/)) {
+    return 'actor';
+  }
+  if (w.match(/[^aeiou]ing$/)) {
+    return 'gerund';
+  }
+
+  var arr = Object.keys(suffix_rules);
+  for (var i = 0; i < arr.length; i++) {
+    if (fns.endsWith(w, arr[i]) && arr[i].length < w.length) {
+      return suffix_rules[arr[i]];
+    }
+  }
+  return 'infinitive';
+};
+
+module.exports = predict;
+
+},{"../../../data/irregular_verbs":11,"../../../fns.js":23,"./suffix_rules":103}],102:[function(require,module,exports){
+'use strict';
+// 'over-kill' should use conjugation rules of 'kill', etc..
+
+var strip_prefix = function strip_prefix(str) {
+  var prefix = '';
+  var match = str.match(/^(over|under|re|anti|full|cross)([- ])?([^aeiou][a-z]*)/i);
+  if (match) {
+    prefix = match[1] + (match[2] || '');
+  }
+  return prefix;
+};
+
+module.exports = strip_prefix;
+
+},{}],103:[function(require,module,exports){
+'use strict';
+//suffix signals for verb tense, generated from test data
+
+var compact = {
+  'gerund': [],
+  'infinitive': ['ate', 'ize', 'tion', 'rify', 'then', 'ress', 'ify', 'age', 'nce', 'ect', 'ise', 'ine', 'ish', 'ace', 'ash', 'ure', 'tch', 'end', 'ack', 'and', 'ute', 'ade', 'ock', 'ite', 'ase', 'ose', 'use', 'ive', 'int', 'nge', 'lay', 'est', 'ain', 'ant', 'eed', 'er', 'le'],
+  'participle': ['own', 'unk', 'ung', 'en'],
+  'past': ['ed', 'lt', 'nt', 'pt', 'ew', 'ld'],
+  'present': ['rks', 'cks', 'nks', 'ngs', 'mps', 'tes', 'zes', 'ers', 'les', 'acks', 'ends', 'ands', 'ocks', 'lays', 'eads', 'lls', 'els', 'ils', 'ows', 'nds', 'ays', 'ams', 'ars', 'ops', 'ffs', 'als', 'urs', 'lds', 'ews', 'ips', 'es', 'ts', 'ns', 's']
+};
+var suffix_rules = {};
+var keys = Object.keys(compact);
+var l = keys.length;
+
+for (var i = 0; i < l; i++) {
+  var l2 = compact[keys[i]].length;
+  for (var o = 0; o < l2; o++) {
+    suffix_rules[compact[keys[i]][o]] = keys[i];
+  }
 }
-info.style.visibility = 'visible';
-} else {
-    info.style.visibility = 'hidden';
-}
-}
-var current_style;
-function showButtons(style) {
-  if (style == current_style) {
-    return;
-}
-current_style = style;
-}
-}
+module.exports = suffix_rules;
+
+},{}],104:[function(require,module,exports){
+//somone who does this present-tense verb
+//turn 'walk' into 'walker'
+'use strict';
+
+var actor = function actor(str) {
+  str = str || '';
+  var irregulars = {
+    'tie': 'tier',
+    'dream': 'dreamer',
+    'sail': 'sailer',
+    'run': 'runner',
+    'rub': 'rubber',
+    'begin': 'beginner',
+    'win': 'winner',
+    'claim': 'claimant',
+    'deal': 'dealer',
+    'spin': 'spinner'
+  };
+  var dont = {
+    'aid': 1,
+    'fail': 1,
+    'appear': 1,
+    'happen': 1,
+    'seem': 1,
+    'try': 1,
+    'say': 1,
+    'marry': 1,
+    'be': 1,
+    'forbid': 1,
+    'understand': 1,
+    'bet': 1
+  };
+  var transforms = [{
+    'reg': /e$/i,
+    'repl': 'er'
+  }, {
+    'reg': /([aeiou])([mlgp])$/i,
+    'repl': '$1$2$2er'
+  }, {
+    'reg': /([rlf])y$/i,
+    'repl': '$1ier'
+  }, {
+    'reg': /^(.?.[aeiou])t$/i,
+    'repl': '$1tter'
+  }];
+
+  if (dont.hasOwnProperty(str)) {
+    return null;
+  }
+  if (irregulars.hasOwnProperty(str)) {
+    return irregulars[str];
+  }
+  for (var i = 0; i < transforms.length; i++) {
+    if (str.match(transforms[i].reg)) {
+      return str.replace(transforms[i].reg, transforms[i].repl);
+    }
+  }
+  return str + 'er';
+};
+
+// console.log(verb_to_actor('set'))
+// console.log(verb_to_actor('sweep'))
+// console.log(verb_to_actor('watch'))
+module.exports = actor;
+
+},{}],105:[function(require,module,exports){
+//turns a verb in any form, into it's infinitive version
+// eg "walked" -> "walk"
+'use strict';
+
+var irregular_verbs = require('../../../data/irregular_verbs');
+var known_verbs = Object.keys(irregular_verbs).reduce(function (h, k) {
+  Object.keys(irregular_verbs[k]).forEach(function (k2) {
+    h[irregular_verbs[k][k2]] = k;
+  });
+  return h;
+}, {});
+
+var rules = {
+  participle: [{
+    reg: /own$/i,
+    to: 'ow'
+  }, {
+    reg: /(.)un([g|k])$/i,
+    to: '$1in$2'
+  }],
+
+  // {
+  //   reg: /(..)en$/i,
+  //   to: '$1e'
+  // },
+  actor: [{
+    reg: /(er)er$/i,
+    to: '$1'
+  }],
+  present: [{
+    reg: /(ies)$/i,
+    to: 'y'
+  }, {
+    reg: /(tch|sh)es$/i,
+    to: '$1'
+  }, {
+    reg: /(ss)es$/i,
+    to: '$1'
+  }, {
+    reg: /([tzlshicgrvdnkmu])es$/i,
+    to: '$1e'
+  }, {
+    reg: /(n[dtk]|c[kt]|[eo]n|i[nl]|er|a[ytrl])s$/i,
+    to: '$1'
+  }, {
+    reg: /(ow)s$/i,
+    to: '$1'
+  }, {
+    reg: /(op)s$/i,
+    to: '$1'
+  }, {
+    reg: /([eirs])ts$/i,
+    to: '$1t'
+  }, {
+    reg: /(ll)s$/i,
+    to: '$1'
+  }, {
+    reg: /(el)s$/i,
+    to: '$1'
+  }, {
+    reg: /(ip)es$/i,
+    to: '$1e'
+  }, {
+    reg: /ss$/i,
+    to: 'ss'
+  }, {
+    reg: /s$/i,
+    to: ''
+  }],
+  gerund: [{
+    reg: /pping$/i,
+    to: 'p'
+  }, {
+    reg: /lling$/i,
+    to: 'll'
+  }, {
+    reg: /tting$/i,
+    to: 't'
+  }, {
+    reg: /ssing$/i,
+    to: 'ss'
+  }, {
+    reg: /gging$/i,
+    to: 'g'
+  }, {
+    reg: /([^aeiou])ying$/i,
+    to: '$1y'
+  }, {
+    reg: /(i.)ing$/i,
+    to: '$1e'
+  }, {
+    reg: /(u[rtcb]|[bdtpkg]l|n[cg]|a[gdkvtc]|[ua]s|[dr]g|yz|o[rlsp]|cre)ing$/i,
+    to: '$1e'
+  }, {
+    reg: /(ch|sh)ing$/i,
+    to: '$1'
+  }, {
+    reg: /(..)ing$/i,
+    to: '$1'
+  }],
+  past: [{
+    reg: /(ued)$/i,
+    to: 'ue'
+  }, {
+    reg: /(e|i)lled$/i,
+    to: '$1ll'
+  }, {
+    reg: /(sh|ch)ed$/i,
+    to: '$1'
+  }, {
+    reg: /(tl|gl)ed$/i,
+    to: '$1e'
+  }, {
+    reg: /(um?pt?)ed$/i,
+    to: '$1'
+  }, {
+    reg: /(ss)ed$/i,
+    to: '$1'
+  }, {
+    reg: /pped$/i,
+    to: 'p'
+  }, {
+    reg: /tted$/i,
+    to: 't'
+  }, {
+    reg: /gged$/i,
+    to: 'g'
+  }, {
+    reg: /(h|ion|n[dt]|ai.|[cs]t|pp|all|ss|tt|int|ail|ld|en|oo.|er|k|pp|w|ou.|rt|ght|rm)ed$/i,
+    to: '$1'
+  }, {
+    reg: /(.ut)ed$/i,
+    to: '$1e'
+  }, {
+    reg: /(us)ed$/i,
+    to: '$1e'
+  }, {
+    reg: /(..[^aeiou])ed$/i,
+    to: '$1e'
+  }, {
+    reg: /ied$/i,
+    to: 'y'
+  }, {
+    reg: /(.o)ed$/i,
+    to: '$1o'
+  }, {
+    reg: /(.i)ed$/i,
+    to: '$1'
+  }, {
+    reg: /([rl])ew$/i,
+    to: '$1ow'
+  }, {
+    reg: /([pl])t$/i,
+    to: '$1t'
+  }]
+};
+
+var to_infinitive = function to_infinitive(str, from_tense) {
+  if (known_verbs.hasOwnProperty(str)) {
+    return known_verbs[str];
+  }
+  if (from_tense === 'infinitive') {
+    return str;
+  }
+  var regs = rules[from_tense] || [];
+  for (var i = 0; i < regs.length; i++) {
+    if (str.match(regs[i].reg)) {
+      return str.replace(regs[i].reg, regs[i].to);
+    }
+  }
+  return str;
+};
+
+// console.log(to_infinitive('watch', 'infinitive'));
+
+module.exports = to_infinitive;
+
+},{"../../../data/irregular_verbs":11}],106:[function(require,module,exports){
+'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Term = require('../term.js');
+var _conjugate = require('./conjugate/conjugate.js');
+var _negate = require('./verb_negate.js');
+var predict_form = require('./conjugate/predict_form.js');
+
+var verbTags = {
+  infinitive: 'Infinitive',
+  present: 'PresentTense',
+  past: 'PastTense',
+  gerund: 'Gerund',
+  actor: 'Actor',
+  future: 'FutureTense',
+  pluperfect: 'PluperfectTense',
+  perfect: 'PerfectTense'
+};
+
+var Verb = function (_Term) {
+  _inherits(Verb, _Term);
+
+  function Verb(str, tag) {
+    _classCallCheck(this, Verb);
+
+    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Verb).call(this, str));
+
+    _this.tag = tag;
+    _this.pos['Verb'] = true;
+    //if we've been told which
+    if (tag) {
+      _this.pos[tag] = true;
+    }
+    return _this;
+  }
+
+  //'root' for a verb means infinitive
+
+  _createClass(Verb, [{
+    key: 'root',
+    value: function root() {
+      return this.conjugate().infinitive;
+    }
+
+    //retrieve a specific form
+
+  }, {
+    key: 'conjugation',
+    value: function conjugation() {
+      //check cached conjugations
+      var conjugations = this.conjugate();
+      var keys = Object.keys(conjugations);
+      for (var i = 0; i < keys.length; i++) {
+        if (conjugations[keys[i]] === this.normal) {
+          return verbTags[keys[i]];
+        }
+      }
+      //try to guess
+      return verbTags[predict_form(this.normal)];
+    }
+  }, {
+    key: 'tense',
+    value: function tense() {
+      //map conjugation onto past/present/future
+      var tenses = {
+        infinitive: 'present',
+        gerund: 'present',
+        actor: 'present',
+        present: 'present',
+        past: 'past',
+        future: 'future',
+        perfect: 'past',
+        pluperfect: 'past',
+        future_perfect: 'future'
+      };
+      var c = this.conjugation();
+      return tenses[c] || 'present';
+    }
+  }, {
+    key: 'conjugate',
+    value: function conjugate() {
+      return _conjugate(this.normal);
+    }
+  }, {
+    key: 'to_past',
+    value: function to_past() {
+      var tense = 'past';
+      var conjugations = this.conjugate(this.normal);
+      this.tag = verbTags[tense];
+      this.changeTo(conjugations[tense]);
+      return conjugations[tense];
+    }
+  }, {
+    key: 'to_present',
+    value: function to_present() {
+      var tense = 'present';
+      var conjugations = this.conjugate(this.normal);
+      this.tag = verbTags[tense];
+      this.changeTo(conjugations[tense]);
+      return conjugations[tense];
+    }
+  }, {
+    key: 'to_future',
+    value: function to_future() {
+      var tense = 'future';
+      var conjugations = this.conjugate(this.normal);
+      this.tag = verbTags[tense];
+      this.changeTo(conjugations[tense]);
+      return conjugations[tense];
+    }
+
+    //is this verb negative already?
+
+  }, {
+    key: 'isNegative',
+    value: function isNegative() {
+      var str = this.normal;
+      //yep, pretty simple
+      if (str.match(/(n't|\bnot\b)/)) {
+        return true;
+      }
+      return false;
+    }
+
+    //turn 'walked' to "didn't walk"
+
+  }, {
+    key: 'negate',
+    value: function negate() {
+      this.changeTo(_negate(this));
+      return this;
+    }
+  }]);
+
+  return Verb;
+}(Term);
+
+Verb.fn = Verb.prototype;
+
+module.exports = Verb;
+
+// let v = new Verb('stunk up');
+// console.log(v.negate());
+
+},{"../term.js":97,"./conjugate/conjugate.js":98,"./conjugate/predict_form.js":101,"./verb_negate.js":107}],107:[function(require,module,exports){
+'use strict';
+//recieves a verb object, and returns a negated string
+//sort out don't/didn't/doesn't/won't
+
+var fns = require('../../fns');
+
+// logic:
+// [past tense] - "sold" -> "didn't sell"
+// [present] - "sells" -> "doesn't sell"
+// [future] - "will sell" -> "won't sell"
+
+var negate = function negate(v) {
+
+  var known_negation = {
+    'is': 'isn\'t',
+    'are': 'aren\'t',
+    'was': 'wasn\'t',
+    'will': 'won\'t',
+    'had': 'hadn\'t',
+    //modals
+    'did': 'didn\'t',
+    'would': 'wouldn\'t',
+    'could': 'couldn\'t',
+    'should': 'shouldn\'t',
+    'can': 'can\'t',
+    'must': 'mustn\'t',
+    'have': 'haven\'t',
+    'has': 'hasn\'t',
+    'does': 'doesn\'t',
+    'do': 'don\'t'
+  };
+  //hard-coded explicit forms
+  if (known_negation[v.normal]) {
+    return known_negation[v.normal];
+  }
+  //try to un-negate?  create corrollary
+  var known_affirmation = fns.reverseObj(known_negation);
+  if (known_affirmation[v.normal]) {
+    return known_affirmation[v.normal];
+  }
+
+  //multiple-word verbs, like 'have walked'
+  var words = v.normal.split(' ');
+  if (words.length > 1 && words[1] === 'not') {
+    return words[0];
+  }
+  if (words.length > 1 && known_negation[words[0]]) {
+    return known_negation[words[0]] + ' ' + words.slice(1, words.length).join(' ');
+  }
+  var form = v.conjugation();
+  //walked -> didn't walk
+  if (form === 'PastTense') {
+    return 'didn\'t ' + v.conjugate()['infinitive'];
+  }
+  //walks -> doesn't walk
+  if (form === 'PresentTense') {
+    return 'doesn\'t ' + v.conjugate()['infinitive'];
+  }
+  //walking -> not walking
+  if (form === 'Gerund') {
+    return 'not ' + v.text;
+  }
+  //walker -> non-walker ?
+  if (form === 'Actor') {
+    return 'non-' + v.text;
+  }
+  //walk -> don't walk ?
+  if (form === 'Infinitive') {
+    return 'don\'t ' + v.text;
+  }
+
+  return v.text;
+};
+
+module.exports = negate;
+
+},{"../../fns":23}],108:[function(require,module,exports){
+//(Rule-based sentence boundary segmentation) - chop given text into its proper sentences.
+// Ignore periods/questions/exclamations used in acronyms/abbreviations/numbers, etc.
+// @spencermountain 2015 MIT
+'use strict';
+
+var abbreviations = require('../data/abbreviations').abbreviations;
+var fns = require('../fns');
+
+var naiive_split = function naiive_split(text) {
+  //first, split by newline
+  var splits = text.split(/(\n+)/);
+  //split by period, question-mark, and exclamation-mark
+  splits = splits.map(function (str) {
+    return str.split(/(\S.+?[.!?])(?=\s+|$)/g);
+  });
+  return fns.flatten(splits);
+};
+
+var sentence_parser = function sentence_parser(text) {
+  var sentences = [];
+  //first do a greedy-split..
+  var chunks = [];
+  //ensure it 'smells like' a sentence
+  if (!text || typeof text !== 'string' || !text.match(/\w/)) {
+    return sentences;
+  }
+  // This was the splitter regex updated to fix quoted punctuation marks.
+  // let splits = text.split(/(\S.+?[.\?!])(?=\s+|$|")/g);
+  // todo: look for side effects in this regex replacement:
+  var splits = naiive_split(text);
+  //filter-out the grap ones
+  for (var i = 0; i < splits.length; i++) {
+    var s = splits[i];
+    if (!s || s === '') {
+      continue;
+    }
+    //this is meaningful whitespace
+    if (!s.match(/\S/)) {
+      //add it to the last one
+      if (chunks[chunks.length - 1]) {
+        chunks[chunks.length - 1] += s;
+        continue;
+      } else if (splits[i + 1]) {
+        //add it to the next one
+        splits[i + 1] = s + splits[i + 1];
+        continue;
+      }
+      //else, only whitespace, no terms, no sentence
+    }
+    chunks.push(s);
+  }
+
+  //detection of non-sentence chunks
+  var abbrev_reg = new RegExp('\\b(' + abbreviations.join('|') + ')[.!?] ?$', 'i');
+  var acronym_reg = new RegExp('[ |\.][A-Z]\.? +?$', 'i');
+  var elipses_reg = new RegExp('\\.\\.\\.* +?$');
+  //loop through these chunks, and join the non-sentence chunks back together..
+  for (var i = 0; i < chunks.length; i++) {
+    //should this chunk be combined with the next one?
+    if (chunks[i + 1] && (chunks[i].match(abbrev_reg) || chunks[i].match(acronym_reg) || chunks[i].match(elipses_reg))) {
+      chunks[i + 1] = chunks[i] + (chunks[i + 1] || ''); //.replace(/ +/g, ' ');
+    } else if (chunks[i] && chunks[i].length > 0) {
+        //this chunk is a proper sentence..
+        sentences.push(chunks[i]);
+        chunks[i] = '';
+      }
+  }
+  //if we never got a sentence, return the given text
+  if (sentences.length === 0) {
+    return [text];
+  }
+
+  return sentences;
+};
+
+module.exports = sentence_parser;
+// console.log(sentence_parser('Hi there.\n\n \nEveryone wins\n'));
+
+},{"../data/abbreviations":1,"../fns":23}],109:[function(require,module,exports){
+'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var sentence_parser = require('./sentence_parser.js');
+// const Sentence = require('../sentence/sentence.js');
+var Question = require('../sentence/question/question.js');
+var Statement = require('../sentence/statement/statement.js');
+var fns = require('../fns.js');
+
+//a text object is a series of sentences, along with the generic methods for transforming them
+
+var Text = function () {
+  function Text(str, options) {
+    _classCallCheck(this, Text);
+
+    options = options || {};
+    var the = this;
+    if (typeof str === 'string') {
+      this.raw_text = str;
+    } else if (typeof str === 'number') {
+      this.raw_text = '' + str;
+    } else {
+      this.raw_text = '';
+    }
+    //build-up sentence/statement methods
+    this.sentences = sentence_parser(this.raw_text).map(function (s) {
+      var last_char = s.slice(-1);
+      if (last_char === '?') {
+        //TODO:be smartr
+        return new Question(s, options);
+      }
+      return new Statement(s, options);
+    });
+
+    this.contractions = {
+      // he'd -> he would
+      expand: function expand() {
+        the.sentences = the.sentences.map(function (s) {
+          return s.contractions.expand();
+        });
+        return the;
+      },
+      // he would -> he'd
+      contract: function contract() {
+        the.sentences = the.sentences.map(function (s) {
+          return s.contractions.contract();
+        });
+        return the;
+      }
+    };
+  }
+
+  //map over sentence methods
+
+  _createClass(Text, [{
+    key: 'text',
+    value: function text() {
+      var arr = this.sentences.map(function (s) {
+        return s.text();
+      });
+      return fns.flatten(arr).join('');
+    }
+  }, {
+    key: 'normal',
+    value: function normal() {
+      var arr = this.sentences.map(function (s) {
+        return s.normalized();
+      });
+      return fns.flatten(arr).join(' ');
+    }
+
+    //further 'lemmatisation/inflection'
+
+  }, {
+    key: 'root',
+    value: function root() {
+      var arr = this.sentences.map(function (s) {
+        return s.root();
+      });
+      return fns.flatten(arr).join(' ');
+    }
+  }, {
+    key: 'terms',
+    value: function terms() {
+      var arr = this.sentences.map(function (s) {
+        return s.terms;
+      });
+      return fns.flatten(arr);
+    }
+  }, {
+    key: 'tags',
+    value: function tags() {
+      return this.sentences.map(function (s) {
+        return s.tags();
+      });
+    }
+
+    //a regex-like lookup for a sentence.
+    // returns an array of terms
+
+  }, {
+    key: 'match',
+    value: function match(str, options) {
+      var arr = [];
+      for (var i = 0; i < this.sentences.length; i++) {
+        arr = arr.concat(this.sentences[i].match(str, options));
+      }
+      return arr;
+    }
+  }, {
+    key: 'replace',
+    value: function replace(str, replacement, options) {
+      for (var i = 0; i < this.sentences.length; i++) {
+        this.sentences[i].replace(str, replacement, options);
+      }
+      return this;
+    }
+
+    //transformations
+
+  }, {
+    key: 'to_past',
+    value: function to_past() {
+      this.sentences = this.sentences.map(function (s) {
+        return s.to_past();
+      });
+      return this;
+    }
+  }, {
+    key: 'to_present',
+    value: function to_present() {
+      this.sentences = this.sentences.map(function (s) {
+        return s.to_present();
+      });
+      return this;
+    }
+  }, {
+    key: 'to_future',
+    value: function to_future() {
+      this.sentences = this.sentences.map(function (s) {
+        return s.to_future();
+      });
+      return this;
+    }
+  }, {
+    key: 'negate',
+    value: function negate() {
+      this.sentences = this.sentences.map(function (s) {
+        return s.negate();
+      });
+      return this;
+    }
+
+    //parts of speech
+
+  }, {
+    key: 'nouns',
+    value: function nouns() {
+      var arr = [];
+      for (var i = 0; i < this.sentences.length; i++) {
+        arr = arr.concat(this.sentences[i].nouns());
+      }
+      return arr;
+    }
+  }, {
+    key: 'adjectives',
+    value: function adjectives() {
+      var arr = [];
+      for (var i = 0; i < this.sentences.length; i++) {
+        arr = arr.concat(this.sentences[i].adjectives());
+      }
+      return arr;
+    }
+  }, {
+    key: 'verbs',
+    value: function verbs() {
+      var arr = [];
+      for (var i = 0; i < this.sentences.length; i++) {
+        arr = arr.concat(this.sentences[i].verbs());
+      }
+      return arr;
+    }
+  }, {
+    key: 'adverbs',
+    value: function adverbs() {
+      var arr = [];
+      for (var i = 0; i < this.sentences.length; i++) {
+        arr = arr.concat(this.sentences[i].adverbs());
+      }
+      return arr;
+    }
+
+    //mining
+
+  }, {
+    key: 'people',
+    value: function people() {
+      var arr = [];
+      for (var i = 0; i < this.sentences.length; i++) {
+        arr = arr.concat(this.sentences[i].people());
+      }
+      return arr;
+    }
+  }, {
+    key: 'places',
+    value: function places() {
+      var arr = [];
+      for (var i = 0; i < this.sentences.length; i++) {
+        arr = arr.concat(this.sentences[i].places());
+      }
+      return arr;
+    }
+  }, {
+    key: 'organizations',
+    value: function organizations() {
+      var arr = [];
+      for (var i = 0; i < this.sentences.length; i++) {
+        arr = arr.concat(this.sentences[i].organizations());
+      }
+      return arr;
+    }
+  }, {
+    key: 'dates',
+    value: function dates() {
+      var arr = [];
+      for (var i = 0; i < this.sentences.length; i++) {
+        arr = arr.concat(this.sentences[i].dates());
+      }
+      return arr;
+    }
+  }, {
+    key: 'values',
+    value: function values() {
+      var arr = [];
+      for (var i = 0; i < this.sentences.length; i++) {
+        arr = arr.concat(this.sentences[i].values());
+      }
+      return arr;
+    }
+    //more generic named-entity recognition
+
+  }, {
+    key: 'topics',
+    value: function topics() {
+      //consolodate topics across sentences
+      var obj = {};
+      for (var i = 0; i < this.sentences.length; i++) {
+        var topics = this.sentences[i].topics();
+        for (var o = 0; o < topics.length; o++) {
+          if (obj[topics[o].text]) {
+            obj[topics[o].text].count += topics[o].count;
+          } else {
+            obj[topics[o].text] = topics[o];
+          }
+        }
+      }
+      //sort by frequency
+      var arr = Object.keys(obj).map(function (k) {
+        return obj[k];
+      });
+      return arr.sort(function (a, b) {
+        if (a.count > b.count) {
+          return -1;
+        } else {
+          return 1;
+        }
+      });
+    }
+  }]);
+
+  return Text;
+}();
+
+Text.fn = Text.prototype;
+
+module.exports = Text;
+
+},{"../fns.js":23,"../sentence/question/question.js":54,"../sentence/statement/statement.js":60,"./sentence_parser.js":108}]},{},[24])(24)
+});
+
+var speechInput = {
+    init: function(){
+        this.browserCheck();
+    },
+    browserCheck : function(){
+        if (!('webkitSpeechRecognition' in window)) {
+            alert("webkitSpeechRecognition is not supported");
+            return;
+        }else {
+            this.runSpeech();
+        }
+    },
+    runSpeech : function(){
+        var final_transcript = '',
+            recognizing = false,
+            ignore_onend,
+            start_timestamp;
+        // start_button.style.display = 'inline-block';
+
+        // --- Responding -- //
+        var dialogInput = $("#dialog"),
+            clearInputTimer;
+
+        function respond(message){
+            if (message.lastIndexOf("hello del")!== -1){              
+                responsiveVoice.speak("Hello Michael. Shall we start the demo?");
+            }
+            if (message.lastIndexOf("laptop")!== -1){    
+                $("#output_wrap").show();
+                responsiveVoice.speak("I heard laptop, is this for home or business?");
+            }
+            if (message.lastIndexOf("home")!== -1){    
+                $("#dl-segment").click();
+                responsiveVoice.speak("Did you have a brand in mind?");
+            }
+            if (message.lastIndexOf("inspiron")!== -1){     
+                $("#dl-brand").click();         
+                responsiveVoice.speak("I heard Inspiron, see our current models below?");
+            }
+            clearInputTimer = setTimeout(function(){                  
+                $("#final_span").text("");
+                $("#interim_span").text("");
+            }, 200);
+            
+        }
+        // $("body").on("click", "#Go", function(){
+        //     var inputText = dialogInput.val().toLowerCase();
+        //     if(inputText === "hello delli"){
+        //        responsiveVoice.speak("hello Michael, should we start the demo?"); 
+        //     }
+            
+        // });
+
+        // -- End Responding -- //
+
+        $("body").on("click", "#start_button", function(){
+            startButton(event);
+        })
+
+        var recognition = new webkitSpeechRecognition();
+
+        recognition.continuous = true;
+        recognition.interimResults = true;
+
+        recognition.onstart = function() {
+            recognizing = true;
+            showInfo('info_speak_now');
+            start_img.src = 'images/mic-animate.gif';
+        };
+
+        recognition.onerror = function(event) {
+            if (event.error == 'no-speech') {
+                start_img.src = 'images/mic.gif';
+                showInfo('info_no_speech');
+                ignore_onend = true;
+            }
+            if (event.error == 'audio-capture') {
+                start_img.src = 'images/mic.gif';
+                showInfo('info_no_microphone');
+                ignore_onend = true;
+            }
+            if (event.error == 'not-allowed') {
+                if (event.timeStamp - start_timestamp < 100) {
+                    showInfo('info_blocked');
+                } else {
+                    showInfo('info_denied');
+                }
+                ignore_onend = true;
+            }
+        };
+
+        recognition.onend = function() {
+            recognizing = false;
+            if (ignore_onend) {
+                return;
+            }
+            start_img.src = 'images/mic.gif';
+            if (!final_transcript) {
+                showInfo('info_start');
+                return;
+            }
+            showInfo('');
+            if (window.getSelection) {
+                window.getSelection().removeAllRanges();
+                var range = document.createRange();
+                range.selectNode(document.getElementById('final_span'));
+                window.getSelection().addRange(range);
+                
+            }
+        };
+
+        recognition.onresult = function(event) {
+            var interim_transcript = '';
+            for (var i = event.resultIndex; i < event.results.length; ++i) {
+                if (event.results[i].isFinal) {
+                    final_transcript += event.results[i][0].transcript;
+
+                    //-- Adding the feed to dialog -- //
+                    respond(final_transcript.toLowerCase());
+                    final_transcript = "";
+                    continue;
+
+                } else {
+                    interim_transcript += event.results[i][0].transcript;
+                }
+            }
+            final_transcript = capitalize(final_transcript);
+            final_span.innerHTML = linebreak(final_transcript);
+            interim_span.innerHTML = linebreak(interim_transcript);
+            if (final_transcript || interim_transcript) {
+                showButtons('inline-block');
+            }
+        };
+
+        var two_line = /\n\n/g;
+        var one_line = /\n/g;
+        function linebreak(s) {
+            return s.replace(two_line, '<p></p>').replace(one_line, '<br>');
+        }
+        var first_char = /\S/;
+        function capitalize(s) {
+            return s.replace(first_char, function(m) { return m.toUpperCase(); });
+        }
+
+        function startButton(event) {
+            if (recognizing) {
+                recognition.stop();
+                return;
+            }
+            final_transcript = '';
+            recognition.lang = '6';
+            // recognition.lang = select_dialect.value;
+            recognition.start();
+            ignore_onend = false;
+            final_span.innerHTML = '';
+            interim_span.innerHTML = '';
+            start_img.src = '/images/mic-slash.gif';
+            showInfo('info_allow');
+            showButtons('none');
+            start_timestamp = event.timeStamp;
+        }
+        function showInfo(s) {
+            if (s) {
+                for (var child = info.firstChild; child; child = child.nextSibling) {
+                    if (child.style) {
+                        child.style.display = child.id == s ? 'inline' : 'none';
+                    }
+                }
+                info.style.visibility = 'visible';
+            } else {
+                info.style.visibility = 'hidden';
+            }
+        }
+        var current_style;
+        function showButtons(style) {
+            if (style == current_style) {
+                return;
+            }
+            current_style = style;
+        }
+    }
 
 };
 speechInput.init();
@@ -5489,6 +14237,6012 @@ var defaultOutputModel = {
     }
 };
 
+var cartItems = [
+{
+    "Id": "f2a37829-64cf-4a2f-931d-f83db9a0345e",
+    "IdWithoutSpecialCharacters": "f2a3782964cf4a2f931df83db9a0345e",
+    "ProductId": "fncwh101sw",
+    "Description": "Inspiron 11 3000 Non-Touch",
+    "ShowProductStackDescription": false,
+    "IsValid": true,
+    "LeadTimeInfo": {
+        "EstimatedShipDate": "6/6/2016",
+        "ShowEstimatedShipDate": true,
+        "ShowEstimatedDeliveryDate": false,
+        "HasValidEstimatedDeliveryDate": false,
+        "CanCalculateEstimatedDeliveryDate": true
+    },
+    "IsSavedCartItem": false,
+    "SubTotalAmount": "$199.99",
+    "DiscountsAndCouponsAmount": "$0.00",
+    "DiscountsAndCouponsAmountValue": 0,
+    "DiscountsAndCoupons": [],
+    "ShowDiscountsAndCoupons": false,
+    "DiscountsPopupTitle": "Additional Discounts & Coupons",
+    "TotalAmount": "$199.99",
+    "TotalAmountWithSubItems": "$199.99",
+    "TotalAmountWithSubItemsValue": 199.99,
+    "Quantity": 1,
+    "QuantityWithSubItems": 1,
+    "AllowChangeQuantity": true,
+    "IsAssociatedItem": false,
+    "ImageUrl": "https://si.cdn.dell.com/images/global/configurator/chassis/inspnb-11-3162-nt-wh-ft-120x107.jpg",
+    "UnitPriceAmount": "$199.99",
+    "ShowManufacturerPartNumber": false,
+    "ShowDellPartNumber": false,
+    "ShowCatalogNumber": true,
+    "CatalogNumber": "29 fncwh101sw",
+    "Components": [
+    {
+        "Name": "Inspiron 11 3000 Series",
+        "Description": "Inspiron 11 3000 Series",
+        "ProductCode": "RT3162",
+        "Skus": [
+        "210-AGPN"
+        ]
+    },
+    {
+        "Name": "Processor",
+        "Description": "Intel� Celeron� Processor N3050 (2M Cache, up to 2.16 GHz)",
+        "ProductCode": "C484MT",
+        "Skus": [
+        "338-BIMI"
+        ]
+    },
+    {
+        "Name": "Operating System",
+        "Description": "Windows 10 Home, 64-bit, English",
+        "ProductCode": "10HE6E",
+        "Skus": [
+        "619-AHCP"
+        ]
+    },
+    {
+        "Name": "Memory",
+        "Description": "2GB Single Channel DDR3L 1600MHz",
+        "ProductCode": "2GBINTG",
+        "Skus": [
+        "370-ACLT"
+        ]
+    },
+    {
+        "Name": "Hard Drive",
+        "Description": "32GB eMMC",
+        "ProductCode": "32EMMC",
+        "Skus": [
+        "400-ACOU"
+        ]
+    },
+    {
+        "Name": "Video Card",
+        "Description": "Intel� HD Graphics",
+        "ProductCode": "INTHD",
+        "Skus": [
+        "490-BCUW"
+        ]
+    },
+    {
+        "Name": "Display",
+        "Description": "11.6-inch HD (1366 x 768) Anti-Glare LED-Backlit Display",
+        "ProductCode": "HDLCD",
+        "Skus": [
+        "391-BCNZ"
+        ]
+    },
+    {
+        "Name": "Color Choice",
+        "Description": "Alpine White",
+        "ProductCode": "CVRWHT",
+        "Skus": [
+        "320-BBVK"
+        ]
+    },
+    {
+        "Name": "Wireless",
+        "Description": "802.11ac + Bluetooth 4.0, Dual Band 2.4&5 GHz, 1x1",
+        "ProductCode": "IW3160",
+        "Skus": [
+        "555-BBTG"
+        ]
+    },
+    {
+        "Name": "Primary Battery",
+        "Description": "32 WHr, 2-Cell Battery (Integrated)",
+        "ProductCode": "2CBATT",
+        "Skus": [
+        "451-BBTY"
+        ]
+    },
+    {
+        "Name": "Keyboard",
+        "Description": "Keyboard ENG US",
+        "ProductCode": "WHKBENG",
+        "Skus": [
+        "346-BBVY",
+        "580-AEQZ"
+        ]
+    },
+    {
+        "Name": "Power Supply",
+        "Description": "45 Watt AC Adaptor",
+        "ProductCode": "45WTAC",
+        "Skus": [
+        "450-AFKG"
+        ]
+    },
+    {
+        "Name": "Cable",
+        "Description": "Power Cord, US/CAN",
+        "ProductCode": "PWRENG",
+        "Skus": [
+        "450-ABLO"
+        ]
+    },
+    {
+        "Name": "Business Support",
+        "Description": "Return Label, Dell, RETURNPOL",
+        "ProductCode": "RTRNLB8",
+        "Skus": [
+        "811-BBBC"
+        ]
+    },
+    {
+        "Name": "Documentation/Disks",
+        "Description": "WIN 10, English-French",
+        "ProductCode": "WINEFD",
+        "Skus": [
+        "340-AGIK"
+        ]
+    },
+    {
+        "Name": "Packaging Label",
+        "Description": "Dell.com Order",
+        "ProductCode": "NORTL",
+        "Skus": [
+        "332-1530"
+        ]
+    },
+    {
+        "Name": "Non-Microsoft Application Software",
+        "Description": "Additional Software",
+        "ProductCode": "INVW10",
+        "Skus": [
+        "658-BDBZ"
+        ]
+    },
+    {
+        "Name": "Processor Branding",
+        "Description": "Intel� Celeron� Label",
+        "ProductCode": "CELABL",
+        "Skus": [
+        "340-AQVB"
+        ]
+    },
+    {
+        "Name": "Packaging",
+        "Description": "Shipping Material",
+        "ProductCode": "SHPMTL",
+        "Skus": [
+        "328-BCHL"
+        ]
+    },
+    {
+        "Name": "E-Star",
+        "Description": "Energy Star Compliant",
+        "ProductCode": "ESTAR6",
+        "Skus": [
+        "340-AAPZ"
+        ]
+    },
+    {
+        "Name": "Order Information",
+        "Description": "Shipping Information",
+        "ProductCode": "USNONE",
+        "Skus": [
+        "332-1286"
+        ]
+    },
+    {
+        "Name": "Systems Management",
+        "Description": "Windows System Drive,3162",
+        "ProductCode": "WINSW",
+        "Skus": [
+        "340-AVED"
+        ]
+    },
+    {
+        "Name": "Placemat",
+        "Description": "WIN 10 Placemat",
+        "ProductCode": "PLMT10",
+        "Skus": [
+        "340-AUXE"
+        ]
+    },
+    {
+        "Name": "Driver",
+        "Description": "802.11ac + Bluetooth 4.0, Dual Band 2.4&5 GHz, 1x1 Wireless Driver",
+        "ProductCode": "SWD3160",
+        "Skus": [
+        "340-AUPJ"
+        ]
+    },
+    {
+        "Name": "Operating System Recovery Options",
+        "Description": "Operating System Recovery Media Not Included",
+        "ProductCode": "NODBRM",
+        "Skus": [
+        "340-ACQQ"
+        ]
+    },
+    {
+        "Name": "FGA Module",
+        "Description": "ROCKET1701_101/US1/BTS",
+        "ProductCode": "FG0005",
+        "Skus": [
+        "998-BVCK"
+        ]
+    },
+    {
+        "Name": "Label",
+        "Description": "Regulatory Label",
+        "ProductCode": "REGLBL",
+        "Skus": [
+        "389-BIUD"
+        ]
+    },
+    {
+        "Name": "Office 2016 - Word, Excel, Powerpoint & more",
+        "Description": "Microsoft Office 30 Day Trial",
+        "ProductCode": "OTRT13M",
+        "Skus": [
+        "658-BCSB"
+        ]
+    },
+    {
+        "Name": "Security Software  <span class=\"dellRecommended\">Inspiron PCs on Dell.com come with 1yr McAfee LiveSafe, $89 value.</span>",
+        "Description": "McAfee LiveSafe 12 Month Subscription",
+        "ProductCode": "LSIA12M",
+        "Skus": [
+        "525-0033",
+        "658-BCCO"
+        ]
+    },
+    {
+        "Name": "Support",
+        "Description": "1 Year Ltd Hware Warranty: Mail-in; Customer supplies box, Dell pays shipping",
+        "ProductCode": "MI1",
+        "Skus": [
+        "806-6351",
+        "806-6352"
+        ]
+    },
+    {
+        "Name": "Hard Drive Software",
+        "Description": "Windows 10 OS Info -32G",
+        "ProductCode": "W10COP",
+        "Skus": [
+        "340-ARLX"
+        ]
+    }
+    ],
+    "ShowComponents": true,
+    "Alerts": [],
+    "EvergreenMessages": [],
+    "HasBundledItems": false,
+    "BundledItems": [],
+    "IsBundledItem": false,
+    "IsFastTrack": true,
+    "Metadata": {
+        "itemType": "ConfigItem",
+        "brand": 7,
+        "family": 11989
+    },
+    "HasDeliveryMessageOverride": false,
+    "StopSelling": false,
+    "IsStockItem": true,
+    "SubTotalAmountValue": 199.99,
+    "ConfigurationIdentifier": "1~fncwh101sw~19~en~us~1__572;FG0005;1"
+},
+{
+    "Id": "a30b3fb6-4e0f-44d0-bd33-423c5decdd9d",
+    "IdWithoutSpecialCharacters": "a30b3fb64e0f44d0bd33423c5decdd9d",
+    "ProductId": "fncwv2310s",
+    "Description": "Inspiron 15 5000 Non-Touch",
+    "ShowProductStackDescription": false,
+    "IsValid": true,
+    "LeadTimeInfo": {
+        "EstimatedShipDate": "6/6/2016",
+        "ShowEstimatedShipDate": true,
+        "ShowEstimatedDeliveryDate": false,
+        "HasValidEstimatedDeliveryDate": false,
+        "CanCalculateEstimatedDeliveryDate": true
+    },
+    "IsSavedCartItem": false,
+    "SubTotalAmount": "$599.99",
+    "DiscountsAndCouponsAmount": "-$50.00",
+    "DiscountsAndCouponsAmountValue": 50,
+    "DiscountsAndCoupons": [
+    {
+        "CampaignId": 553005,
+        "Amount": "-$50.00",
+        "ShortDescription": "Inspiron 15 5000 Series price includes $50 instant discount.",
+        "LongDescription": "Inspiron 15 5000 Series price includes $50 instant discount.",
+        "LegalDescription": "Specifications, availability and terms of offer may change without notice. Taxes and shipping charges are extra, and vary. Offer for U.S. Dell Home Systems Co. new system online purchases only.  Dell cannot be responsible for pricing or other errors, and reserves the right to cancel orders arising from such errors.",
+        "ExpiryDate": "1/1/2019",
+        "HasExpiryDate": true,
+        "HasExpiryTextOverride": false,
+        "AllowRemove": false,
+        "ShowAmount": true
+    },
+    {
+        "CampaignId": 582257,
+        "Amount": "$0.00",
+        "ShortDescription": "All Inspiron & XPS PCs on Dell.com now come protected with 1yr of McAfee LiveSafe, $89 value.",
+        "LongDescription": "All Inspiron & XPS PCs on Dell.com now come protected with 1yr of McAfee LiveSafe, $89 value.  Upgrade to 36 months for only $49.",
+        "LegalDescription": "",
+        "ExpiryDate": "5/5/2017",
+        "HasExpiryDate": true,
+        "HasExpiryTextOverride": false,
+        "AllowRemove": false,
+        "ShowAmount": false
+    }
+    ],
+    "ShowDiscountsAndCoupons": true,
+    "DiscountsPopupTitle": "Additional Discounts & Coupons",
+    "TotalAmount": "$549.99",
+    "TotalAmountWithSubItems": "$549.99",
+    "TotalAmountWithSubItemsValue": 549.99,
+    "Quantity": 1,
+    "QuantityWithSubItems": 1,
+    "AllowChangeQuantity": true,
+    "IsAssociatedItem": false,
+    "ImageUrl": "https://si.cdn.dell.com/images/global/configurator/chassis/insp-15-5551-nt-blk-ft-120x107.jpg",
+    "UnitPriceAmount": "$599.99",
+    "ShowManufacturerPartNumber": false,
+    "ShowDellPartNumber": false,
+    "ShowCatalogNumber": true,
+    "CatalogNumber": "29 fncwv2310s",
+    "Components": [
+    {
+        "Name": "Base",
+        "Description": "Inspiron 15 5000 Series",
+        "ProductCode": "TL5559",
+        "Skus": [
+        "210-AEYM"
+        ]
+    },
+    {
+        "Name": "Processor",
+        "Description": "6th Generation Intel� Core� i5-6200U Processor (3M Cache, up to 2.80 GHz)",
+        "ProductCode": "533NW3",
+        "Skus": [
+        "338-BHOV"
+        ]
+    },
+    {
+        "Name": "Operating System",
+        "Description": "Windows 10 Home, 64-bit, English",
+        "ProductCode": "10H64E",
+        "Skus": [
+        "619-AHCQ"
+        ]
+    },
+    {
+        "Name": "Memory",
+        "Description": "8GB, 1600MHz, DDR3L; up to 16GB (additional memory sold separately)",
+        "ProductCode": "8G2D3L",
+        "Skus": [
+        "370-AANL"
+        ]
+    },
+    {
+        "Name": "Hard Drive",
+        "Description": "1TB 5400 rpm Hard Drive",
+        "ProductCode": "1TB54",
+        "Skus": [
+        "400-AAZU"
+        ]
+    },
+    {
+        "Name": "Video Card",
+        "Description": "Intel� HD Graphics 520",
+        "ProductCode": "INTHD",
+        "Skus": [
+        "490-BCUW"
+        ]
+    },
+    {
+        "Name": "Display",
+        "Description": "15.6-inch HD (1366 x 768) Truelife LED-Backlit Display",
+        "ProductCode": "HDLCD",
+        "Skus": [
+        "391-BBZM"
+        ]
+    },
+    {
+        "Name": "CD ROM/DVD ROM",
+        "Description": "Tray load DVD Drive (Reads and Writes to DVD/CD)",
+        "ProductCode": "8DVDRW",
+        "Skus": [
+        "429-AAJV"
+        ]
+    },
+    {
+        "Name": "Color Choice",
+        "Description": "Theoretical Gray, Matte Metallic IMR",
+        "ProductCode": "CVRSLNT",
+        "Skus": [
+        "320-BBOT"
+        ]
+    },
+    {
+        "Name": "Wireless",
+        "Description": "802.11ac + Bluetooth 4.0, Dual Band 2.4&5 GHz, 1x1",
+        "ProductCode": "3160",
+        "Skus": [
+        "555-BCIY"
+        ]
+    },
+    {
+        "Name": "Primary Battery",
+        "Description": "40 WHr, 4-Cell Battery (removable)",
+        "ProductCode": "4CBATT",
+        "Skus": [
+        "451-BBMG"
+        ]
+    },
+    {
+        "Name": "Keyboard",
+        "Description": "Backlit Keyboard, English",
+        "ProductCode": "ENGKBBL",
+        "Skus": [
+        "580-ABYO"
+        ]
+    },
+    {
+        "Name": "Power Supply",
+        "Description": "45 Watt AC Adaptor",
+        "ProductCode": "45WTAC",
+        "Skus": [
+        "450-AEHK"
+        ]
+    },
+    {
+        "Name": "Cable",
+        "Description": "Power Cord, US/CAN",
+        "ProductCode": "PWRENG",
+        "Skus": [
+        "450-ABLO"
+        ]
+    },
+    {
+        "Name": "Optical Software",
+        "Description": "Cyberlink Media Suite Essentials without Media",
+        "ProductCode": "W8DVDSW",
+        "Skus": [
+        "658-BBTV"
+        ]
+    },
+    {
+        "Name": "Business Support",
+        "Description": "Retail Return Label",
+        "ProductCode": "RTRNLB8",
+        "Skus": [
+        "811-BBBC"
+        ]
+    },
+    {
+        "Name": "Documentation/Disks",
+        "Description": "Documentation, English-French",
+        "ProductCode": "W81EFD",
+        "Skus": [
+        "340-AGIK"
+        ]
+    },
+    {
+        "Name": "Support Tech Sheet and Powercord",
+        "Description": "Dell.com Order",
+        "ProductCode": "NORTL",
+        "Skus": [
+        "332-1530"
+        ]
+    },
+    {
+        "Name": "Labels",
+        "Description": "Palmrest Label,USENG, Win8/10",
+        "ProductCode": "PLUSW10",
+        "Skus": [
+        "389-BHED"
+        ]
+    },
+    {
+        "Name": "Non-Microsoft Application Software",
+        "Description": "Additional Software",
+        "ProductCode": "INSW10",
+        "Skus": [
+        "658-BCUN"
+        ]
+    },
+    {
+        "Name": "Processor Branding",
+        "Description": "Intel� Core� i5 Label",
+        "ProductCode": "CI5SML",
+        "Skus": [
+        "389-BHIB"
+        ]
+    },
+    {
+        "Name": "Packaging",
+        "Description": "Shipping Material",
+        "ProductCode": "SHPMTL",
+        "Skus": [
+        "328-BCCD",
+        "340-AAPP"
+        ]
+    },
+    {
+        "Name": "Energy Efficiency Options",
+        "Description": "ESTAR 5.0/6.0",
+        "ProductCode": "ESTAR5",
+        "Skus": [
+        "340-AAPZ"
+        ]
+    },
+    {
+        "Name": "Shipping SKU's",
+        "Description": "Shipping Information",
+        "ProductCode": "USNONE",
+        "Skus": [
+        "332-1286"
+        ]
+    },
+    {
+        "Name": "Systems Management",
+        "Description": "Windows System Driver,5559",
+        "ProductCode": "WINSSW",
+        "Skus": [
+        "631-AAQV"
+        ]
+    },
+    {
+        "Name": "Placemat",
+        "Description": "Placemat Documentation, Win 10",
+        "ProductCode": "PLMTW10",
+        "Skus": [
+        "340-ARSY"
+        ]
+    },
+    {
+        "Name": "Driver",
+        "Description": "802.11ac + Bluetooth 4.0, Dual Band 2.4&5 GHz, 1x1 Wireless Driver",
+        "ProductCode": "SW3160",
+        "Skus": [
+        "612-BBBZ"
+        ]
+    },
+    {
+        "Name": "Operating System Recovery Options",
+        "Description": "Operating System Recovery Media Not Included",
+        "ProductCode": "NODBRM",
+        "Skus": [
+        "340-ACQQ"
+        ]
+    },
+    {
+        "Name": "FGA Module",
+        "Description": "TULIP15SKL1701_2310/US/BTS",
+        "ProductCode": "FG0047",
+        "Skus": [
+        "998-BUPC"
+        ]
+    },
+    {
+        "Name": "Label",
+        "Description": "Regulatory Label, UMA",
+        "ProductCode": "LBLUMA",
+        "Skus": [
+        "389-BHDM"
+        ]
+    },
+    {
+        "Name": "Security Software  <span class=\"dellRecommended\">Inspiron PCs on Dell.com come with 1yr McAfee LiveSafe, $89 value.</span>",
+        "Description": "McAfee LiveSafe 12 Month Subscription",
+        "ProductCode": "LSIA12M",
+        "Skus": [
+        "525-0033",
+        "658-BCCO"
+        ]
+    },
+    {
+        "Name": "Office 2016 - Word, Excel, Powerpoint & more",
+        "Description": "Microsoft Office 30 Day Trial",
+        "ProductCode": "OTRT13M",
+        "Skus": [
+        "658-BCSB"
+        ]
+    },
+    {
+        "Name": "Support",
+        "Description": "1 Year Ltd Hware Warranty: Mail-in; Customer supplies box, Dell pays shipping",
+        "ProductCode": "MI1",
+        "Skus": [
+        "801-2700",
+        "801-2733"
+        ]
+    }
+    ],
+    "ShowComponents": true,
+    "Alerts": [],
+    "EvergreenMessages": [],
+    "HasBundledItems": false,
+    "BundledItems": [],
+    "IsBundledItem": false,
+    "IsFastTrack": true,
+    "Metadata": {
+        "itemType": "ConfigItem",
+        "brand": 7,
+        "family": 11718
+    },
+    "HasDeliveryMessageOverride": false,
+    "StopSelling": false,
+    "IsStockItem": true,
+    "SubTotalAmountValue": 599.99,
+    "ConfigurationIdentifier": "1~fncwv2310s~19~en~us~1__572;FG0047;1"
+},
+{
+    "Id": "d8c8f3b9-a252-41b5-9ba5-e1189b17c69e",
+    "IdWithoutSpecialCharacters": "d8c8f3b9a25241b59ba5e1189b17c69e",
+    "ProductId": "dncwsbb0014b",
+    "Description": "New Inspiron 15 7000 2-in-1",
+    "ShowProductStackDescription": false,
+    "IsValid": true,
+    "LeadTimeInfo": {
+        "EstimatedShipDate": "6/16/2016",
+        "ShowEstimatedShipDate": true,
+        "ShowEstimatedDeliveryDate": false,
+        "HasValidEstimatedDeliveryDate": false,
+        "CanCalculateEstimatedDeliveryDate": true
+    },
+    "IsSavedCartItem": false,
+    "SubTotalAmount": "$999.99",
+    "DiscountsAndCouponsAmount": "$0.00",
+    "DiscountsAndCouponsAmountValue": 0,
+    "DiscountsAndCoupons": [
+    {
+        "CampaignId": 571234,
+        "Amount": "$0.00",
+        "ShortDescription": "12 mo special financing when you spend $999+",
+        "LongDescription": "12 months special financing on new PCs $999 or more with Dell Preferred Account!",
+        "LegalDescription": "<!-- \r\n- 12 months special financing is a No Interest if Paid in Full by Your Due Date in July, 2017 promotion on new PCs $999 or more and applies only to the amount purchased with Dell Preferred Account.\r\n- Your Standard Rate is ${APR}.  This APR will vary with the market based on the Prime Rate.\r\n- Interest will be charged to your account at the Standard Rate from the transaction posting date if the purchase balance is not paid in full by the end of the promotional period.  In addition, your Standard Rate will apply to the remaining balance.\r\n- To avoid accrued interest charges, minimum monthly payments are required and the balance must be paid by the end of your promotional period.\r\n- Minimum monthly payments are required, but may not pay your purchase in full by the end of the promotional period due to purchase amount, promotion length, additional purchases or allocation of payments in excess of the minimum payment. \r\n- Minimum purchase amount may be required.\r\n--> \r\nThe \"12 months special financing\" promotional financing includes new PCs $999 or more purchased with your Dell Preferred Account.  You must have adequate available credit to purchase.  Pay your plan balance in full by your payment due date in July, 2017 or accrued interest will be assessed. Minimum monthly payments are required, but may not pay your purchase in full by the end of the promotional period due to purchase amount, promotion length, additional purchases or allocation of payments in excess of the minimum payment. Interest accrues at the Standard Rate (this APR will vary with the market based on the Prime Rate) from the transaction posting date and will be charged to the account if you do not pay your plan balance in full by your payment due date in July, 2017, or if you fail to make a required minimum payment at any time during the promotional period.  Promotional financing features apply only to the amount purchased with the Dell Preferred Account.   \r\n\r\n<p>Subject to credit approval.  WebBank determines creditworthiness, APR, credit limit, and qualification for promotional offers.  Qualifying for the Dell Preferred Account does not guarantee offer of promotional financing features.  You must purchase this item with your Dell Preferred Account and must have adequate available credit to take advantage of this promotion. Minimum purchase amount may be required</p>",
+        "ExpiryDate": "6/30/2016",
+        "HasExpiryDate": true,
+        "HasExpiryTextOverride": false,
+        "AllowRemove": false,
+        "ShowAmount": false
+    }
+    ],
+    "ShowDiscountsAndCoupons": true,
+    "DiscountsPopupTitle": "Additional Discounts & Coupons",
+    "TotalAmount": "$999.99",
+    "TotalAmountWithSubItems": "$999.99",
+    "TotalAmountWithSubItemsValue": 999.99,
+    "Quantity": 1,
+    "QuantityWithSubItems": 1,
+    "AllowChangeQuantity": true,
+    "IsAssociatedItem": false,
+    "ImageUrl": "https://si.cdn.dell.com/images/global/configurator/chassis/insp-15-7569-gry-ft-win-120x107.jpg",
+    "UnitPriceAmount": "$999.99",
+    "ShowManufacturerPartNumber": false,
+    "ShowDellPartNumber": false,
+    "ShowCatalogNumber": true,
+    "CatalogNumber": "29 dncwsbb0014b",
+    "Components": [
+    {
+        "Name": "Inspiron 15 7000 Series",
+        "Description": "Inspiron 15 7000 Series",
+        "ProductCode": "SL7569",
+        "Skus": [
+        "210-AHPJ"
+        ]
+    },
+    {
+        "Name": "Processor",
+        "Description": "6th Generation Intel� Core� i7-6500U Processor (4M Cache, up to 3.10 GHz)",
+        "ProductCode": "7727VW",
+        "Skus": [
+        "338-BJJD"
+        ]
+    },
+    {
+        "Name": "Operating System",
+        "Description": "Windows 10 Home 64-bit English",
+        "ProductCode": "10HHEE",
+        "Skus": [
+        "619-AHCY"
+        ]
+    },
+    {
+        "Name": "Memory",
+        "Description": "12GB DDR4 at 2133MHz (4GBx1+8GBx1)",
+        "ProductCode": "12G2D",
+        "Skus": [
+        "370-ACFB"
+        ]
+    },
+    {
+        "Name": "Hard Drive",
+        "Description": "512GB Solid State Drive",
+        "ProductCode": "512SSD",
+        "Skus": [
+        "400-AMQD"
+        ]
+    },
+    {
+        "Name": "Video Card",
+        "Description": "Intel� HD Graphics 520",
+        "ProductCode": "INTHD",
+        "Skus": [
+        "490-BBRM"
+        ]
+    },
+    {
+        "Name": "LCD",
+        "Description": "15.6-inch FHD (1920 x 1080) Truelife LED-Backlit Touch Display with Wide Viewing Angles",
+        "ProductCode": "TFHDIRC",
+        "Skus": [
+        "391-BCRW"
+        ]
+    },
+    {
+        "Name": "Color Choice",
+        "Description": "Silver",
+        "ProductCode": "FHDGRAY",
+        "Skus": [
+        "320-BBXH"
+        ]
+    },
+    {
+        "Name": "Wireless",
+        "Description": "Intel� Dual Band Wireless-AC 3165 + Bluetooth 4.0",
+        "ProductCode": "3165",
+        "Skus": [
+        "555-BCJN"
+        ]
+    },
+    {
+        "Name": "Primary Battery",
+        "Description": "42 WHr, 3-Cell Battery (integrated)",
+        "ProductCode": "42BATT",
+        "Skus": [
+        "451-BBVN"
+        ]
+    },
+    {
+        "Name": "Keyboard",
+        "Description": "Backlit Keyboard",
+        "ProductCode": "ENGKBD",
+        "Skus": [
+        "346-BBXO",
+        "580-AFCD"
+        ]
+    },
+    {
+        "Name": "Power Supply",
+        "Description": "45 Watt AC Adaptor",
+        "ProductCode": "45WTAC",
+        "Skus": [
+        "450-AEHK"
+        ]
+    },
+    {
+        "Name": "Cable",
+        "Description": "Power Cord,125V,1M,US",
+        "ProductCode": "PWRENG",
+        "Skus": [
+        "450-ABLO"
+        ]
+    },
+    {
+        "Name": "Business Support",
+        "Description": "Return Label",
+        "ProductCode": "RTRNLB",
+        "Skus": [
+        "811-BBBC"
+        ]
+    },
+    {
+        "Name": "Documentation/Disks",
+        "Description": "Documentation, English-French",
+        "ProductCode": "W10EFD",
+        "Skus": [
+        "340-AGIK"
+        ]
+    },
+    {
+        "Name": "Packaging Label",
+        "Description": "Dell.com Order",
+        "ProductCode": "NORTL",
+        "Skus": [
+        "332-1530"
+        ]
+    },
+    {
+        "Name": "Labels",
+        "Description": "Palmrest Label",
+        "ProductCode": "PLMENW",
+        "Skus": [
+        "389-BJTR"
+        ]
+    },
+    {
+        "Name": "Non-Microsoft Application Software",
+        "Description": "Additional Software",
+        "ProductCode": "INSW10",
+        "Skus": [
+        "658-BCUN",
+        "658-BDFL"
+        ]
+    },
+    {
+        "Name": "Processor Branding",
+        "Description": "Intel� Label CI7",
+        "ProductCode": "CI7",
+        "Skus": [
+        "389-BHLE"
+        ]
+    },
+    {
+        "Name": "Packaging",
+        "Description": "Shipping Material, Direct",
+        "ProductCode": "SHPMDIR",
+        "Skus": [
+        "328-BCHX"
+        ]
+    },
+    {
+        "Name": "E-Star",
+        "Description": "Energy Star Compliant",
+        "ProductCode": "ESTAR6",
+        "Skus": [
+        "340-AAPZ"
+        ]
+    },
+    {
+        "Name": "Order Information",
+        "Description": "Shipping Information",
+        "ProductCode": "USNONE",
+        "Skus": [
+        "332-1286"
+        ]
+    },
+    {
+        "Name": "Systems Management",
+        "Description": "Windows System Driver, 7569",
+        "ProductCode": "WINSW",
+        "Skus": [
+        "631-AAYD"
+        ]
+    },
+    {
+        "Name": "Placemat",
+        "Description": "Placemat Documentation",
+        "ProductCode": "PLCMT10",
+        "Skus": [
+        "340-BBVN"
+        ]
+    },
+    {
+        "Name": "Driver",
+        "Description": "802.11ac + Bluetooth 4.0, Dual Band 2.4&5 GHz, 1x1 Wireless Driver",
+        "ProductCode": "SW3165",
+        "Skus": [
+        "340-BBVK"
+        ]
+    },
+    {
+        "Name": "Operating System Recovery Options",
+        "Description": "Operating System Recovery Media Not Included",
+        "ProductCode": "NODBRM",
+        "Skus": [
+        "340-ACQQ"
+        ]
+    },
+    {
+        "Name": "FGA Module",
+        "Description": "Inspiron75691703_014_P/BTO",
+        "ProductCode": "FG0007",
+        "Skus": [
+        "998-BYIL"
+        ]
+    },
+    {
+        "Name": "Label",
+        "Description": "System Regulatory Label",
+        "ProductCode": "REGLBL",
+        "Skus": [
+        "389-BJTE"
+        ]
+    },
+    {
+        "Name": "Microsoft Office Productivity Software � Word, Excel, Powerpoint & more",
+        "Description": "Microsoft Office 30 Day Trial",
+        "ProductCode": "OTRT13M",
+        "Skus": [
+        "658-BCSB"
+        ]
+    },
+    {
+        "Name": "Security Software",
+        "Description": "McAfee LiveSafe 12 Month Subscription",
+        "ProductCode": "LSIA12M",
+        "Skus": [
+        "525-0033",
+        "658-BCCO"
+        ]
+    },
+    {
+        "Name": "Support",
+        "Description": "1 Year Ltd Hware Warranty: Mail-in; Customer supplies box, Dell pays shipping",
+        "ProductCode": "MI1",
+        "Skus": [
+        "801-2700",
+        "801-2733"
+        ]
+    }
+    ],
+    "ShowComponents": true,
+    "Alerts": [],
+    "EvergreenMessages": [],
+    "HasBundledItems": false,
+    "BundledItems": [],
+    "IsBundledItem": false,
+    "IsFastTrack": false,
+    "Metadata": {
+        "itemType": "ConfigItem",
+        "brand": 7,
+        "family": 12119
+    },
+    "DeliveryMessageOverride": "Ships in 6-8 business days",
+    "HasDeliveryMessageOverride": true,
+    "StopSelling": false,
+    "IsStockItem": false,
+    "SubTotalAmountValue": 999.99,
+    "ConfigurationIdentifier": "1~dncwsbb0014b~19~en~us~1__572;FG0007;1"
+},
+{
+    "Id": "4c32235a-fabb-408b-af72-30b832d50157",
+    "IdWithoutSpecialCharacters": "4c32235afabb408baf7230b832d50157",
+    "ProductId": "dncwi1407h",
+    "Description": "XPS 12 2-in-1",
+    "ShowProductStackDescription": false,
+    "IsValid": true,
+    "LeadTimeInfo": {
+        "EstimatedShipDate": "7/22/2016",
+        "ShowEstimatedShipDate": true,
+        "ShowEstimatedDeliveryDate": false,
+        "HasValidEstimatedDeliveryDate": false,
+        "CanCalculateEstimatedDeliveryDate": true
+    },
+    "IsSavedCartItem": false,
+    "SubTotalAmount": "$999.99",
+    "DiscountsAndCouponsAmount": "$0.00",
+    "DiscountsAndCouponsAmountValue": 0,
+    "DiscountsAndCoupons": [
+    {
+        "CampaignId": 571234,
+        "Amount": "$0.00",
+        "ShortDescription": "12 mo special financing when you spend $999+",
+        "LongDescription": "12 months special financing on new PCs $999 or more with Dell Preferred Account!",
+        "LegalDescription": "<!-- \r\n- 12 months special financing is a No Interest if Paid in Full by Your Due Date in July, 2017 promotion on new PCs $999 or more and applies only to the amount purchased with Dell Preferred Account.\r\n- Your Standard Rate is ${APR}.  This APR will vary with the market based on the Prime Rate.\r\n- Interest will be charged to your account at the Standard Rate from the transaction posting date if the purchase balance is not paid in full by the end of the promotional period.  In addition, your Standard Rate will apply to the remaining balance.\r\n- To avoid accrued interest charges, minimum monthly payments are required and the balance must be paid by the end of your promotional period.\r\n- Minimum monthly payments are required, but may not pay your purchase in full by the end of the promotional period due to purchase amount, promotion length, additional purchases or allocation of payments in excess of the minimum payment. \r\n- Minimum purchase amount may be required.\r\n--> \r\nThe \"12 months special financing\" promotional financing includes new PCs $999 or more purchased with your Dell Preferred Account.  You must have adequate available credit to purchase.  Pay your plan balance in full by your payment due date in July, 2017 or accrued interest will be assessed. Minimum monthly payments are required, but may not pay your purchase in full by the end of the promotional period due to purchase amount, promotion length, additional purchases or allocation of payments in excess of the minimum payment. Interest accrues at the Standard Rate (this APR will vary with the market based on the Prime Rate) from the transaction posting date and will be charged to the account if you do not pay your plan balance in full by your payment due date in July, 2017, or if you fail to make a required minimum payment at any time during the promotional period.  Promotional financing features apply only to the amount purchased with the Dell Preferred Account.   \r\n\r\n<p>Subject to credit approval.  WebBank determines creditworthiness, APR, credit limit, and qualification for promotional offers.  Qualifying for the Dell Preferred Account does not guarantee offer of promotional financing features.  You must purchase this item with your Dell Preferred Account and must have adequate available credit to take advantage of this promotion. Minimum purchase amount may be required</p>",
+        "ExpiryDate": "6/30/2016",
+        "HasExpiryDate": true,
+        "HasExpiryTextOverride": false,
+        "AllowRemove": false,
+        "ShowAmount": false
+    }
+    ],
+    "ShowDiscountsAndCoupons": true,
+    "DiscountsPopupTitle": "Additional Discounts & Coupons",
+    "TotalAmount": "$999.99",
+    "TotalAmountWithSubItems": "$999.99",
+    "TotalAmountWithSubItemsValue": 999.99,
+    "Quantity": 1,
+    "QuantityWithSubItems": 1,
+    "AllowChangeQuantity": true,
+    "IsAssociatedItem": false,
+    "ImageUrl": "https://si.cdn.dell.com/images/global/configurator/chassis/xps-12-9250-2-n-1-bk-ft-120x107.jpg",
+    "UnitPriceAmount": "$999.99",
+    "ShowManufacturerPartNumber": false,
+    "ShowDellPartNumber": false,
+    "ShowCatalogNumber": true,
+    "CatalogNumber": "29 dncwi1407h",
+    "Components": [
+    {
+        "Name": "XPS 12",
+        "Description": "XPS 12",
+        "ProductCode": "XPS12",
+        "Skus": [
+        "210-AFDI"
+        ]
+    },
+    {
+        "Name": "Processor",
+        "Description": "6th Generation Intel Core� m5 6Y57 (4M Cache, up to 2.8 GHz)",
+        "ProductCode": "5X30RP",
+        "Skus": [
+        "338-BICX"
+        ]
+    },
+    {
+        "Name": "Operating System",
+        "Description": "Windows 10 Home, 64-bit, English",
+        "ProductCode": "10HHEE",
+        "Skus": [
+        "619-AHCY"
+        ]
+    },
+    {
+        "Name": "Memory",
+        "Description": "8GB LPDDR3-1600MHz",
+        "ProductCode": "8GB",
+        "Skus": [
+        "370-ACFS"
+        ]
+    },
+    {
+        "Name": "Hard Drive",
+        "Description": "128GB Solid State Drive",
+        "ProductCode": "128SSD",
+        "Skus": [
+        "400-AKXP"
+        ]
+    },
+    {
+        "Name": "Video Card",
+        "Description": "Intel� HD Graphics 515",
+        "ProductCode": "UMA",
+        "Skus": [
+        "490-BCTD"
+        ]
+    },
+    {
+        "Name": "LCD",
+        "Description": "12.5\" FHD (1920x1080) touch",
+        "ProductCode": "FHD",
+        "Skus": [
+        "391-BCGS"
+        ]
+    },
+    {
+        "Name": "Wireless",
+        "Description": "Intel 8260 2x2 802.11ac 2.4/5GHz + Bluetooth 4.1",
+        "ProductCode": "8260AC",
+        "Skus": [
+        "555-BCNX"
+        ]
+    },
+    {
+        "Name": "Primary Battery",
+        "Description": "30WHr Integrated Battery",
+        "ProductCode": "30W",
+        "Skus": [
+        "451-BBQG"
+        ]
+    },
+    {
+        "Name": "Keyboard",
+        "Description": "XPS 12 Premier Keyboard with Dell Premier Magnetic Folio (82 Keys)",
+        "ProductCode": "MKBDEN",
+        "Skus": [
+        "580-AEQY",
+        "583-BCUH"
+        ]
+    },
+    {
+        "Name": "Driver",
+        "Description": "8260 Wireless SW",
+        "ProductCode": "WLAN82",
+        "Skus": [
+        "389-BIOI",
+        "658-BDCG"
+        ]
+    },
+    {
+        "Name": "Mobile Broadband",
+        "Description": "Mobile Broadband Not Included",
+        "ProductCode": "WLAN",
+        "Skus": [
+        "556-BBNM"
+        ]
+    },
+    {
+        "Name": "Cable",
+        "Description": "E5 Power Cord for 3-pin Adapter (US/China)",
+        "ProductCode": "PWREDAO",
+        "Skus": [
+        "340-AAMU"
+        ]
+    },
+    {
+        "Name": "Systems Management",
+        "Description": "Non-Vpro Systems Managment SW",
+        "ProductCode": "NVPRO",
+        "Skus": [
+        "631-AAWX",
+        "631-AAWY"
+        ]
+    },
+    {
+        "Name": "Placemat",
+        "Description": "XPS 12 Placemat",
+        "ProductCode": "PLCMT",
+        "Skus": [
+        "340-AUQD"
+        ]
+    },
+    {
+        "Name": "E-Star",
+        "Description": "E-Star Qualified",
+        "ProductCode": "ESTAR",
+        "Skus": [
+        "387-BBKZ"
+        ]
+    },
+    {
+        "Name": "Business Support",
+        "Description": "Dell.com Order",
+        "ProductCode": "NORTL",
+        "Skus": [
+        "332-0550"
+        ]
+    },
+    {
+        "Name": "Packaging Label",
+        "Description": "Dell.com Order",
+        "ProductCode": "NORTL",
+        "Skus": [
+        "332-1530"
+        ]
+    },
+    {
+        "Name": "Documentation/Disks",
+        "Description": "Safety/Environment and Regulatory Guide (English/French Multi-language)",
+        "ProductCode": "ENGMUI",
+        "Skus": [
+        "340-AGIK"
+        ]
+    },
+    {
+        "Name": "Packaging",
+        "Description": "XPS 12 Shipping Material",
+        "ProductCode": "SHIP",
+        "Skus": [
+        "340-AAPP",
+        "340-AUQC",
+        "460-BBVL"
+        ]
+    },
+    {
+        "Name": "Power Supply",
+        "Description": "30 Watt AC Adapter",
+        "ProductCode": "30W",
+        "Skus": [
+        "450-AEVT"
+        ]
+    },
+    {
+        "Name": "FGA Module",
+        "Description": "VEN1703_1407/US/CA/BTO",
+        "ProductCode": "FG0010",
+        "Skus": [
+        "998-BUQK"
+        ]
+    },
+    {
+        "Name": "Back Cover",
+        "Description": "WLAN System Back Cover",
+        "ProductCode": "WLAN",
+        "Skus": [
+        "320-BBSD"
+        ]
+    },
+    {
+        "Name": "Processor Branding",
+        "Description": "M5 Non-Vpro Label",
+        "ProductCode": "M5NVPRO",
+        "Skus": [
+        "389-BIOH"
+        ]
+    },
+    {
+        "Name": "Office 2016 - Word, Excel, Powerpoint & more",
+        "Description": "Microsoft Office 30 Day Trial",
+        "ProductCode": "OTRT13M",
+        "Skus": [
+        "658-BCSB"
+        ]
+    },
+    {
+        "Name": "Security Software  <span class=\"dellRecommended\">XPS PCs on Dell.com come protected with 1yr McAfee LiveSafe, $89 value.</span>",
+        "Description": "McAfee LiveSafe 12 Month Subscription",
+        "ProductCode": "LSXP12M",
+        "Skus": [
+        "525-0036",
+        "658-BCCO"
+        ]
+    },
+    {
+        "Name": "Non-Microsoft Application Software",
+        "Description": "Additional Software",
+        "ProductCode": "XPSW10",
+        "Skus": [
+        "658-BCUJ"
+        ]
+    },
+    {
+        "Name": "Support",
+        "Description": "1 Year Ltd Hware Warranty: Mail-in; Customer supplies box, Dell pays shipping",
+        "ProductCode": "MI1",
+        "Skus": [
+        "801-1390",
+        "801-1423"
+        ]
+    },
+    {
+        "Name": "Operating System Recovery Options",
+        "Description": "Operating System Recovery Media Not Included",
+        "ProductCode": "NODBRM",
+        "Skus": [
+        "340-ACQQ"
+        ]
+    }
+    ],
+    "ShowComponents": true,
+    "Alerts": [],
+    "EvergreenMessages": [],
+    "HasBundledItems": false,
+    "BundledItems": [],
+    "IsBundledItem": false,
+    "IsFastTrack": false,
+    "Metadata": {
+        "itemType": "ConfigItem",
+        "brand": 26,
+        "family": 11723
+    },
+    "DeliveryMessageOverride": "Ships in 36-40 business days",
+    "HasDeliveryMessageOverride": true,
+    "StopSelling": false,
+    "IsStockItem": false,
+    "SubTotalAmountValue": 999.99,
+    "ConfigurationIdentifier": "1~dncwi1407h~19~en~us~1__572;FG0010;1"
+},
+{
+    "Id": "64229002-1f5b-4c98-b338-d2fb9b98d5ed",
+    "IdWithoutSpecialCharacters": "642290021f5b4c98b338d2fb9b98d5ed",
+    "ProductId": "dncwt5154b",
+    "Description": "XPS 13 Non-Touch",
+    "ShowProductStackDescription": false,
+    "IsValid": true,
+    "LeadTimeInfo": {
+        "EstimatedShipDate": "6/13/2016",
+        "ShowEstimatedShipDate": true,
+        "ShowEstimatedDeliveryDate": false,
+        "HasValidEstimatedDeliveryDate": false,
+        "CanCalculateEstimatedDeliveryDate": true
+    },
+    "IsSavedCartItem": false,
+    "SubTotalAmount": "$799.99",
+    "DiscountsAndCouponsAmount": "$0.00",
+    "DiscountsAndCouponsAmountValue": 0,
+    "DiscountsAndCoupons": [
+    {
+        "CampaignId": 571233,
+        "Amount": "$0.00",
+        "ShortDescription": "6 mo special financing when you spend $599+",
+        "LongDescription": "6 months special financing on new PCs $599 or more with Dell Preferred Account!",
+        "LegalDescription": "<!-- \r\n- 6 months special financing is a No Interest if Paid in Full by Your Due Date in January, 2017 promotion on new PCs $599 or more and applies only to the amount purchased with Dell Preferred Account.\r\n- Your Standard Rate is ${APR}.  This APR will vary with the market based on the Prime Rate.\r\n- Interest will be charged to your account at the Standard Rate from the transaction posting date if the purchase balance is not paid in full by the end of the promotional period.  In addition, your Standard Rate will apply to the remaining balance.\r\n- To avoid accrued interest charges, minimum monthly payments are required and the balance must be paid by the end of your promotional period.\r\n- Minimum monthly payments are required, but may not pay your purchase in full by the end of the promotional period due to purchase amount, promotion length, additional purchases or allocation of payments in excess of the minimum payment. \r\n- Minimum purchase amount may be required.\r\n--> \r\nThe \"6 months special financing\" promotional financing includes new PCs $599 or more purchased with your Dell Preferred Account.  You must have adequate available credit to purchase.  Pay your plan balance in full by your payment due date in January, 2017 or accrued interest will be assessed. Minimum monthly payments are required, but may not pay your purchase in full by the end of the promotional period due to purchase amount, promotion length, additional purchases or allocation of payments in excess of the minimum payment. Interest accrues at the Standard Rate (this APR will vary with the market based on the Prime Rate) from the transaction posting date and will be charged to the account if you do not pay your plan balance in full by your payment due date in January, 2017, or if you fail to make a required minimum payment at any time during the promotional period.  Promotional financing features apply only to the amount purchased with the Dell Preferred Account.   \r\n\t\r\n<p>Subject to credit approval.  WebBank determines creditworthiness, APR, credit limit, and qualification for promotional offers.  Qualifying for the Dell Preferred Account does not guarantee offer of promotional financing features.  You must purchase this item with your Dell Preferred Account and must have adequate available credit to take advantage of this promotion. Minimum purchase amount may be required</p>",
+        "ExpiryDate": "6/30/2016",
+        "HasExpiryDate": true,
+        "HasExpiryTextOverride": false,
+        "AllowRemove": false,
+        "ShowAmount": false
+    }
+    ],
+    "ShowDiscountsAndCoupons": true,
+    "DiscountsPopupTitle": "Additional Discounts & Coupons",
+    "TotalAmount": "$799.99",
+    "TotalAmountWithSubItems": "$799.99",
+    "TotalAmountWithSubItemsValue": 799.99,
+    "Quantity": 1,
+    "QuantityWithSubItems": 1,
+    "AllowChangeQuantity": true,
+    "IsAssociatedItem": false,
+    "ImageUrl": "https://si.cdn.dell.com/images/global/configurator/chassis/xps-13-9350-nt-sr-ft-120x107.jpg",
+    "UnitPriceAmount": "$799.99",
+    "ShowManufacturerPartNumber": false,
+    "ShowDellPartNumber": false,
+    "ShowCatalogNumber": true,
+    "CatalogNumber": "29 dncwt5154b",
+    "Components": [
+    {
+        "Name": "Base",
+        "Description": "XPS 13",
+        "ProductCode": "XPS13",
+        "Skus": [
+        "210-AFLW"
+        ]
+    },
+    {
+        "Name": "Processor",
+        "Description": "6th Generation Intel� Core� i3-6100U (3M Cache, up to 2.3 GHz)",
+        "ProductCode": "39VHTW",
+        "Skus": [
+        "338-BIUG"
+        ]
+    },
+    {
+        "Name": "Operating System",
+        "Description": "Windows 10 Home, 64-bit, English",
+        "ProductCode": "10H64E",
+        "Skus": [
+        "619-AHCQ"
+        ]
+    },
+    {
+        "Name": "Memory",
+        "Description": "4GB LPDDR3-1866MHz",
+        "ProductCode": "4GB",
+        "Skus": [
+        "370-ACJL"
+        ]
+    },
+    {
+        "Name": "Hard Drive",
+        "Description": "128GB Solid State Drive",
+        "ProductCode": "SSDR28",
+        "Skus": [
+        "400-AIPD"
+        ]
+    },
+    {
+        "Name": "Video Card",
+        "Description": "Intel� HD Graphics 520",
+        "ProductCode": "UMA",
+        "Skus": [
+        "490-BCLY"
+        ]
+    },
+    {
+        "Name": "Display",
+        "Description": "13.3� FHD AG (1920 x 1080) InfinityEdge display",
+        "ProductCode": "FHDNON",
+        "Skus": [
+        "391-BCHU"
+        ]
+    },
+    {
+        "Name": "Wireless",
+        "Description": "DW1820A 2x2 802.11ac 2.4/5GHz + Bluetooth4.1",
+        "ProductCode": "1820A",
+        "Skus": [
+        "555-BCRE"
+        ]
+    },
+    {
+        "Name": "Primary Battery",
+        "Description": "56wHR, 4-Cell Battery",
+        "ProductCode": "56WHR",
+        "Skus": [
+        "451-BBST"
+        ]
+    },
+    {
+        "Name": "Keyboard",
+        "Description": "Backlit Keyboard, English",
+        "ProductCode": "ENGKBD",
+        "Skus": [
+        "580-AECQ"
+        ]
+    },
+    {
+        "Name": "Driver",
+        "Description": "DW 1820 Driver",
+        "ProductCode": "DW1820",
+        "Skus": [
+        "555-BCQB"
+        ]
+    },
+    {
+        "Name": "Cable",
+        "Description": "US Power Cord",
+        "ProductCode": "PWRUS",
+        "Skus": [
+        "340-AAMU"
+        ]
+    },
+    {
+        "Name": "Placemat",
+        "Description": "Win 10 Placemat",
+        "ProductCode": "WN10PM",
+        "Skus": [
+        "340-ARJD"
+        ]
+    },
+    {
+        "Name": "Systems Management",
+        "Description": "UMID Software",
+        "ProductCode": "CSMB",
+        "Skus": [
+        "631-AAVK",
+        "631-AAVN"
+        ]
+    },
+    {
+        "Name": "Retail Software",
+        "Description": "Dell.com Order",
+        "ProductCode": "NORTL",
+        "Skus": [
+        "332-0550"
+        ]
+    },
+    {
+        "Name": "Packaging Label",
+        "Description": "Dell.com Order",
+        "ProductCode": "NORTL",
+        "Skus": [
+        "332-1530"
+        ]
+    },
+    {
+        "Name": "Documentation/Disks",
+        "Description": "Safety/Environment and Regulatory Guide (English/French Multi-language)",
+        "ProductCode": "ENGMDC",
+        "Skus": [
+        "340-AGIK"
+        ]
+    },
+    {
+        "Name": "Packaging",
+        "Description": "XPS 13 Shipping Material",
+        "ProductCode": "SHMM",
+        "Skus": [
+        "340-AAPP",
+        "340-ARJF"
+        ]
+    },
+    {
+        "Name": "Power Supply",
+        "Description": "45 Watt AC Adaptor",
+        "ProductCode": "45WAC",
+        "Skus": [
+        "450-ABEN"
+        ]
+    },
+    {
+        "Name": "FGA Module",
+        "Description": "DINO1703_5154_DAO/US/CA/MX/BTO",
+        "ProductCode": "FG0053",
+        "Skus": [
+        "998-BWVE"
+        ]
+    },
+    {
+        "Name": "Hard Drive Software",
+        "Description": "No SSD SW Required",
+        "ProductCode": "NOSSDSW",
+        "Skus": [
+        "817-BBBC"
+        ]
+    },
+    {
+        "Name": "Processor Label",
+        "Description": "Intel� Core� i3 Label",
+        "ProductCode": "CI3SML",
+        "Skus": [
+        "389-BHGC"
+        ]
+    },
+    {
+        "Name": "Label",
+        "Description": "No Reg Label",
+        "ProductCode": "NONE",
+        "Skus": [
+        "817-BBBP"
+        ]
+    },
+    {
+        "Name": "Office 2016 - Word, Excel, Powerpoint & more",
+        "Description": "Microsoft Office 30 Day Trial",
+        "ProductCode": "OTRT13M",
+        "Skus": [
+        "658-BCSB"
+        ]
+    },
+    {
+        "Name": "Security Software  <span class=\"dellRecommended\">XPS PCs on Dell.com come protected with 1yr McAfee LiveSafe, $89 value.</span>",
+        "Description": "McAfee LiveSafe 12 Month Subscription",
+        "ProductCode": "LSXP12M",
+        "Skus": [
+        "525-0036",
+        "658-BCCO"
+        ]
+    },
+    {
+        "Name": "Non-Microsoft Application Software",
+        "Description": "Additional Software",
+        "ProductCode": "XPSW10",
+        "Skus": [
+        "658-BCUJ"
+        ]
+    },
+    {
+        "Name": "Support",
+        "Description": "1 Year Ltd Hware Warranty: Mail-in; Customer supplies box, Dell pays shipping",
+        "ProductCode": "MI1",
+        "Skus": [
+        "801-1596",
+        "801-1629"
+        ]
+    },
+    {
+        "Name": "PalmRest",
+        "Description": "80 Key Palmrest",
+        "ProductCode": "USPLR",
+        "Skus": [
+        "346-BBTS"
+        ]
+    },
+    {
+        "Name": "Operating System Recovery Options",
+        "Description": "Operating System Recovery Media Not Included",
+        "ProductCode": "NODBRM",
+        "Skus": [
+        "340-ACQQ"
+        ]
+    }
+    ],
+    "ShowComponents": true,
+    "Alerts": [],
+    "EvergreenMessages": [],
+    "HasBundledItems": false,
+    "BundledItems": [],
+    "IsBundledItem": false,
+    "IsFastTrack": false,
+    "Metadata": {
+        "itemType": "ConfigItem",
+        "brand": 26,
+        "family": 11807
+    },
+    "DeliveryMessageOverride": "Ships in 4-6 business days",
+    "HasDeliveryMessageOverride": true,
+    "StopSelling": false,
+    "IsStockItem": false,
+    "SubTotalAmountValue": 799.99,
+    "ConfigurationIdentifier": "1~dncwt5154b~19~en~us~1__572;FG0053;1"
+},
+{
+    "Id": "8bd4c861-da54-4cb6-82b3-19f4b4d14793",
+    "IdWithoutSpecialCharacters": "8bd4c861da544cb682b319f4b4d14793",
+    "ProductId": "dncwx1626b",
+    "Description": "XPS 15 Non-Touch",
+    "ShowProductStackDescription": false,
+    "IsValid": true,
+    "LeadTimeInfo": {
+        "EstimatedShipDate": "6/13/2016",
+        "ShowEstimatedShipDate": true,
+        "ShowEstimatedDeliveryDate": false,
+        "HasValidEstimatedDeliveryDate": false,
+        "CanCalculateEstimatedDeliveryDate": true
+    },
+    "IsSavedCartItem": false,
+    "SubTotalAmount": "$999.99",
+    "DiscountsAndCouponsAmount": "$0.00",
+    "DiscountsAndCouponsAmountValue": 0,
+    "DiscountsAndCoupons": [
+    {
+        "CampaignId": 571234,
+        "Amount": "$0.00",
+        "ShortDescription": "12 mo special financing when you spend $999+",
+        "LongDescription": "12 months special financing on new PCs $999 or more with Dell Preferred Account!",
+        "LegalDescription": "<!-- \r\n- 12 months special financing is a No Interest if Paid in Full by Your Due Date in July, 2017 promotion on new PCs $999 or more and applies only to the amount purchased with Dell Preferred Account.\r\n- Your Standard Rate is ${APR}.  This APR will vary with the market based on the Prime Rate.\r\n- Interest will be charged to your account at the Standard Rate from the transaction posting date if the purchase balance is not paid in full by the end of the promotional period.  In addition, your Standard Rate will apply to the remaining balance.\r\n- To avoid accrued interest charges, minimum monthly payments are required and the balance must be paid by the end of your promotional period.\r\n- Minimum monthly payments are required, but may not pay your purchase in full by the end of the promotional period due to purchase amount, promotion length, additional purchases or allocation of payments in excess of the minimum payment. \r\n- Minimum purchase amount may be required.\r\n--> \r\nThe \"12 months special financing\" promotional financing includes new PCs $999 or more purchased with your Dell Preferred Account.  You must have adequate available credit to purchase.  Pay your plan balance in full by your payment due date in July, 2017 or accrued interest will be assessed. Minimum monthly payments are required, but may not pay your purchase in full by the end of the promotional period due to purchase amount, promotion length, additional purchases or allocation of payments in excess of the minimum payment. Interest accrues at the Standard Rate (this APR will vary with the market based on the Prime Rate) from the transaction posting date and will be charged to the account if you do not pay your plan balance in full by your payment due date in July, 2017, or if you fail to make a required minimum payment at any time during the promotional period.  Promotional financing features apply only to the amount purchased with the Dell Preferred Account.   \r\n\r\n<p>Subject to credit approval.  WebBank determines creditworthiness, APR, credit limit, and qualification for promotional offers.  Qualifying for the Dell Preferred Account does not guarantee offer of promotional financing features.  You must purchase this item with your Dell Preferred Account and must have adequate available credit to take advantage of this promotion. Minimum purchase amount may be required</p>",
+        "ExpiryDate": "6/30/2016",
+        "HasExpiryDate": true,
+        "HasExpiryTextOverride": false,
+        "AllowRemove": false,
+        "ShowAmount": false
+    }
+    ],
+    "ShowDiscountsAndCoupons": true,
+    "DiscountsPopupTitle": "Additional Discounts & Coupons",
+    "TotalAmount": "$999.99",
+    "TotalAmountWithSubItems": "$999.99",
+    "TotalAmountWithSubItemsValue": 999.99,
+    "Quantity": 1,
+    "QuantityWithSubItems": 1,
+    "AllowChangeQuantity": true,
+    "IsAssociatedItem": false,
+    "ImageUrl": "https://si.cdn.dell.com/images/global/configurator/chassis/xps-15-9550-t-gry-ft-120x107.jpg",
+    "UnitPriceAmount": "$999.99",
+    "ShowManufacturerPartNumber": false,
+    "ShowDellPartNumber": false,
+    "ShowCatalogNumber": true,
+    "CatalogNumber": "29 dncwx1626b",
+    "Components": [
+    {
+        "Name": "Base",
+        "Description": "XPS 15",
+        "ProductCode": "9550",
+        "Skus": [
+        "210-AFLV"
+        ]
+    },
+    {
+        "Name": "Processor",
+        "Description": "6th Generation Intel Core i3-6100H (3M Cache, up to 2.7 GHz)",
+        "ProductCode": "3MK7KR",
+        "Skus": [
+        "338-BITQ"
+        ]
+    },
+    {
+        "Name": "Operating System",
+        "Description": "Windows 10 Home, 64-bit, English",
+        "ProductCode": "10HHEE",
+        "Skus": [
+        "619-AHCY"
+        ]
+    },
+    {
+        "Name": "Memory",
+        "Description": "8GB DDR4-2133MHz; up to 32GB (additional memory sold separately)",
+        "ProductCode": "8GB",
+        "Skus": [
+        "370-ACLS"
+        ]
+    },
+    {
+        "Name": "Hard Drive",
+        "Description": "500GB 7200RPM Hard Drive + 32GB Solid State Drive",
+        "ProductCode": "500G32",
+        "Skus": [
+        "400-AJBU"
+        ]
+    },
+    {
+        "Name": "Video Card",
+        "Description": "Intel� HD Graphics 530",
+        "ProductCode": "UMA",
+        "Skus": [
+        "490-BCXH"
+        ]
+    },
+    {
+        "Name": "Display",
+        "Description": "15.6\" FHD (1920 x 1080) InfinityEdge",
+        "ProductCode": "FHD",
+        "Skus": [
+        "391-BCHR"
+        ]
+    },
+    {
+        "Name": "Wireless",
+        "Description": "DW1820A 2x2 802.11ac 2.4/5GHz + Bluetooth 4.1",
+        "ProductCode": "1820",
+        "Skus": [
+        "555-BCTQ"
+        ]
+    },
+    {
+        "Name": "Primary Battery",
+        "Description": "Dell 56 WHr 3-Cell Lithium-Ion Battery",
+        "ProductCode": "3C",
+        "Skus": [
+        "451-BBSI"
+        ]
+    },
+    {
+        "Name": "Keyboard",
+        "Description": "Backlit Keyboard, US English",
+        "ProductCode": "ENGKB",
+        "Skus": [
+        "580-AEKV"
+        ]
+    },
+    {
+        "Name": "Driver",
+        "Description": "Dell Wireless 1820A Driver (Windows 10)",
+        "ProductCode": "1820A",
+        "Skus": [
+        "340-ARXR"
+        ]
+    },
+    {
+        "Name": "Cable",
+        "Description": "PowerCord 2.5A 1M C5 E3",
+        "ProductCode": "PWREDAO",
+        "Skus": [
+        "340-AAMU"
+        ]
+    },
+    {
+        "Name": "Systems Management",
+        "Description": "ME Disable",
+        "ProductCode": "MEDIS",
+        "Skus": [
+        "631-AAVH",
+        "658-BCXP"
+        ]
+    },
+    {
+        "Name": "Placemat",
+        "Description": "Win 10 Placemat",
+        "ProductCode": "WN10PM",
+        "Skus": [
+        "340-ATCO"
+        ]
+    },
+    {
+        "Name": "Retail Software",
+        "Description": "Dell.com Order",
+        "ProductCode": "NORTL",
+        "Skus": [
+        "332-1530"
+        ]
+    },
+    {
+        "Name": "Packaging Label",
+        "Description": "Dell.com Order",
+        "ProductCode": "NORTL",
+        "Skus": [
+        "332-1530"
+        ]
+    },
+    {
+        "Name": "Documentation/Disks",
+        "Description": "Safety/Environment and Regulatory Guide (English/French Multi-language)",
+        "ProductCode": "ENGMUI",
+        "Skus": [
+        "340-AGIK"
+        ]
+    },
+    {
+        "Name": "Packaging",
+        "Description": "System Shipment Material, 5510",
+        "ProductCode": "SHPMTL",
+        "Skus": [
+        "328-BCFB"
+        ]
+    },
+    {
+        "Name": "Power Supply",
+        "Description": "130W AC Adapter",
+        "ProductCode": "130AC",
+        "Skus": [
+        "450-ABBY"
+        ]
+    },
+    {
+        "Name": "FGA Module",
+        "Description": "BERL1703_1626_DAO/US/CA/BTO",
+        "ProductCode": "FG0141",
+        "Skus": [
+        "998-BXWE"
+        ]
+    },
+    {
+        "Name": "Processor Branding",
+        "Description": "Intel� Core� i3 Label",
+        "ProductCode": "CI3SML",
+        "Skus": [
+        "389-BHGC"
+        ]
+    },
+    {
+        "Name": "Office 2016 - Word, Excel, Powerpoint & more",
+        "Description": "Microsoft Office 30 Day Trial",
+        "ProductCode": "OTRT13M",
+        "Skus": [
+        "658-BCSB"
+        ]
+    },
+    {
+        "Name": "Security Software  <span class=\"dellRecommended\">XPS PCs on Dell.com come protected with 1yr McAfee LiveSafe, $89 value.</span>",
+        "Description": "McAfee LiveSafe 12 Month Subscription",
+        "ProductCode": "LSXP12M",
+        "Skus": [
+        "525-0036",
+        "658-BCCO"
+        ]
+    },
+    {
+        "Name": "Non-Microsoft Application Software",
+        "Description": "Additional Software",
+        "ProductCode": "XPSW10",
+        "Skus": [
+        "658-BCUJ"
+        ]
+    },
+    {
+        "Name": "Support",
+        "Description": "1 Year Ltd Hware Warranty: Mail-in; Customer supplies box, Dell pays shipping",
+        "ProductCode": "MI1",
+        "Skus": [
+        "801-0978",
+        "801-1012"
+        ]
+    },
+    {
+        "Name": "PalmRest",
+        "Description": "US Palmrest",
+        "ProductCode": "USPRL",
+        "Skus": [
+        "346-BBTC"
+        ]
+    },
+    {
+        "Name": "Operating System Recovery Options",
+        "Description": "Operating System Recovery Media Not Included",
+        "ProductCode": "NOBDRM",
+        "Skus": [
+        "340-ACQQ"
+        ]
+    }
+    ],
+    "ShowComponents": true,
+    "Alerts": [],
+    "EvergreenMessages": [],
+    "HasBundledItems": false,
+    "BundledItems": [],
+    "IsBundledItem": false,
+    "IsFastTrack": false,
+    "Metadata": {
+        "itemType": "ConfigItem",
+        "brand": 26,
+        "family": 11757
+    },
+    "DeliveryMessageOverride": "Ships in 4-6 business days",
+    "HasDeliveryMessageOverride": true,
+    "StopSelling": false,
+    "IsStockItem": false,
+    "SubTotalAmountValue": 999.99,
+    "ConfigurationIdentifier": "1~dncwx1626b~19~en~us~1__572;FG0141;1"
+},
+{
+    "Id": "25e9c453-d9b7-4f32-9dc2-a00b153bfc1f",
+    "IdWithoutSpecialCharacters": "25e9c453d9b74f329dc2a00b153bfc1f",
+    "ProductId": "dkcwe01s",
+    "Description": "Alienware 13",
+    "ShowProductStackDescription": false,
+    "IsValid": true,
+    "LeadTimeInfo": {
+        "EstimatedShipDate": "6/13/2016",
+        "ShowEstimatedShipDate": true,
+        "ShowEstimatedDeliveryDate": false,
+        "HasValidEstimatedDeliveryDate": false,
+        "CanCalculateEstimatedDeliveryDate": true
+    },
+    "IsSavedCartItem": false,
+    "SubTotalAmount": "$949.99",
+    "DiscountsAndCouponsAmount": "-$50.00",
+    "DiscountsAndCouponsAmountValue": 50,
+    "DiscountsAndCoupons": [
+    {
+        "CampaignId": 597902,
+        "Amount": "-$50.00",
+        "ShortDescription": "Alienware 13 price includes $50 instant discount.",
+        "LongDescription": "Alienware 13 price includes $50 instant discount.",
+        "LegalDescription": "Offers subject to change, not combinable with all other offers. Taxes, shipping, handling and other fees apply. U.S. Dell Home and Home Office new purchases only. Dell reserves the right to cancel orders arising from pricing or other errors.",
+        "ExpiryDate": "1/1/2019",
+        "HasExpiryDate": true,
+        "HasExpiryTextOverride": false,
+        "AllowRemove": false,
+        "ShowAmount": true
+    },
+    {
+        "CampaignId": 571235,
+        "Amount": "$0.00",
+        "ShortDescription": "12 months special financing",
+        "LongDescription": "12 months special financing on new Alienware PCs and consoles using Dell Preferred Account!",
+        "LegalDescription": "<!-- \r\n- 12 months special financing is a No Interest if Paid in Full by Your Due Date in July, 2017 promotion on new Alienware PCs and consoles and applies only to the amount purchased with Dell Preferred Account.\r\n- Your Standard Rate is ${APR}.  This APR will vary with the market based on the Prime Rate.\r\n- Interest will be charged to your account at the Standard Rate from the transaction posting date if the purchase balance is not paid in full by the end of the promotional period.  In addition, your Standard Rate will apply to the remaining balance.\r\n- To avoid accrued interest charges, minimum monthly payments are required and the balance must be paid by the end of your promotional period.\r\n- Minimum monthly payments are required, but may not pay your purchase in full by the end of the promotional period due to purchase amount, promotion length, additional purchases or allocation of payments in excess of the minimum payment. \r\n- Minimum purchase amount may be required.\r\n--> \r\nThe \"12 months special financing\" promotional financing includes new Alienware PCs and consoles purchased with your Dell Preferred Account.  You must have adequate available credit to purchase.  Pay your plan balance in full by your payment due date in July, 2017 or accrued interest will be assessed. Minimum monthly payments are required, but may not pay your purchase in full by the end of the promotional period due to purchase amount, promotion length, additional purchases or allocation of payments in excess of the minimum payment. Interest accrues at the Standard Rate (this APR will vary with the market based on the Prime Rate) from the transaction posting date and will be charged to the account if you do not pay your plan balance in full by your payment due date in July, 2017, or if you fail to make a required minimum payment at any time during the promotional period.  Promotional financing features apply only to the amount purchased with the Dell Preferred Account.   \r\n\r\n<p>Subject to credit approval.  WebBank determines creditworthiness, APR, credit limit, and qualification for promotional offers.  Qualifying for the Dell Preferred Account does not guarantee offer of promotional financing features.  You must purchase this item with your Dell Preferred Account and must have adequate available credit to take advantage of this promotion. Minimum purchase amount may be required</p>",
+        "ExpiryDate": "6/30/2016",
+        "HasExpiryDate": true,
+        "HasExpiryTextOverride": false,
+        "AllowRemove": false,
+        "ShowAmount": false
+    }
+    ],
+    "ShowDiscountsAndCoupons": true,
+    "DiscountsPopupTitle": "Additional Discounts & Coupons",
+    "TotalAmount": "$899.99",
+    "TotalAmountWithSubItems": "$899.99",
+    "TotalAmountWithSubItemsValue": 899.99,
+    "Quantity": 1,
+    "QuantityWithSubItems": 1,
+    "AllowChangeQuantity": true,
+    "IsAssociatedItem": false,
+    "ImageUrl": "https://si.cdn.dell.com/images/global/configurator/chassis/alienware-13-tch-ft-120x107.jpg",
+    "UnitPriceAmount": "$949.99",
+    "ShowManufacturerPartNumber": false,
+    "ShowDellPartNumber": false,
+    "ShowCatalogNumber": true,
+    "CatalogNumber": "29 dkcwe01s",
+    "Components": [
+    {
+        "Name": "Alienware 13 R2",
+        "Description": "Alienware 13 R2",
+        "ProductCode": "CTOE13",
+        "Skus": [
+        "210-AFTQ"
+        ]
+    },
+    {
+        "Name": "Video Card",
+        "Description": "NVIDIA�  GeForce� GTX 960M with 2GB GDDR5",
+        "ProductCode": "GTX960",
+        "Skus": [
+        "490-BCNQ"
+        ]
+    },
+    {
+        "Name": "Processor",
+        "Description": "Intel� Core� i5-6200U (Dual-Core, 3MB Cache, up to 2.8GHz w/ Turbo Boost)",
+        "ProductCode": "5HCRYV",
+        "Skus": [
+        "338-BIDW"
+        ]
+    },
+    {
+        "Name": "Operating System",
+        "Description": "Windows 10 Home 64bit English",
+        "ProductCode": "10H64E",
+        "Skus": [
+        "619-AHCQ"
+        ]
+    },
+    {
+        "Name": "Display",
+        "Description": "13 inch HD (1366 x 768) TN-Panel Anti-Glare 200-nits Display",
+        "ProductCode": "HD",
+        "Skus": [
+        "391-BCJY"
+        ]
+    },
+    {
+        "Name": "Memory",
+        "Description": "4GB Dual Channel DDR3L at 1600MHz; up to 16GB (additional memory sold separately)",
+        "ProductCode": "4G1D",
+        "Skus": [
+        "370-AABY"
+        ]
+    },
+    {
+        "Name": "Hard Drive",
+        "Description": "500GB 5400RPM Hybrid (8GB Cache) SSD SATA 6Gb/s",
+        "ProductCode": "500HYB",
+        "Skus": [
+        "400-AATU"
+        ]
+    },
+    {
+        "Name": "Wireless",
+        "Description": "Killer 1535 802.11ac 2x2 WiFi and Bluetooth 4.1",
+        "ProductCode": "N1535",
+        "Skus": [
+        "555-BCRM"
+        ]
+    },
+    {
+        "Name": "Battery",
+        "Description": "4-cell Lithium Ion (62 Wh) Battery",
+        "ProductCode": "4C62",
+        "Skus": [
+        "451-BBQK"
+        ]
+    },
+    {
+        "Name": "Operating System Recovery",
+        "Description": "No OS Recovery Disk Included",
+        "ProductCode": "NONE",
+        "Skus": [
+        "340-ACQQ"
+        ]
+    },
+    {
+        "Name": "Keyboard",
+        "Description": "English Backlit Keyboard, powered by AlienFX",
+        "ProductCode": "KBDENG",
+        "Skus": [
+        "580-ACTO"
+        ]
+    },
+    {
+        "Name": "Cable",
+        "Description": "US Power Cord 110V",
+        "ProductCode": "110VPWR",
+        "Skus": [
+        "450-AAUO"
+        ]
+    },
+    {
+        "Name": "Power Supply",
+        "Description": "130 W A/C Adapter",
+        "ProductCode": "130W",
+        "Skus": [
+        "450-ADFZ"
+        ]
+    },
+    {
+        "Name": "Retail Software",
+        "Description": "Dell.com Order",
+        "ProductCode": "NORTL",
+        "Skus": [
+        "332-1530"
+        ]
+    },
+    {
+        "Name": "Documentation/Disks",
+        "Description": "Safety/Environment and Regulatory Guide (English/French)",
+        "ProductCode": "ENGMUI",
+        "Skus": [
+        "340-AGUD"
+        ]
+    },
+    {
+        "Name": "Packing Label",
+        "Description": "Dell.com Order",
+        "ProductCode": "NORTL",
+        "Skus": [
+        "332-1530"
+        ]
+    },
+    {
+        "Name": "Non-Microsoft Application Software",
+        "Description": "Additional Software",
+        "ProductCode": "ALWW10",
+        "Skus": [
+        "658-BCUO"
+        ]
+    },
+    {
+        "Name": "Additional Settings",
+        "Description": "Dropbox, Digital Delivery, 20GB for 1 Year Promotion",
+        "ProductCode": "DRPBOX",
+        "Skus": [
+        "525-0016"
+        ]
+    },
+    {
+        "Name": "Shipping Material",
+        "Description": "Shipping Material",
+        "ProductCode": "SHPMT",
+        "Skus": [
+        "340-AAPP",
+        "340-AMOW"
+        ]
+    },
+    {
+        "Name": "Shipping SKU's",
+        "Description": "Shipping Material",
+        "ProductCode": "USNONE",
+        "Skus": [
+        "332-1286"
+        ]
+    },
+    {
+        "Name": "Intel Processor Driver",
+        "Description": "Intel Driver",
+        "ProductCode": "SKYLAKE",
+        "Skus": [
+        "631-AATK"
+        ]
+    },
+    {
+        "Name": "Placemat",
+        "Description": "Placemat",
+        "ProductCode": "PLCMT",
+        "Skus": [
+        "340-ARYK"
+        ]
+    },
+    {
+        "Name": "Wireless Driver/Label",
+        "Description": "Killer N1535 Wireless Driver",
+        "ProductCode": "1535DR",
+        "Skus": [
+        "555-BCRN"
+        ]
+    },
+    {
+        "Name": "FGA Module",
+        "Description": "No FGA",
+        "ProductCode": "NOFGA",
+        "Skus": [
+        "817-BBBB"
+        ]
+    },
+    {
+        "Name": "Regulatory Label",
+        "Description": "Regulatory Label",
+        "ProductCode": "REGLBL",
+        "Skus": [
+        "389-BHMJ"
+        ]
+    },
+    {
+        "Name": "Microsoft Office Productivity Software � Word, Excel, Powerpoint & more",
+        "Description": "Microsoft Office 30 Day Trial",
+        "ProductCode": "OTRT13",
+        "Skus": [
+        "658-BCSC"
+        ]
+    },
+    {
+        "Name": "Security Software",
+        "Description": "No Anti-virus Requested",
+        "ProductCode": "NOAV",
+        "Skus": [
+        "817-BBBP"
+        ]
+    },
+    {
+        "Name": "Support  <span class=\"dellRecommended\">(Limited time: Get 4 years for the Price of 3)</span>",
+        "Description": "1 Year Hardware Service with Onsite/In-Home Service After Remote Diagnosis",
+        "ProductCode": "NBD1",
+        "Skus": [
+        "801-2391",
+        "801-2438"
+        ]
+    },
+    {
+        "Name": "Processor Label",
+        "Description": "Intel� Core� i5 Label",
+        "ProductCode": "CI5SML",
+        "Skus": [
+        "389-BHIB"
+        ]
+    }
+    ],
+    "ShowComponents": true,
+    "Alerts": [],
+    "EvergreenMessages": [],
+    "HasBundledItems": false,
+    "BundledItems": [],
+    "IsBundledItem": false,
+    "IsFastTrack": false,
+    "Metadata": {
+        "itemType": "ConfigItem",
+        "brand": 1171,
+        "family": 11804
+    },
+    "DeliveryMessageOverride": "Ships in 4-6 business days",
+    "HasDeliveryMessageOverride": true,
+    "StopSelling": false,
+    "IsStockItem": false,
+    "SubTotalAmountValue": 949.99,
+    "ConfigurationIdentifier": "1~dkcwe01s~19~en~us~1__"
+},
+{
+    "Id": "abdef14e-d7ea-4265-a971-6fd137c8c8c1",
+    "IdWithoutSpecialCharacters": "abdef14ed7ea4265a9716fd137c8c8c1",
+    "ProductId": "dkcwf01sa",
+    "Description": "Alienware 15",
+    "ShowProductStackDescription": false,
+    "IsValid": true,
+    "LeadTimeInfo": {
+        "EstimatedShipDate": "6/13/2016",
+        "ShowEstimatedShipDate": true,
+        "ShowEstimatedDeliveryDate": false,
+        "HasValidEstimatedDeliveryDate": false,
+        "CanCalculateEstimatedDeliveryDate": true
+    },
+    "IsSavedCartItem": false,
+    "SubTotalAmount": "$1,199.99",
+    "DiscountsAndCouponsAmount": "$0.00",
+    "DiscountsAndCouponsAmountValue": 0,
+    "DiscountsAndCoupons": [
+    {
+        "CampaignId": 571235,
+        "Amount": "$0.00",
+        "ShortDescription": "12 months special financing",
+        "LongDescription": "12 months special financing on new Alienware PCs and consoles using Dell Preferred Account!",
+        "LegalDescription": "<!-- \r\n- 12 months special financing is a No Interest if Paid in Full by Your Due Date in July, 2017 promotion on new Alienware PCs and consoles and applies only to the amount purchased with Dell Preferred Account.\r\n- Your Standard Rate is ${APR}.  This APR will vary with the market based on the Prime Rate.\r\n- Interest will be charged to your account at the Standard Rate from the transaction posting date if the purchase balance is not paid in full by the end of the promotional period.  In addition, your Standard Rate will apply to the remaining balance.\r\n- To avoid accrued interest charges, minimum monthly payments are required and the balance must be paid by the end of your promotional period.\r\n- Minimum monthly payments are required, but may not pay your purchase in full by the end of the promotional period due to purchase amount, promotion length, additional purchases or allocation of payments in excess of the minimum payment. \r\n- Minimum purchase amount may be required.\r\n--> \r\nThe \"12 months special financing\" promotional financing includes new Alienware PCs and consoles purchased with your Dell Preferred Account.  You must have adequate available credit to purchase.  Pay your plan balance in full by your payment due date in July, 2017 or accrued interest will be assessed. Minimum monthly payments are required, but may not pay your purchase in full by the end of the promotional period due to purchase amount, promotion length, additional purchases or allocation of payments in excess of the minimum payment. Interest accrues at the Standard Rate (this APR will vary with the market based on the Prime Rate) from the transaction posting date and will be charged to the account if you do not pay your plan balance in full by your payment due date in July, 2017, or if you fail to make a required minimum payment at any time during the promotional period.  Promotional financing features apply only to the amount purchased with the Dell Preferred Account.   \r\n\r\n<p>Subject to credit approval.  WebBank determines creditworthiness, APR, credit limit, and qualification for promotional offers.  Qualifying for the Dell Preferred Account does not guarantee offer of promotional financing features.  You must purchase this item with your Dell Preferred Account and must have adequate available credit to take advantage of this promotion. Minimum purchase amount may be required</p>",
+        "ExpiryDate": "6/30/2016",
+        "HasExpiryDate": true,
+        "HasExpiryTextOverride": false,
+        "AllowRemove": false,
+        "ShowAmount": false
+    }
+    ],
+    "ShowDiscountsAndCoupons": true,
+    "DiscountsPopupTitle": "Additional Discounts & Coupons",
+    "TotalAmount": "$1,199.99",
+    "TotalAmountWithSubItems": "$1,199.99",
+    "TotalAmountWithSubItemsValue": 1199.99,
+    "Quantity": 1,
+    "QuantityWithSubItems": 1,
+    "AllowChangeQuantity": true,
+    "IsAssociatedItem": false,
+    "ImageUrl": "https://si.cdn.dell.com/images/global/configurator/chassis/alienware-15-nn-tch-ft-120.jpg",
+    "UnitPriceAmount": "$1,199.99",
+    "ShowManufacturerPartNumber": false,
+    "ShowDellPartNumber": false,
+    "ShowCatalogNumber": true,
+    "CatalogNumber": "29 dkcwf01sa",
+    "Components": [
+    {
+        "Name": "Alienware 15 R2",
+        "Description": "Alienware 15 MLK, CTO",
+        "ProductCode": "CTOE15",
+        "Skus": [
+        "210-AFTR"
+        ]
+    },
+    {
+        "Name": "Video Card",
+        "Description": "NVIDIA� GeForce� GTX 965M with 2GB GDDR5",
+        "ProductCode": "GTX965",
+        "Skus": [
+        "490-BCLI"
+        ]
+    },
+    {
+        "Name": "Processor",
+        "Description": "Intel� Core� i5-6300HQ (Quad-Core, 6MB Cache, up to 3.2GHz w/ Turbo Boost)",
+        "ProductCode": "552V8M",
+        "Skus": [
+        "338-BIGB"
+        ]
+    },
+    {
+        "Name": "Operating System",
+        "Description": "Windows 10 Home 64bit English",
+        "ProductCode": "10HHEE",
+        "Skus": [
+        "619-AHCY"
+        ]
+    },
+    {
+        "Name": "Display",
+        "Description": "15.6 inch FHD (1920 x 1080) IPS Anti-Glare 220-nits Display",
+        "ProductCode": "FHD",
+        "Skus": [
+        "391-BCMU"
+        ]
+    },
+    {
+        "Name": "Memory",
+        "Description": "8GB Dual Channel DDR4 at 2133MHz; up to 32GB (additional memory sold separately)",
+        "ProductCode": "8G2D",
+        "Skus": [
+        "370-ACLS"
+        ]
+    },
+    {
+        "Name": "Hard Drive",
+        "Description": "1TB 7200RPM SATA 6Gb/s",
+        "ProductCode": "1TB7200",
+        "Skus": [
+        "400-AHHF"
+        ]
+    },
+    {
+        "Name": "Wireless",
+        "Description": "Killer 1535 802.11ac 2x2 WiFi and Bluetooth 4.1",
+        "ProductCode": "N1535",
+        "Skus": [
+        "555-BCRM"
+        ]
+    },
+    {
+        "Name": "Battery",
+        "Description": "8-cell Lithium Ion (92 Wh) Battery",
+        "ProductCode": "8C",
+        "Skus": [
+        "451-BBMY"
+        ]
+    },
+    {
+        "Name": "Operating System Recovery",
+        "Description": "No OS Recovery Disc Included",
+        "ProductCode": "NONE",
+        "Skus": [
+        "340-ACQQ"
+        ]
+    },
+    {
+        "Name": "Keyboard",
+        "Description": "English Backlit Keyboard, powered by AlienFX",
+        "ProductCode": "KBDENG",
+        "Skus": [
+        "580-ACTO",
+        "583-BCQG"
+        ]
+    },
+    {
+        "Name": "Cable",
+        "Description": "US Power Cord 110V",
+        "ProductCode": "110VPWR",
+        "Skus": [
+        "450-AAUO"
+        ]
+    },
+    {
+        "Name": "AC Adapter",
+        "Description": "Alienware 180W AC Adapter",
+        "ProductCode": "180W3P",
+        "Skus": [
+        "450-AAGU"
+        ]
+    },
+    {
+        "Name": "Retail Software",
+        "Description": "Dell.com Order",
+        "ProductCode": "NORTL",
+        "Skus": [
+        "332-1530"
+        ]
+    },
+    {
+        "Name": "Documentation/Disks",
+        "Description": "Safety/Environment and Regulatory Guide (English/French)",
+        "ProductCode": "ENGMUI",
+        "Skus": [
+        "340-AGUD"
+        ]
+    },
+    {
+        "Name": "Packing Label",
+        "Description": "Dell.com Order",
+        "ProductCode": "NORTL",
+        "Skus": [
+        "332-1530"
+        ]
+    },
+    {
+        "Name": "Non-Microsoft Application Software",
+        "Description": "Additional Software",
+        "ProductCode": "ALWW10",
+        "Skus": [
+        "658-BCUO"
+        ]
+    },
+    {
+        "Name": "Additional Settings",
+        "Description": "Dropbox, Digital Delivery, 20GB for 1 Year Promotion",
+        "ProductCode": "DRPBOX",
+        "Skus": [
+        "525-0016"
+        ]
+    },
+    {
+        "Name": "Packaging",
+        "Description": "Shipping Material",
+        "ProductCode": "SHPMT",
+        "Skus": [
+        "340-AAPP",
+        "340-AUNR"
+        ]
+    },
+    {
+        "Name": "Shipping SKU's",
+        "Description": "Shipping Material",
+        "ProductCode": "USNONE",
+        "Skus": [
+        "332-1286"
+        ]
+    },
+    {
+        "Name": "Intel Processor Driver",
+        "Description": "Intel Driver",
+        "ProductCode": "SKYLAKE",
+        "Skus": [
+        "631-AATS"
+        ]
+    },
+    {
+        "Name": "Placemat",
+        "Description": "Placemat",
+        "ProductCode": "PLCMT",
+        "Skus": [
+        "340-ASNB"
+        ]
+    },
+    {
+        "Name": "Driver",
+        "Description": "Killer N1535 Wireless Driver",
+        "ProductCode": "1535DR",
+        "Skus": [
+        "555-BCRW"
+        ]
+    },
+    {
+        "Name": "FGA Module",
+        "Description": "No FGA",
+        "ProductCode": "NOFGA",
+        "Skus": [
+        "817-BBBB"
+        ]
+    },
+    {
+        "Name": "Label",
+        "Description": "Regulatory Label",
+        "ProductCode": "REGLBL",
+        "Skus": [
+        "389-BHOX"
+        ]
+    },
+    {
+        "Name": "Microsoft Office Productivity Software � Word, Excel, Powerpoint & more",
+        "Description": "Microsoft Office 30 Day Trial",
+        "ProductCode": "OTRT13",
+        "Skus": [
+        "658-BCSC"
+        ]
+    },
+    {
+        "Name": "Security Software",
+        "Description": "No Anti-virus Requested",
+        "ProductCode": "NOAV",
+        "Skus": [
+        "817-BBBP"
+        ]
+    },
+    {
+        "Name": "Support  <span class=\"dellRecommended\">(Limited time: Get 4 years for the Price of 3)</span>",
+        "Description": "1 Year Limited Hardware Warranty with Onsite Service after Remote Diagnosis",
+        "ProductCode": "NBD1",
+        "Skus": [
+        "801-2185",
+        "801-2232"
+        ]
+    },
+    {
+        "Name": "Processor Label",
+        "Description": "Intel� Core� i5 Label",
+        "ProductCode": "CI5SML",
+        "Skus": [
+        "389-BHIB"
+        ]
+    }
+    ],
+    "ShowComponents": true,
+    "Alerts": [],
+    "EvergreenMessages": [],
+    "HasBundledItems": false,
+    "BundledItems": [],
+    "IsBundledItem": false,
+    "IsFastTrack": false,
+    "Metadata": {
+        "itemType": "ConfigItem",
+        "brand": 1171,
+        "family": 11805
+    },
+    "DeliveryMessageOverride": "Ships in 4-6 business days",
+    "HasDeliveryMessageOverride": true,
+    "StopSelling": false,
+    "IsStockItem": false,
+    "SubTotalAmountValue": 1199.99,
+    "ConfigurationIdentifier": "1~dkcwf01sa~19~en~us~1__"
+},
+{
+    "Id": "c1ff1e21-55bb-49a9-8b03-296a4355e238",
+    "IdWithoutSpecialCharacters": "c1ff1e2155bb49a98b03296a4355e238",
+    "ProductId": "dkcwg01s",
+    "Description": "Alienware 17",
+    "ShowProductStackDescription": false,
+    "IsValid": true,
+    "LeadTimeInfo": {
+        "EstimatedShipDate": "6/14/2016",
+        "ShowEstimatedShipDate": true,
+        "ShowEstimatedDeliveryDate": false,
+        "HasValidEstimatedDeliveryDate": false,
+        "CanCalculateEstimatedDeliveryDate": true
+    },
+    "IsSavedCartItem": false,
+    "SubTotalAmount": "$1,499.99",
+    "DiscountsAndCouponsAmount": "$0.00",
+    "DiscountsAndCouponsAmountValue": 0,
+    "DiscountsAndCoupons": [
+    {
+        "CampaignId": 571235,
+        "Amount": "$0.00",
+        "ShortDescription": "12 months special financing",
+        "LongDescription": "12 months special financing on new Alienware PCs and consoles using Dell Preferred Account!",
+        "LegalDescription": "<!-- \r\n- 12 months special financing is a No Interest if Paid in Full by Your Due Date in July, 2017 promotion on new Alienware PCs and consoles and applies only to the amount purchased with Dell Preferred Account.\r\n- Your Standard Rate is ${APR}.  This APR will vary with the market based on the Prime Rate.\r\n- Interest will be charged to your account at the Standard Rate from the transaction posting date if the purchase balance is not paid in full by the end of the promotional period.  In addition, your Standard Rate will apply to the remaining balance.\r\n- To avoid accrued interest charges, minimum monthly payments are required and the balance must be paid by the end of your promotional period.\r\n- Minimum monthly payments are required, but may not pay your purchase in full by the end of the promotional period due to purchase amount, promotion length, additional purchases or allocation of payments in excess of the minimum payment. \r\n- Minimum purchase amount may be required.\r\n--> \r\nThe \"12 months special financing\" promotional financing includes new Alienware PCs and consoles purchased with your Dell Preferred Account.  You must have adequate available credit to purchase.  Pay your plan balance in full by your payment due date in July, 2017 or accrued interest will be assessed. Minimum monthly payments are required, but may not pay your purchase in full by the end of the promotional period due to purchase amount, promotion length, additional purchases or allocation of payments in excess of the minimum payment. Interest accrues at the Standard Rate (this APR will vary with the market based on the Prime Rate) from the transaction posting date and will be charged to the account if you do not pay your plan balance in full by your payment due date in July, 2017, or if you fail to make a required minimum payment at any time during the promotional period.  Promotional financing features apply only to the amount purchased with the Dell Preferred Account.   \r\n\r\n<p>Subject to credit approval.  WebBank determines creditworthiness, APR, credit limit, and qualification for promotional offers.  Qualifying for the Dell Preferred Account does not guarantee offer of promotional financing features.  You must purchase this item with your Dell Preferred Account and must have adequate available credit to take advantage of this promotion. Minimum purchase amount may be required</p>",
+        "ExpiryDate": "6/30/2016",
+        "HasExpiryDate": true,
+        "HasExpiryTextOverride": false,
+        "AllowRemove": false,
+        "ShowAmount": false
+    }
+    ],
+    "ShowDiscountsAndCoupons": true,
+    "DiscountsPopupTitle": "Additional Discounts & Coupons",
+    "TotalAmount": "$1,499.99",
+    "TotalAmountWithSubItems": "$1,499.99",
+    "TotalAmountWithSubItemsValue": 1499.99,
+    "Quantity": 1,
+    "QuantityWithSubItems": 1,
+    "AllowChangeQuantity": true,
+    "IsAssociatedItem": false,
+    "ImageUrl": "https://si.cdn.dell.com/images/global/configurator/chassis/alien-17-r2-nt-ft-120x107.jpg",
+    "UnitPriceAmount": "$1,499.99",
+    "ShowManufacturerPartNumber": false,
+    "ShowDellPartNumber": false,
+    "ShowCatalogNumber": true,
+    "CatalogNumber": "29 dkcwg01s",
+    "Components": [
+    {
+        "Name": "Alienware 17 R3",
+        "Description": "Alienware 17 R3",
+        "ProductCode": "CTOE17",
+        "Skus": [
+        "210-AFFV"
+        ]
+    },
+    {
+        "Name": "Video Card",
+        "Description": "NVIDIA� GeForce� GTX 970M with 3GB GDDR5",
+        "ProductCode": "GTX970",
+        "Skus": [
+        "490-BCLG"
+        ]
+    },
+    {
+        "Name": "Processor",
+        "Description": "Intel� Core� i7-6700HQ (Quad-Core, 6MB Cache, up to 3.5GHz w/ Turbo Boost)",
+        "ProductCode": "7XFG7N",
+        "Skus": [
+        "338-BHVM"
+        ]
+    },
+    {
+        "Name": "Operating System",
+        "Description": "Windows 10 Home 64bit English",
+        "ProductCode": "10HHEE",
+        "Skus": [
+        "619-AHCY"
+        ]
+    },
+    {
+        "Name": "Display",
+        "Description": "17.3 inch FHD (1920 x 1080) IPS-Panel Anti-Glare 300-nits Display",
+        "ProductCode": "FHD",
+        "Skus": [
+        "391-BCMX"
+        ]
+    },
+    {
+        "Name": "Memory",
+        "Description": "8GB Dual Channel DDR4 at 2133MHz; up to 32GB (additional memory sold separately)",
+        "ProductCode": "8G2D",
+        "Skus": [
+        "370-ACLS"
+        ]
+    },
+    {
+        "Name": "Hard Drive",
+        "Description": "1TB 7200RPM SATA 6Gb/s",
+        "ProductCode": "1TB7200",
+        "Skus": [
+        "400-AHHF"
+        ]
+    },
+    {
+        "Name": "Wireless",
+        "Description": "Killer 1535 802.11ac 2x2 WiFi and Bluetooth 4.1",
+        "ProductCode": "N1535",
+        "Skus": [
+        "555-BCRM"
+        ]
+    },
+    {
+        "Name": "Battery",
+        "Description": "8-cell Lithium Ion (92 Wh) Battery",
+        "ProductCode": "8C",
+        "Skus": [
+        "451-BBMW"
+        ]
+    },
+    {
+        "Name": "Operating System Recovery",
+        "Description": "No OS Recovery Disc Included",
+        "ProductCode": "NONE",
+        "Skus": [
+        "340-ACQQ"
+        ]
+    },
+    {
+        "Name": "Keyboard",
+        "Description": "English Backlit Keyboard, powered by AlienFX",
+        "ProductCode": "KBDENG",
+        "Skus": [
+        "580-ACWN",
+        "583-BCQG"
+        ]
+    },
+    {
+        "Name": "AC Adapter",
+        "Description": "Alienware 180W AC Adapter",
+        "ProductCode": "180W3P",
+        "Skus": [
+        "450-AAGU"
+        ]
+    },
+    {
+        "Name": "Cable",
+        "Description": "US Power Cord 110V",
+        "ProductCode": "110VPWR",
+        "Skus": [
+        "450-AAUO"
+        ]
+    },
+    {
+        "Name": "Retail Software",
+        "Description": "Dell.com Order",
+        "ProductCode": "NORTL",
+        "Skus": [
+        "332-1530"
+        ]
+    },
+    {
+        "Name": "Documentation/Disks",
+        "Description": "Safety/Environment and Regulatory Guide (English/French)",
+        "ProductCode": "ENGMUI",
+        "Skus": [
+        "340-AGUD"
+        ]
+    },
+    {
+        "Name": "Packing Label",
+        "Description": "Dell.com Order",
+        "ProductCode": "NORTL",
+        "Skus": [
+        "332-1530"
+        ]
+    },
+    {
+        "Name": "Non-Microsoft Application Software",
+        "Description": "Additional Software",
+        "ProductCode": "ALWW10",
+        "Skus": [
+        "658-BCUO"
+        ]
+    },
+    {
+        "Name": "Additional Settings",
+        "Description": "Dropbox, Digital Delivery, 20GB for 1 Year Promotion",
+        "ProductCode": "DRPBOX",
+        "Skus": [
+        "525-0016"
+        ]
+    },
+    {
+        "Name": "Packaging",
+        "Description": "Shipping Material",
+        "ProductCode": "SHPMT",
+        "Skus": [
+        "340-AAPP",
+        "340-ATTO"
+        ]
+    },
+    {
+        "Name": "Shipping SKU's",
+        "Description": "Shipping Material",
+        "ProductCode": "USNONE",
+        "Skus": [
+        "332-1286"
+        ]
+    },
+    {
+        "Name": "Intel Processor Driver",
+        "Description": "Intel Driver",
+        "ProductCode": "SKYLAKE",
+        "Skus": [
+        "631-AATV"
+        ]
+    },
+    {
+        "Name": "Placemat",
+        "Description": "Placemat",
+        "ProductCode": "PLCMT",
+        "Skus": [
+        "340-ASNH"
+        ]
+    },
+    {
+        "Name": "Driver",
+        "Description": "Killer N1535 Wireless Driver",
+        "ProductCode": "1535DR",
+        "Skus": [
+        "555-BCRW"
+        ]
+    },
+    {
+        "Name": "FGA Module",
+        "Description": "No FGA",
+        "ProductCode": "NOFGA",
+        "Skus": [
+        "817-BBBB"
+        ]
+    },
+    {
+        "Name": "Label",
+        "Description": "Regulatory Label",
+        "ProductCode": "REGLBL",
+        "Skus": [
+        "389-BHPD"
+        ]
+    },
+    {
+        "Name": "Microsoft Office Productivity Software � Word, Excel, Powerpoint & more",
+        "Description": "Microsoft Office 30 Day Trial",
+        "ProductCode": "OTRT13",
+        "Skus": [
+        "658-BCSC"
+        ]
+    },
+    {
+        "Name": "Security Software",
+        "Description": "No Anti-virus Requested",
+        "ProductCode": "NOAV",
+        "Skus": [
+        "817-BBBP"
+        ]
+    },
+    {
+        "Name": "Support  <span class=\"dellRecommended\">(Limited time: Get 4 years for the Price of 3)</span>",
+        "Description": "1 Year Limited Hardware Warranty with Onsite Service after Remote Diagnosis",
+        "ProductCode": "NBD1",
+        "Skus": [
+        "801-2185",
+        "801-2232"
+        ]
+    },
+    {
+        "Name": "Processor Label",
+        "Description": "Intel� Core� i7 Label",
+        "ProductCode": "CI7SML",
+        "Skus": [
+        "389-BHGE"
+        ]
+    }
+    ],
+    "ShowComponents": true,
+    "Alerts": [],
+    "EvergreenMessages": [],
+    "HasBundledItems": false,
+    "BundledItems": [],
+    "IsBundledItem": false,
+    "IsFastTrack": false,
+    "Metadata": {
+        "itemType": "ConfigItem",
+        "brand": 1171,
+        "family": 11806
+    },
+    "DeliveryMessageOverride": "Ships in 5-7 business days",
+    "HasDeliveryMessageOverride": true,
+    "StopSelling": false,
+    "IsStockItem": false,
+    "SubTotalAmountValue": 1499.99,
+    "ConfigurationIdentifier": "1~dkcwg01s~19~en~us~1__"
+},
+{
+    "Id": "c58fc0f2-0bb4-4769-863f-c81472a7e62f",
+    "IdWithoutSpecialCharacters": "c58fc0f20bb44769863fc81472a7e62f",
+    "ProductId": "fncwy01s",
+    "Description": "Dell Chromebook 11 Non-Touch",
+    "ShowProductStackDescription": false,
+    "IsValid": true,
+    "LeadTimeInfo": {
+        "EstimatedShipDate": "6/7/2016",
+        "ShowEstimatedShipDate": true,
+        "ShowEstimatedDeliveryDate": false,
+        "HasValidEstimatedDeliveryDate": false,
+        "CanCalculateEstimatedDeliveryDate": true
+    },
+    "IsSavedCartItem": false,
+    "SubTotalAmount": "$312.85",
+    "DiscountsAndCouponsAmount": "-$93.85",
+    "DiscountsAndCouponsAmountValue": 93.85,
+    "DiscountsAndCoupons": [
+    {
+        "CampaignId": 453383,
+        "Amount": "-$93.85",
+        "ShortDescription": "Chromebook 11 price includes $93.85 instant discount.",
+        "LongDescription": "Chromebook 11 price includes $93.85 instant discount.",
+        "LegalDescription": "Specifications, availability and terms of offer may change without notice. Taxes and shipping charges are extra, and vary. Offer for U.S. Dell Home Systems Co. new system online purchases only.  Dell cannot be responsible for pricing or other errors, and reserves the right to cancel orders arising from such errors.",
+        "ExpiryDate": "1/1/2018",
+        "HasExpiryDate": true,
+        "HasExpiryTextOverride": false,
+        "AllowRemove": false,
+        "ShowAmount": true
+    },
+    {
+        "CampaignId": 267195,
+        "Amount": "$0.00",
+        "ShortDescription": "$20 instant off all Inspiron PCs under $500 with Dell Preferred Account�^",
+        "LongDescription": "$20 instant off all Inspiron PCs under $500 when financed with Dell Preferred Account�^ Discount applied during checkout.",
+        "LegalDescription": "Limited time offer for qualified customers. $20 instant savings applied at checkout when using a Dell Preferred Account�.^ DELL PREFERRED ACCOUNT (DPA): Offered to U.S. residents by WebBank, who determines qualifications for and terms of credit. Promotion eligibility varies and is determined by WebBank. Taxes, shipping, and other charges are extra and vary.",
+        "ExpiryDate": "1/1/2018",
+        "HasExpiryDate": true,
+        "HasExpiryTextOverride": false,
+        "AllowRemove": false,
+        "ShowAmount": false
+    }
+    ],
+    "ShowDiscountsAndCoupons": true,
+    "DiscountsPopupTitle": "Additional Discounts & Coupons",
+    "TotalAmount": "$219.00",
+    "TotalAmountWithSubItems": "$219.00",
+    "TotalAmountWithSubItemsValue": 219,
+    "Quantity": 1,
+    "QuantityWithSubItems": 1,
+    "AllowChangeQuantity": true,
+    "IsAssociatedItem": false,
+    "ImageUrl": "https://si.cdn.dell.com/images/global/configurator/chassis/chromebook11-front-120x107.jpg",
+    "UnitPriceAmount": "$312.85",
+    "ShowManufacturerPartNumber": false,
+    "ShowDellPartNumber": false,
+    "ShowCatalogNumber": true,
+    "CatalogNumber": "29 fncwy01s",
+    "Components": [
+    {
+        "Name": "UPC Labels",
+        "Description": "UPC Label UPC884116176527",
+        "ProductCode": "UPC527",
+        "Skus": [
+        "389-BFZW"
+        ]
+    },
+    {
+        "Name": "Base Options",
+        "Description": "Chrome OS, Intel� Celeron-N2840 Proc, 2GB RAM DDR3L Memory, 16GB eMMC SSD Storage Wifi",
+        "ProductCode": "2GBN",
+        "Skus": [
+        "329-BCLN"
+        ]
+    },
+    {
+        "Name": "Dell Chromebook 11",
+        "Description": "Dell Chromebook 11",
+        "ProductCode": "C3120X",
+        "Skus": [
+        "210-ADWO"
+        ]
+    },
+    {
+        "Name": "Wireless",
+        "Description": "Intel� Dual Band Wireless-AC 7260 802.11AC Wi-Fi + BT 4.0 LE Wireless Card",
+        "ProductCode": "7260AC",
+        "Skus": [
+        "555-BBRS"
+        ]
+    },
+    {
+        "Name": "Support",
+        "Description": "1 Year Ltd Hware Warranty: Mail-in; Customer supplies box, Dell pays shipping",
+        "ProductCode": "MI1",
+        "Skus": [
+        "801-5292",
+        "801-5338"
+        ]
+    },
+    {
+        "Name": "LCD",
+        "Description": "11.6� Anti-Glare HD Non-Touch LCD",
+        "ProductCode": "NTOUCH",
+        "Skus": [
+        "391-BBYI"
+        ]
+    },
+    {
+        "Name": "Primary Battery",
+        "Description": "3 cell Battery (43 WHr)",
+        "ProductCode": "43WHR",
+        "Skus": [
+        "451-BBNH"
+        ]
+    },
+    {
+        "Name": "Color Choice",
+        "Description": "Non- Touch LCD Back Cover ( Black )",
+        "ProductCode": "NTBLK",
+        "Skus": [
+        "320-BBND"
+        ]
+    },
+    {
+        "Name": "FGA Module",
+        "Description": "Chrome_11_2GB_001/US/BTS",
+        "ProductCode": "FG0006",
+        "Skus": [
+        "998-BLXX"
+        ]
+    },
+    {
+        "Name": "Keyboard",
+        "Description": "Internal English Chrome Keyboard - Black",
+        "ProductCode": "BLKUS",
+        "Skus": [
+        "580-AEOO"
+        ]
+    },
+    {
+        "Name": "Placemat",
+        "Description": "Placemat",
+        "ProductCode": "PLCMAT",
+        "Skus": [
+        "340-ANMZ"
+        ]
+    },
+    {
+        "Name": "Packaging Label",
+        "Description": "Non-Retail Order",
+        "ProductCode": "NORTL",
+        "Skus": [
+        "332-1530"
+        ]
+    },
+    {
+        "Name": "Packaging",
+        "Description": "Ship Material - Non Retail",
+        "ProductCode": "SHIP",
+        "Skus": [
+        "328-BCBH",
+        "340-ABFC"
+        ]
+    },
+    {
+        "Name": "Processor Branding",
+        "Description": "Intel(R) Celeron(R) CPU Label",
+        "ProductCode": "INCLBK",
+        "Skus": [
+        "340-AQVB"
+        ]
+    },
+    {
+        "Name": "Power Supply",
+        "Description": "65W AC Adapter, 3-pin",
+        "ProductCode": "65W",
+        "Skus": [
+        "492-BBDD",
+        "537-BBBL"
+        ]
+    },
+    {
+        "Name": "Retail Software",
+        "Description": "Non-Retail Order",
+        "ProductCode": "NORTL",
+        "Skus": [
+        "332-0550"
+        ]
+    },
+    {
+        "Name": "Documentation/Disks",
+        "Description": "System Documentation, Multi Language",
+        "ProductCode": "DOCENG",
+        "Skus": [
+        "340-AGYZ"
+        ]
+    },
+    {
+        "Name": "Labels",
+        "Description": "No Labels",
+        "ProductCode": "NONE",
+        "Skus": [
+        "817-BBBC"
+        ]
+    }
+    ],
+    "ShowComponents": true,
+    "Alerts": [],
+    "EvergreenMessages": [],
+    "HasBundledItems": false,
+    "BundledItems": [],
+    "IsBundledItem": false,
+    "IsFastTrack": true,
+    "Metadata": {
+        "itemType": "ConfigItem",
+        "brand": 1177,
+        "family": 11326
+    },
+    "HasDeliveryMessageOverride": false,
+    "StopSelling": false,
+    "IsStockItem": true,
+    "SubTotalAmountValue": 312.85,
+    "ConfigurationIdentifier": "1~fncwy01s~19~en~us~1__"
+},
+{
+    "Id": "72f33c7c-3082-4034-98df-db6b084ad0c7",
+    "IdWithoutSpecialCharacters": "72f33c7c3082403498dfdb6b084ad0c7",
+    "ProductId": "fncwym02s",
+    "Description": "Dell Chromebook 13 Non-Touch",
+    "ShowProductStackDescription": false,
+    "IsValid": true,
+    "LeadTimeInfo": {
+        "EstimatedShipDate": "6/15/2016",
+        "ShowEstimatedShipDate": true,
+        "ShowEstimatedDeliveryDate": false,
+        "HasValidEstimatedDeliveryDate": false,
+        "CanCalculateEstimatedDeliveryDate": true
+    },
+    "IsSavedCartItem": false,
+    "SubTotalAmount": "$593.86",
+    "DiscountsAndCouponsAmount": "-$164.86",
+    "DiscountsAndCouponsAmountValue": 164.86,
+    "DiscountsAndCoupons": [
+    {
+        "CampaignId": 503501,
+        "Amount": "-$164.86",
+        "ShortDescription": "Chromebook 13 price includes $164.86 instant discount.",
+        "LongDescription": "Chromebook 13 price includes $164.86 instant discount.",
+        "LegalDescription": "Specifications, availability and terms of offer may change without notice. Taxes and shipping charges are extra, and vary. Offer for U.S. Dell Home Systems Co. new system online purchases only.  Dell cannot be responsible for pricing or other errors, and reserves the right to cancel orders arising from such errors.",
+        "ExpiryDate": "12/31/2016",
+        "HasExpiryDate": true,
+        "HasExpiryTextOverride": false,
+        "AllowRemove": false,
+        "ShowAmount": true
+    },
+    {
+        "CampaignId": 267195,
+        "Amount": "$0.00",
+        "ShortDescription": "$20 instant off all Inspiron PCs under $500 with Dell Preferred Account�^",
+        "LongDescription": "$20 instant off all Inspiron PCs under $500 when financed with Dell Preferred Account�^ Discount applied during checkout.",
+        "LegalDescription": "Limited time offer for qualified customers. $20 instant savings applied at checkout when using a Dell Preferred Account�.^ DELL PREFERRED ACCOUNT (DPA): Offered to U.S. residents by WebBank, who determines qualifications for and terms of credit. Promotion eligibility varies and is determined by WebBank. Taxes, shipping, and other charges are extra and vary.",
+        "ExpiryDate": "1/1/2018",
+        "HasExpiryDate": true,
+        "HasExpiryTextOverride": false,
+        "AllowRemove": false,
+        "ShowAmount": false
+    }
+    ],
+    "ShowDiscountsAndCoupons": true,
+    "DiscountsPopupTitle": "Additional Discounts & Coupons",
+    "TotalAmount": "$429.00",
+    "TotalAmountWithSubItems": "$429.00",
+    "TotalAmountWithSubItemsValue": 429,
+    "Quantity": 1,
+    "QuantityWithSubItems": 1,
+    "AllowChangeQuantity": true,
+    "IsAssociatedItem": false,
+    "ImageUrl": "https://si.cdn.dell.com/images/global/configurator/chassis/nb-cb-13-7310-gry-ft-120x107.jpg",
+    "UnitPriceAmount": "$593.86",
+    "ShowManufacturerPartNumber": false,
+    "ShowDellPartNumber": false,
+    "ShowCatalogNumber": true,
+    "CatalogNumber": "29 fncwym02s",
+    "Components": [
+    {
+        "Name": "UPC Label",
+        "Description": "No UPC Label",
+        "ProductCode": "NOLBL",
+        "Skus": [
+        "389-BCGW"
+        ]
+    },
+    {
+        "Name": "Base Options",
+        "Description": "Chrome OS, Intel� Celeron� 3215U, 4GB",
+        "ProductCode": "15CEL4",
+        "Skus": [
+        "321-BBZZ"
+        ]
+    },
+    {
+        "Name": "Chromebook 13",
+        "Description": "Dell Chromebook 7310",
+        "ProductCode": "MERBTX",
+        "Skus": [
+        "210-AESN"
+        ]
+    },
+    {
+        "Name": "Wireless",
+        "Description": "Intel� Dual Band Wireless-AC 7260 802.11AC Wi-Fi + BT 4.0 LE Wireless Card",
+        "ProductCode": "IW7260",
+        "Skus": [
+        "555-BBRS"
+        ]
+    },
+    {
+        "Name": "Support",
+        "Description": "1 Year Ltd Hware Warranty: Mail-in; Customer supplies box, Dell pays shipping",
+        "ProductCode": "MI1",
+        "Skus": [
+        "804-1786",
+        "804-1787"
+        ]
+    },
+    {
+        "Name": "Hard Drive",
+        "Description": "16GB Solid State Drive",
+        "ProductCode": "16GBSSD",
+        "Skus": [
+        "400-AICY"
+        ]
+    },
+    {
+        "Name": "LCD",
+        "Description": "13.3\" FHD Non-Touch LCD",
+        "ProductCode": "NTOUCH",
+        "Skus": [
+        "391-BCGK"
+        ]
+    },
+    {
+        "Name": "Primary Battery",
+        "Description": "67Whr 6 Cell Battery",
+        "ProductCode": "6CBATT",
+        "Skus": [
+        "451-BBOT"
+        ]
+    },
+    {
+        "Name": "Color Choice",
+        "Description": "Non-Touch LCD Cover - Black",
+        "ProductCode": "BLKNTCH",
+        "Skus": [
+        "320-BBRD"
+        ]
+    },
+    {
+        "Name": "FGA Module",
+        "Description": "Meridian_13_1H_102/US/BTO",
+        "ProductCode": "FG0013",
+        "Skus": [
+        "998-BWJZ"
+        ]
+    },
+    {
+        "Name": "Keyboard",
+        "Description": "Internal Keyboard. Layout 74 keys US-English. For US, Canada.",
+        "ProductCode": "KBDUS",
+        "Skus": [
+        "340-AQGC",
+        "580-ADXC"
+        ]
+    },
+    {
+        "Name": "Placemat",
+        "Description": "Placemat",
+        "ProductCode": "PLCMAT",
+        "Skus": [
+        "340-AQKG"
+        ]
+    },
+    {
+        "Name": "Packaging Label",
+        "Description": "Non-Retail Order",
+        "ProductCode": "NORTL",
+        "Skus": [
+        "332-1530"
+        ]
+    },
+    {
+        "Name": "Packaging",
+        "Description": "Ship Material - Non Retail",
+        "ProductCode": "SHIP",
+        "Skus": [
+        "328-BCDG",
+        "340-ABSE",
+        "640-BBJB"
+        ]
+    },
+    {
+        "Name": "Processor Branding",
+        "Description": "Intel(R) Celeron(R) CPU Label",
+        "ProductCode": "CELLBL",
+        "Skus": [
+        "340-AQVB"
+        ]
+    },
+    {
+        "Name": "Power Supply",
+        "Description": "65 Watt AC Adaptor",
+        "ProductCode": "65WAA",
+        "Skus": [
+        "450-AAHV",
+        "450-ADTR"
+        ]
+    },
+    {
+        "Name": "Retail Software",
+        "Description": "Dell.com Order",
+        "ProductCode": "NORTL",
+        "Skus": [
+        "332-0550"
+        ]
+    },
+    {
+        "Name": "Documentation/Disks",
+        "Description": "Safety/Environment and Regulatory Guide (English/French/Dutch)",
+        "ProductCode": "DOC",
+        "Skus": [
+        "340-AGIK"
+        ]
+    },
+    {
+        "Name": "E-Star",
+        "Description": "E-star 6.0 Enabled",
+        "ProductCode": "ESTAR6",
+        "Skus": [
+        "387-BBLO"
+        ]
+    }
+    ],
+    "ShowComponents": true,
+    "Alerts": [],
+    "EvergreenMessages": [],
+    "HasBundledItems": false,
+    "BundledItems": [],
+    "IsBundledItem": false,
+    "IsFastTrack": false,
+    "Metadata": {
+        "itemType": "ConfigItem",
+        "brand": 1177,
+        "family": 11625
+    },
+    "DeliveryMessageOverride": "Ships in 7-9 business days",
+    "HasDeliveryMessageOverride": true,
+    "StopSelling": false,
+    "IsStockItem": false,
+    "SubTotalAmountValue": 593.86,
+    "ConfigurationIdentifier": "1~fncwym02s~19~en~us~1__"
+},
+{
+    "Id": "ad218232-a549-4d73-9252-94347723ef5c",
+    "IdWithoutSpecialCharacters": "ad218232a5494d73925294347723ef5c",
+    "ProductId": "cto01le747014us",
+    "Description": "New Latitude 14 7000 Series",
+    "ShowProductStackDescription": false,
+    "IsValid": true,
+    "LeadTimeInfo": {
+        "EstimatedShipDate": "6/13/2016",
+        "ShowEstimatedShipDate": true,
+        "ShowEstimatedDeliveryDate": false,
+        "HasValidEstimatedDeliveryDate": false,
+        "CanCalculateEstimatedDeliveryDate": true
+    },
+    "IsSavedCartItem": false,
+    "SubTotalAmount": "$1,541.43",
+    "DiscountsAndCouponsAmount": "-$462.43",
+    "DiscountsAndCouponsAmountValue": 462.43,
+    "DiscountsAndCoupons": [
+    {
+        "CampaignId": 534575,
+        "Amount": "-$462.43",
+        "ShortDescription": "Save 30% on select New Latitude 14 7000 Series Business PCs!",
+        "LongDescription": "Save 30% on select New Latitude 14 7000 Series Business PCs!",
+        "LegalDescription": "",
+        "ExpiryDate": "12/6/2016",
+        "HasExpiryDate": true,
+        "HasExpiryTextOverride": false,
+        "AllowRemove": false,
+        "ShowAmount": true
+    }
+    ],
+    "ShowDiscountsAndCoupons": true,
+    "DiscountsPopupTitle": "Additional Discounts & Coupons",
+    "TotalAmount": "$1,079.00",
+    "TotalAmountWithSubItems": "$1,079.00",
+    "TotalAmountWithSubItemsValue": 1079,
+    "Quantity": 1,
+    "QuantityWithSubItems": 1,
+    "AllowChangeQuantity": true,
+    "IsAssociatedItem": false,
+    "ImageUrl": "https://si.cdn.dell.com/images/global/configurator/chassis/latit-14-e7470-t-bk-ft-wnd-120x107.jpg",
+    "UnitPriceAmount": "$1,541.43",
+    "ShowManufacturerPartNumber": false,
+    "ShowDellPartNumber": false,
+    "ShowCatalogNumber": true,
+    "CatalogNumber": "4 cto01le747014us",
+    "Components": [
+    {
+        "Name": "Dell Latitude E7470",
+        "Description": "Dell Latitude E7470, CTO",
+        "ProductCode": "E7470T",
+        "Skus": [
+        "210-AETM"
+        ]
+    },
+    {
+        "Name": "Processor",
+        "Description": "Intel� Core� i3-6100U (Dual Core, 2.3GHz, 3M cache, 15W)",
+        "ProductCode": "I36100",
+        "Skus": [
+        "379-BCFV"
+        ]
+    },
+    {
+        "Name": "Operating System",
+        "Description": "Windows 7 Professional English, French, Spanish 64bit (Includes Windows 10 Pro License)",
+        "ProductCode": "DW10P7M",
+        "Skus": [
+        "619-AIKP"
+        ]
+    },
+    {
+        "Name": "Processor Information",
+        "Description": "I3-6100,U,T,E7470",
+        "ProductCode": "UI3",
+        "Skus": [
+        "338-BHPQ"
+        ]
+    },
+    {
+        "Name": "Office Productivity Software",
+        "Description": "Microsoft Office 30 Day Trial",
+        "ProductCode": "16MUI",
+        "Skus": [
+        "658-BCSB"
+        ]
+    },
+    {
+        "Name": "Dell Data Protection Solutions",
+        "Description": "No DDPE Encryption Software",
+        "ProductCode": "NODDPE",
+        "Skus": [
+        "954-3465"
+        ]
+    },
+    {
+        "Name": "Dell Threat Protection and Endpoint Security Suite",
+        "Description": "No Dell Data Protection | Endpoint Security Suite Software",
+        "ProductCode": "NODDP",
+        "Skus": [
+        "634-BENZ"
+        ]
+    },
+    {
+        "Name": "LCD",
+        "Description": "14.0� HD (1366 x 768) Anti Glare LCD, Camera and Mic, WLAN/WWAN Capable",
+        "ProductCode": "LNCHWW",
+        "Skus": [
+        "320-BBRB",
+        "391-BCFM"
+        ]
+    },
+    {
+        "Name": "Memory",
+        "Description": "4GB (1x4GB) 2133MHz DDR4 Memory",
+        "ProductCode": "4G1D4",
+        "Skus": [
+        "370-ACDC"
+        ]
+    },
+    {
+        "Name": "Hard Drive",
+        "Description": "M.2 128GB SATA Class 20 Solid State Drive",
+        "ProductCode": "128SDS",
+        "Skus": [
+        "400-AHHX"
+        ]
+    },
+    {
+        "Name": "Intel Responsiveness Technologies",
+        "Description": "Intel Rapid Storage Technology",
+        "ProductCode": "IRST",
+        "Skus": [
+        "409-BBIV"
+        ]
+    },
+    {
+        "Name": "Systems Management",
+        "Description": "No Out-of-Band Systems Management",
+        "ProductCode": "NOVPRO",
+        "Skus": [
+        "631-AARE"
+        ]
+    },
+    {
+        "Name": "Wireless",
+        "Description": "Intel� Dual-Band Wireless-AC 8260 Wi-Fi + BT 4.1 Wireless Card (2x2)",
+        "ProductCode": "8260AC",
+        "Skus": [
+        "555-BCMT"
+        ]
+    },
+    {
+        "Name": "Driver",
+        "Description": "Intel� Dual-Band Wireless-AC 8260 Wi-Fi + BT 4.1 Wireless Driver (2x2)",
+        "ProductCode": "8260",
+        "Skus": [
+        "555-BCUZ"
+        ]
+    },
+    {
+        "Name": "Processor Branding",
+        "Description": "LABEL,INTEL,CI3,6,SML",
+        "ProductCode": "CI3SML",
+        "Skus": [
+        "389-BHGC"
+        ]
+    },
+    {
+        "Name": "Mobile Broadband",
+        "Description": "No Mobile Broadband Card",
+        "ProductCode": "NOWW",
+        "Skus": [
+        "362-BBBB"
+        ]
+    },
+    {
+        "Name": "Keyboard",
+        "Description": "82 Key Internal English Keyboard",
+        "ProductCode": "ENG",
+        "Skus": [
+        "583-BCUP"
+        ]
+    },
+    {
+        "Name": "PalmRest",
+        "Description": "No Smart Card or Fingerprint Reader for 82 Key, Single Point Keyboard",
+        "ProductCode": "NO2S",
+        "Skus": [
+        "346-BBQY"
+        ]
+    },
+    {
+        "Name": "AC Adapter",
+        "Description": "65 Watt AC Adaptor",
+        "ProductCode": "65W3P",
+        "Skus": [
+        "450-AAYT"
+        ]
+    },
+    {
+        "Name": "Cable",
+        "Description": "Power Cord, US",
+        "ProductCode": "PWRUS",
+        "Skus": [
+        "450-AAEJ"
+        ]
+    },
+    {
+        "Name": "Primary Battery",
+        "Description": "Primary 3-cell 37W/HR Battery with ExpressCharge�",
+        "ProductCode": "3C",
+        "Skus": [
+        "451-BBPL"
+        ]
+    },
+    {
+        "Name": "Docking Solutions",
+        "Description": "No Docking Station",
+        "ProductCode": "NONE",
+        "Skus": [
+        "452-BBSE"
+        ]
+    },
+    {
+        "Name": "Carrying Cases",
+        "Description": "No Carrying Case",
+        "ProductCode": "NONE",
+        "Skus": [
+        "460-BBEX"
+        ]
+    },
+    {
+        "Name": "Operating System Recovery Options",
+        "Description": "Windows 10 OS Recovery 64bit - DVD",
+        "ProductCode": "M10PD6M",
+        "Skus": [
+        "620-AAYW"
+        ]
+    },
+    {
+        "Name": "Documentation/Disks",
+        "Description": "Safety/Environment and Regulatory Guide (English/French Multi-language)",
+        "ProductCode": "EFDOC",
+        "Skus": [
+        "340-AGIK"
+        ]
+    },
+    {
+        "Name": "Placemat",
+        "Description": "Quick Reference Guide",
+        "ProductCode": "PLCMT",
+        "Skus": [
+        "340-AUSC"
+        ]
+    },
+    {
+        "Name": "Diagnostic CD / Diskette",
+        "Description": "No Resource DVD",
+        "ProductCode": "NRDVD",
+        "Skus": [
+        "430-XXYG"
+        ]
+    },
+    {
+        "Name": "TAA",
+        "Description": "No TAA",
+        "ProductCode": "NOTAA",
+        "Skus": [
+        "340-ACQQ"
+        ]
+    },
+    {
+        "Name": "E-Star",
+        "Description": "ESTAR6.1",
+        "ProductCode": "ESTAR",
+        "Skus": [
+        "387-BBKE"
+        ]
+    },
+    {
+        "Name": "Labels",
+        "Description": "Intel� Ultrabook Logo",
+        "ProductCode": "UTRABK",
+        "Skus": [
+        "389-BCVY"
+        ]
+    },
+    {
+        "Name": "Label",
+        "Description": "Regulatory Label Included",
+        "ProductCode": "REG",
+        "Skus": [
+        "389-BEYY"
+        ]
+    },
+    {
+        "Name": "UPC Label",
+        "Description": "No UPC Label",
+        "ProductCode": "NOLBL",
+        "Skus": [
+        "389-BCGW"
+        ]
+    },
+    {
+        "Name": "Canada Ship Options",
+        "Description": "US No Canada Ship Charge",
+        "ProductCode": "USNONE",
+        "Skus": [
+        "332-1286"
+        ]
+    },
+    {
+        "Name": "Packaging",
+        "Description": "MIX SHIP Config (DAO)",
+        "ProductCode": "SHPMX",
+        "Skus": [
+        "340-AAPP",
+        "340-AQIR"
+        ]
+    },
+    {
+        "Name": "Transportation from ODM to region",
+        "Description": "Standard Shipment",
+        "ProductCode": "STND",
+        "Skus": [
+        "800-BBGT"
+        ]
+    },
+    {
+        "Name": "Configuration Details",
+        "Description": "Flex 1",
+        "ProductCode": "FLEX1",
+        "Skus": [
+        "379-BCHD"
+        ]
+    },
+    {
+        "Name": "FGA Module",
+        "Description": "Dell Latitude E7470, CTO/BTO",
+        "ProductCode": "FG0040",
+        "Skus": [
+        "998-BTNU"
+        ]
+    },
+    {
+        "Name": "Non-Microsoft Application Software",
+        "Description": "OS Recovery",
+        "ProductCode": "WIN7",
+        "Skus": [
+        "340-ADFZ",
+        "340-AUSB",
+        "422-0007",
+        "422-0052",
+        "637-AAAS",
+        "640-BBDF",
+        "640-BBEV",
+        "640-BBLW",
+        "658-BBMR",
+        "658-BBNF"
+        ]
+    },
+    {
+        "Name": "Service",
+        "Description": "3 Year Hardware Service with In-Home/Onsite Service After Remote Diagnosis",
+        "ProductCode": "NBD3",
+        "Skus": [
+        "804-2237",
+        "804-2238"
+        ]
+    },
+    {
+        "Name": "Mouse",
+        "Description": "No Mouse Selected",
+        "ProductCode": "NOMSE",
+        "Skus": [
+        "570-AADK"
+        ]
+    },
+    {
+        "Name": "Accessories",
+        "Description": "Dell Docking Spacer for E7x40",
+        "ProductCode": "SPACER",
+        "Skus": [
+        "452-BBDB"
+        ]
+    }
+    ],
+    "ShowComponents": true,
+    "Alerts": [],
+    "EvergreenMessages": [],
+    "HasBundledItems": false,
+    "BundledItems": [],
+    "IsBundledItem": false,
+    "IsFastTrack": false,
+    "Metadata": {
+        "itemType": "ConfigItem",
+        "brand": 3,
+        "family": 11628
+    },
+    "DeliveryMessageOverride": "Ships in 4-6 business days",
+    "HasDeliveryMessageOverride": true,
+    "StopSelling": false,
+    "IsStockItem": false,
+    "SubTotalAmountValue": 1541.43,
+    "ConfigurationIdentifier": "1~cto01le747014us~04~en~us~1__572;FG0040;1"
+},
+{
+    "Id": "572dba80-64a1-417a-9a8c-8e24290b6273",
+    "IdWithoutSpecialCharacters": "572dba8064a1417a9a8c8e24290b6273",
+    "ProductId": "s001uble557015us",
+    "Description": "New Latitude 15 5000 Series (E5570)",
+    "ShowProductStackDescription": false,
+    "IsValid": true,
+    "LeadTimeInfo": {
+        "EstimatedShipDate": "6/6/2016",
+        "ShowEstimatedShipDate": true,
+        "ShowEstimatedDeliveryDate": false,
+        "HasValidEstimatedDeliveryDate": false,
+        "CanCalculateEstimatedDeliveryDate": true
+    },
+    "IsSavedCartItem": false,
+    "SubTotalAmount": "$1,212.86",
+    "DiscountsAndCouponsAmount": "-$463.86",
+    "DiscountsAndCouponsAmountValue": 463.86,
+    "DiscountsAndCoupons": [
+    {
+        "CampaignId": 601904,
+        "Amount": "-$463.86",
+        "ShortDescription": "Save 38% on select Latitude E5570 Series Business PCs!",
+        "LongDescription": "Save 38% on select Latitude E5570 Series Business PCs!",
+        "LegalDescription": "",
+        "ExpiryDate": "6/5/2017",
+        "HasExpiryDate": true,
+        "HasExpiryTextOverride": false,
+        "AllowRemove": false,
+        "ShowAmount": true
+    }
+    ],
+    "ShowDiscountsAndCoupons": true,
+    "DiscountsPopupTitle": "Additional Discounts & Coupons",
+    "TotalAmount": "$749.00",
+    "TotalAmountWithSubItems": "$749.00",
+    "TotalAmountWithSubItemsValue": 749,
+    "Quantity": 1,
+    "QuantityWithSubItems": 1,
+    "AllowChangeQuantity": true,
+    "IsAssociatedItem": false,
+    "ImageUrl": "https://si.cdn.dell.com/images/global/configurator/chassis/lat-15-e5570-nt-bk-ft-120x107.jpg",
+    "UnitPriceAmount": "$1,212.86",
+    "ShowManufacturerPartNumber": false,
+    "ShowDellPartNumber": false,
+    "ShowCatalogNumber": true,
+    "CatalogNumber": "4 s001uble557015us",
+    "Components": [
+    {
+        "Name": "Dell Latitude E5570",
+        "Description": "Dell Latitude E5570, BTX",
+        "ProductCode": "5570X",
+        "Skus": [
+        "210-AENT"
+        ]
+    },
+    {
+        "Name": "Processor",
+        "Description": "Intel� Core� i5-6200U (Dual Core, 2.3GHz, 3M cache, 15W)",
+        "ProductCode": "I56200",
+        "Skus": [
+        "379-BCFW"
+        ]
+    },
+    {
+        "Name": "Graphics",
+        "Description": "Intel� HD Graphics 520, for I5-6200U (non-Vpro)",
+        "ProductCode": "UUI5",
+        "Skus": [
+        "338-BHLM"
+        ]
+    },
+    {
+        "Name": "Processor Branding",
+        "Description": "LABEL,INTELL,CI5,6,SML",
+        "ProductCode": "CI5SML",
+        "Skus": [
+        "389-BHIB"
+        ]
+    },
+    {
+        "Name": "Operating System",
+        "Description": "Windows 7 Professional English, French, Spanish 64bit (Includes Windows 10 Pro License)",
+        "ProductCode": "DW10P7M",
+        "Skus": [
+        "619-AIKP"
+        ]
+    },
+    {
+        "Name": "Microsoft Application Software",
+        "Description": "Microsoft Office 30 Day Trial",
+        "ProductCode": "16MUI",
+        "Skus": [
+        "658-BCSB"
+        ]
+    },
+    {
+        "Name": "Non-Microsoft Application Software",
+        "Description": "OS Recovery",
+        "ProductCode": "WIN7",
+        "Skus": [
+        "340-ADFZ",
+        "340-AQCS",
+        "422-0007",
+        "422-0052",
+        "637-AAAS",
+        "640-BBDF",
+        "640-BBEV",
+        "640-BBLW",
+        "658-BBMR",
+        "658-BBNF"
+        ]
+    },
+    {
+        "Name": "Dell Data Protection Solutions",
+        "Description": "DDPE Personal Edition License + ProSupport for Software 1 Year",
+        "ProductCode": "PDPE1Y",
+        "Skus": [
+        "421-9984",
+        "954-3455"
+        ]
+    },
+    {
+        "Name": "Dell Threat Protection and Endpoint Security Suite",
+        "Description": "No Dell Data Protection | Endpoint Security Suite Software",
+        "ProductCode": "NODDP",
+        "Skus": [
+        "634-BENZ"
+        ]
+    },
+    {
+        "Name": "LCD",
+        "Description": "15.6\" HD (1366 x 768) Anti Glare LCD, Camera and Microphone, WWAN Capable",
+        "ProductCode": "LNCHWW",
+        "Skus": [
+        "320-BBPU",
+        "391-BCDK"
+        ]
+    },
+    {
+        "Name": "Memory",
+        "Description": "4GB (1x4GB) 2133MHz DDR4 Memory",
+        "ProductCode": "4G1D4",
+        "Skus": [
+        "370-ACDC"
+        ]
+    },
+    {
+        "Name": "Hard Drive",
+        "Description": "500GB 7mm 7.2krpm HD",
+        "ProductCode": "500GB",
+        "Skus": [
+        "400-AIIU",
+        "575-BBFI"
+        ]
+    },
+    {
+        "Name": "Intel Rapid Start and Smart Connect",
+        "Description": "Intel Rapid Storage Technology",
+        "ProductCode": "IRST",
+        "Skus": [
+        "409-BBFX"
+        ]
+    },
+    {
+        "Name": "Wireless",
+        "Description": "Intel� Dual-Band Wireless-AC 8260 Wi-Fi + BT 4.1 Wireless Card (2x2)",
+        "ProductCode": "8260AC",
+        "Skus": [
+        "555-BCMT"
+        ]
+    },
+    {
+        "Name": "Driver",
+        "Description": "Intel� Dual-Band Wireless-AC 8260 Wi-Fi + BT 4.1 Wireless Driver (2x2)",
+        "ProductCode": "W8260",
+        "Skus": [
+        "555-BCNB"
+        ]
+    },
+    {
+        "Name": "Mobile Broadband",
+        "Description": "No Wireless WAN Card",
+        "ProductCode": "NOWW",
+        "Skus": [
+        "362-BBBB"
+        ]
+    },
+    {
+        "Name": "Keyboard",
+        "Description": "Internal Dual Pointing Backlit Keyboard, English",
+        "ProductCode": "KIBDENG",
+        "Skus": [
+        "580-ACLF",
+        "583-BCTJ"
+        ]
+    },
+    {
+        "Name": "PalmRest",
+        "Description": "Dual Pointing palmrest without Smart Card",
+        "ProductCode": "DPRNSC",
+        "Skus": [
+        "346-BBRS"
+        ]
+    },
+    {
+        "Name": "Adapter",
+        "Description": "65 Watt AC Adaptor",
+        "ProductCode": "65W3P",
+        "Skus": [
+        "450-AAYT"
+        ]
+    },
+    {
+        "Name": "Cable",
+        "Description": "Power Cord, US",
+        "ProductCode": "PWRUS",
+        "Skus": [
+        "450-AAEJ"
+        ]
+    },
+    {
+        "Name": "Dell Battery",
+        "Description": "Primary 4-cell 62W/HR Battery",
+        "ProductCode": "4C",
+        "Skus": [
+        "451-BBPV"
+        ]
+    },
+    {
+        "Name": "Docking Stations",
+        "Description": "No Docking Station",
+        "ProductCode": "NONE",
+        "Skus": [
+        "452-BBSE"
+        ]
+    },
+    {
+        "Name": "Carrying Cases",
+        "Description": "No Carrying Case",
+        "ProductCode": "NONE",
+        "Skus": [
+        "460-BBEX"
+        ]
+    },
+    {
+        "Name": "Systems Management",
+        "Description": "No Out-of-Band Systems Management",
+        "ProductCode": "NOVPRO",
+        "Skus": [
+        "631-AARP"
+        ]
+    },
+    {
+        "Name": "Operating System Recovery Options",
+        "Description": "Windows 10 OS Recovery 64bit - DVD",
+        "ProductCode": "M10PD6M",
+        "Skus": [
+        "620-AAYW"
+        ]
+    },
+    {
+        "Name": "Documentation/Disks",
+        "Description": "Safety/Environment and Regulatory Guide (English/French Multi-language)",
+        "ProductCode": "EFDOC",
+        "Skus": [
+        "340-AGIK"
+        ]
+    },
+    {
+        "Name": "Placemat",
+        "Description": "Quick Reference Guide",
+        "ProductCode": "PLCMT",
+        "Skus": [
+        "340-ARKU"
+        ]
+    },
+    {
+        "Name": "Diagnostic CD / Diskette",
+        "Description": "No Resource DVD",
+        "ProductCode": "NRDVD",
+        "Skus": [
+        "430-XXYG"
+        ]
+    },
+    {
+        "Name": "TAA",
+        "Description": "No TAA",
+        "ProductCode": "NOTAA",
+        "Skus": [
+        "340-ACQQ"
+        ]
+    },
+    {
+        "Name": "Energy Efficient Option",
+        "Description": "ESTAR 6.1",
+        "ProductCode": "ESTAR",
+        "Skus": [
+        "387-BBKF"
+        ]
+    },
+    {
+        "Name": "Label",
+        "Description": "Regulatory Label Included",
+        "ProductCode": "REG",
+        "Skus": [
+        "389-BEYY"
+        ]
+    },
+    {
+        "Name": "Support Tech Sheet and Powercord",
+        "Description": "POD Label",
+        "ProductCode": "POD",
+        "Skus": [
+        "389-BCDK"
+        ]
+    },
+    {
+        "Name": "Canada Ship Options",
+        "Description": "US No Canada Ship Charge",
+        "ProductCode": "USNONE",
+        "Skus": [
+        "332-1286"
+        ]
+    },
+    {
+        "Name": "Packaging",
+        "Description": "Smart Select MIN SHIP (DAO/LATAM)",
+        "ProductCode": "SHPMN",
+        "Skus": [
+        "340-AAPP",
+        "340-AQJX"
+        ]
+    },
+    {
+        "Name": "Transportation from ODM to region",
+        "Description": "BTS Shipment",
+        "ProductCode": "BTS",
+        "Skus": [
+        "800-BBGG"
+        ]
+    },
+    {
+        "Name": "FGA Module",
+        "Description": "E5570_2H16_001/US/BTS",
+        "ProductCode": "FG0060",
+        "Skus": [
+        "998-BWLD"
+        ]
+    },
+    {
+        "Name": "Hardware Support Services",
+        "Description": "1 Year Hardware Service with In-Home/Onsite Service After Remote Diagnosis",
+        "ProductCode": "NBD1",
+        "Skus": [
+        "997-8317",
+        "997-8328"
+        ]
+    },
+    {
+        "Name": "All in one Solution",
+        "Description": "No Stand",
+        "ProductCode": "NOSTND",
+        "Skus": [
+        "575-BBCH"
+        ]
+    },
+    {
+        "Name": "Mouse",
+        "Description": "No Mouse Selected",
+        "ProductCode": "NOMSE",
+        "Skus": [
+        "570-AADK"
+        ]
+    },
+    {
+        "Name": "Accessories",
+        "Description": "Dell Docking Spacer",
+        "ProductCode": "SPACER",
+        "Skus": [
+        "452-BBDB"
+        ]
+    }
+    ],
+    "ShowComponents": true,
+    "Alerts": [],
+    "EvergreenMessages": [],
+    "HasBundledItems": false,
+    "BundledItems": [],
+    "IsBundledItem": false,
+    "IsFastTrack": true,
+    "Metadata": {
+        "itemType": "ConfigItem",
+        "brand": 3,
+        "family": 11548
+    },
+    "HasDeliveryMessageOverride": false,
+    "StopSelling": false,
+    "IsStockItem": true,
+    "SubTotalAmountValue": 1212.86,
+    "ConfigurationIdentifier": "1~s001uble557015us~04~en~us~1__572;FG0060;1"
+},
+{
+    "Id": "54365fe3-8d9e-47a4-9cee-73592a16349f",
+    "IdWithoutSpecialCharacters": "54365fe38d9e47a49cee73592a16349f",
+    "ProductId": "cto01al356015us",
+    "Description": "New Latitude 15 3000 Series",
+    "ShowProductStackDescription": false,
+    "IsValid": true,
+    "LeadTimeInfo": {
+        "EstimatedShipDate": "6/14/2016",
+        "ShowEstimatedShipDate": true,
+        "ShowEstimatedDeliveryDate": false,
+        "HasValidEstimatedDeliveryDate": false,
+        "CanCalculateEstimatedDeliveryDate": true
+    },
+    "IsSavedCartItem": false,
+    "SubTotalAmount": "$658.43",
+    "DiscountsAndCouponsAmount": "-$197.53",
+    "DiscountsAndCouponsAmountValue": 197.53,
+    "DiscountsAndCoupons": [
+    {
+        "CampaignId": 534489,
+        "Amount": "-$197.53",
+        "ShortDescription": "Save 30% on select New Latitude 14 3000 Series Business PCs!",
+        "LongDescription": "Save 30% on select New Latitude 14 3000 Series Business PCs!",
+        "LegalDescription": "",
+        "ExpiryDate": "12/6/2016",
+        "HasExpiryDate": true,
+        "HasExpiryTextOverride": false,
+        "AllowRemove": false,
+        "ShowAmount": true
+    }
+    ],
+    "ShowDiscountsAndCoupons": true,
+    "DiscountsPopupTitle": "Additional Discounts & Coupons",
+    "TotalAmount": "$460.90",
+    "TotalAmountWithSubItems": "$460.90",
+    "TotalAmountWithSubItemsValue": 460.9,
+    "Quantity": 1,
+    "QuantityWithSubItems": 1,
+    "AllowChangeQuantity": true,
+    "IsAssociatedItem": false,
+    "ImageUrl": "https://si.cdn.dell.com/images/global/configurator/chassis/lat-15-3560-nt-bk-ft-120x107.jpg",
+    "UnitPriceAmount": "$658.43",
+    "ShowManufacturerPartNumber": false,
+    "ShowDellPartNumber": false,
+    "ShowCatalogNumber": true,
+    "CatalogNumber": "4 cto01al356015us",
+    "Components": [
+    {
+        "Name": "Base",
+        "Description": "Dell Latitude 3560 CTO",
+        "ProductCode": "3560T",
+        "Skus": [
+        "210-AEXE"
+        ]
+    },
+    {
+        "Name": "Processor",
+        "Description": "Intel� Celeron 3215U (Dual Core, 1.5GHz, 2M cache, 15W)",
+        "ProductCode": "C3215",
+        "Skus": [
+        "379-BCGG"
+        ]
+    },
+    {
+        "Name": "Operating System",
+        "Description": "Windows 10 Home 64bit English, French, Spanish",
+        "ProductCode": "10H64M",
+        "Skus": [
+        "619-AHHY"
+        ]
+    },
+    {
+        "Name": "System Configuration",
+        "Description": "Intel Celeron 3215U Processor with Intel Integrated HD Graphics",
+        "ProductCode": "CELUMA",
+        "Skus": [
+        "338-BHKM"
+        ]
+    },
+    {
+        "Name": "Microsoft Application Software",
+        "Description": "Microsoft Office 30 Day Trial",
+        "ProductCode": "16MUI",
+        "Skus": [
+        "658-BCSB"
+        ]
+    },
+    {
+        "Name": "Non-Microsoft Application Software",
+        "Description": "Additional Software 10",
+        "ProductCode": "WIN10",
+        "Skus": [
+        "340-ADFZ",
+        "340-AJFC",
+        "422-0007",
+        "525-BBCL",
+        "640-BBLW",
+        "658-BBMR",
+        "658-BBNF",
+        "658-BCTY",
+        "658-BCUV"
+        ]
+    },
+    {
+        "Name": "Keyboard",
+        "Description": "Internal Single Pointing Keyboard, English",
+        "ProductCode": "ENGKBD",
+        "Skus": [
+        "580-ACJB"
+        ]
+    },
+    {
+        "Name": "Dell Threat Protection and Endpoint Security Suite",
+        "Description": "No Dell Data Protection | Endpoint Security Suite Software",
+        "ProductCode": "NODDP",
+        "Skus": [
+        "634-BENZ"
+        ]
+    },
+    {
+        "Name": "Dell Data Protection Solutions",
+        "Description": "No DDPE Encryption Software",
+        "ProductCode": "NODDPE",
+        "Skus": [
+        "954-3465"
+        ]
+    },
+    {
+        "Name": "LCD",
+        "Description": "15.6� HD (1366 x 768) Anti Glare (16:9) WLED",
+        "ProductCode": "NTHD",
+        "Skus": [
+        "320-BBQM",
+        "391-BCES"
+        ]
+    },
+    {
+        "Name": "Hard Drive",
+        "Description": "500GB 7200RPM Hard Disk Drive",
+        "ProductCode": "500GB",
+        "Skus": [
+        "400-AIIU"
+        ]
+    },
+    {
+        "Name": "Memory",
+        "Description": "4GB (1x4GB) 1600MHz DDR3L Memory",
+        "ProductCode": "4G1D3",
+        "Skus": [
+        "370-AAQI"
+        ]
+    },
+    {
+        "Name": "Wireless",
+        "Description": "Intel� 3165 Dual Band 802.11 AC with BT 4.0 Wireless Card (1x1)",
+        "ProductCode": "3165AC",
+        "Skus": [
+        "555-BCMS"
+        ]
+    },
+    {
+        "Name": "Driver",
+        "Description": "Intel 3165 Dual Band 802.11 AC with BT 4.0 Wireless Driver (1x1)",
+        "ProductCode": "W7231",
+        "Skus": [
+        "555-BCOI"
+        ]
+    },
+    {
+        "Name": "Processor Branding",
+        "Description": "Intel� Celeron� Label",
+        "ProductCode": "CEL",
+        "Skus": [
+        "340-AQVB"
+        ]
+    },
+    {
+        "Name": "Video Card",
+        "Description": "Intel� HD Graphics GT2",
+        "ProductCode": "UMA",
+        "Skus": [
+        "490-BCOV"
+        ]
+    },
+    {
+        "Name": "PalmRest",
+        "Description": "No Fingerprint Reader",
+        "ProductCode": "NFPR",
+        "Skus": [
+        "346-BBSC"
+        ]
+    },
+    {
+        "Name": "Power Supply",
+        "Description": "65W AC Adapter, 3-pin",
+        "ProductCode": "65W",
+        "Skus": [
+        "492-BBDD"
+        ]
+    },
+    {
+        "Name": "Cable",
+        "Description": "US Power Cord",
+        "ProductCode": "US125V",
+        "Skus": [
+        "537-BBBL"
+        ]
+    },
+    {
+        "Name": "Primary Battery",
+        "Description": "40 Whr 4-cell Li-Ion (Cylindrical) with ExpressCharge�",
+        "ProductCode": "4C",
+        "Skus": [
+        "451-BBPR"
+        ]
+    },
+    {
+        "Name": "Camera Software",
+        "Description": "No Camera Software Selected",
+        "ProductCode": "NOCMRA",
+        "Skus": [
+        "319-BBBK"
+        ]
+    },
+    {
+        "Name": "Docking Solutions",
+        "Description": "No Docking Station",
+        "ProductCode": "NONE",
+        "Skus": [
+        "452-BBSE"
+        ]
+    },
+    {
+        "Name": "Carrying Cases",
+        "Description": "No Carrying Case",
+        "ProductCode": "NONE",
+        "Skus": [
+        "460-BBEX"
+        ]
+    },
+    {
+        "Name": "Operating System Recovery Options",
+        "Description": "Windows 10 OS Recovery 64bit - USB",
+        "ProductCode": "M10U6M",
+        "Skus": [
+        "620-AAYY"
+        ]
+    },
+    {
+        "Name": "Documentation/Disks",
+        "Description": "Safety/Environment and Regulatory Guide (English/French Multi-language)",
+        "ProductCode": "EFDOC",
+        "Skus": [
+        "340-AGIK",
+        "640-BBJB"
+        ]
+    },
+    {
+        "Name": "Placemat",
+        "Description": "Quick Reference Guide for Windows 10",
+        "ProductCode": "PLMTW10",
+        "Skus": [
+        "340-ASJN"
+        ]
+    },
+    {
+        "Name": "Diagnostic CD / Diskette",
+        "Description": "No Resource DVD",
+        "ProductCode": "NRDVD",
+        "Skus": [
+        "430-XXYG"
+        ]
+    },
+    {
+        "Name": "TAA",
+        "Description": "No TAA",
+        "ProductCode": "NOTAA",
+        "Skus": [
+        "340-ACQQ"
+        ]
+    },
+    {
+        "Name": "E-Star",
+        "Description": "Energy Star 6.0",
+        "ProductCode": "ESTAR",
+        "Skus": [
+        "387-BBKC"
+        ]
+    },
+    {
+        "Name": "Label",
+        "Description": "Regulatory Label Included",
+        "ProductCode": "REG",
+        "Skus": [
+        "389-BEYY"
+        ]
+    },
+    {
+        "Name": "UPC Label",
+        "Description": "No UPC Label",
+        "ProductCode": "NOUPC",
+        "Skus": [
+        "389-BCGW"
+        ]
+    },
+    {
+        "Name": "Canada Ship Options",
+        "Description": "US No Canada Ship Charge",
+        "ProductCode": "USNONE",
+        "Skus": [
+        "332-1286"
+        ]
+    },
+    {
+        "Name": "Packaging",
+        "Description": "Mixed Model Shipping Material",
+        "ProductCode": "SHPMX",
+        "Skus": [
+        "340-AASO",
+        "340-AQMG"
+        ]
+    },
+    {
+        "Name": "Transportation from ODM to region",
+        "Description": "BTO Standard Shipment",
+        "ProductCode": "STND",
+        "Skus": [
+        "800-BBGS"
+        ]
+    },
+    {
+        "Name": "Pricing Information",
+        "Description": "Flex 1",
+        "ProductCode": "FLEX 1",
+        "Skus": [
+        "610-BBRC"
+        ]
+    },
+    {
+        "Name": "FGA Module",
+        "Description": "Generic FHC/BTO",
+        "ProductCode": "FG0018",
+        "Skus": [
+        "998-BRVN"
+        ]
+    },
+    {
+        "Name": "Hardware Support Services",
+        "Description": "1 Year Hardware Service with In-Home/Onsite Service After Remote Diagnosis",
+        "ProductCode": "NBD1",
+        "Skus": [
+        "997-6727",
+        "997-6735"
+        ]
+    },
+    {
+        "Name": "Mouse",
+        "Description": "No Mouse Selected",
+        "ProductCode": "NOMSE",
+        "Skus": [
+        "570-AADK"
+        ]
+    }
+    ],
+    "ShowComponents": true,
+    "Alerts": [],
+    "EvergreenMessages": [],
+    "HasBundledItems": false,
+    "BundledItems": [],
+    "IsBundledItem": false,
+    "IsFastTrack": false,
+    "Metadata": {
+        "itemType": "ConfigItem",
+        "brand": 3,
+        "family": 11658
+    },
+    "DeliveryMessageOverride": "Ships in 6-8 business days",
+    "HasDeliveryMessageOverride": true,
+    "StopSelling": false,
+    "IsStockItem": false,
+    "SubTotalAmountValue": 658.43,
+    "ConfigurationIdentifier": "1~cto01al356015us~04~en~us~1__572;FG0018;1"
+},
+{
+    "Id": "08846eea-c191-4520-9659-243637308626",
+    "IdWithoutSpecialCharacters": "08846eeac19145209659243637308626",
+    "ProductId": "ctov355815010rus",
+    "Description": "Vostro 15 3000 Series",
+    "ShowProductStackDescription": false,
+    "IsValid": true,
+    "LeadTimeInfo": {
+        "EstimatedShipDate": "6/14/2016",
+        "ShowEstimatedShipDate": true,
+        "ShowEstimatedDeliveryDate": false,
+        "HasValidEstimatedDeliveryDate": false,
+        "CanCalculateEstimatedDeliveryDate": true
+    },
+    "IsSavedCartItem": false,
+    "SubTotalAmount": "$498.57",
+    "DiscountsAndCouponsAmount": "-$149.57",
+    "DiscountsAndCouponsAmountValue": 149.57,
+    "DiscountsAndCoupons": [
+    {
+        "CampaignId": 560426,
+        "Amount": "-$149.57",
+        "ShortDescription": "Save 30% on select Vostro 3558 notebooks through Dell Small Business!",
+        "LongDescription": "Save 30% on select Vostro 3558 notebooks through Dell Small Business!",
+        "LegalDescription": "",
+        "ExpiryDate": "2/8/2017",
+        "HasExpiryDate": true,
+        "HasExpiryTextOverride": false,
+        "AllowRemove": false,
+        "ShowAmount": true
+    }
+    ],
+    "ShowDiscountsAndCoupons": true,
+    "DiscountsPopupTitle": "Additional Discounts & Coupons",
+    "TotalAmount": "$349.00",
+    "TotalAmountWithSubItems": "$349.00",
+    "TotalAmountWithSubItemsValue": 349,
+    "Quantity": 1,
+    "QuantityWithSubItems": 1,
+    "AllowChangeQuantity": true,
+    "IsAssociatedItem": false,
+    "ImageUrl": "https://si.cdn.dell.com/images/global/configurator/chassis/vostro-15-3558-blk-ft-120x107.jpg",
+    "UnitPriceAmount": "$498.57",
+    "ShowManufacturerPartNumber": false,
+    "ShowDellPartNumber": false,
+    "ShowCatalogNumber": true,
+    "CatalogNumber": "4 ctov355815010rus",
+    "Components": [
+    {
+        "Name": "Processor",
+        "Description": "Intel� Celeron� 3215U Processor (2M Cache, 1.70 GHz)",
+        "ProductCode": "CT36F7",
+        "Skus": [
+        "338-BIMV"
+        ]
+    },
+    {
+        "Name": "Operating System",
+        "Description": "Windows 10 Home 64bit English, French, Spanish",
+        "ProductCode": "10H64M",
+        "Skus": [
+        "619-AHHY"
+        ]
+    },
+    {
+        "Name": "Office Productivity Software",
+        "Description": "Microsoft Office 30 Day Trial",
+        "ProductCode": "16MUI",
+        "Skus": [
+        "658-BCSB"
+        ]
+    },
+    {
+        "Name": "Memory",
+        "Description": "4GB Single Channel DDR3 1600MHz (4GBx1)",
+        "ProductCode": "4GB1D",
+        "Skus": [
+        "370-AAWY"
+        ]
+    },
+    {
+        "Name": "Security Software",
+        "Description": "McAfee Security Center 12 month Subscription",
+        "ProductCode": "MSBC12M",
+        "Skus": [
+        "525-0013"
+        ]
+    },
+    {
+        "Name": "Operating System Recovery Options",
+        "Description": "Windows 10 OS Recovery 64bit - DVD",
+        "ProductCode": "M10D6M",
+        "Skus": [
+        "620-AAZE"
+        ]
+    },
+    {
+        "Name": "Driver",
+        "Description": "Driver for Dell Wireless 3160",
+        "ProductCode": "3160DR",
+        "Skus": [
+        "555-BCJY"
+        ]
+    },
+    {
+        "Name": "Dell Vostro 3558",
+        "Description": "Dell Vostro 3558 BTX",
+        "ProductCode": "3558X",
+        "Skus": [
+        "210-AEHO"
+        ]
+    },
+    {
+        "Name": "Keyboard",
+        "Description": "Standard Keyboard,English",
+        "ProductCode": "ENGKBD",
+        "Skus": [
+        "583-BCCZ"
+        ]
+    },
+    {
+        "Name": "Video Card",
+        "Description": "Intel� HD Graphics 4400",
+        "ProductCode": "UMA",
+        "Skus": [
+        "490-BBMU"
+        ]
+    },
+    {
+        "Name": "Hard Drive",
+        "Description": "500GB 5400 rpm Hard Drive",
+        "ProductCode": "500G5K",
+        "Skus": [
+        "400-AAYY"
+        ]
+    },
+    {
+        "Name": "Wireless",
+        "Description": "802.11ac + Bluetooth 4.0, Dual Band 2.4&5 GHz, 1x1",
+        "ProductCode": "3160",
+        "Skus": [
+        "555-BCIY"
+        ]
+    },
+    {
+        "Name": "Documentation/Disks",
+        "Description": "Safety/Environment and Regulatory Guide (English/French Multi-language)",
+        "ProductCode": "EFDOC",
+        "Skus": [
+        "340-AGIK"
+        ]
+    },
+    {
+        "Name": "CD ROM/DVD ROM",
+        "Description": "Tray load DVD Drive (Reads and Writes to DVD/CD)",
+        "ProductCode": "8DVDRW",
+        "Skus": [
+        "429-AAJV"
+        ]
+    },
+    {
+        "Name": "Optical Software",
+        "Description": "Cyberlink Media Suite Essentials for Windows 8.1 and DVD Drive (without Media)",
+        "ProductCode": "CW8DN",
+        "Skus": [
+        "658-BBTV"
+        ]
+    },
+    {
+        "Name": "Power Supply",
+        "Description": "45W AC Adapter, 3Pin",
+        "ProductCode": "45WTAC",
+        "Skus": [
+        "450-AEHK"
+        ]
+    },
+    {
+        "Name": "FGA Module",
+        "Description": "VAN15BDW1701_010_R/US/CA/BTO",
+        "ProductCode": "FG0023",
+        "Skus": [
+        "998-BTYQ"
+        ]
+    },
+    {
+        "Name": "Primary Battery",
+        "Description": "40 WHr, 4-Cell Battery (integrated)",
+        "ProductCode": "4CBATT",
+        "Skus": [
+        "451-BBMG"
+        ]
+    },
+    {
+        "Name": "LCD",
+        "Description": "15.6� HD Wide Screen LED Anti-Glare Display (1366x768) 720p",
+        "ProductCode": "15HDNT",
+        "Skus": [
+        "391-BBZY"
+        ]
+    },
+    {
+        "Name": "Cable",
+        "Description": "US Power Cord",
+        "ProductCode": "US125V",
+        "Skus": [
+        "537-BBBL"
+        ]
+    },
+    {
+        "Name": "Placemat",
+        "Description": "MOD,PLCMT,VOS,W10,3558/59,D/BC",
+        "ProductCode": "PLCMT10",
+        "Skus": [
+        "340-ATWV"
+        ]
+    },
+    {
+        "Name": "Support Tech Sheet and Powercord",
+        "Description": "No UPC",
+        "ProductCode": "NOUPC",
+        "Skus": [
+        "389-BDCE"
+        ]
+    },
+    {
+        "Name": "Color Choice",
+        "Description": "Black LCD cover(integrated Widescreen HD 720P Webcam with Dual digital microphone array)",
+        "ProductCode": "BLCD",
+        "Skus": [
+        "320-BBPG"
+        ]
+    },
+    {
+        "Name": "Retail Information",
+        "Description": "No Retail Software Required",
+        "ProductCode": "NORTLSW",
+        "Skus": [
+        "817-BBBP"
+        ]
+    },
+    {
+        "Name": "Processor Branding",
+        "Description": "Intel� Celeron� Label",
+        "ProductCode": "INCLBL",
+        "Skus": [
+        "338-BDXI"
+        ]
+    },
+    {
+        "Name": "Non-Microsoft Application Software",
+        "Description": "Windows 10 OS",
+        "ProductCode": "WIN10",
+        "Skus": [
+        "340-AJFC",
+        "340-AJFD",
+        "340-AOEY",
+        "525-BBCL",
+        "640-BBLW",
+        "658-BCVR"
+        ]
+    },
+    {
+        "Name": "Packaging",
+        "Description": "Shipment box",
+        "ProductCode": "SHP",
+        "Skus": [
+        "328-BCCD",
+        "340-AAPP"
+        ]
+    },
+    {
+        "Name": "Regulatory Label",
+        "Description": "Regulatory Label Included",
+        "ProductCode": "REGUMA",
+        "Skus": [
+        "340-APCH",
+        "340-APJM"
+        ]
+    },
+    {
+        "Name": "OS Label",
+        "Description": "No Palmrest Label",
+        "ProductCode": "NOLBL",
+        "Skus": [
+        "340-ACUG"
+        ]
+    },
+    {
+        "Name": "Order Information",
+        "Description": "Non-Canada orders only",
+        "ProductCode": "USNONE",
+        "Skus": [
+        "332-1286"
+        ]
+    },
+    {
+        "Name": "Service",
+        "Description": "1 Year Hardware Service with In-Home/Onsite Service After Remote Diagnosis",
+        "ProductCode": "NBD1",
+        "Skus": [
+        "802-7114",
+        "975-9426"
+        ]
+    },
+    {
+        "Name": "E-Star",
+        "Description": "Energy Star Label (on shipment box)",
+        "ProductCode": "ESTAR",
+        "Skus": [
+        "340-AAPZ"
+        ]
+    },
+    {
+        "Name": "Transportation from ODM to region",
+        "Description": "Standard Shipment",
+        "ProductCode": "STND",
+        "Skus": [
+        "800-BBGS"
+        ]
+    }
+    ],
+    "ShowComponents": true,
+    "Alerts": [],
+    "EvergreenMessages": [],
+    "HasBundledItems": false,
+    "BundledItems": [],
+    "IsBundledItem": false,
+    "IsFastTrack": false,
+    "Metadata": {
+        "itemType": "ConfigItem",
+        "brand": 36,
+        "family": 11451
+    },
+    "DeliveryMessageOverride": "Ships in 5-7 business days",
+    "HasDeliveryMessageOverride": true,
+    "StopSelling": false,
+    "IsStockItem": false,
+    "SubTotalAmountValue": 498.57,
+    "ConfigurationIdentifier": "1~ctov355815010rus~04~en~us~1__749;INCLBL;1"
+},
+{
+    "Id": "6ce5bff2-d992-47c3-9844-f9b08dfeabea",
+    "IdWithoutSpecialCharacters": "6ce5bff2d99247c39844f9b08dfeabea",
+    "ProductId": "xctomp751015us",
+    "Description": "Precision 15 7000 Series (7510)",
+    "ShowProductStackDescription": false,
+    "IsValid": true,
+    "LeadTimeInfo": {
+        "EstimatedShipDate": "6/14/2016",
+        "ShowEstimatedShipDate": true,
+        "ShowEstimatedDeliveryDate": false,
+        "HasValidEstimatedDeliveryDate": false,
+        "CanCalculateEstimatedDeliveryDate": true
+    },
+    "IsSavedCartItem": false,
+    "SubTotalAmount": "$1,712.86",
+    "DiscountsAndCouponsAmount": "-$633.86",
+    "DiscountsAndCouponsAmountValue": 633.86,
+    "DiscountsAndCoupons": [
+    {
+        "CampaignId": 512365,
+        "Amount": "-$633.86",
+        "ShortDescription": "Save 37% on Select New Dell Precision 15 7000 Series  through Dell Small Business!",
+        "LongDescription": "Save 37% on Select New Dell Precision 15 7000 Series  through Dell Small Business!",
+        "LegalDescription": "",
+        "ExpiryDate": "5/30/2017",
+        "HasExpiryDate": true,
+        "HasExpiryTextOverride": false,
+        "AllowRemove": false,
+        "ShowAmount": true
+    }
+    ],
+    "ShowDiscountsAndCoupons": true,
+    "DiscountsPopupTitle": "Additional Discounts & Coupons",
+    "TotalAmount": "$1,079.00",
+    "TotalAmountWithSubItems": "$1,079.00",
+    "TotalAmountWithSubItemsValue": 1079,
+    "Quantity": 1,
+    "QuantityWithSubItems": 1,
+    "AllowChangeQuantity": true,
+    "IsAssociatedItem": false,
+    "ImageUrl": "https://si.cdn.dell.com/images/global/configurator/chassis/precn-7510-nt-bk-ft-120x107.jpg",
+    "UnitPriceAmount": "$1,712.86",
+    "ShowManufacturerPartNumber": false,
+    "ShowDellPartNumber": false,
+    "ShowCatalogNumber": true,
+    "CatalogNumber": "4 xctomp751015us",
+    "Components": [
+    {
+        "Name": "Mobile Precision 7510",
+        "Description": "Mobile Precision7510 XCTO BASE",
+        "ProductCode": "7510X",
+        "Skus": [
+        "210-AFXM"
+        ]
+    },
+    {
+        "Name": "Processor",
+        "Description": "Intel� Core� i5-6300HQ (Quad Core 2.30GHz, 3.20GHz Turbo, 6MB 45W, w/Intel HD Graphics 530)",
+        "ProductCode": "I56300",
+        "Skus": [
+        "379-BCDM"
+        ]
+    },
+    {
+        "Name": "Chassis Options",
+        "Description": "Intel Core i5-6300HQ with no Smart Card or Thunderbolt 3",
+        "ProductCode": "6300N",
+        "Skus": [
+        "338-BHRL"
+        ]
+    },
+    {
+        "Name": "Processor Branding",
+        "Description": "Intel Core i5 Label",
+        "ProductCode": "COREI5",
+        "Skus": [
+        "389-BHIB"
+        ]
+    },
+    {
+        "Name": "Operating System(s)",
+        "Description": "Windows 7 Professional English, French, Spanish 64bit (Includes Windows 10 Pro License)",
+        "ProductCode": "DW10P7M",
+        "Skus": [
+        "619-AIKP"
+        ]
+    },
+    {
+        "Name": "Non-Microsoft Application Software",
+        "Description": "Dell Applications Windows 7",
+        "ProductCode": "APPW7",
+        "Skus": [
+        "340-ADFZ",
+        "422-0007",
+        "422-0052",
+        "637-AAAS",
+        "640-BBDF",
+        "640-BBES",
+        "640-BBEV",
+        "640-BBLW",
+        "640-BBPN",
+        "658-BBMR",
+        "658-BBRB"
+        ]
+    },
+    {
+        "Name": "Office Productivity Software",
+        "Description": "Microsoft Office 30 Day Trial",
+        "ProductCode": "16MUI",
+        "Skus": [
+        "658-BCSB"
+        ]
+    },
+    {
+        "Name": "Video Card",
+        "Description": "AMD FirePro� W5170M w/2GB GDDR5",
+        "ProductCode": "W5170M",
+        "Skus": [
+        "490-BCPI",
+        "490-BCQI"
+        ]
+    },
+    {
+        "Name": "Energy Star",
+        "Description": "No Energy Star",
+        "ProductCode": "NOESTAR",
+        "Skus": [
+        "387-BBDO"
+        ]
+    },
+    {
+        "Name": "LCD",
+        "Description": "15.6\" FHD (1920x1080) Anti-Glare LED-backlit (45% color gamut), with microphone only",
+        "ProductCode": "FHDNM",
+        "Skus": [
+        "319-BBDT",
+        "320-BBQV",
+        "391-BCFG"
+        ]
+    },
+    {
+        "Name": "Memory",
+        "Description": "8GB (2x4GB) 2133MHz DDR4 SDRAM, Non-ECC",
+        "ProductCode": "8G2D4",
+        "Skus": [
+        "370-ACIC"
+        ]
+    },
+    {
+        "Name": "Hard Drive",
+        "Description": "500GB 2.5 inch SATA 7200 rpm Hard Drive",
+        "ProductCode": "500GB",
+        "Skus": [
+        "400-AJBM"
+        ]
+    },
+    {
+        "Name": "2nd Hard Drive",
+        "Description": "No Additional Hard Drive",
+        "ProductCode": "NOMWOP",
+        "Skus": [
+        "401-AAGM"
+        ]
+    },
+    {
+        "Name": "Raid Connectivity",
+        "Description": "NO RAID",
+        "ProductCode": "NORAID",
+        "Skus": [
+        "817-BBBN"
+        ]
+    },
+    {
+        "Name": "Wireless",
+        "Description": "Intel� Dual-Band Wireless-AC 8260 Wi-Fi with Bluetooth 4.1 Wireless Card (2x2)",
+        "ProductCode": "8260AC",
+        "Skus": [
+        "555-BCMT"
+        ]
+    },
+    {
+        "Name": "Driver",
+        "Description": "Intel� Dual-Band Wireless-AC 8260 Wi-Fi + BT 4.1 Wireless Driver (2x2)",
+        "ProductCode": "8260BT",
+        "Skus": [
+        "555-BCNN"
+        ]
+    },
+    {
+        "Name": "Mobile Broadband",
+        "Description": "No Mobile Broadband",
+        "ProductCode": "NOMBB",
+        "Skus": [
+        "556-BBDZ"
+        ]
+    },
+    {
+        "Name": "Keyboard",
+        "Description": "Internal Dual Pointing Keyboard, English",
+        "ProductCode": "KIXP6UE",
+        "Skus": [
+        "580-ACLI",
+        "580-ADWY"
+        ]
+    },
+    {
+        "Name": "Primary Battery",
+        "Description": "6-cell (72Wh) Lithium Ion battery with ExpressCharge�",
+        "ProductCode": "6C72WH",
+        "Skus": [
+        "451-BBPP"
+        ]
+    },
+    {
+        "Name": "Power Supply",
+        "Description": "180W AC Adapter",
+        "ProductCode": "180AC",
+        "Skus": [
+        "450-AATJ"
+        ]
+    },
+    {
+        "Name": "Cable",
+        "Description": "US Power Cord",
+        "ProductCode": "USPWR",
+        "Skus": [
+        "450-AAUO"
+        ]
+    },
+    {
+        "Name": "Security Options",
+        "Description": "No Security",
+        "ProductCode": "PLMNFP",
+        "Skus": [
+        "346-BBRF"
+        ]
+    },
+    {
+        "Name": "Systems Management",
+        "Description": "No Out-of-Band Systems Management",
+        "ProductCode": "NOVPRO",
+        "Skus": [
+        "631-AAQR"
+        ]
+    },
+    {
+        "Name": "Dell Threat Protection and Endpoint Security Suite",
+        "Description": "No Dell Data Protection | Endpoint Security Suite Software",
+        "ProductCode": "NODDP",
+        "Skus": [
+        "634-BENZ"
+        ]
+    },
+    {
+        "Name": "Dell Data Protection Solutions",
+        "Description": "No DDPE Encryption Software",
+        "ProductCode": "NODDPE",
+        "Skus": [
+        "954-3465"
+        ]
+    },
+    {
+        "Name": "Documentation/Disks",
+        "Description": "Safety/Environment and Regulatory Guide (English/French Multi-language)",
+        "ProductCode": "EFDOC",
+        "Skus": [
+        "340-AGIK"
+        ]
+    },
+    {
+        "Name": "Keyboard",
+        "Description": "No Keyboard Selected",
+        "ProductCode": "NKYBD",
+        "Skus": [
+        "580-AABG"
+        ]
+    },
+    {
+        "Name": "Mouse",
+        "Description": "No Mouse",
+        "ProductCode": "NOMSE",
+        "Skus": [
+        "570-AADK"
+        ]
+    },
+    {
+        "Name": "Monitor Adapters",
+        "Description": "No Accessories",
+        "ProductCode": "NOADPTR",
+        "Skus": [
+        "461-AABV"
+        ]
+    },
+    {
+        "Name": "Operating System Recovery Options",
+        "Description": "Windows 10 OS Recovery 64bit � DVD",
+        "ProductCode": "M10PD6M",
+        "Skus": [
+        "620-AAYW"
+        ]
+    },
+    {
+        "Name": "Placemat",
+        "Description": "No Quick Reference Guide",
+        "ProductCode": "NOTSH",
+        "Skus": [
+        "340-AASE"
+        ]
+    },
+    {
+        "Name": "Canada Ship Options",
+        "Description": "US No Canada Ship Charge",
+        "ProductCode": "USNONE",
+        "Skus": [
+        "332-1286"
+        ]
+    },
+    {
+        "Name": "TAA",
+        "Description": "No TAA",
+        "ProductCode": "NOTAA",
+        "Skus": [
+        "340-ACQQ"
+        ]
+    },
+    {
+        "Name": "UPC Label",
+        "Description": "No UPC Label",
+        "ProductCode": "NOUPC",
+        "Skus": [
+        "389-BDCE"
+        ]
+    },
+    {
+        "Name": "Packaging",
+        "Description": "Mix Model Shipping Material",
+        "ProductCode": "MIX",
+        "Skus": [
+        "328-BCDJ",
+        "328-BCDK",
+        "328-BCDL",
+        "328-BCDM",
+        "340-AAPP"
+        ]
+    },
+    {
+        "Name": "Label",
+        "Description": "No Reg Label",
+        "ProductCode": "NONE",
+        "Skus": [
+        "817-BBBP"
+        ]
+    },
+    {
+        "Name": "Transportation from ODM to region",
+        "Description": "Standard Shipment",
+        "ProductCode": "STND",
+        "Skus": [
+        "800-BBGF"
+        ]
+    },
+    {
+        "Name": "Service",
+        "Description": "3 Years Hardware Service with Onsite/In-Home Service After Remote Diagnosis",
+        "ProductCode": "NBD3",
+        "Skus": [
+        "997-1022",
+        "997-1023"
+        ]
+    }
+    ],
+    "ShowComponents": true,
+    "Alerts": [],
+    "EvergreenMessages": [],
+    "HasBundledItems": false,
+    "BundledItems": [],
+    "IsBundledItem": false,
+    "IsFastTrack": false,
+    "Metadata": {
+        "itemType": "ConfigItem",
+        "brand": 6,
+        "family": 11721
+    },
+    "DeliveryMessageOverride": "Ships in 5-7 business days",
+    "HasDeliveryMessageOverride": true,
+    "StopSelling": false,
+    "IsStockItem": false,
+    "SubTotalAmountValue": 1712.86,
+    "ConfigurationIdentifier": "1~xctomp751015us~04~en~us~1__7;8260BT;1"
+},
+{
+    "Id": "7405fdbb-e677-404b-8e84-288c3630ceeb",
+    "IdWithoutSpecialCharacters": "7405fdbbe677404b8e84288c3630ceeb",
+    "ProductId": "xctop551015us",
+    "Description": "Precision 15 5000 Series (5510)",
+    "ShowProductStackDescription": false,
+    "IsValid": true,
+    "LeadTimeInfo": {
+        "EstimatedShipDate": "6/14/2016",
+        "ShowEstimatedShipDate": true,
+        "ShowEstimatedDeliveryDate": false,
+        "HasValidEstimatedDeliveryDate": false,
+        "CanCalculateEstimatedDeliveryDate": true
+    },
+    "IsSavedCartItem": false,
+    "SubTotalAmount": "$1,998.57",
+    "DiscountsAndCouponsAmount": "-$749.57",
+    "DiscountsAndCouponsAmountValue": 749.57,
+    "DiscountsAndCoupons": [
+    {
+        "CampaignId": 512341,
+        "Amount": "-$749.57",
+        "ShortDescription": "Save 37% on Select New Dell Precision 15 5000 Series  through Dell Small Business!",
+        "LongDescription": "Save 37% on Select New Dell Precision 15 5000 Series  through Dell Small Business!",
+        "LegalDescription": "",
+        "ExpiryDate": "5/30/2017",
+        "HasExpiryDate": true,
+        "HasExpiryTextOverride": false,
+        "AllowRemove": false,
+        "ShowAmount": true
+    }
+    ],
+    "ShowDiscountsAndCoupons": true,
+    "DiscountsPopupTitle": "Additional Discounts & Coupons",
+    "TotalAmount": "$1,249.00",
+    "TotalAmountWithSubItems": "$1,249.00",
+    "TotalAmountWithSubItemsValue": 1249,
+    "Quantity": 1,
+    "QuantityWithSubItems": 1,
+    "AllowChangeQuantity": true,
+    "IsAssociatedItem": false,
+    "ImageUrl": "https://si.cdn.dell.com/images/global/configurator/chassis/precn-5510-nt-gray-ft-120x107.jpg",
+    "UnitPriceAmount": "$1,998.57",
+    "ShowManufacturerPartNumber": false,
+    "ShowDellPartNumber": false,
+    "ShowCatalogNumber": true,
+    "CatalogNumber": "4 xctop551015us",
+    "Components": [
+    {
+        "Name": "Dell Mobile Precision Workstations 5510",
+        "Description": "Dell Mobile Precision Workstation 5510 XCTO",
+        "ProductCode": "X5510T",
+        "Skus": [
+        "210-AGQI"
+        ]
+    },
+    {
+        "Name": "Processor",
+        "Description": "Intel� Core� i5-6300HQ (Quad Core 2.30GHz, 3.20GHz Turbo, 6MB 45W, w/Intel HD Graphics 530)",
+        "ProductCode": "I56300",
+        "Skus": [
+        "379-BCDM"
+        ]
+    },
+    {
+        "Name": "Base Options",
+        "Description": "Intel Core i5-6300HQ Processor with Nvidia Quadro M1000M Graphics w/2GB GDDR5",
+        "ProductCode": "I56300",
+        "Skus": [
+        "338-BIEY"
+        ]
+    },
+    {
+        "Name": "Processor Branding",
+        "Description": "Intel Core i5 Label",
+        "ProductCode": "CI5SML",
+        "Skus": [
+        "389-BHIB"
+        ]
+    },
+    {
+        "Name": "Operating System",
+        "Description": "Windows 7 Professional English, French, Spanish 64bit (Includes Windows 10 Pro License)",
+        "ProductCode": "DW10P7M",
+        "Skus": [
+        "619-AIKP"
+        ]
+    },
+    {
+        "Name": "Non-Microsoft Application Software",
+        "Description": "OS Recovery",
+        "ProductCode": "WIN7",
+        "Skus": [
+        "340-AAUC",
+        "340-ADFZ",
+        "340-ARXE",
+        "422-0007",
+        "422-0052",
+        "637-AAAS",
+        "640-BBDI",
+        "640-BBES",
+        "640-BBEU",
+        "658-BBMR",
+        "658-BBRB"
+        ]
+    },
+    {
+        "Name": "Office Productivity Software",
+        "Description": "Microsoft Office 30 Day Trial",
+        "ProductCode": "16MUI",
+        "Skus": [
+        "658-BCSB"
+        ]
+    },
+    {
+        "Name": "Video Card",
+        "Description": "Nvidia� Quadro� M1000M w/2GB GDDR5",
+        "ProductCode": "M1000M",
+        "Skus": [
+        "490-BCVC"
+        ]
+    },
+    {
+        "Name": "Energy Efficiancy Options",
+        "Description": "ENERGY STAR qualified",
+        "ProductCode": "ESTAR",
+        "Skus": [
+        "387-BBFE"
+        ]
+    },
+    {
+        "Name": "LCD",
+        "Description": "15.6\" UltraSharp� FHD IPS (1920x1080) Wide View Anti-Glare LED-backlit with Premium Panel Guarantee",
+        "ProductCode": "LCDNT2",
+        "Skus": [
+        "391-BCOE"
+        ]
+    },
+    {
+        "Name": "Memory",
+        "Description": "8GB (2x4GB) 2133MHz DDR4 Non-ECC",
+        "ProductCode": "8GB",
+        "Skus": [
+        "370-ACIC"
+        ]
+    },
+    {
+        "Name": "Primary Storage",
+        "Description": "500GB 2.5 inch SATA 7200 rpm Hard Drive",
+        "ProductCode": "500AQUC",
+        "Skus": [
+        "400-AILO",
+        "575-BBHS"
+        ]
+    },
+    {
+        "Name": "Secondary Storage",
+        "Description": "No Additional Hard Drive",
+        "ProductCode": "NOHDDA",
+        "Skus": [
+        "401-AADF"
+        ]
+    },
+    {
+        "Name": "Wireless",
+        "Description": "Intel� Dual-Band Wireless-AC 8260 Wi-Fi + BT 4.1 Wireless Card (2x2)",
+        "ProductCode": "8260AW",
+        "Skus": [
+        "555-BCRV"
+        ]
+    },
+    {
+        "Name": "Driver",
+        "Description": "Dell Wireless 8260 Driver",
+        "ProductCode": "8260",
+        "Skus": [
+        "340-ARXP"
+        ]
+    },
+    {
+        "Name": "Keyboard",
+        "Description": "Internal Single Pointing Backlit Keyboard, English",
+        "ProductCode": "K80ENG",
+        "Skus": [
+        "580-AEJK"
+        ]
+    },
+    {
+        "Name": "Primary Battery",
+        "Description": "3-cell (56Wh)  Lithium Ion battery with ExpressCharge�",
+        "ProductCode": "3C",
+        "Skus": [
+        "451-BBUW"
+        ]
+    },
+    {
+        "Name": "Power Supply",
+        "Description": "AC Adaptor",
+        "ProductCode": "AC130W",
+        "Skus": [
+        "470-ABVP",
+        "492-BBGC"
+        ]
+    },
+    {
+        "Name": "Cable",
+        "Description": "Power Cord, US",
+        "ProductCode": "US25A",
+        "Skus": [
+        "537-BBBD"
+        ]
+    },
+    {
+        "Name": "PalmRest",
+        "Description": "Palmrest for English Keyboard",
+        "ProductCode": "PLST80",
+        "Skus": [
+        "346-BBTC"
+        ]
+    },
+    {
+        "Name": "Systems Management",
+        "Description": "No Out-of-Band Systems Management",
+        "ProductCode": "NOVPRO",
+        "Skus": [
+        "631-AATI"
+        ]
+    },
+    {
+        "Name": "Dell Threat Protection and Endpoint Security Suite",
+        "Description": "No Dell Data Protection | Endpoint Security Suite Software",
+        "ProductCode": "NODDP",
+        "Skus": [
+        "634-BENZ"
+        ]
+    },
+    {
+        "Name": "Dell Data Protection Solutions",
+        "Description": "No DDPE Encryption Software",
+        "ProductCode": "NODDPE",
+        "Skus": [
+        "954-3465"
+        ]
+    },
+    {
+        "Name": "Mouse",
+        "Description": "No Mouse Selected",
+        "ProductCode": "NOMSE",
+        "Skus": [
+        "570-AADK"
+        ]
+    },
+    {
+        "Name": "Operating System Recovery Options",
+        "Description": "Windows 10 OS Recovery 64bit � DVD",
+        "ProductCode": "M10PD6M",
+        "Skus": [
+        "620-AAYW"
+        ]
+    },
+    {
+        "Name": "Placemat",
+        "Description": "Quick Reference Guide",
+        "ProductCode": "PLCMT",
+        "Skus": [
+        "340-ARXO"
+        ]
+    },
+    {
+        "Name": "Canada Ship Options",
+        "Description": "US No Canada Ship Charge",
+        "ProductCode": "USNONE",
+        "Skus": [
+        "332-1286"
+        ]
+    },
+    {
+        "Name": "Support Tech Sheet and Powercord",
+        "Description": "No UPC Label",
+        "ProductCode": "NOLBL",
+        "Skus": [
+        "389-BCGW"
+        ]
+    },
+    {
+        "Name": "Packaging",
+        "Description": "Mix Model Shipping Material",
+        "ProductCode": "SHPMX",
+        "Skus": [
+        "340-AAPP",
+        "340-ARXK"
+        ]
+    },
+    {
+        "Name": "Label",
+        "Description": "Regulatory Label Included",
+        "ProductCode": "REG",
+        "Skus": [
+        "389-BEYY"
+        ]
+    },
+    {
+        "Name": "Transportation from ODM to region",
+        "Description": "Standard Shipment",
+        "ProductCode": "STND",
+        "Skus": [
+        "800-BBGF"
+        ]
+    },
+    {
+        "Name": "Cables and Dongles",
+        "Description": "No Accessories",
+        "ProductCode": "NOADPTR",
+        "Skus": [
+        "461-AABV"
+        ]
+    },
+    {
+        "Name": "TAA",
+        "Description": "No TAA",
+        "ProductCode": "NOTAA",
+        "Skus": [
+        "340-ACQQ"
+        ]
+    },
+    {
+        "Name": "Stands and Mounts",
+        "Description": "No Stand",
+        "ProductCode": "NOSTND",
+        "Skus": [
+        "575-BBCH"
+        ]
+    },
+    {
+        "Name": "Hardware Support Services",
+        "Description": "1 Year Hardware Service with Onsite/In-Home Service After Remote Diagnosis",
+        "ProductCode": "NBD1",
+        "Skus": [
+        "804-9773",
+        "804-9774"
+        ]
+    },
+    {
+        "Name": "Documentation/Disks",
+        "Description": "Safety/Environment and Regulatory Guide (English/French Multi-language)",
+        "ProductCode": "EFDOC",
+        "Skus": [
+        "340-AGIK"
+        ]
+    }
+    ],
+    "ShowComponents": true,
+    "Alerts": [],
+    "EvergreenMessages": [],
+    "HasBundledItems": false,
+    "BundledItems": [],
+    "IsBundledItem": false,
+    "IsFastTrack": false,
+    "Metadata": {
+        "itemType": "ConfigItem",
+        "brand": 6,
+        "family": 11798
+    },
+    "DeliveryMessageOverride": "Ships in 5-7 business days",
+    "HasDeliveryMessageOverride": true,
+    "StopSelling": false,
+    "IsStockItem": false,
+    "SubTotalAmountValue": 1998.57,
+    "ConfigurationIdentifier": "1~xctop551015us~04~en~us~1__"
+},
+{
+    "Id": "ed19f19d-cae8-4fe8-bb3a-a1a49aa74452",
+    "IdWithoutSpecialCharacters": "ed19f19dcae84fe8bb3aa1a49aa74452",
+    "ProductId": "xctop351015us",
+    "Description": "Precision 15 3000 Series (3510)",
+    "ShowProductStackDescription": false,
+    "IsValid": true,
+    "LeadTimeInfo": {
+        "EstimatedShipDate": "6/13/2016",
+        "ShowEstimatedShipDate": true,
+        "ShowEstimatedDeliveryDate": false,
+        "HasValidEstimatedDeliveryDate": false,
+        "CanCalculateEstimatedDeliveryDate": true
+    },
+    "IsSavedCartItem": false,
+    "SubTotalAmount": "$1,525.71",
+    "DiscountsAndCouponsAmount": "-$646.71",
+    "DiscountsAndCouponsAmountValue": 646.71,
+    "DiscountsAndCoupons": [
+    {
+        "CampaignId": 512328,
+        "Amount": "-$646.71",
+        "ShortDescription": "Save 42% on Select New Dell Precision 15 3000 Series  through Dell Small Business!",
+        "LongDescription": "Save 42% on Select New Dell Precision 15 3000 Series  through Dell Small Business!",
+        "LegalDescription": "",
+        "ExpiryDate": "5/30/2017",
+        "HasExpiryDate": true,
+        "HasExpiryTextOverride": false,
+        "AllowRemove": false,
+        "ShowAmount": true
+    }
+    ],
+    "ShowDiscountsAndCoupons": true,
+    "DiscountsPopupTitle": "Additional Discounts & Coupons",
+    "TotalAmount": "$879.00",
+    "TotalAmountWithSubItems": "$879.00",
+    "TotalAmountWithSubItemsValue": 879,
+    "Quantity": 1,
+    "QuantityWithSubItems": 1,
+    "AllowChangeQuantity": true,
+    "IsAssociatedItem": false,
+    "ImageUrl": "https://si.cdn.dell.com/images/global/configurator/chassis/wrkstn-precn-3510-nt-bk-ft-120x107.jpg",
+    "UnitPriceAmount": "$1,525.71",
+    "ShowManufacturerPartNumber": false,
+    "ShowDellPartNumber": false,
+    "ShowCatalogNumber": true,
+    "CatalogNumber": "4 xctop351015us",
+    "Components": [
+    {
+        "Name": "Dell Precision 3510",
+        "Description": "Dell Mobile Precision Workstations 3510 XCTO",
+        "ProductCode": "X3510T",
+        "Skus": [
+        "210-AGMF"
+        ]
+    },
+    {
+        "Name": "Processor",
+        "Description": "Intel� Core� i5-6300HQ (Quad Core 2.30GHz, 3.20GHz Turbo, 6MB 35W, w/Intel HD Graphics 530)",
+        "ProductCode": "I56300",
+        "Skus": [
+        "379-BCDM"
+        ]
+    },
+    {
+        "Name": "Chassis Options",
+        "Description": "Intel� Core� i5-6300HQ Processor without USB Type C Thunderbolt Chassis",
+        "ProductCode": "PDTI5",
+        "Skus": [
+        "338-BHYR"
+        ]
+    },
+    {
+        "Name": "Processor Branding",
+        "Description": "Intel Core i5 Label",
+        "ProductCode": "CI5SML",
+        "Skus": [
+        "389-BHIB"
+        ]
+    },
+    {
+        "Name": "Operating System",
+        "Description": "Windows 7 Professional English, French, Spanish 64bit (Includes Windows 10 Pro License)",
+        "ProductCode": "DW10P7M",
+        "Skus": [
+        "619-AIKP"
+        ]
+    },
+    {
+        "Name": "Non-Microsoft Application Software",
+        "Description": "OS Recovery",
+        "ProductCode": "WIN7",
+        "Skus": [
+        "340-AAUC",
+        "340-ADFZ",
+        "340-ARZU",
+        "422-0007",
+        "422-0052",
+        "637-AAAS",
+        "640-BBDI",
+        "640-BBES",
+        "640-BBEU",
+        "658-BBMR",
+        "658-BBRB"
+        ]
+    },
+    {
+        "Name": "Office Productivity Software",
+        "Description": "Microsoft Office 30 Day Trial",
+        "ProductCode": "16MUI",
+        "Skus": [
+        "658-BCSB"
+        ]
+    },
+    {
+        "Name": "Video Card",
+        "Description": "AMD FirePro W5130M w/2GB GDDR5",
+        "ProductCode": "AM5130",
+        "Skus": [
+        "490-BCWU"
+        ]
+    },
+    {
+        "Name": "Energy Star",
+        "Description": "ESTAR Label not included",
+        "ProductCode": "NONE",
+        "Skus": [
+        "817-BBBP"
+        ]
+    },
+    {
+        "Name": "LCD",
+        "Description": "15.6\"  HD TN (1366x768) Anti-Glare LED-backlit (45% color gamut), camera and mic, WWAN Capable",
+        "ProductCode": "LNCHWW",
+        "Skus": [
+        "320-BBUQ",
+        "391-BCHX"
+        ]
+    },
+    {
+        "Name": "Memory",
+        "Description": "8GB (2x4GB) 2133MHz DDR4 Non-ECC",
+        "ProductCode": "8G2D4",
+        "Skus": [
+        "370-ACIC"
+        ]
+    },
+    {
+        "Name": "Hard Drive",
+        "Description": "500GB 2.5 inch SATA 7200 rpm Hard Drive",
+        "ProductCode": "500G72",
+        "Skus": [
+        "400-AJBM",
+        "575-BBFI"
+        ]
+    },
+    {
+        "Name": "Wireless",
+        "Description": "Intel� Dual-Band Wireless-AC 8260 Wi-Fi + BT 4.1 Wireless Card (2x2)",
+        "ProductCode": "8260ACW",
+        "Skus": [
+        "555-BCPF"
+        ]
+    },
+    {
+        "Name": "Driver",
+        "Description": "Intel� Dual-Band Wireless-AC 8260 Wi-Fi + BT 4.1 Wireless Driver (2x2)",
+        "ProductCode": "8260WM",
+        "Skus": [
+        "555-BCNB"
+        ]
+    },
+    {
+        "Name": "Mobile Broadband",
+        "Description": "No Wireless WAN Card",
+        "ProductCode": "NOWWAN",
+        "Skus": [
+        "362-BBBB"
+        ]
+    },
+    {
+        "Name": "Keyboard",
+        "Description": "Internal Dual Pointing Keyboard, English",
+        "ProductCode": "KID6ENG",
+        "Skus": [
+        "580-ACLI",
+        "580-ADYF"
+        ]
+    },
+    {
+        "Name": "Primary Battery",
+        "Description": "4 Cell 62W/HR Battery",
+        "ProductCode": "4C",
+        "Skus": [
+        "451-BBSK"
+        ]
+    },
+    {
+        "Name": "Power Supply",
+        "Description": "130W AC Adapter",
+        "ProductCode": "130W3P",
+        "Skus": [
+        "450-ADFZ"
+        ]
+    },
+    {
+        "Name": "Cable",
+        "Description": "US Power Cord",
+        "ProductCode": "US125V",
+        "Skus": [
+        "537-BBBL"
+        ]
+    },
+    {
+        "Name": "PalmRest",
+        "Description": "No Security",
+        "ProductCode": "DPRNSC",
+        "Skus": [
+        "346-BBRS"
+        ]
+    },
+    {
+        "Name": "Systems Management",
+        "Description": "No Out-of-Band Systems Management",
+        "ProductCode": "NOVPRO",
+        "Skus": [
+        "631-AASG"
+        ]
+    },
+    {
+        "Name": "Dell Threat Protection and Endpoint Security Suite",
+        "Description": "No Dell Data Protection | Endpoint Security Suite Software",
+        "ProductCode": "NODDP",
+        "Skus": [
+        "634-BENZ"
+        ]
+    },
+    {
+        "Name": "Dell Data Protection Solutions",
+        "Description": "No DDPE Encryption Software",
+        "ProductCode": "NODDPE",
+        "Skus": [
+        "954-3465"
+        ]
+    },
+    {
+        "Name": "Mouse",
+        "Description": "No Mouse Selected",
+        "ProductCode": "NOMSE",
+        "Skus": [
+        "570-AADK"
+        ]
+    },
+    {
+        "Name": "Operating System Recovery Options",
+        "Description": "Windows 10 OS Recovery 64bit � DVD",
+        "ProductCode": "M10PD6M",
+        "Skus": [
+        "620-AAYW"
+        ]
+    },
+    {
+        "Name": "Placemat",
+        "Description": "No Quick Reference Guide",
+        "ProductCode": "NOTSH",
+        "Skus": [
+        "340-AASE"
+        ]
+    },
+    {
+        "Name": "Canada Ship Options",
+        "Description": "US No Canada Ship Charge",
+        "ProductCode": "USNONE",
+        "Skus": [
+        "332-1286"
+        ]
+    },
+    {
+        "Name": "TAA",
+        "Description": "No TAA",
+        "ProductCode": "NOTAA",
+        "Skus": [
+        "340-ACQQ"
+        ]
+    },
+    {
+        "Name": "Support Tech Sheet and Powercord",
+        "Description": "No UPC Label",
+        "ProductCode": "NOLBL",
+        "Skus": [
+        "389-BCGW"
+        ]
+    },
+    {
+        "Name": "Packaging",
+        "Description": "DAO Mix Ship Model",
+        "ProductCode": "DAOMIX",
+        "Skus": [
+        "340-AAPP",
+        "340-AQHR",
+        "340-AQHU",
+        "340-AQZQ",
+        "340-AQZR"
+        ]
+    },
+    {
+        "Name": "Label",
+        "Description": "Regulatory Label Included",
+        "ProductCode": "REGLBL",
+        "Skus": [
+        "389-BEYY"
+        ]
+    },
+    {
+        "Name": "Transportation from ODM to region",
+        "Description": "Standard Shipment",
+        "ProductCode": "STND",
+        "Skus": [
+        "800-BBGF"
+        ]
+    },
+    {
+        "Name": "Diagnostic CD / Diskette",
+        "Description": "No Resource DVD",
+        "ProductCode": "NRDVD",
+        "Skus": [
+        "430-XXYG"
+        ]
+    },
+    {
+        "Name": "Hard Drive Software",
+        "Description": "Intel Rapid Storage Technology",
+        "ProductCode": "IRST",
+        "Skus": [
+        "409-BBFX"
+        ]
+    },
+    {
+        "Name": "Hardware Support Services",
+        "Description": "3 Year Hardware Service with Onsite/In-Home Service After Remote Diagnosis",
+        "ProductCode": "NBD3",
+        "Skus": [
+        "997-1075",
+        "997-1129"
+        ]
+    },
+    {
+        "Name": "Stands and Mounts",
+        "Description": "No Stand",
+        "ProductCode": "NOSTND",
+        "Skus": [
+        "575-BBCH"
+        ]
+    },
+    {
+        "Name": "Documentation/Disks",
+        "Description": "Safety/Environment and Regulatory Guide (English/French Multi-language)",
+        "ProductCode": "EFDOC",
+        "Skus": [
+        "340-AGIK"
+        ]
+    }
+    ],
+    "ShowComponents": true,
+    "Alerts": [],
+    "EvergreenMessages": [],
+    "HasBundledItems": false,
+    "BundledItems": [],
+    "IsBundledItem": false,
+    "IsFastTrack": false,
+    "Metadata": {
+        "itemType": "ConfigItem",
+        "brand": 6,
+        "family": 11738
+    },
+    "DeliveryMessageOverride": "Ships in 4-6 business days",
+    "HasDeliveryMessageOverride": true,
+    "StopSelling": false,
+    "IsStockItem": false,
+    "SubTotalAmountValue": 1525.71,
+    "ConfigurationIdentifier": "1~xctop351015us~04~en~us~1__"
+}
+];
+
+/**
+* Finds edit distance between two strings (edit being appending, deleting, or
+* replacing a character with another character).
+* @param {String} stringOne
+* @param {String} stringTwo
+* @return {Number} u[stringTwoLength]
+*/
+
+function levenshtein(stringOne, stringTwo) {
+	var t = [], u, i, j, stringOneLength = stringOne.length, stringTwoLength = stringTwo.length;
+
+	if (!stringOneLength) {
+		return stringTwoLength;
+	}
+
+	if (!stringTwoLength) {
+		return stringOneLength;
+	}
+
+	for (j = 0; j <= stringTwoLength; j++) {
+		t[j] = j;
+	}
+
+	for (i = 1; i <= stringOneLength; i++) {
+		for (u = [i], j = 1; j <= stringTwoLength; j++) {
+			u[j] = stringOne[i - 1] === stringTwo[j - 1] ? t[j - 1] : Math.min(t[j - 1], t[j], u[j - 1]) + 1;
+		} 
+		t = u;
+	} 
+	return u[stringTwoLength];
+}
+
+/**
+* Finds edit distance between input and entries in an array, 
+* returns entry with smallest distance
+* @param {String} inputString
+* @param {Array} stringArray
+* @return {String} outputString
+*/
+
+// external memoization cache
+var memCache = {};
+
+function findLeastEditDistanceMemoized(inputString, stringArray) {
+	// output string is set as the string with the smallest edit distance,
+	// minimum number is used to check
+	var outputString = "";
+	var minimumNumber = Number.POSITIVE_INFINITY;
+
+	// console.log(memCache);
+
+	if (inputString in memCache) {
+		// console.log('Cache hit for ', inputString);
+		return memCache[inputString];
+	} else {
+		// console.log('Cache miss for ', inputString);
+		// iterate through input array, find distance between inputString and string in array
+		stringArray.forEach(function(arrayString) {
+			var distance = levenshtein(inputString.toLowerCase(), arrayString.toLowerCase());
+
+			// check if current distance is smaller than the minimum, set minimum and outputString 
+			// if so
+			if (distance < minimumNumber) {
+				minimumNumber = distance
+				outputString = arrayString
+			}
+		});
+
+		return memCache[inputString] = outputString;
+	}
+}
+
+var nlp = nlp_compromise;
+
 var dataParser = {
     init: function(){
         this.body();
@@ -5515,6 +20269,219 @@ var dataParser = {
     }
 };
 dataParser.init();
+
+/*
+*   Parsing module 
+*/
+
+var parseModule = (function() {
+    // private variables
+
+    // array of brands for auto-correction
+    var brandArray = ["Inspiron", "XPS", "AlienWare", "Latitude", "Precision", "ChromeBook"];
+
+    // temporary test variable
+    var hardCodedNlp = nlp.text("I'd like an AlienWare laptop with 8 gigabytes of memory").sentences[0];
+
+    // public methods
+    return {
+
+        // Iterate through nlp-converted input terms, performs regex
+        // match and noun-tracking to ascertain if application name is spoken
+        // returns boolean based on if name is present
+        parseDellyName: function(speechInput) {
+            var nameRE = /[dD]e[a]*[l]+[iy]+/;
+
+            hardCodedNlp.terms.forEach(function(term) {
+                if (term.tag === "Noun" && term.normal.match(nameRE)) {
+                    console.log("\'Delly\' present in speech input...");
+                    return true;
+                }
+            });
+
+            return false;
+        },
+
+        // Iterates through nlp-converted input terms, performs regex
+        // match to ascertain product category
+        // TODO: Improve regex to handle more cases
+        // Returns string representation of the category
+        parseItemCategory: function(speechInput) {
+            var laptopRe = /[lL]aptop/;
+            var desktopRe = /[dD]esktop/;
+            var category;
+
+            hardCodedNlp.terms.forEach(function(term) {
+                if (term.text.match(laptopRe)) {
+                    category = "laptop"
+                } else if (term.text.match(desktopRe)) {
+                    category = "desktop"
+                }
+            })
+
+            return category;
+        },
+
+        // Iterates through nlp-converted input terms, performs regex
+        // match via the returned item category, and obtains the first
+        // word of the returned branding phrase
+        // TODO: handle more cases
+        // Returns string representation of the brand
+        parseItemBrand: function(speechInput) {
+            var re = parseModule.parseItemCategory();
+            var brand;
+
+            hardCodedNlp.terms.forEach(function(term) {
+                if (term.text.match(re)) {
+                    brand = term.text.split(' ')[0];
+                }
+            });
+
+            return findLeastEditDistanceMemoized(brand, brandArray);
+        },
+
+        // Iterates through nlp-converted input terms, grabs term
+        // if the term is an nlp value, appends 'GB' to string and
+        // returns an object
+        parseItemConfiguration: function(speechInput) {
+            var config = {
+                processor: "i5",
+                memory: "8GB",
+                hardDisk: "1TB",
+                display: "15.6-inch"
+            };
+
+            hardCodedNlp.terms.forEach(function(term) {
+                if (term.reason === "is_value") {
+                    config.memory = term.number + "GB";
+                }
+            });
+
+            return config;
+        },
+
+        parseQuantity: function(text) {
+            var nlpOutput = nlp.value(text).number;
+            console.log(nlpOutput);
+        },
+
+        parseAssociation: function(text) {
+            var output = nlp.text(text).sentences[0];
+
+            var nounOutputs = [];
+
+            output.terms.forEach(function(term) {
+                if (term.reason != "lexicon_pass" && term.reason != "is_person"){
+                    nounOutputs.push(term);
+                }
+            });
+
+            console.log(nounOutputs);
+        },
+
+        getlaptopItems: function(category, brand, config, price, description) {
+			console.log(category);
+			console.log(brand);
+			console.log(config);
+            var laptopItems = [];
+            var desc = "";
+            var itemBrand = "";
+            var itemPrice = 10000;
+            var itemRam = "";
+            var itemProc = "";
+            var itemHD = "";
+            var itemScreenSize = "";
+            var itemCategory = "";
+			var itemIndex = 0;
+            
+			if(category){itemCategory = category.toLowerCase();}
+            if(brand){itemBrand = brand.toLowerCase();}
+			if(config)
+			{
+				if(config.memory){itemRam = config.memory.toLowerCase() + " ";}
+				if(config.processor){itemProc = config.processor}
+				if(config.hardDisk){itemHD = config.hardDisk.toLowerCase();}
+				if(config.display){itemScreenSize = config.display.toLowerCase();}
+				if(description){desc = description.toLowerCase();}
+				if(price){itemPrice = price.toLowerCase();}
+			}
+
+			if(!itemCategory && !itemBrand && !config ){
+					return cartItems;
+			}
+				
+            for (var i = 0; i < cartItems.length; i++) {
+                var item = cartItems[i];
+                var processorItem;
+                var ramItem;
+                var hardDiskItem;
+                var screenSizeItem;
+                var index;
+                var components = item.Components;
+				
+				var itemDescription = item.Description.toLowerCase();
+				
+				var isSearchedLaptop = true;
+				if(itemCategory === "business")
+				{
+					isSearchedLaptop = (itemDescription.indexOf("inspiron")>-1 || 
+										itemDescription.indexOf("xps")>-1 ||
+										itemDescription.indexOf("vostro")>-1 ||
+										itemDescription.indexOf("latitude")>-1 ||
+										itemDescription.indexOf("precison")>-1 ||
+										itemDescription.indexOf("chromebook")>-1 )
+					
+				}
+				else if(itemCategory === "home")
+				{
+										isSearchedLaptop = (itemDescription.indexOf("inspiron")>-1 || 
+										itemDescription.indexOf("xps")>-1 ||
+										itemDescription.indexOf("alienware")>-1 ||
+										itemDescription.indexOf("chromebook")>-1 )
+				}
+				
+                for (index in item.Components) {
+
+                    if (components[index].Name.indexOf("Processor") > -1) {
+                        processorItem = components[index];
+                    }
+
+                    if (components[index].Name.indexOf("Memory") > -1) {
+                        ramItem = components[index];
+                    }
+
+                    if (components[index].Name.indexOf("Hard Drive") > -1) {
+                        hardDiskItem = components[index];
+                    }
+
+                    if (components[index].Name.indexOf("Display") > -1) {
+                        screenSizeItem = components[index];
+                    }
+                }
+
+				var memoryProductCode = ramItem.Description.toLowerCase();
+                if (isSearchedLaptop && itemDescription.indexOf(itemBrand.toLowerCase()) > -1 &&
+				    memoryProductCode.indexOf(itemRam) === 0)
+				{
+                    laptopItems[itemIndex] = item;
+					itemIndex++;
+                }
+
+            }
+            console.log(laptopItems);
+            return laptopItems;
+        }
+    }
+})();
+
+// grab key terms from user spoken input
+var dellyName = parseModule.parseDellyName();
+var category = parseModule.parseItemCategory();
+var brand = parseModule.parseItemBrand();
+var config = parseModule.parseItemConfiguration();
+
+// grab items from cart items with said input
+parseModule.getlaptopItems(null, brand, config, null, null);
 
 angular.module('delly', [])
     .controller('MainCtrl', function($scope) {
@@ -5563,6 +20530,12 @@ angular.module('delly', [])
             templateUrl: '/templates/category-row.html'
         };
     })
+    .directive('dialog', function() {
+        return {
+            restrict: 'E',
+            templateUrl: '/templates/dialog.html'
+        };
+    })
     .directive('buttonSection', function() {
         return {
             restrict: 'E',
@@ -5604,7 +20577,7 @@ angular.module('delly', [])
                 });
                 //Home
                 segment.on("click", function(){
-                    showItem("segment", "home");
+                    hideRow("segment");
                 });
                 // Inspiron
                 brand.on("click", function(){
@@ -5679,14 +20652,44 @@ var dlCommon = {
 };
 dlCommon.init();
 
+var dialog = {
+    init: function(){
+        this.body();
+    },
+    respond : function(message){
+        if (message.lastIndexOf("hello del")!== -1){
+            responsiveVoice.speak("Hello Michael. Shall we start the demo?");
+        }
+        
+    },
+    body: function(){
+        var dialogInput = $("#dialog");
+        $("body").on("click", "#Go", function(){
+            var inputText = dialogInput.val().toLowerCase();
+            if(inputText === "hello delli"){
+               responsiveVoice.speak("hello Michael, should we start the demo?"); 
+            }
+            
+        });
+
+    }
+};
+//dialog.init();
+
 // @codekit-prepend "vendor/jquery-2.1.3.min.js";
 // @codekit-prepend "vendor/angular.min.js";
 // @codekit-prepend "vendor/nlp_compromise.min.js";
-// @codekit-prepend "bootstrap.js";
+// @codekit-prepend "vendor/responsivevoice.js";
+// @codekit-prepend "bootstrap.min.js";
+// @codekit-prepend "nlp_compromise.js";
 // @codekit-prepend "speechInput.js";
 // @codekit-prepend "mappedCartItems.js";
 // @codekit-prepend "outputModel.js";
+// @codekit-prepend "cartItems.js"
+// @codekit-prepend "levenshtein.js"
 // @codekit-prepend "dataParser.js";
 // @codekit-prepend "app.js";
 // @codekit-prepend "common.js";
+// @codekit-prepend "dialog.js";
+
 

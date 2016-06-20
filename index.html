@@ -5,6 +5,13 @@
     <link rel="stylesheet" type="text/css" href="/css/combined.css">
 </head>
 <body ng-controller="MainCtrl">
+<style>
+#dialog {
+    width: 300px;
+    height: 30px;
+    border: 1px solid black;
+}
+</style>
     <div class="cs-shadowbox"></div>
 
 
@@ -14,6 +21,7 @@
             <div class="row">
                 <div class="col-sm-5">
                     <input-wrap></input-wrap>
+
                 </div>
             </div>
             <div class="row">
@@ -23,10 +31,10 @@
             </div>
             <div class="row">
                 <div class="col-sm-12">
-                    <breadcrumbs></breadcrumbs>
+                    <breadcrumbs class="row"></breadcrumbs>
                 </div>
             </div>
-            <div class="row">
+            <div id="output_wrap" class="row" style="display:none;">
                 <div class="col-sm-6">
                     <category-row ng-repeat="category in categories" isproductline="{{category.productLine}}" type="{{category.type}}"></category-row>
                 </div>
