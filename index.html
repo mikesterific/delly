@@ -5,13 +5,7 @@
     <link rel="stylesheet" type="text/css" href="/css/combined.css">
 </head>
 <body ng-controller="MainCtrl">
-<style>
-#dialog {
-    width: 300px;
-    height: 30px;
-    border: 1px solid black;
-}
-</style>
+
     <div class="cs-shadowbox"></div>
 
 
@@ -40,7 +34,270 @@
                 </div>
                 <div class="col-sm-5 col-md-offset-1">
                     <h1>Suggested Products</h1>
-                    <suggested-item ng-repeat="item in suggestions"></suggested-item>
+                    <!-- <suggested-item ng-repeat="item in suggestions"></suggested-item> -->
+                    <div id="laptopslist" class="row">
+
+                        
+                        <div class="suggested-item row">
+                            <div class="item-image-wrap col-md-4">
+                                <img class="suggestion-image" src="https://si.cdn.dell.com/images/global/configurator/chassis/xps-13-9350-nt-sr-ft-120x107.jpg">
+                            </div>
+                            <div class="item-description col-md-8">
+                                <h2 class="ng-binding"></h2>
+                                <div class="item-description ng-binding">XPS 13 Non-Touch</div>
+                                <a href="#" class="btn btn-primary view-details">View Details</a>
+                            </div>
+                        </div>
+                        <div class="suggested-item row">
+                            <div class="item-image-wrap col-md-4">
+                                <img class="suggestion-image" src="https://si.cdn.dell.com/images/global/configurator/chassis/alienware-13-tch-ft-120x107.jpg">
+                            </div>
+                            <div class="item-description col-md-8">
+                                <h2 class="ng-binding"></h2>
+                                <div class="item-description ng-binding">Alienware 13</div>
+                                <a href="#" class="btn btn-primary view-details">View Details</a>
+                            </div>
+                        </div>
+                        <div class="suggested-item row">
+                            <div class="item-image-wrap col-md-4">
+                                <img class="suggestion-image" src="https://si.cdn.dell.com/images/global/configurator/chassis/insp-15-5551-nt-blk-ft-120x107.jpg">
+                            </div>
+                            <div class="item-description col-md-8">
+                                <h2 class="ng-binding"></h2>
+                                <div class="item-description ng-binding">Inspiron 15 5000 Non-Touch</div>
+                                <a href="#" class="btn btn-primary view-details">View Details</a>
+                            </div>
+                        </div>
+                        <div class="suggested-item row">
+                            <div class="item-image-wrap col-md-4">
+                                <img class="suggestion-image" src="https://si.cdn.dell.com/images/global/configurator/chassis/insp-15-7569-gry-ft-win-120x107.jpg">
+                            </div>
+                            <div class="item-description col-md-8">
+                                <h2 class="ng-binding"></h2>
+                                <div class="item-description ng-binding">New Inspiron 15 7000 2-in-1</div>
+                                <a href="#" class="btn btn-primary view-details">View Details</a>
+                            </div>
+                        </div>
+                        <div class="suggested-item row">
+                            <div class="item-image-wrap col-md-4">
+                                <img class="suggestion-image" src="https://si.cdn.dell.com/images/global/configurator/chassis/xps-12-9250-2-n-1-bk-ft-120x107.jpg">
+                            </div>
+                            <div class="item-description col-md-8">
+                                <h2 class="ng-binding"></h2>
+                                <div class="item-description ng-binding">XPS 12 2-in-1</div>
+                                <a href="#" class="btn btn-primary view-details">View Details</a>
+                            </div>
+                        </div>
+                        <div class="suggested-item row">
+                            <div class="item-image-wrap col-md-4">
+                                <img class="suggestion-image" src="https://si.cdn.dell.com/images/global/configurator/chassis/inspnb-11-3162-nt-wh-ft-120x107.jpg">
+                            </div>
+                            <div class="item-description col-md-8">
+                                <h2 class="ng-binding"></h2>
+                                <div class="item-description ng-binding">Inspiron 11 3000 Non-Touch</div>
+                                <a href="#" class="btn btn-primary view-details">View Details</a>
+                            </div>
+                        </div>
+                        <div class="suggested-item row">
+                            <div class="item-image-wrap col-md-4">
+                                <img class="suggestion-image" src="https://si.cdn.dell.com/images/global/configurator/chassis/xps-15-9550-t-gry-ft-120x107.jpg">
+                            </div>
+                            <div class="item-description col-md-8">
+                                <h2 class="ng-binding"></h2>
+                                <div class="item-description ng-binding">XPS 15 Non-Touch</div>
+                                <a href="#" class="btn btn-primary view-details">View Details</a>
+                            </div>
+                        </div>
+                        
+                        <div class="suggested-item row">
+                            <div class="item-image-wrap col-md-4">
+                                <img class="suggestion-image" src="https://si.cdn.dell.com/images/global/configurator/chassis/alienware-15-nn-tch-ft-120.jpg">
+                            </div>
+                            <div class="item-description col-md-8">
+                                <h2 class="ng-binding"></h2>
+                                <div class="item-description ng-binding">Alienware 15</div>
+                                <a href="#" class="btn btn-primary view-details">View Details</a>
+                            </div>
+                        </div>
+                        <div class="suggested-item row">
+                            <div class="item-image-wrap col-md-4">
+                                <img class="suggestion-image" src="https://si.cdn.dell.com/images/global/configurator/chassis/alien-17-r2-nt-ft-120x107.jpg">
+                            </div>
+                            <div class="item-description col-md-8">
+                                <h2 class="ng-binding"></h2>
+                                <div class="item-description ng-binding">Alienware 17</div>
+                                <a href="#" class="btn btn-primary view-details">View Details</a>
+                            </div>
+                        </div>
+                        <div class="suggested-item row">
+                            <div class="item-image-wrap col-md-4">
+                                <img class="suggestion-image" src="https://si.cdn.dell.com/images/global/configurator/chassis/chromebook11-front-120x107.jpg">
+                            </div>
+                            <div class="item-description col-md-8">
+                                <h2 class="ng-binding"></h2>
+                                <div class="item-description ng-binding">Dell Chromebook 11 Non-Touch</div>
+                                <a href="#" class="btn btn-primary view-details">View Details</a>
+                            </div>
+                        </div>
+                        <div class="suggested-item row">
+                            <div class="item-image-wrap col-md-4">
+                                <img class="suggestion-image" src="https://si.cdn.dell.com/images/global/configurator/chassis/nb-cb-13-7310-gry-ft-120x107.jpg">
+                            </div>
+                            <div class="item-description col-md-8">
+                                <h2 class="ng-binding"></h2>
+                                <div class="item-description ng-binding">Dell Chromebook 13 Non-Touch</div>
+                                <a href="#" class="btn btn-primary view-details">View Details</a>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div id="inspironlist" class="row">
+                        <div class="suggested-item row">
+                            <div class="item-image-wrap col-md-4">
+                                <img class="suggestion-image" src="https://si.cdn.dell.com/images/global/configurator/chassis/inspnb-11-3162-nt-wh-ft-120x107.jpg">
+                            </div>
+                            <div class="item-description col-md-8">
+                                <h2 class="ng-binding"></h2>
+                                <div class="item-description ng-binding">Inspiron 11 3000 Non-Touch</div>
+                                <a href="#" class="btn btn-primary view-details">View Details</a>
+                            </div>
+                        </div>
+                        <div class="suggested-item row">
+                            <div class="item-image-wrap col-md-4">
+                                <img class="suggestion-image" src="https://si.cdn.dell.com/images/global/configurator/chassis/insp-15-5551-nt-blk-ft-120x107.jpg">
+                            </div>
+                            <div class="item-description col-md-8">
+                                <h2 class="ng-binding"></h2>
+                                <div class="item-description ng-binding">Inspiron 15 5000 Non-Touch</div>
+                                <a href="#" class="btn btn-primary view-details">View Details</a>
+                            </div>
+                        </div>
+                        <div class="suggested-item row">
+                            <div class="item-image-wrap col-md-4">
+                                <img class="suggestion-image" src="https://si.cdn.dell.com/images/global/configurator/chassis/insp-15-7569-gry-ft-win-120x107.jpg">
+                            </div>
+                            <div class="item-description col-md-8">
+                                <h2 class="ng-binding"></h2>
+                                <div class="item-description ng-binding">New Inspiron 15 7000 2-in-1</div>
+                                <a href="#" class="btn btn-primary view-details">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="homelist" class="row">
+
+                        <div class="suggested-item row">
+                            <div class="item-image-wrap col-md-4">
+                                <img class="suggestion-image" src="https://si.cdn.dell.com/images/global/configurator/chassis/inspnb-11-3162-nt-wh-ft-120x107.jpg">
+                            </div>
+                            <div class="item-description col-md-8">
+                                <h2 class="ng-binding"></h2>
+                                <div class="item-description ng-binding">Inspiron 11 3000 Non-Touch</div>
+                                <a href="#" class="btn btn-primary view-details">View Details</a>
+                            </div>
+                        </div>
+                        <div class="suggested-item row">
+                            <div class="item-image-wrap col-md-4">
+                                <img class="suggestion-image" src="https://si.cdn.dell.com/images/global/configurator/chassis/insp-15-5551-nt-blk-ft-120x107.jpg">
+                            </div>
+                            <div class="item-description col-md-8">
+                                <h2 class="ng-binding"></h2>
+                                <div class="item-description ng-binding">Inspiron 15 5000 Non-Touch</div>
+                                <a href="#" class="btn btn-primary view-details">View Details</a>
+                            </div>
+                        </div>
+                        <div class="suggested-item row">
+                            <div class="item-image-wrap col-md-4">
+                                <img class="suggestion-image" src="https://si.cdn.dell.com/images/global/configurator/chassis/insp-15-7569-gry-ft-win-120x107.jpg">
+                            </div>
+                            <div class="item-description col-md-8">
+                                <h2 class="ng-binding"></h2>
+                                <div class="item-description ng-binding">New Inspiron 15 7000 2-in-1</div>
+                                <a href="#" class="btn btn-primary view-details">View Details</a>
+                            </div>
+                        </div>
+                        <div class="suggested-item row">
+                            <div class="item-image-wrap col-md-4">
+                                <img class="suggestion-image" src="https://si.cdn.dell.com/images/global/configurator/chassis/xps-12-9250-2-n-1-bk-ft-120x107.jpg">
+                            </div>
+                            <div class="item-description col-md-8">
+                                <h2 class="ng-binding"></h2>
+                                <div class="item-description ng-binding">XPS 12 2-in-1</div>
+                                <a href="#" class="btn btn-primary view-details">View Details</a>
+                            </div>
+                        </div>
+                        <div class="suggested-item row">
+                            <div class="item-image-wrap col-md-4">
+                                <img class="suggestion-image" src="https://si.cdn.dell.com/images/global/configurator/chassis/xps-13-9350-nt-sr-ft-120x107.jpg">
+                            </div>
+                            <div class="item-description col-md-8">
+                                <h2 class="ng-binding"></h2>
+                                <div class="item-description ng-binding">XPS 13 Non-Touch</div>
+                                <a href="#" class="btn btn-primary view-details">View Details</a>
+                            </div>
+                        </div>
+                        <div class="suggested-item row">
+                            <div class="item-image-wrap col-md-4">
+                                <img class="suggestion-image" src="https://si.cdn.dell.com/images/global/configurator/chassis/xps-15-9550-t-gry-ft-120x107.jpg">
+                            </div>
+                            <div class="item-description col-md-8">
+                                <h2 class="ng-binding"></h2>
+                                <div class="item-description ng-binding">XPS 15 Non-Touch</div>
+                                <a href="#" class="btn btn-primary view-details">View Details</a>
+                            </div>
+                        </div>
+                        <div class="suggested-item row">
+                            <div class="item-image-wrap col-md-4">
+                                <img class="suggestion-image" src="https://si.cdn.dell.com/images/global/configurator/chassis/alienware-13-tch-ft-120x107.jpg">
+                            </div>
+                            <div class="item-description col-md-8">
+                                <h2 class="ng-binding"></h2>
+                                <div class="item-description ng-binding">Alienware 13</div>
+                                <a href="#" class="btn btn-primary view-details">View Details</a>
+                            </div>
+                        </div>
+                        <div class="suggested-item row">
+                            <div class="item-image-wrap col-md-4">
+                                <img class="suggestion-image" src="https://si.cdn.dell.com/images/global/configurator/chassis/alienware-15-nn-tch-ft-120.jpg">
+                            </div>
+                            <div class="item-description col-md-8">
+                                <h2 class="ng-binding"></h2>
+                                <div class="item-description ng-binding">Alienware 15</div>
+                                <a href="#" class="btn btn-primary view-details">View Details</a>
+                            </div>
+                        </div>
+                        <div class="suggested-item row">
+                            <div class="item-image-wrap col-md-4">
+                                <img class="suggestion-image" src="https://si.cdn.dell.com/images/global/configurator/chassis/alien-17-r2-nt-ft-120x107.jpg">
+                            </div>
+                            <div class="item-description col-md-8">
+                                <h2 class="ng-binding"></h2>
+                                <div class="item-description ng-binding">Alienware 17</div>
+                                <a href="#" class="btn btn-primary view-details">View Details</a>
+                            </div>
+                        </div>
+                        <div class="suggested-item row">
+                            <div class="item-image-wrap col-md-4">
+                                <img class="suggestion-image" src="https://si.cdn.dell.com/images/global/configurator/chassis/chromebook11-front-120x107.jpg">
+                            </div>
+                            <div class="item-description col-md-8">
+                                <h2 class="ng-binding"></h2>
+                                <div class="item-description ng-binding">Dell Chromebook 11 Non-Touch</div>
+                                <a href="#" class="btn btn-primary view-details">View Details</a>
+                            </div>
+                        </div>
+                        <div class="suggested-item row">
+                            <div class="item-image-wrap col-md-4">
+                                <img class="suggestion-image" src="https://si.cdn.dell.com/images/global/configurator/chassis/nb-cb-13-7310-gry-ft-120x107.jpg">
+                            </div>
+                            <div class="item-description col-md-8">
+                                <h2 class="ng-binding"></h2>
+                                <div class="item-description ng-binding">Dell Chromebook 13 Non-Touch</div>
+                                <a href="#" class="btn btn-primary view-details">View Details</a>
+                            </div>
+                        </div>
+
+                    </div>
+
                 </div>
             </div>
 
@@ -49,7 +306,18 @@
     </section>
 
 
-
+    <script id="suggetionsTemplate" type="text/x-handlebars-template">
+      <div class="suggested-item row" >
+          <div class="item-image-wrap col-md-4">
+              <a href="{{item.linkUrl}}"><img src="{{item.imageUrl}}"></a>
+          </div>
+          <div class="item-description col-md-8">
+              <h2>{{item.title}}</h2>
+              <div class="item-description">{{item.description}}</div>
+              <a href="{{item.linkUrl}}" class="view-details">View Details</a>
+          </div>
+      </div>
+    </script>
     <script src="/js/min/combined-bundled.js"></script>
 </body>
 </html>

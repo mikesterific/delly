@@ -22,12 +22,17 @@ var speechInput = {
             clearInputTimer;
 
         function respond(message){
-            if (message.lastIndexOf("hello del")!== -1){              
+            if ((message.lastIndexOf("hello")!== -1)&&(message.lastIndexOf("del")!== -1)){  
+                // $("#final_span").css("visibility", "hidden");
+                // $("#interim_span").css("visibility", "hidden");  
+                $("#dl-reset").click();         
                 responsiveVoice.speak("Hello Michael. Shall we start the demo?");
             }
             if (message.lastIndexOf("laptop")!== -1){    
-                $("#output_wrap").show();
+
                 responsiveVoice.speak("I heard laptop, is this for home or business?");
+                
+                
             }
             if (message.lastIndexOf("home")!== -1){    
                 $("#dl-segment").click();
@@ -39,7 +44,7 @@ var speechInput = {
             }
             clearInputTimer = setTimeout(function(){                  
                 $("#final_span").text("");
-                $("#interim_span").text("");
+                $("#interim_span").text(""); 
             }, 200);
             
         }

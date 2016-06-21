@@ -6884,6 +6884,17 @@ body {
 .dl-master-wrap .itemWrap img {
   height: 90px;
 }
+.dl-master-wrap #inspironlist,
+.dl-master-wrap #homelist {
+  display: none;
+}
+.dl-master-wrap .item-description {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+.dl-master-wrap .view-details {
+  color: white !important;
+}
 .dl-master-wrap .itemWrap.dl-move-it {
   opacity: .01;
   position: absolute;
@@ -6902,6 +6913,10 @@ body {
 .dl-master-wrap .productSuggestionsWrap {
   padding: 10px;
   width: 47%;
+}
+.dl-master-wrap .suggestion-image {
+  position: relative;
+  top: -20px;
 }
 .dl-master-wrap .item-description > h2 {
   font-size: 18px;

@@ -366,7 +366,7 @@
 		},
 	"\/js\/vendor\/handlebars-v3.0.3.js": {
 		"fileType": 64,
-		"ignore": 0,
+		"ignore": 1,
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/js\/vendor\/handlebars-v3.0.3.js",
 		"outputAbbreviatedPath": "\/js\/vendor\/min\/handlebars-v3.0.3-bundled.js",

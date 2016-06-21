@@ -2,9 +2,12 @@ angular.module('delly', [])
     .controller('MainCtrl', function($scope) {
         // This is where we switch top level default models
         $scope.output = defaultOutputModel.laptops;
+        // $scope.suggestions = defaultOutputModel.laptops.suggestions;
+
         $scope.storedOutputModel = angular.copy(defaultOutputModel);
         $scope.categories = $scope.storedOutputModel.laptops.categories;
-        $scope.suggestions = $scope.output.suggestions;
+        $scope.suggestions = parseModule.getlaptopItems("home");
+        console.log("suggestions", $scope.suggestions );
         $scope.choosenCategories = ["segment", "brand", "inspiron", "xps", "chromebook"];
         $scope.showCategories = function(showCatArry){
             var payload = [];
@@ -89,15 +92,27 @@ angular.module('delly', [])
                 // Laptops
                 laptops.on("click", function(){
                     showAll();
+                    $("#homelist").hide();
+                    $("#inspironlist").hide();
+                    $("#laptopslist").show();
                 });
                 //Home
                 segment.on("click", function(){
                     hideRow("segment");
+                    // scope.suggestions = parseModule.getlaptopItems("home");
+                    $("#homelist").show();
+                    $("#laptopslist").hide();
+                    $("#inspironlist").hide();
+
+                    showOtherRowsBesidesThis("segment");
                 });
                 // Inspiron
                 brand.on("click", function(){
 
                     hideOtherRows("inspiron");
+                    $("#laptopslist").hide();
+                    $("#homelist").hide();
+                    $("#inspironlist").show();
                     
                 });
                 // 3000
@@ -115,7 +130,7 @@ angular.module('delly', [])
                     tRow.removeClass("rowHide");
                     tRow.find(".itemWrap").each(function(){
                         $(this).removeClass("itemHide");
-                    })
+                    });
                 }
                 function hideRow(row){
                     $("category-row[type='" + row + "']").addClass("rowHide");
@@ -124,7 +139,18 @@ angular.module('delly', [])
                     var thisRow = $("category-row[type='" + row + "']");
                     $("category-row").not(thisRow).addClass("rowHide");
                 }
+                function showOtherRowsBesidesThis(row){
+                    var thisRow = $("category-row[type='" + row + "']"),
+                        otherRows = $("category-row").not(thisRow);
+
+                    otherRows.removeClass("rowHide");
+
+                    otherRows.find(".itemWrap").each(function(){
+                        $(this).removeClass("itemHide");
+                    });
+                }
                 function showAll(){
+                    $("#output_wrap").show();
                     $("category-row").each(function(){
                         $(this).removeClass("rowHide");
                         $(this).find(".itemWrap").each(function(){

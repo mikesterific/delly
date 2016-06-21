@@ -2,6 +2,7 @@
 // @codekit-prepend "vendor/angular.min.js";
 // @codekit-prepend "vendor/nlp_compromise.min.js";
 // @codekit-prepend "vendor/responsivevoice.js";
+// @codekit-prepend "vendor/handlebars-v3.0.3.js";
 // @codekit-prepend "bootstrap.min.js";
 // @codekit-prepend "nlp_compromise.js";
 // @codekit-prepend "speechInput.js";
