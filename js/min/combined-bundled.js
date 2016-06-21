@@ -13098,6 +13098,9 @@ var speechInput = {
             if (message.lastIndexOf("reset list")!== -1){     
                 $("#dl-reset").click();         
                 responsiveVoice.speak("Reseting");
+            }if (message.lastIndexOf("thank you")!== -1){     
+                       
+                responsiveVoice.speak("You are quite welcome Michael");
             }
             clearInputTimer = setTimeout(function(){                  
                 $("#final_span").text("");
