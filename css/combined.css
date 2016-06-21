@@ -6884,6 +6884,10 @@ body {
 .dl-master-wrap .itemWrap img {
   height: 90px;
 }
+.dl-master-wrap .devbuttons {
+  position: absolute;
+  top: -9999em;
+}
 .dl-master-wrap #inspironlist,
 .dl-master-wrap #homelist {
   display: none;

@@ -13078,7 +13078,7 @@ var speechInput = {
             if ((message.lastIndexOf("hello")!== -1)&&(message.lastIndexOf("del")!== -1)){  
                 // $("#final_span").css("visibility", "hidden");
                 // $("#interim_span").css("visibility", "hidden");  
-                $("#dl-reset").click();         
+                     
                 responsiveVoice.speak("Hello Michael. Shall we start the demo?");
             }
             if (message.lastIndexOf("laptop")!== -1){    
@@ -13087,13 +13087,17 @@ var speechInput = {
                 
                 
             }
-            if (message.lastIndexOf("home")!== -1){    
+            if (message.lastIndexOf("for home")!== -1){    
                 $("#dl-segment").click();
                 responsiveVoice.speak("Did you have a brand in mind?");
             }
-            if (message.lastIndexOf("inspiron")!== -1){     
+            if (message.lastIndexOf("show me inspiron")!== -1){     
                 $("#dl-brand").click();         
                 responsiveVoice.speak("I heard Inspiron, see our current models below?");
+            }
+            if (message.lastIndexOf("reset list")!== -1){     
+                $("#dl-reset").click();         
+                responsiveVoice.speak("Reseting");
             }
             clearInputTimer = setTimeout(function(){                  
                 $("#final_span").text("");
