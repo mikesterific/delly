@@ -6884,6 +6884,9 @@ body {
 .dl-master-wrap .itemWrap img {
   height: 90px;
 }
+.dl-master-wrap .dellyLogo {
+  height: 100px;
+}
 .dl-master-wrap .devbuttons {
   position: absolute;
   top: -9999em;
