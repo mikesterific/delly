@@ -13083,17 +13083,24 @@ var speechInput = {
             }
             if (message.lastIndexOf("laptop")!== -1){    
                 $("#output_wrap").show();
-                responsiveVoice.speak("I heard laptop, is this for home or business?");
+                responsiveVoice.speak("I understand, is this for home or business?");
                 
                 
             }
-            if (message.lastIndexOf("home")!== -1){    
+            if (message.lastIndexOf("super")!== -1){ 
+                responsiveVoice.speak("May I say,, the judges look very intelligent?");
+            }
+
+            if (message.lastIndexOf("thank you")!== -1){ 
+                responsiveVoice.speak("You're very welcome Michael. I hope they were impressed!");
+            }
+            if ((message.lastIndexOf("home")!== -1) || (message.lastIndexOf("for home")!== -1)){    
                 $("#dl-segment").click();
                 responsiveVoice.speak("Did you have a brand in mind?");
             }
             if (message.lastIndexOf("inspiron")!== -1){     
                 $("#dl-brand").click();         
-                responsiveVoice.speak("I heard Inspiron, see our current models below?");
+                responsiveVoice.speak("We have several to choose from. See our current models below?");
             }
             if (message.lastIndexOf("reset list")!== -1){     
                 $("#dl-reset").click();         
