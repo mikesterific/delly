@@ -13083,32 +13083,38 @@ var speechInput = {
             }
             if (message.lastIndexOf("laptop")!== -1){    
                 $("#output_wrap").show();
-                responsiveVoice.speak("I understand, is this for home or business?");
+                responsiveVoice.speak("For your house or business");
                 
                 
+            }  
+            if (message.lastIndexOf("home")!== -1){    
+                $("#dl-segment").click();
+                responsiveVoice.speak("Did you have a brand in mind?");
+                
+            }
+            if (message.lastIndexOf("inspiron")!== -1){     
+                $("#dl-brand").click();         
+                responsiveVoice.speak("We have several to choose from. See our current models below");
+                
+            }
+            if (message.lastIndexOf("thank you")!== -1){ 
+                responsiveVoice.speak("You're very welcome Michael. I hope they were impressed!");
+            }
+            if (message.lastIndexOf("stop")!== -1){ 
+                recognition.stop();
+            }
+            
+            
+            if (message.lastIndexOf("reset list")!== -1){     
+                $("#dl-reset").click();         
+                responsiveVoice.speak("Reseting");
             }
             if (message.lastIndexOf("super")!== -1){ 
                 responsiveVoice.speak("May I say,, the judges look very intelligent?");
             }
 
-            if (message.lastIndexOf("thank you")!== -1){ 
-                responsiveVoice.speak("You're very welcome Michael. I hope they were impressed!");
-            }
-            if ((message.lastIndexOf("home")!== -1) || (message.lastIndexOf("for home")!== -1)){    
-                $("#dl-segment").click();
-                responsiveVoice.speak("Did you have a brand in mind?");
-            }
-            if (message.lastIndexOf("inspiron")!== -1){     
-                $("#dl-brand").click();         
-                responsiveVoice.speak("We have several to choose from. See our current models below?");
-            }
-            if (message.lastIndexOf("reset list")!== -1){     
-                $("#dl-reset").click();         
-                responsiveVoice.speak("Reseting");
-            }if (message.lastIndexOf("thank you")!== -1){     
-                       
-                responsiveVoice.speak("You are quite welcome Michael");
-            }
+            
+              
             clearInputTimer = setTimeout(function(){                  
                 $("#final_span").text("");
                 $("#interim_span").text(""); 
@@ -13141,6 +13147,7 @@ var speechInput = {
         };
 
         recognition.onerror = function(event) {
+            console.log(event);
             if (event.error == 'no-speech') {
                 start_img.src = 'images/mic.gif';
                 showInfo('info_no_speech');
@@ -24643,6 +24650,19 @@ angular.module('delly', [])
         $scope.storedOutputModel = angular.copy(defaultOutputModel);
         $scope.categories = $scope.storedOutputModel.laptops.categories;
         $scope.suggestions = parseModule.getlaptopItems("home");
+        $scope.bookmarks = [{
+                            name : "Laptops",
+                            url: "/"
+                        },
+                        {
+                            name : "Home",
+                            url: "/"
+                        },
+                        {
+                            name : "Inspiron",
+                            url: "/"
+                        }];
+        $scope.bookmarks = [];
         console.log("suggestions", $scope.suggestions );
         $scope.choosenCategories = ["segment", "brand", "inspiron", "xps", "chromebook"];
         $scope.showCategories = function(showCatArry){
@@ -24665,6 +24685,12 @@ angular.module('delly', [])
                console.log("watchers fired");
             }
         );
+    })
+    .directive('bookmarks', function() {
+        return {
+            restrict: 'E',
+            templateUrl: '/templates/bookmarkTemplate.html'
+        };
     })
     .directive('inputWrap', function() {
         return {
@@ -24694,6 +24720,9 @@ angular.module('delly', [])
         return {
             restrict: 'E',
             templateUrl: '/templates/button.html',
+            scope : {
+                bookmarks : "@"
+            },
             link : function(scope, element, attrs){
 
                 var t = $(element),
@@ -24731,6 +24760,7 @@ angular.module('delly', [])
                     $("#homelist").hide();
                     $("#inspironlist").hide();
                     $("#laptopslist").show();
+                    dlCommon.showBookmark("laptop");
                 });
                 //Home
                 segment.on("click", function(){
@@ -24741,6 +24771,7 @@ angular.module('delly', [])
                     $("#inspironlist").hide();
 
                     showOtherRowsBesidesThis("segment");
+                    dlCommon.showBookmark("home");
                 });
                 // Inspiron
                 brand.on("click", function(){
@@ -24749,6 +24780,8 @@ angular.module('delly', [])
                     $("#laptopslist").hide();
                     $("#homelist").hide();
                     $("#inspironlist").show();
+                    var sfsdf = scope.bookmarks;
+                    dlCommon.showBookmark("inspiron");
                     
                 });
                 // 3000
@@ -24823,8 +24856,16 @@ var dlCommon = {
             }
         }
         showCategories(categories);
+
         
-        
+    },
+    showBookmark: function(bookmark){
+        var allBookmarks = $(".dl-bookmark-items"),
+            showBookmark = $("#" + bookmark + "-bookmarks");
+        allBookmarks.each(function(){
+            $(this).hide();
+        });
+        showBookmark.css("display", "flex");
     }
 };
 dlCommon.init();

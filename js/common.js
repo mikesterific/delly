@@ -21,8 +21,16 @@ var dlCommon = {
             }
         }
         showCategories(categories);
+
         
-        
+    },
+    showBookmark: function(bookmark){
+        var allBookmarks = $(".dl-bookmark-items"),
+            showBookmark = $("#" + bookmark + "-bookmarks");
+        allBookmarks.each(function(){
+            $(this).hide();
+        });
+        showBookmark.css("display", "flex");
     }
 };
 dlCommon.init();

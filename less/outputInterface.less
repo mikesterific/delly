@@ -20,7 +20,8 @@ html, body {
     top: 40px;
     left: 20px;
     right: 20px;
-    bottom: 20px;
+    // bottom: 20px;
+    max-height: 90%;
     z-index: 10001;
     overflow: auto;
     padding: 20px;
@@ -123,5 +124,25 @@ html, body {
     }
     .rowHide {
         display: none;
+    }
+    bookmarks {
+        display: block;
+        padding: 10px;
+    }
+    .dl-bookmark-items {
+        display: flex;
+        display: none;
+        a {
+            color: white;
+            &:visited {
+                color: white;
+            }
+            &:hover {
+                opacity: .9;
+            }
+        }
+    }
+    .dl-bookmark-item {
+        margin-right: 10px;
     }
 }

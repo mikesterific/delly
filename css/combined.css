@@ -6848,7 +6848,7 @@ body {
   top: 40px;
   left: 20px;
   right: 20px;
-  bottom: 20px;
+  max-height: 90%;
   z-index: 10001;
   overflow: auto;
   padding: 20px;
@@ -6953,6 +6953,29 @@ body {
 .dl-master-wrap .rowHide {
   display: none;
 }
+.dl-master-wrap bookmarks {
+  display: block;
+  padding: 10px;
+}
+.dl-master-wrap .dl-bookmark-items {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  display: none;
+}
+.dl-master-wrap .dl-bookmark-items a {
+  color: white;
+}
+.dl-master-wrap .dl-bookmark-items a:visited {
+  color: white;
+}
+.dl-master-wrap .dl-bookmark-items a:hover {
+  opacity: .9;
+}
+.dl-master-wrap .dl-bookmark-item {
+  margin-right: 10px;
+}
 .del-microphone-feedback-wrap {
   color: #777;
   visibility: hidden;
@@ -6975,10 +6998,12 @@ body {
 .del-speech-input {
   font-size: 14px;
   font-weight: bold;
+  line-height: 14px;
   padding: 5px;
   text-align: left;
   width: 100%;
   height: 100%;
+  overflow: hidden;
 }
 .del-microphone-icon {
   position: absolute;

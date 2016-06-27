@@ -24,6 +24,9 @@ body {
   bottom: 20px;
   z-index: 10001;
   overflow: auto;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
 }
 .cs-master-wrap .productGroupingWrap {
@@ -35,13 +38,25 @@ body {
   padding: 10px;
 }
 .cs-master-wrap .itemsWrap {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
-  flex-wrap: wrap;
+  -webkit-flex-wrap: wrap;
+      -ms-flex-wrap: wrap;
+          flex-wrap: wrap;
 }
 .cs-master-wrap .itemWrap {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
   padding: 10px;
-  flex-direction: column;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
 }
 .cs-master-wrap .itemWrap img {
   height: 90px;
@@ -57,14 +72,19 @@ body {
   font-size: 18px;
 }
 .cs-master-wrap .suggested-item {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
   border-bottom: 1px solid #ccc;
   padding: 10px;
+  overflow: hidden;
 }
 .cs-master-wrap .suggested-item .item-image-wrap {
   padding-right: 20px;
 }
 .cs-master-wrap button {
+  background-image: -webkit-linear-gradient(top, #6ea204, #499b1e);
   background-image: linear-gradient(to bottom, #6ea204, #499b1e);
   border: 0;
   margin-top: 10px;

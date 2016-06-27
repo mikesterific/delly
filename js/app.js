@@ -7,6 +7,19 @@ angular.module('delly', [])
         $scope.storedOutputModel = angular.copy(defaultOutputModel);
         $scope.categories = $scope.storedOutputModel.laptops.categories;
         $scope.suggestions = parseModule.getlaptopItems("home");
+        $scope.bookmarks = [{
+                            name : "Laptops",
+                            url: "/"
+                        },
+                        {
+                            name : "Home",
+                            url: "/"
+                        },
+                        {
+                            name : "Inspiron",
+                            url: "/"
+                        }];
+        $scope.bookmarks = [];
         console.log("suggestions", $scope.suggestions );
         $scope.choosenCategories = ["segment", "brand", "inspiron", "xps", "chromebook"];
         $scope.showCategories = function(showCatArry){
@@ -29,6 +42,12 @@ angular.module('delly', [])
                console.log("watchers fired");
             }
         );
+    })
+    .directive('bookmarks', function() {
+        return {
+            restrict: 'E',
+            templateUrl: '/templates/bookmarkTemplate.html'
+        };
     })
     .directive('inputWrap', function() {
         return {
@@ -58,6 +77,9 @@ angular.module('delly', [])
         return {
             restrict: 'E',
             templateUrl: '/templates/button.html',
+            scope : {
+                bookmarks : "@"
+            },
             link : function(scope, element, attrs){
 
                 var t = $(element),
@@ -95,6 +117,7 @@ angular.module('delly', [])
                     $("#homelist").hide();
                     $("#inspironlist").hide();
                     $("#laptopslist").show();
+                    dlCommon.showBookmark("laptop");
                 });
                 //Home
                 segment.on("click", function(){
@@ -105,6 +128,7 @@ angular.module('delly', [])
                     $("#inspironlist").hide();
 
                     showOtherRowsBesidesThis("segment");
+                    dlCommon.showBookmark("home");
                 });
                 // Inspiron
                 brand.on("click", function(){
@@ -113,6 +137,8 @@ angular.module('delly', [])
                     $("#laptopslist").hide();
                     $("#homelist").hide();
                     $("#inspironlist").show();
+                    var sfsdf = scope.bookmarks;
+                    dlCommon.showBookmark("inspiron");
                     
                 });
                 // 3000
