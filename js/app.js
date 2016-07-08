@@ -36,6 +36,10 @@ angular.module('delly', [])
             }
             $scope.categories = payload;
         }
+        $("body").on("click", ".dellyhead", function(){
+            $(".cs-shadowbox").removeClass("hide");
+            $(".dl-master-wrap").removeClass("hide");
+        })
         $scope.$watch(
             "categories",
             function( newValue, oldValue ) {

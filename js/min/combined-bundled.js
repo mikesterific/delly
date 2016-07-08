@@ -13083,17 +13083,22 @@ var speechInput = {
             }
             if (message.lastIndexOf("laptop")!== -1){    
                 $("#output_wrap").show();
+                $(".dl-master-wrap").removeClass("first-stage");
                 responsiveVoice.speak("For your house or business");
                 
                 
             }  
             if (message.lastIndexOf("home")!== -1){    
                 $("#dl-segment").click();
+                $(".dl-master-wrap").removeClass("first-stage");
+
                 responsiveVoice.speak("Did you have a brand in mind?");
                 
             }
             if (message.lastIndexOf("inspiron")!== -1){     
-                $("#dl-brand").click();         
+                $("#dl-brand").click();   
+                $(".dl-master-wrap").removeClass("first-stage");
+                      
                 responsiveVoice.speak("We have several to choose from. See our current models below");
                 
             }
@@ -24679,6 +24684,10 @@ angular.module('delly', [])
             }
             $scope.categories = payload;
         }
+        $("body").on("click", ".dellyhead", function(){
+            $(".cs-shadowbox").removeClass("hide");
+            $(".dl-master-wrap").removeClass("hide");
+        })
         $scope.$watch(
             "categories",
             function( newValue, oldValue ) {

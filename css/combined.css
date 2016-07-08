@@ -6815,7 +6815,7 @@ body {
   margin: 0;
 }
 body {
-  background: url(/images/dell-mock.png) no-repeat top left;
+  background: url(/images/dell-mock-slim.jpg) no-repeat top left;
 }
 html {
   box-sizing: border-box;
@@ -6848,11 +6848,24 @@ body {
   top: 40px;
   left: 20px;
   right: 20px;
+  -webkit-transition: all .5s ease;
+  transition: all .5s ease;
   max-height: 90%;
   z-index: 10001;
   overflow: auto;
   padding: 20px;
   display: block;
+}
+.dl-master-wrap.first-stage {
+  right: 229px;
+  left: 160px;
+  max-height: 140px;
+}
+.dl-master-wrap.first-stage .del-speech-input-wrap {
+  top: 25px;
+}
+.dl-master-wrap.first-stage .inputer {
+  width: 45%;
 }
 .dl-master-wrap h1 {
   font-size: 22px;
@@ -6939,6 +6952,7 @@ body {
 }
 .dl-master-wrap .suggested-item .item-image-wrap {
   padding-right: 20px;
+  overflow: hidden;
 }
 .dl-master-wrap button {
   border: 0;
@@ -6975,6 +6989,12 @@ body {
 }
 .dl-master-wrap .dl-bookmark-item {
   margin-right: 10px;
+}
+.dellyhead {
+  position: absolute;
+  top: 2px;
+  left: 950px;
+  height: 60px;
 }
 .del-microphone-feedback-wrap {
   color: #777;
